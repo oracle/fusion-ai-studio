@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at https://oss.oracle.com/licenses/upl/",
+  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_SUCCESSION_ANALYSIS",
   "specification": {
     "jsonSchemaName": "Workflow.spec",
@@ -195,7 +195,7 @@
               "id": "1776244678453_1",
               "name": "prompt",
               "type": "string",
-              "value": "Data: {{$context.$nodes.PROCESS_USER_QUERY.$output.output}}"
+              "value": "Data: {{$context.$nodes.PROCESS_USER_QUERY.$output.output}}\n\nDont give the response in json format, give in list format.\n\nDo not include any ID in the generated response"
             }
           ],
           "type": "LLM",
@@ -533,17 +533,17 @@
     }
   },
   "name": "Succession Analysis",
-  "description": "Presents the successor-focused view for the selected worker, including succession information and readiness context.",
+  "description": "Shows a selected worker's succession readiness, plan coverage, candidate count, and supporting talent context.",
   "family": "HCM",
   "product": "SUCCESSION_MANAGEMENT",
-  "workflowId": "300100691859385",
-
+  "workflowId": "300100695482712",
+  "ownerName": null,
   "seededFlag": false,
   "hiddenFlag": false,
   "status": "DRAFT",
-  "version": 77460002,
+  "version": 78149240,
   "useCaseId": "NA",
-  "accessModifier": "private",
+  "accessModifier": "public",
   "architecture": "data_pipeline",
   "followupPrompt": "Based on the following conversion: $param.system_context.chat_history generate $param.system_context.number_of_follow_up_questions\nfollow up questions only while strictly adhering to the JSON Schema format mentioned below. Remove the ```json markdown from the output.\nHere is the JSON Schema format the output should adhere to:\n[{\"question\": \"<put first question generated here>\"}, {\"question\": \"<put second question generated here>\"}, {\"question\": \"<put third question generated here>\"}",
   "firstStarterQuestion": null,
@@ -558,25 +558,12 @@
   "jobRequestId": null,
   "aiAppsCompatibleFlag": true,
   "isTemplate": false,
-  "$id": "300100691859385",
-  "tags": {
-    "items": [],
-    "hasMore": false
-  },
-  "tags": {
-    "items": [],
-    "hasMore": false
-  },
-  "roles": {
-    "items": [],
-    "hasMore": false
-  },
-  "seededRoles": {
-    "items": [],
-    "hasMore": false
-  },
-  "customizedSpecifications": {
-    "items": [],
-    "hasMore": false
-  }
+  "ownerId": null,
+  "$id": "300100695482712",
+  "tags": [],
+  "roles": [],
+  "seededRoles": [],
+  "customizedSpecifications": [],
+  "initialTags": [],
+  "initialRoles": []
 }

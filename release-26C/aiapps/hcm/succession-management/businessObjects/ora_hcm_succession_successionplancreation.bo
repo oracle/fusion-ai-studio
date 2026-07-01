@@ -1,11 +1,8 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at https://oss.oracle.com/licenses/upl/",
-  "supportedObjectId": "300100681949957",
-  "$context": {
-    "etag": "9"
-  },
+  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "supportedObjectId": "300100700935430",
   "name": "Succession Plan Creation",
-  "description": "Create Succession Plan",
+  "description": "Creates succession plans and adds incumbents by using succession plan payloads and existing plan identifiers. It returns the created plan details and the response after incumbents are added.",
   "objectCode": "ORA_HCM_SUCCESSION_XX_SUCCESSIONPLANCREATION",
   "family": "HCM",
   "product": "SUCCESSION_MANAGEMENT",
@@ -20,7 +17,7 @@
     "tools": [
       {
         "name": "addIncumbentsToPlan",
-        "description": "Populate Incumbents for Created Plan",
+        "description": "Adds incumbents to an existing succession plan using the plan ID of the newly created plan. It returns a confirmation that the incumbents have been successfully added.",
         "operationType": "POST",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentSuccessionPlans/{pPlanId}/action/populateIncumbentsForPlan",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -52,11 +49,11 @@
       },
       {
         "name": "createPlan",
-        "description": "Create Succession Plan for employee",
+        "description": "Creates a succession plan using a payload containing plan, incumbent, owner, and candidate details. It returns the created succession plan along with the generated Plan ID.",
         "operationType": "POST",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentSuccessionPlans",
         "resourceType": "ADF_BC_FIXED_QUERY",
-        "bodyTemplate": "{\n    \"IncumbentPersonId\": {IncumbentPersonId},\n    \"BusinessUnitId\": {BusinessUnitId},\n    \"StatusCode\": {StatusCode},\n    \"AccessTypeCode\": {AccessTypeCode},\n    \"PlanTypeCode\": {PlanTypeCode},\n    \"PlanName\": {PlanName},\n    \"Description\": {Description},\n    \"successionPlanOwners\": [\n        {\n            \"PersonId\": {OwnerPersonId},\n            \"OwnerTypeCode\": {OwnerTypeCode},\n            \"EnableAlertFlag\": {EnableAlertFlag},\n            \"SourceCode\": {OwnerSourceCode},\n            \"SourceKey\": {OwnerSourceKey}\n        }\n    ],\n    \"successionPlanCandidates\": [\n        {\n            \"PersonId\": {CandidatePersonId},\n            \"CandidateType\": {CandidateType},\n            \"CandidateReadinessCode\": {CandidateReadinessCode},\n            \"CandidateStatusCode\": {CandidateStatusCode},\n            \"SourceCode\": {CandidateSourceCode},\n            \"SourceKey\": {CandidateSourceKey}\n        }\n    ],\n    \"SourceCode\": {SourceCode},\n    \"SourceKey\": {SourceKey}\n}",
+        "bodyTemplate": "{\n    \"IncumbentPersonId\": \"{IncumbentPersonId}\",\n    \"BusinessUnitId\": \"{BusinessUnitId}\",\n    \"StatusCode\": \"{StatusCode}\",\n    \"AccessTypeCode\": \"{AccessTypeCode}\",\n    \"PlanTypeCode\": \"{PlanTypeCode}\",\n    \"PlanName\": \"{PlanName}\",\n    \"Description\": \"{Description}\",\n    \"successionPlanOwners\": [\n        {\n            \"PersonId\": \"{OwnerPersonId}\",\n            \"OwnerTypeCode\": \"{OwnerTypeCode}\",\n            \"EnableAlertFlag\": {EnableAlertFlag},\n            \"SourceCode\": \"{OwnerSourceCode}\",\n            \"SourceKey\": \"{OwnerSourceKey}\"\n        }\n    ],\n    \"successionPlanCandidates\": [\n        {\n            \"PersonId\": \"{CandidatePersonId}\",\n            \"CandidateType\": \"{CandidateType}\",\n            \"CandidateReadinessCode\": \"{CandidateReadinessCode}\",\n            \"CandidateStatusCode\": \"{CandidateStatusCode}\",\n            \"SourceCode\": \"{CandidateSourceCode}\",\n            \"SourceKey\": \"{CandidateSourceKey}\"\n        }\n    ],\n    \"SourceCode\": \"{SourceCode}\",\n    \"SourceKey\": \"{SourceKey}\"\n}",
         "useNativeAuthentication": true,
         "type": "BUS_OBJECT",
         "parameterDefinitions": [

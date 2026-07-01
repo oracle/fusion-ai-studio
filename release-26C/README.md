@@ -22,7 +22,6 @@ In Fusion AI Agent Studio, AI Agents are built using a few key parts that work t
 #### Key functions and Components
 - **Building Agent Teams**: You can create specialized teams using two primary architectures:
   - **Workflow Teams (Recommended):** These use a structured graph of nodes (LLM, Code, Switch) for deterministic processing and predictable latency
-  - **Supervisor Teams:** A fallback option where a supervisor agent dynamically decides which "worker" agents to call at runtime
 - **The App Experience Tab:** This is a critical interface within the Studio where you grant an agent the right to participate in agentic apps. Here, you enable specific output features: 
   - **Enable Actions**: Allows agents to produce.
   - **Enable Communications**: Allows agents to suggest outbound messages like emails or Slack notifications
@@ -36,7 +35,6 @@ There are two primary architectures for these teams:
 - **Workflow Teams (Strongly Recommended):** These teams use a structured graph of nodes (LLM, Code, Switch, and Agent nodes) to process requests:
   - deterministically
   - They provide the most control over routing and ensure predictable latency, which is critical for meeting the framework's strict 60-second response limit
-- **Supervisor Teams (Fallback):** In this model, a "supervisor" agent dynamically decides at runtime which "worker" agents to call and when to stop. While flexible, this approach is less predictable and is generally used only when a fixed workflow cannot express the necessary logic.
 
 #### Workflows
 A Workflow refers to the specific configuration of nodes that define how an Agent Team responds to the application framework.
@@ -69,7 +67,7 @@ The Builder UI organizes application design into several key functional areas:
 
 | App Name                                          | App Details|  Resource Path | 
 |------------------------------------------------------|:------:| :------:|
-| Succession Planning App | [succession_planning](./aiapps/hcm/succession-management/README.md) | ./aiapps/hcm/succession-management/ |
+| Succession Planning App | [succession_planning](./release-26C/aiapps/hcm/succession-management/README.md) | ./release-26C/aiapps/hcm/succession-management/ |
 
 ## Fusion AI Studio Artifacts
 | Artifact | Plain-language meaning | Typical use |
@@ -86,7 +84,6 @@ The Builder UI organizes application design into several key functional areas:
 
 
 
-
 ## Documentation
 
 You can find the online documentation for Oracle Fusion AI Agent Studio at [offical documentation](https://docs.oracle.com/en/cloud/saas/fusion-ai/)  and information about the project at [Oracle Fusion AI](https://www.oracle.com/in/applications/fusion-ai/).
@@ -99,3 +96,7 @@ Please consult the [security guide](./SECURITY.md) for our responsible security 
 ## License
 
 Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at https://oss.oracle.com/licenses/upl/
+
+## Disclaimer
+
+ORACLE AND ITS AFFILIATES DO NOT PROVIDE ANY WARRANTY WHATSOEVER, EXPRESS OR IMPLIED, FOR ANY SOFTWARE, MATERIAL OR CONTENT OF ANY KIND CONTAINED OR PRODUCED WITHIN THIS REPOSITORY, AND IN PARTICULAR SPECIFICALLY DISCLAIM ANY AND ALL IMPLIED WARRANTIES OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A PARTICULAR PURPOSE.  FURTHERMORE, ORACLE AND ITS AFFILIATES DO NOT REPRESENT THAT ANY CUSTOMARY SECURITY REVIEW HAS BEEN PERFORMED WITH RESPECT TO ANY SOFTWARE, MATERIAL OR CONTENT CONTAINED OR PRODUCED WITHIN THIS REPOSITORY.  IN ADDITION, AND WITHOUT LIMITING THE FOREGOING, THIRD PARTIES MAY HAVE POSTED SOFTWARE, MATERIAL OR CONTENT TO THIS REPOSITORY WITHOUT ANY REVIEW. USE AT YOUR OWN RISK. 

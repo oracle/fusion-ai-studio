@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at https://oss.oracle.com/licenses/upl/",
+  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "id": "300100700927144",
   "name": "Succession Readiness Workspace",
   "code": "XX_SUCCESSION_READINESS_WORKSPACE",
@@ -215,12 +215,14 @@
                 }
               },
               {
-                "id": "b485db4e-0167-42d6-8d9d-40cdd4cc6a8e",
+                "id": "e16edb3b-359d-4d5a-bf82-3156ea782248",
                 "type": "refreshAgents",
                 "params": {
                   "agentCodes": [
-                    "SUCCESSION_OVERVIEW_ADVISOR"
-                  ]
+                    "XX_SUCCESSION_OVERVIEW_ADVISOR"
+                  ],
+                  "refreshPriorityActions": true,
+                  "refreshSummary": true
                 }
               }
             ]

@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at https://oss.oracle.com/licenses/upl/",
+  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_POTENTIAL_SUCCESSION_CANDIDATES",
   "specification": {
     "jsonSchemaName": "Workflow.spec",
@@ -978,7 +978,7 @@
     }
   },
   "name": "Potential Succession Candidates",
-  "description": "This lists Possible Successor candidate for a given employee with Doc Reader",
+  "description": "Finds potential successor candidates for a selected employee by comparing role requirements and candidate context.",
   "family": "HCM",
   "product": "SUCCESSION_MANAGEMENT",
   "workflowId": "300100681973500",
@@ -986,9 +986,9 @@
   "seededFlag": false,
   "hiddenFlag": false,
   "status": "DRAFT",
-  "version": 77458604,
+  "version": 78148849,
   "useCaseId": "NA",
-  "accessModifier": "public",
+  "accessModifier": "private",
   "architecture": "data_pipeline",
   "followupPrompt": null,
   "firstStarterQuestion": null,
@@ -1005,14 +1005,6 @@
   "isTemplate": false,
   "ownerId": null,
   "$id": "300100681973500",
-  "$context": {
-    "etag": "22",
-    "links": {
-      "$self": {
-        "href": "https://cpdchtpqy.fusionappspreprod.ocs.oc-test.com/api/boss/data/objects/ora/commonFusionAI/agents/v1/$en/workflows/300100681973500"
-      }
-    }
-  },
   "tags": [],
   "roles": [],
   "seededRoles": [],

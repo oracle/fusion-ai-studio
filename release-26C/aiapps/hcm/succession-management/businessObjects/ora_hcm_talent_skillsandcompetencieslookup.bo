@@ -1,8 +1,8 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at https://oss.oracle.com/licenses/upl/",
-  "supportedObjectId": "300100648718027",
+  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "supportedObjectId": "300100732487428",
   "name": "Skills and Competencies Lookup",
-  "description": "Retrieve Skills and Competencies for employee",
+  "description": "Provides the skills and competencies of a selected employee by using the employee's person information. It returns skill and competency details, including proficiency information, for successor-fit comparisons.",
   "objectCode": "ORA_HCM_TALENT_XX_SKILLSANDCOMPETENCIESLOOKUP",
   "family": "HCM",
   "product": "TALENT",
@@ -17,7 +17,7 @@
     "tools": [
       {
         "name": "getCompetenciesForPerson",
-        "description": "Gives Competencies of employee using person Id",
+        "description": "Retrieves the competencies of a selected employee using the employee's person information. It returns competency details along with proficiency information used for successor comparisons.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentPersonProfiles?fields=DisplayName,PersonId;competencySections:SectionContext,SectionName;competencySections.competencyItems:Competency,ProficiencyRatingCode,ProficiencyRatingDescription&q=PersonId={pPersonId}&onlyData=true",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -115,7 +115,7 @@
       },
       {
         "name": "getPublicSkillsForPerson",
-        "description": "Gives Skills of employee using person Id",
+        "description": "Retrieves the public skills of a selected employee using the person's ID. It returns employee profile details along with public skill records, including skill name, skill group, proficiency level code, and proficiency level.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentPersonProfiles?fields=ProfileId,PersonId,DisplayName;publicSkills:Skill,SkillName,Group,GroupMeaning,ProficiencyLevelCode,ProficiencyLevel&q=PersonId={pPersonId}&onlyData=true",
         "resourceType": "ADF_BC_FIXED_QUERY",

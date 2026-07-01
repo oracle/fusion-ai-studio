@@ -1,8 +1,8 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at https://oss.oracle.com/licenses/upl/",
-  "supportedObjectId": "300100648718026",
+  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "supportedObjectId": "300100700959075",
   "name": "Job Competencies Lookup",
-  "description": "Get Competencies for a Job role",
+  "description": "Provides job profile and competency requirements for successor-fit comparisons by using a selected employee's person ID, followed by the profile ID and section ID. It returns the job profile details and competency requirements with proficiency and weight information.",
   "objectCode": "ORA_HCM_TALENT_XX_JOBCOMPETENCIESLOOKUP",
   "family": "HCM",
   "product": "TALENT",
@@ -17,7 +17,7 @@
     "tools": [
       {
         "name": "getProfileIdbyPersonId",
-        "description": "Retrieves ProfileId for a given PersonId",
+        "description": "Retrieves the job profile of a selected employee using the person's ID. It returns the profile ID, profile code, and profile name.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentModelProfiles?finder=findEmployeeJobProfile;PersonId={pPersonId}&fields=ProfileId,ProfileCode,Name&onlyData=true",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -61,7 +61,7 @@
       },
       {
         "name": "getCompetenciesForJobProfile",
-        "description": "Get Competencies for a given job, each competency have Minimum and Maximum rating and also weight associated to that competency on that job.",
+        "description": "Retrieves the competency requirements for a job profile using the profile ID and section ID. It returns competency details, including competency IDs, names, proficiency ratings, weights, and minimum weight values.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentModelProfiles/{pProfileId}/child/competencySections/?fields=ProfileSectionId,SectionId,SectionContext,SectionName;competencyItems:CompetencyId,ContentItemId,Competency,MinimumProficiencyRating,MinimumProficiencyRatingName,MaximumProficiencyRating,MaximumProficiencyRatingName,Weight,MinimumWeight&q=SectionId={pSectionId}&onlyData=true",
         "resourceType": "ADF_BC_FIXED_QUERY",

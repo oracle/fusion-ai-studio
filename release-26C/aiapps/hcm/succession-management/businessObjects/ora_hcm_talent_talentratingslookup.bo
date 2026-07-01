@@ -1,8 +1,8 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at https://oss.oracle.com/licenses/upl/",
+  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "supportedObjectId": "300100700852570",
   "name": "Talent Ratings Lookup",
-  "description": "Get Talent Ratings of user.",
+  "description": "Provides talent and performance ratings for employees using either a single person ID or a list of person IDs. It returns performance ratings, talent scores, career potential, impact-of-loss ratings, and risk-of-loss ratings.",
   "objectCode": "ORA_HCM_TALENT_XX_TALENTRATINGSLOOKUP",
   "family": "HCM",
   "product": "TALENT",
@@ -17,7 +17,7 @@
     "tools": [
       {
         "name": "getTalentRatingsForAll",
-        "description": "Get all talent ratings for the specified PersonId list, expanding performanceRatings, talentScores, careerPotential, impactOfLosses and riskOfLosses, returning only data.",
+        "description": "Retrieves talent ratings for multiple employees using a list of person IDs. It returns performance ratings, talent scores, career potential, impact-of-loss ratings, and risk-of-loss ratings for all matching employees.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentRatings?fields=ProfileId,ProfileCode,PersonId,PersonNumber,DisplayName;performanceRatings:ToDate,AssignmentId,PerformanceLevelCode,PerformanceLevel;talentScores:TalentScoreLevelCode,TalentScoreLevel;careerPotential:PotentialLevel;impactOfLosses:ImpactLevel;riskOfLosses:RiskLevel&onlyData=true&q=PersonId IN ({personIds})",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -236,7 +236,7 @@
       },
       {
         "name": "getTalentRatingsForPerson",
-        "description": "get talent ratings by person Id",
+        "description": "Retrieves talent ratings for a selected employee using the person's ID. It returns performance ratings, talent scores, career potential, impact-of-loss ratings, and risk-of-loss ratings.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentRatings?fields=ProfileId,ProfileCode,PersonId,PersonNumber,DisplayName;performanceRatings:AssignmentId,PerformanceLevelCode,PerformanceLevel;talentScores:TalentScoreLevelCode,TalentScoreLevel;careerPotential:PotentialLevel,;impactOfLosses:ImpactLevel;riskOfLosses:RiskLevel&finder=findProfileByPersonId;PersonId={pPersonId}&onlyData=true",
         "resourceType": "ADF_BC_FIXED_QUERY",
