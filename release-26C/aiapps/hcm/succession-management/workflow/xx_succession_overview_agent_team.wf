@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at https://oss.oracle.com/licenses/upl/",
+  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_SUCCESSION_OVERVIEW_AGENT_TEAM",
   "specification": {
     "jsonSchemaName": "Workflow.spec",
@@ -380,7 +380,7 @@
     }
   },
   "name": "Succession Overview Agent Team",
-  "description": "Child workflow for fetching succession, risk of loss, and impact of loss related details.",
+  "description": "Fetches manager-scoped succession, readiness, risk-of-loss, and impact-of-loss data for direct reports.",
   "family": "HCM",
   "product": "SUCCESSION_MANAGEMENT",
   "workflowId": "300100692166271",
@@ -388,9 +388,9 @@
   "seededFlag": false,
   "hiddenFlag": false,
   "status": "DRAFT",
-  "version": 77458774,
+  "version": 78148949,
   "useCaseId": "NA",
-  "accessModifier": "public",
+  "accessModifier": "private",
   "architecture": "data_pipeline",
   "followupPrompt": "Based on the following conversion: $param.system_context.chat_history generate $param.system_context.number_of_follow_up_questions\nfollow up questions only while strictly adhering to the JSON Schema format mentioned below. Remove the ```json markdown from the output.\nHere is the JSON Schema format the output should adhere to:\n[{\"question\": \"<put first question generated here>\"}, {\"question\": \"<put second question generated here>\"}, {\"question\": \"<put third question generated here>\"}",
   "firstStarterQuestion": null,
@@ -407,14 +407,6 @@
   "isTemplate": false,
   "ownerId": null,
   "$id": "300100692166271",
-  "$context": {
-    "etag": "1",
-    "links": {
-      "$self": {
-        "href": "https://cpdchtpqy.fusionappspreprod.ocs.oc-test.com/api/boss/data/objects/ora/commonFusionAI/agents/v1/$en/workflows/300100692166271"
-      }
-    }
-  },
   "tags": [],
   "roles": [],
   "seededRoles": [],

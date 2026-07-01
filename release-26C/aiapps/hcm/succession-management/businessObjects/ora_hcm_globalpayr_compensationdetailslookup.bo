@@ -1,8 +1,8 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at https://oss.oracle.com/licenses/upl/",
+  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "supportedObjectId": "300100700848643",
   "name": "Compensation Details Lookup",
-  "description": "The salaries resource includes the salary records for a given worker assignment. You can filter based on a worker's assignment and salary start date or list all of the salary records for a given assignment.",
+  "description": "Provides compensation and salary information for worker assignments using assignment IDs along with an effective date or salary history start date. It returns salary amount, annual salary, currency, effective dates, and salary component details.",
   "objectCode": "ORA_HCM_GLOBALPAYR_XX_COMPENSATIONDETAILSLOOKUP",
   "family": "HCM",
   "product": "GLOBAL_PAYROLL",
@@ -17,7 +17,7 @@
     "tools": [
       {
         "name": "getCompensationHistory",
-        "description": "This is used to fetch salary details of an employee.",
+        "description": "Retrieves the salary history of a worker assignment using the assignment ID and salary history start date. It returns the salary amount, annual salary, currency, and salary effective date range.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/compensationInfoSalaries?finder=findAssignmentSalaryHistory;AssignmentId={pAssignmentId},EffectiveStartDate={pDate}&onlyData=true&fields=SalaryAmount,AnnualSalary,AnnualFullTimeSalary,CurrencyCode,DateFrom,DateTo",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -119,7 +119,7 @@
       },
       {
         "name": "getCompensationByDateForAssignments",
-        "description": "Retrieve salary and related compensation components for a specific assignment as of an effective date (expands components, simple components, and rate components). Uses finder findByAssignmentIdAndDate.",
+        "description": "Retrieves compensation details for multiple worker assignments using a list of assignment IDs and an effective date. It returns salary amount, annual salary, currency, effective dates, and salary component details for all matching assignments.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/compensationInfoSalaries?finder=findByAssignmentIdAndDate;EffectiveDate={EffectiveDate}&q=AssignmentId IN ({employees})&expand=salaryComponents,salarySimpleComponents,salaryPayRateComponents",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -366,7 +366,7 @@
       },
       {
         "name": "getCompensationByAssignmentAndDate",
-        "description": "Retrieve salary and related compensation components for a specific assignment as of an effective date (expands components, simple components, and rate components). Uses finder findByAssignmentIdAndDate.",
+        "description": "Retrieves compensation details for a worker assignment using the assignment ID and an effective date. It returns salary amount, annual salary, currency, effective dates, and salary component details.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/compensationInfoSalaries?finder=findByAssignmentIdAndDate;AssignmentId={AssignmentId},EffectiveDate={EffectiveDate}&expand=salaryComponents,salarySimpleComponents,salaryPayRateComponents",
         "resourceType": "ADF_BC_FIXED_QUERY",

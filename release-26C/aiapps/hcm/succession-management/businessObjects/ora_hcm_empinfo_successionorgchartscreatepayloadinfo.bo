@@ -1,8 +1,8 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at https://oss.oracle.com/licenses/upl/",
+  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "supportedObjectId": "300100700885395",
   "name": "SuccessionOrgCharts createPayloadInfo",
-  "description": "Collection of all relevant information to create a succession plan.",
+  "description": "Provides the employment information required to create a succession plan by using the worker or employment context. It returns the business unit and other employment attributes needed for plan creation.",
   "objectCode": "ORA_HCM_EMPINFO_XX_SUCCESSIONORGCHARTSCREATEPAYLOADINFO",
   "family": "HCM",
   "product": "EMPINFO",
@@ -17,7 +17,7 @@
     "tools": [
       {
         "name": "getGradeId",
-        "description": "get Grade ID using Grade Code",
+        "description": "Retrieves grade information using a grade code. It returns the grade ID, grade name, grade code, active status, set code, set name, and effective date range.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/gradesLov?onlyData=true&q=GradeCode={pGradeCode}",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -68,7 +68,7 @@
       },
       {
         "name": "getJobId",
-        "description": "get Job ID using Job Code",
+        "description": "Retrieves job information using a job code. It returns the job ID, job name, job code, active status, job family, manager level, set code, set name, and effective date range.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/jobsLov?onlyData=true&q=JobCode={pJobCode}",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -125,7 +125,7 @@
       },
       {
         "name": "getpublicWorkers_Jobcode_gradecode",
-        "description": "Gets Job Code and Grade Code using Public Workers",
+        "description": "Retrieves worker assignment details using the role holder's assignment context. It returns employee and assignment information, including job code, job name, grade code, grade name, department, business unit, manager, location, worker type, assignment name, and assignment number.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/publicWorkers/{pRoleHolderAId}?expand=assignments",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -227,11 +227,11 @@
       },
       {
         "name": "getBusinessUnitId",
-        "description": "Gets Business Unit Id",
+        "description": "Retrieves the business unit and other employment attributes required for creating a succession plan by using the worker or employment context.",
         "operationType": "POST",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/employmentAttributes/action/retrieveEmploymentPublicAttributes",
         "resourceType": "ADF_BC_FIXED_QUERY",
-        "bodyTemplate": "{\n    \"inputParameterMap\": {\n        `\"PersonId\": {pRoleHolderpId}`\n    }\n}",
+        "bodyTemplate": "{\n    \"inputParameterMap\": {\n        \"PersonId\": {pRoleHolderpId}\n    }\n}",
         "useNativeAuthentication": true,
         "type": "BUS_OBJECT",
         "parameterDefinitions": [

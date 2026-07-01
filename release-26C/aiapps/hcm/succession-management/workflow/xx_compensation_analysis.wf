@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at https://oss.oracle.com/licenses/upl/",
+  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_COMPENSATION_ANALYSIS",
   "specification": {
     "jsonSchemaName": "Workflow.spec",
@@ -360,24 +360,37 @@
     }
   },
   "name": "Compensation Analysis",
-  "description": "Shows the worker’s compensation history.",
+  "description": "Shows salary history for the selected worker assignment.",
   "family": "HCM",
   "product": "GLOBAL_PAYROLL",
   "workflowId": "300100648868302",
+  "ownerName": null,
   "seededFlag": false,
   "hiddenFlag": false,
   "status": "DRAFT",
-  "version": 77280930,
+  "version": 78148778,
   "useCaseId": "NA",
-  "accessModifier": "private",
+  "accessModifier": "public",
   "architecture": "data_pipeline",
-  "customizedSpecifications": [],
-  "aiAppsCompatibleFlag": true,
-  "followupEnabledFlag": false,
   "followupPrompt": "Based on the following conversion: $param.system_context.chat_history generate $param.system_context.number_of_follow_up_questions\nfollow up questions only while strictly adhering to the JSON Schema format mentioned below. Remove the ```json markdown from the output.\nHere is the JSON Schema format the output should adhere to:\n[{\"question\": \"<put first question generated here>\"}, {\"question\": \"<put second question generated here>\"}, {\"question\": \"<put third question generated here>\"}]",
-  "header": {
-    "ETag": "\"1\""
-  },
-  "customizationWorkflowId": "300100648868302",
-  "customizationDraftWorkflowId": "300100648868302"
-      }
+  "firstStarterQuestion": null,
+  "secondStarterQuestion": null,
+  "thirdStarterQuestion": null,
+  "followupEnabledFlag": false,
+  "maxInteractions": null,
+  "customFlag": false,
+  "sourceWorkflowCode": null,
+  "customizationPolicy": null,
+  "emailConfigCode": null,
+  "jobRequestId": null,
+  "aiAppsCompatibleFlag": true,
+  "isTemplate": false,
+  "ownerId": null,
+  "$id": "300100648868302",
+  "tags": [],
+  "roles": [],
+  "seededRoles": [],
+  "customizedSpecifications": [],
+  "initialTags": [],
+  "initialRoles": []
+}

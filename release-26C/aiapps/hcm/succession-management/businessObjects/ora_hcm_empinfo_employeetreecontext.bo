@@ -1,11 +1,8 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at https://oss.oracle.com/licenses/upl/",
-  "supportedObjectId": "300100648718022",
-  "$context": {
-    "etag": "6"
-  },
+  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "supportedObjectId": "300100700852558",
   "name": "Employee Tree Context",
-  "description": "This BO is for app SuccessionOrgCharts, and uses publicWorkers endpoint",
+  "description": "Provides information about a selected employee using the person's ID and assignment ID. It returns the employee's identity, assignment details, job, manager information, and manager assignment details.",
   "objectCode": "ORA_HCM_EMPINFO_XX_EMPLOYEETREECONTEXT",
   "family": "HCM",
   "product": "EMPINFO",
@@ -20,7 +17,7 @@
     "tools": [
       {
         "name": "getAssignmentDetailsForPerson",
-        "description": "Get Work Assignment Details for given PersonId and AssignmentId",
+        "description": "Retrieves detailed assignment information for a selected employee using the person's ID and assignment ID. It returns details such as assignment name and number, worker type, job, department, business unit, location, grade, manager, primary assignment status, and length of service.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/publicWorkers/{pPersonId}/child/assignments/{pAssignmentId}",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -36,9 +33,7 @@
             "isToken": true,
             "location": "path",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
           },
           {
             "name": "pAssignmentId",
@@ -48,9 +43,7 @@
             "isToken": true,
             "location": "path",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
           }
         ],
         "headers": {
@@ -111,7 +104,7 @@
       },
       {
         "name": "getManagerDetailsForPerson",
-        "description": "with given PersonId, retrieves manager information associated to each assignment",
+        "description": "Retrieves employee and manager hierarchy information using the person's ID. It returns the employee's identity, assignment details, job, manager information, and manager assignment details.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/publicWorkers/{pPersonId}?fields=PersonId,PersonNumber,DisplayName;assignments:AssignmentId,AssignmentName,ManagerName;assignments.managers:ManagerPersonId,ManagerPersonNumber,DisplayName,ManagerAssignmentId,ManagerAssignmentName",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -127,9 +120,7 @@
             "isToken": true,
             "location": "path",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
           }
         ],
         "headers": {

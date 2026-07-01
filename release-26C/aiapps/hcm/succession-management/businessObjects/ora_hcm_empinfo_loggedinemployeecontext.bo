@@ -1,8 +1,8 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at https://oss.oracle.com/licenses/upl/",
-  "supportedObjectId": "300100700932218",
+  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "supportedObjectId": "300100681950708",
   "name": "LoggedIn Employee Context",
-  "description": "Retrieves Assignment Id and PersonId and other relv details",
+  "description": "Provides the assignment details of the currently logged-in employee by using the current user session. It returns the Person ID, Assignment ID, assignment name, assignment number, and primary assignment status.",
   "objectCode": "ORA_HCM_EMPINFO_XX_LOGGEDINEMPLOYEECONTEXT",
   "family": "HCM",
   "product": "EMPINFO",
@@ -17,7 +17,7 @@
     "tools": [
       {
         "name": "getLoggedInEmployeeInfo",
-        "description": "Get assignmnet Id and person Id and other relavant info.",
+        "description": "Retrieves the assignment details of the currently logged-in employee using the current user session. It returns the Person ID, Assignment ID, assignment name, assignment number, and primary assignment status.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/workerAssignmentsLOV?fields=PersonId,AssignmentId,AssignmentName,AssignmentNumber,AssignmentPrimaryFlag&finder=findMyAssignments&onlyData=true&q=AssignmentStatusType in ('ACTIVE' , 'SUSPENDED')",
         "resourceType": "ADF_BC_FIXED_QUERY",

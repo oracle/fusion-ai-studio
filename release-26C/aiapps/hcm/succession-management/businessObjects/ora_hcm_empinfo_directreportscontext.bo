@@ -1,8 +1,8 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at https://oss.oracle.com/licenses/upl/",
+  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "supportedObjectId": "300100700961949",
   "name": "Direct Reports Context",
-  "description": "Finds Direct Reports under selected Employee",
+  "description": "Provides the direct reports of a selected employee by using the employee selected from the myTeamDetails action. It returns the direct-report records required for team analysis and succession planning.",
   "objectCode": "ORA_HCM_EMPINFO_XX_DIRECTREPORTSCONTEXT",
   "family": "HCM",
   "product": "EMPINFO",
@@ -17,7 +17,7 @@
     "tools": [
       {
         "name": "getDirectReportsForPerson",
-        "description": "Get All Direct Reports under given employee",
+        "description": "Retrieves the direct reports of the selected employee using the employee selected from the myTeamDetails action. It returns the direct-report records used for team and successor analysis.",
         "operationType": "POST",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/myTeamDetails/action/findByObject",
         "resourceType": "ADF_BC_FIXED_QUERY",

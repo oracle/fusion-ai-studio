@@ -1,8 +1,8 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at https://oss.oracle.com/licenses/upl/",
+  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "supportedObjectId": "300100700857021",
   "name": "Succession Details Lookup",
-  "description": "soc",
+  "description": "Provides succession planning information for direct reports using the manager's assignment ID, with optional filtering by a selected employee. It returns succession plan details, readiness levels, successor candidates, risk of loss, and impact of loss information.",
   "objectCode": "ORA_HCM_SUCCESSION_XX_SUCCESSIONDETAILSLOOKUP",
   "family": "HCM",
   "product": "SUCCESSION_MANAGEMENT",
@@ -17,7 +17,7 @@
     "tools": [
       {
         "name": "getSuccessionForDirectReportsUnderManager",
-        "description": "Fetches all direct reports along with their direct talent rating, Succession Plans with Readiness levels and candidates",
+        "description": "Retrieves succession information for all direct reports using the manager's assignment ID. It returns employee and assignment details along with succession plans, readiness levels, candidate information, and risk and impact assessments.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/successionOrgCharts/{pAssignmentId}/child/directReports?onlyData=true&orderBy=SuccessionPlanCount:asc,DisplayName:asc&q=WorkerType in ('E','C','N') and RelationshipType='LINE_MANAGER'&totalResults=true&fields=AssignmentId,AssignmentName,DisplayName,PersonId,PhotoId,SuccessionPlanCount,WorkerType;directsTalentRatings:ImpactOfLoss,ImpactOfLossNumericRating,JobRisk,JobRiskNumericRating,RiskOfLoss,RiskOfLossNumericRating;successionPlans:PlanId,PlanType;successionPlans.readinessLevels:PlanId,ReadinessCode;successionPlans.readinessLevels.readinessCandidates:CandidateType,DisplayName,ExternalCandidateDisplayName,ExternalCandidateId,PersonId,PlanCandidateId",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -556,7 +556,7 @@
       },
       {
         "name": "getSuccessionForPersonUnderManager",
-        "description": "p person Id",
+        "description": "Retrieves succession information for a selected direct report using the manager's assignment ID and the selected employee's person ID. It returns the matching employee's assignment details, succession plans, readiness levels, candidate information, and risk and impact assessments.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/successionOrgCharts/{assigmentId}/child/directReports?onlyData=true&q=WorkerType in ('E','C','N') and RelationshipType='LINE_MANAGER' and PersonId ={pPersonId}&totalResults=true&fields=AssignmentId,AssignmentName,DisplayName,PersonId,PhotoId,SuccessionPlanCount,WorkerType;directsTalentRatings:ImpactOfLoss,ImpactOfLossNumericRating,JobRisk,JobRiskNumericRating,RiskOfLoss,RiskOfLossNumericRating;successionPlans:PlanId,PlanType;successionPlans.readinessLevels:PlanId,ReadinessCode;successionPlans.readinessLevels.readinessCandidates:CandidateType,DisplayName,ExternalCandidateDisplayName,ExternalCandidateId,PersonId,PlanCandidateId",
         "resourceType": "ADF_BC_FIXED_QUERY",
