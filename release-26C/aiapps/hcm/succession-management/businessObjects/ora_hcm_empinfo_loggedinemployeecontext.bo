@@ -1,6 +1,6 @@
 {
   "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
-  "supportedObjectId": "300100681950708",
+  "supportedObjectId": "300100658423191",
   "name": "LoggedIn Employee Context",
   "description": "Provides the assignment details of the currently logged-in employee by using the current user session. It returns the Person ID, Assignment ID, assignment name, assignment number, and primary assignment status.",
   "objectCode": "ORA_HCM_EMPINFO_XX_LOGGEDINEMPLOYEECONTEXT",

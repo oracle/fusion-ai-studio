@@ -1,0 +1,95 @@
+{
+  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "supportedObjectId": "300100651529133",
+  "$context": {
+    "etag": "42"
+  },
+  "name": "Accounting Exceptions ESS Jobs",
+  "description": "The Accounting Exceptions ESS Jobs Business Object enables the submission and monitoring of ESS jobs related to accounting exceptions within the General Ledger. It supports creating job requests and retrieving their status, facilitating the management of automated accounting exception processes.",
+  "objectCode": "ORA_FIN_GENERALLED_ACCOUNTINGEXCEPTIONSESSJOBS",
+  "family": "FIN",
+  "product": "GENERAL_LEDGER",
+  "objectSource": "ADF_BC",
+  "restResourcePath": "/fscmRestApi/resources/11.13.18.05/erpintegrations",
+  "restResourceIdentifier": "identifier_not_known",
+  "seededFlag": false,
+  "mandatoryFlag": false,
+  "objectProperties": {
+    "jsonSchemaName": "supportedObjectProperties",
+    "jsonSchemaVersion": 1,
+    "baseUrlTMKey": "",
+    "serviceNameOverride": "",
+    "tools": [
+      {
+        "name": "submitEssJob",
+        "description": "Submits an ESS job request within the Accounting Exceptions ESS Jobs Business Object to initiate automated processing of accounting exceptions in the General Ledger. This function posts the job details to the ERP integrations resource for execution and monitoring.",
+        "operationType": "POST",
+        "resourcePath": "/fscmRestApi/resources/11.13.18.05/erpintegrations",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "{payload}",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "payload",
+            "dataType": "string",
+            "description": "payload",
+            "id": 2,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "sampleQueries": [
+          {
+            "description": "Request example for submitting an ESS job using a prebuilt ERP integrations payload. Not executed while generating examples.",
+            "query": {
+              "payload": {
+                "OperationName": "submitESSJobRequest",
+                "JobPackageName": "common",
+                "JobDefName": "PostJournal",
+                "ESSParameters": "1111,-1,101,,Jun-26,"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "getEssJobStatus",
+        "description": "Retrieves the current status of an ESS job request related to accounting exceptions by using the provided request ID. This function enables monitoring of automated job processes within the General Ledger.",
+        "operationType": "GET",
+        "resourcePath": "/fscmRestApi/resources/11.13.18.05/erpintegrations?finder=ESSJobStatusRF;requestId={requestId}",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "requestId",
+            "dataType": "string",
+            "description": "ESS request id returned as ReqstId by submitESSJobRequest.",
+            "id": 6,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "headers": {
+          "Content-Type": "application/vnd.oracle.adf.resourceitem+json"
+        },
+        "sampleQueries": [
+          {
+            "description": "Check ESS job status for a submitted request id.",
+            "query": {
+              "requestId": "111"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
