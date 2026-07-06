@@ -5,7 +5,7 @@ This repository provides samples demonstrating how to use Oracle Agent AI Studio
 ## Oracle Fusion AI Agent Studio
 **Oracle Fusion AI Agent Studio** (often referred to as AI Agent Studio) is Oracle’s primary platform for **building, configuring, and deploying agentic applications** and their underlying specialized agent teams. It serves as the "intelligence layer" of the agentic app framework, providing the tools needed to design how agents reason, analyze data, and generate responses. 
 
-``` text
+```text
 AI Agent Studio is a specialized design-time environment that lets you create, configure, test, and deploy AI agents for your organization.
 ```
 
@@ -32,9 +32,7 @@ In Oracle Fusion AI Agent Studio, Agent Teams are the foundational intelligence 
 
 In Fusion AI Agent Studio, AI Agents are built using a few key parts that work together to complete business tasks automatically. Teams/Workflows are the step-by-step plans, Agents are the AI workers that perform tasks, Tools connect the agents to fusion (and external) systems and data, Instructions/Prompts control how the agent behaves and responds, Topics define the subject of conversation, and Testing ensures everything works correctly. Together, these components help organizations create smart, automated AI advisors that can talk to users, gather information, make decisions, and take actions efficiently. They serve as the "brain" of the application, responsible for reasoning over data, generating insights, and producing the four pillars of the user experience: Information Displays, Actionable Insights, Communications, and Ask Oracle responses.
 There are two primary architectures for these teams:
-- **Workflow Teams (Strongly Recommended):** These teams use a structured graph of nodes (LLM, Code, Switch, and Agent nodes) to process requests:
-  - deterministically
-  - They provide the most control over routing and ensure predictable latency, which is critical for meeting the framework's strict 60-second response limit
+- **Workflow Teams :** These teams use a structured graph of nodes (LLM, Code, Switch, and Agent nodes) to process requests deterministically. They provide the most control over routing and ensure predictable latency, which is critical for meeting the framework's strict 60-second response limit
 
 #### Workflows
 A Workflow refers to the specific configuration of nodes that define how an Agent Team responds to the application framework.
@@ -63,11 +61,14 @@ The Builder UI organizes application design into several key functional areas:
 
 - **Communications List:** On the right panel, builders create communication buttons and link them to templates, designating which agents are allowed to suggest specific outreach
 
-## Sample Apps
+## How do I use Fusion AI Studio with VS Code and Codex?
 
-| App Name                                          | App Details|  Resource Path | 
-|------------------------------------------------------|:------:| :------:|
-| Succession Planning App | [succession_planning](./release-26C/aiapps/hcm/succession-management/README.md) | ./release-26C/aiapps/hcm/succession-management/ |
+Fusion AI Studio provides the tools for building the AI Studio Agentic apps and workflows, while VS Code acts as the workspace where files are created, opened, reviewed, and updated. The Fusion AI Studio VS Code extension adds guided commands and visual editing options so users can complete common tasks from one place. This includes setting up a workspace, connecting to the correct environment, creating new artifacts, opening existing artifacts, and making changes in a structured way.
+
+Codex can also be used as an optional assistant when a task involves several related changes or when users want help creating, reviewing, or updating artifacts. Instead of manually changing each file one by one, users can describe the intended business outcome and ask Codex to help apply the change across the relevant local files. This can be useful when creating an app that depends on workflows, business objects, agents, or other supporting artifacts.
+
+You may need to refer `install-and-use-fusion-ai-studio-CLI_vscode-codex.md` in folder `fusion-ai-studio/<release>/howto` folder for more detail. The guide focuses on the practical steps needed to get started. It explains how to install the required tools, open a workspace, configure access, create or fetch artifacts, and understand the main approaches available for building AI Studio apps and workflows. 
+
 
 ## Fusion AI Studio Artifacts
 | Artifact | Plain-language meaning | Typical use |
@@ -80,8 +81,6 @@ The Builder UI organizes application design into several key functional areas:
 | Topic | Instructions that guide an agent on a specific subject. | Tell an agent how to answer benefits, succession, payroll, or policy questions. |
 | Deeplink | A link definition that opens a target page or record. | Open an employee profile, succession plan, transaction, or work area. |
 | Connector Instance | A configured connection to an external connector. | Connect to approved external systems. |
-
-
 
 
 ## Documentation
