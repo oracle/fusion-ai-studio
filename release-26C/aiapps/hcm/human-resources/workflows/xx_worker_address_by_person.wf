@@ -74,7 +74,7 @@
           "code": "GET_WORKER_ADDRESSES_VIA_PERSON_ID",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_WORKERDETAILSGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_WORKERDETAILSGHR",
             "functionName": "GetWorkerAddressesByPersonId",
             "processJson": true,
             "name": "Get Worker Addresses by Person Id",
@@ -103,7 +103,7 @@
           "code": "GET_WORKER_ADDRESSES_VIA_PERSON_NUMBER",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_WORKERDETAILSGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_WORKERDETAILSGHR",
             "functionName": "GetWorkerAddressesByPersonNumber",
             "processJson": true,
             "name": "Get Worker Addresses by Person Number",

@@ -37,7 +37,7 @@
           "code": "GET_WORKER_PRIMARY_ASSIGNMENT",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_EMPLOYMENTGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_EMPLOYMENTGHR",
             "functionName": "GetWorkerPrimaryAssignmentInfo",
             "processJson": true,
             "name": "Get Worker Primary Assignment",
@@ -113,7 +113,7 @@
           "code": "GET_MANAGERS_INFO",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_EMPLOYMENTGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_EMPLOYMENTGHR",
             "functionName": "GetWorkerManagers",
             "processJson": true,
             "name": "Get Worker Managers",

@@ -83,7 +83,7 @@
               "id": "1783065200002_condition",
               "name": "condition",
               "type": "string",
-              "value": "{{$context.$nodes.VALIDATE_UNDER_REPORTED_TIME_CARD_DATE_RANGE.$output.result}}"
+              "value": "{{$context.$nodes.VALIDATE_UNDER_REPORTED_TIME_CARD_DATE_RANGE.$output.result === true}}"
             }
           ],
           "diagram": {
@@ -120,7 +120,7 @@
           "type": "BO_FUNCTION",
           "metadata": {
             "name": "Fetch Time Cards Less Than Scheduled",
-            "businessObjectCode": "ORA_HCM_TIMEANDLAB_TIMECARDSEARCHESLOOKUP",
+            "businessObjectCode": "ORA_HCM_TIMEANDLAB_XX_TIMECARDSEARCHESLOOKUP",
             "functionName": "searchTimeCardsWithReportedHoursLessThanScheduled",
             "processJson": true
           },

@@ -33,7 +33,7 @@
           "metadata": {
             "description": "",
             "name": "Fetch Person Life Events Status Aggregation",
-            "businessObjectCode": "ORA_HCM_BENEFITS_PERSONLIFEEVENTSTATUSAGGREGATIONS",
+            "businessObjectCode": "ORA_HCM_BENEFITS_XX_PERSONLIFEEVENTSTATUSAGGREGATIONS",
             "functionName": "get_aggregations_for_benefits_person_facet",
             "errorNodeId": "1783060157249"
           },
@@ -44,15 +44,7 @@
           "outcomes": {
             "success": "1782387164872"
           },
-          "inputs": [
-            {
-              "id": "1782387102074_facet",
-              "name": "facet",
-              "value": "LifeEventStatus",
-              "required": false,
-              "type": "string"
-            }
-          ]
+          "inputs": []
         },
         {
           "id": "1782387164872",
@@ -198,7 +190,7 @@
   "seededFlag": false,
   "hiddenFlag": false,
   "status": "DRAFT",
-  "version": 79004992,
+  "version": 79255667,
   "useCaseId": "NA",
   "accessModifier": "public",
   "architecture": "data_pipeline",

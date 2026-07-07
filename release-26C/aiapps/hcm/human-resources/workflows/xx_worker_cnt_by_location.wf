@@ -74,7 +74,7 @@
           "code": "GET_WORKER_COUNT_BY_LOCATION_CODE",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_PERSONSEARCHESGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersCountByLocationCode",
             "processJson": true,
             "name": "Get Worker Count by Location Code",
@@ -104,7 +104,7 @@
           "code": "GET_WORKER_COUNT_BY_LOCATION_NAME",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_PERSONSEARCHESGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersCountByLocationName",
             "processJson": true,
             "name": "Get Worker Count by Location Name",

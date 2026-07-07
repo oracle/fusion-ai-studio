@@ -22,7 +22,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5132.5,
+            "x": 5128,
             "y": 5000
           }
         },
@@ -32,11 +32,11 @@
           "type": "BO_FUNCTION",
           "metadata": {
             "name": "Fetch Overdue Tasks",
-            "businessObjectCode": "ORA_HCM_JOURNEYS_JOURNEYSEARCHESANDAGGREGATION",
+            "businessObjectCode": "ORA_HCM_JOURNEYS_XX_JOURNEYSEARCHESANDAGGREGATION",
             "functionName": "get_workerTeamJourneyTasks"
           },
           "diagram": {
-            "x": 5010.5,
+            "x": 5006,
             "y": 5206
           },
           "outcomes": {
@@ -47,7 +47,8 @@
               "id": "1782374848383_Status",
               "name": "Status",
               "value": "Open",
-              "required": false
+              "required": false,
+              "type": "string"
             },
             {
               "id": "1782374848383_Categories",
@@ -60,7 +61,8 @@
               "id": "1782374848383_pTaskName",
               "name": "pTaskName",
               "value": "{{null}}",
-              "required": false
+              "required": false,
+              "type": "string"
             }
           ]
         },
@@ -73,7 +75,7 @@
             "name": "Determine Message Hint Route"
           },
           "diagram": {
-            "x": 5004.5,
+            "x": 5000,
             "y": 5428
           },
           "outcomes": {
@@ -96,7 +98,7 @@
             "name": "Display  Overdue Tasks"
           },
           "diagram": {
-            "x": 5000,
+            "x": 5006,
             "y": 5872
           },
           "outcomes": {
@@ -128,7 +130,7 @@
             "sourceCode": "function toObject(value) {\n  if (value == null || value === \"\") {\n    return {};\n  }\n\n  if (typeof value === \"string\") {\n    try {\n      return JSON.parse(value);\n    } catch (error) {\n      return {};\n    }\n  }\n\n  return value;\n}\n\nfunction toDateOnly(value) {\n  if (!value) {\n    return null;\n  }\n\n  if (value instanceof Date) {\n    const dateFromObject = new Date(value.getFullYear(), value.getMonth(), value.getDate());\n    return Number.isNaN(dateFromObject.getTime()) ? null : dateFromObject;\n  }\n\n  const stringValue = String(value).trim();\n  const dateOnlyMatch = stringValue.match(/^(\\d{4})-(\\d{2})-(\\d{2})/);\n\n  if (dateOnlyMatch) {\n    const year = Number(dateOnlyMatch[1]);\n    const month = Number(dateOnlyMatch[2]) - 1;\n    const day = Number(dateOnlyMatch[3]);\n    const dateFromParts = new Date(year, month, day);\n\n    return Number.isNaN(dateFromParts.getTime()) ? null : dateFromParts;\n  }\n\n  const date = new Date(value);\n\n  if (Number.isNaN(date.getTime())) {\n    return null;\n  }\n\n  return new Date(date.getFullYear(), date.getMonth(), date.getDate());\n}\n\nfunction formatDate(value) {\n  const date = toDateOnly(value);\n\n  if (!date) {\n    return \"\";\n  }\n\n  const year = date.getFullYear();\n  const month = String(date.getMonth() + 1).padStart(2, \"0\");\n  const day = String(date.getDate()).padStart(2, \"0\");\n\n  return year + \"-\" + month + \"-\" + day;\n}\n\nfunction pluralizeDays(days) {\n  return days === 1 ? \"day\" : \"days\";\n}\n\nconst input = toObject($context.$nodes.FETCH_OVERDUE_TASKS.$output);\nconst tasks = Array.isArray(input.items) ? input.items : [];\nconst today = toDateOnly($context.$system.$currentDate) || toDateOnly(new Date());\nconst millisecondsPerDay = 24 * 60 * 60 * 1000;\n\nconst enrichedTasks = tasks.slice(0, 5).map(function (task) {\n  const targetDate = toDateOnly(task.TargetEndDate);\n  const dueDate = formatDate(task.TargetEndDate);\n  const hasDueDate = targetDate !== null;\n  const dayDifference = hasDueDate\n    ? Math.floor((targetDate.getTime() - today.getTime()) / millisecondsPerDay)\n    : null;\n  const overdueDays = dayDifference !== null && dayDifference < 0\n    ? Math.abs(dayDifference)\n    : 0;\n  const dueInDays = dayDifference !== null && dayDifference >= 0\n    ? dayDifference\n    : null;\n  const overdueTask = overdueDays > 0;\n\n  let timingLabel = \"\";\n\n  if (overdueTask) {\n    timingLabel = \"Overdue by \" + overdueDays + \" \" + pluralizeDays(overdueDays);\n  } else if (dueInDays === 0) {\n    timingLabel = \"Due today\";\n  } else if (dueInDays === 1) {\n    timingLabel = \"Due tomorrow\";\n  } else if (hasDueDate) {\n    timingLabel = \"Due on \" + dueDate;\n  }\n\n  const ownerParts = [task.JourneyPersonName, task.PersonNumber].filter(function (part) {\n    return part !== null && part !== undefined && String(part).trim() !== \"\";\n  });\n\n  return {\n    ...task,\n    DueDate: dueDate,\n    DueInDays: dueInDays,\n    OverdueTask: overdueTask,\n    OverdueDays: overdueDays,\n    TaskTimingLabel: timingLabel,\n    TaskOwnerLabel: ownerParts.join(\" - \")\n  };\n});\n\nreturn {\n  tasks: enrichedTasks,\n  totalTasks: tasks.length,\n  displayedTasks: enrichedTasks.length\n};"
           },
           "diagram": {
-            "x": 5010.5,
+            "x": 5006,
             "y": 5650
           },
           "outcomes": {
@@ -193,7 +195,7 @@
   "seededFlag": false,
   "hiddenFlag": false,
   "status": "DRAFT",
-  "version": 79012019,
+  "version": 79262088,
   "useCaseId": "NA",
   "accessModifier": "public",
   "architecture": "data_pipeline",
@@ -217,8 +219,5 @@
   "seededRoles": [],
   "customizedSpecifications": [],
   "initialTags": [],
-  "initialRoles": [],
-  "header": {
-    "ETag": "\"7\""
-  }
+  "initialRoles": []
 }

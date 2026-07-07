@@ -1,9 +1,6 @@
 {
   "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
-  "workflowId": "300100659463548",
   "workflowCode": "XX_FIN_GL_PERIOD_STATUS_WORKFLOW",
-  "name": "Period Status",
-  "description": "Retrieves and renders period close status for the selected ledger and period across General Ledger and source systems, including close readiness, category-level status, days remaining, and period-status actions.",
   "specification": {
     "dataPipeline": {
       "pipelineNodes": [
@@ -16,7 +13,7 @@
             "success": "1778597297432"
           },
           "diagram": {
-            "x": 5272,
+            "x": 5150,
             "y": 5000
           },
           "code": "START",
@@ -27,7 +24,8 @@
         {
           "metadata": {
             "name": "Fetch Application Context",
-            "workflowCode": "XX_FIN_GL_LEDGER_INSIGHTS_CONTEXT_WORKFLOW"
+            "workflowCode": "XX_FIN_GL_LEDGER_INSIGHTS_CONTEXT_WORKFLOW",
+            "answerInUserLanguage": true
           },
           "diagram": {
             "x": 5150,
@@ -88,7 +86,7 @@
         {
           "metadata": {
             "name": "Resolve Application Context",
-            "sourceCode": "let result = $context.$nodes.FETCH_APPLICATION_CONTEXT.$output.output || \"\";\n\nlet res = JSON.parse(result);\n\nreturn res?.result;\n\n/*\nreturn {\n  \"ledgerId\": \"1225\",\n  \"ledgerCategory\": \"Ledger Set\",\n  \"chartOfAccountsId\": \"54604\",\n  \"ledgerName\": \"Vision Foods USA Ledger Set\",\n  \"periodSetName\": \"Vision Foods US\",\n  \"calendarId\": \"100000016406011\",\n  \"periodName\": \"May-26\",\n  \"periodYear\": \"2025\",\n  \"quarterNumber\": \"3\",\n  \"yearStartDate\": \"2025-10-01\",\n  \"quarterStartDate\": \"2026-04-01\",\n  \"startDate\": \"2026-05-01\",\n  \"endDate\": \"2026-05-31\",\n  \"fetchGlRuleCategoryLookups\" : true,\n  \"fetchFunRulePriorityLookups\": true\n};\n*/",
+            "sourceCode": "const numericOnly = (value) => {\n  const text = value == null ? \"\" : String(value).trim();\n  return /^\\d+$/.test(text) ? text : \"\";\n};\n\nlet result = $context.$nodes.FETCH_APPLICATION_CONTEXT.$output.output || \"\";\n\nlet res = JSON.parse(result);\nlet context = res?.result || {};\n\nreturn {\n  ...context,\n  ledgerId: numericOnly(context?.ledgerId)\n};\n",
             "returnType": "object"
           },
           "diagram": {
@@ -145,7 +143,8 @@
             }
           },
           "metadata": {
-            "name": "Generate Initial Display Content"
+            "name": "Generate Initial Display Content",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "end"
@@ -187,7 +186,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_FIN_GENERALLED_PERIOD_STATUS",
+            "businessObjectCode": "ORA_FIN_GL_XX_PERIOD_STATUS",
             "functionName": "getPeriodWithSource",
             "name": "Fetch Period Status Information"
           },
@@ -205,15 +204,13 @@
               "id": "1777438498282_ledgerId",
               "name": "ledgerId",
               "value": "{{$context.$nodes.RESOLVE_APPLICATION_CONTEXT.$output.result.ledgerId}}",
-              "required": true,
-              "type": "string"
+              "required": false
             },
             {
               "id": "1777438498282_periodName",
               "name": "periodName",
               "value": "{{$context.$nodes.RESOLVE_APPLICATION_CONTEXT.$output.result.periodName}}",
-              "required": true,
-              "type": "string"
+              "required": false
             }
           ],
           "outputSpecification": "{}",
@@ -229,7 +226,7 @@
             "success": "1777438711086"
           },
           "diagram": {
-            "x": 5108,
+            "x": 5150,
             "y": 6335
           },
           "code": "PROCESS_PERIOD_CATEGORY_INFORMATION",
@@ -311,7 +308,7 @@
           "name": "New run profile 2",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraMessageHint\": \"InitDisplay\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptcoelqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
+          "restConfigJson": "{\n    \"OraMessageHint\": \"InitDisplay\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
         }
       ]
     },
@@ -345,24 +342,41 @@
     "timeSavings": 10,
     "chatExpTPFileUploadEnabledFlag": false,
     "chatExpThirdPartyDetails": [],
-    "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI"
+    "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI",
+    "deletedTriggerTypes": []
   },
-  "status": "DRAFT",
-  "version": 78300672,
+  "name": "Period Status",
+  "description": "Retrieves and renders period close status for the selected ledger and period across General Ledger and source systems, including close readiness, category-level status, days remaining, and period-status actions.",
   "family": "FIN",
   "product": "GENERAL_LEDGER",
-  "ownerName": "Mary Johnson",
-  "customFlag": false,
+  "workflowId": "300100659463548",
+  "ownerName": null,
   "seededFlag": false,
-  "isTemplate": false,
   "hiddenFlag": false,
+  "status": "DRAFT",
+  "version": 79337299,
   "useCaseId": "NA",
   "accessModifier": "public",
   "architecture": "data_pipeline",
-  "aiAppsCompatibleFlag": true,
-  "followupEnabledFlag": false,
   "followupPrompt": "Based on the following conversion: $param.system_context.chat_history generate $param.system_context.number_of_follow_up_questions\nfollow up questions only while strictly adhering to the JSON Schema format mentioned below. Remove the ```json markdown from the output.\nHere is the JSON Schema format the output should adhere to:\n[{\"question\": \"<put first question generated here>\"}, {\"question\": \"<put second question generated here>\"}, {\"question\": \"<put third question generated here>\"}",
-  "header": {
-    "ETag": "\"1\""
-  }
+  "firstStarterQuestion": null,
+  "secondStarterQuestion": null,
+  "thirdStarterQuestion": null,
+  "followupEnabledFlag": false,
+  "maxInteractions": null,
+  "customFlag": false,
+  "sourceWorkflowCode": null,
+  "customizationPolicy": null,
+  "emailConfigCode": null,
+  "jobRequestId": null,
+  "aiAppsCompatibleFlag": true,
+  "isTemplate": false,
+  "ownerId": null,
+  "$id": "300100659463548",
+  "tags": [],
+  "roles": [],
+  "seededRoles": [],
+  "customizedSpecifications": [],
+  "initialTags": [],
+  "initialRoles": []
 }

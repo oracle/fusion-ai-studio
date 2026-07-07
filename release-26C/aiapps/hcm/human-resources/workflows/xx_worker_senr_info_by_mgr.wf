@@ -30,7 +30,7 @@
           "code": "GETMANAGERSENIORITY",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_EMPLOYMENTGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_EMPLOYMENTGHR",
             "functionName": "GetTeamSeniorityInformationByManager",
             "processJson": true,
             "name": "Get Team Seniority Information by Manager",

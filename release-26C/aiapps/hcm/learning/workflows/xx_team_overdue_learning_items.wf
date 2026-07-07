@@ -28,11 +28,11 @@
         },
         {
           "id": "1782388071382",
-          "code": "NEW_SWITCH_NODE",
+          "code": "ROUTE_MESSAGE_HINT",
           "type": "SWITCH",
           "convergenceTargetId": "end",
           "metadata": {
-            "name": "New switch Node"
+            "name": "Route Message Hint"
           },
           "diagram": {
             "x": 5525,
@@ -57,7 +57,7 @@
           "type": "BO_FUNCTION",
           "metadata": {
             "name": "Fetch Overdue Learning Items",
-            "businessObjectCode": "ORA_HCM_LEARNING_LEARNINGSEARCHES",
+            "businessObjectCode": "ORA_HCM_LEARNING_XX_LEARNINGSEARCHES",
             "functionName": "learning_item_aggregations",
             "errorNodeId": "1783070086077"
           },
@@ -107,7 +107,7 @@
           "type": "BO_FUNCTION",
           "metadata": {
             "name": "Fetch Learning Item Learners",
-            "businessObjectCode": "ORA_HCM_LEARNING_LEARNINGSEARCHES",
+            "businessObjectCode": "ORA_HCM_LEARNING_XX_LEARNINGSEARCHES",
             "functionName": "learning_record_searches",
             "errorNodeId": "1783070086077"
           },

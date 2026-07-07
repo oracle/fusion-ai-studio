@@ -118,7 +118,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_SCM_MAINTENANC_MATERIALITEMASSIGNMENTSUMMARIES",
+            "businessObjectCode": "ORA_SCM_MAINTENANC_XX_MATERIALITEMASSIGNMENTSUMMARIES",
             "name": "Fetch Item Shortages",
             "functionName": "oraScmMnt_materialAssignmentSummary_byOrganization"
           },
@@ -224,7 +224,7 @@
                 },
                 {
                   "metadata": {
-                    "businessObjectCode": "ORA_SCM_PRODUCTMAN_ONHANDQTYBYITEM",
+                    "businessObjectCode": "ORA_SCM_PRODUCTMAN_XX_ONHANDQTYBYITEM",
                     "functionName": "getall_onhandQuantityDetails",
                     "processJson": true,
                     "name": "Fetch On Hand"
@@ -434,7 +434,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_SCM_PRODUCTMAN_ONHANDQTYBYITEM",
+            "businessObjectCode": "ORA_SCM_PRODUCTMAN_XX_ONHANDQTYBYITEM",
             "functionName": "getall_onhandQuantityDetails",
             "processJson": true,
             "name": "Fetch On Hand For Item"
@@ -651,7 +651,7 @@
             "name": "Fetch Units Of Measure Name",
             "family": "SCM",
             "product": "INVENTORY_MANAGEMENT",
-            "businessObjectCode": "ORA_SCM_INVENTORY_SHORTAGE_UOM",
+            "businessObjectCode": "ORA_SCM_INVENTORY_XX_SHORTAGE_UOM",
             "functionName": "get_unitsOfMeasure"
           },
           "diagram": {

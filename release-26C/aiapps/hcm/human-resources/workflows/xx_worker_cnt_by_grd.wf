@@ -88,7 +88,7 @@
           "code": "GET_WORKER_COUNT_BY_GRADE_CODE",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_PERSONSEARCHESGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersCountByGradeCode",
             "processJson": true,
             "name": "Get Worker Count by Grade Code",
@@ -113,7 +113,7 @@
           "code": "GET_WORKER_COUNT_BY_GRADE_NAME",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_PERSONSEARCHESGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersCountByGradeName",
             "processJson": true,
             "name": "Get Worker Count by Grade Name",

@@ -52,7 +52,7 @@
           "type": "BO_FUNCTION",
           "metadata": {
             "name": "Fetch My Team Compensation Details",
-            "businessObjectCode": "ORA_HCM_COMP_MYTEAMCOMPENSATIONDETAILSLOOKUP",
+            "businessObjectCode": "ORA_HCM_COMP_XX_MYTEAMCOMPENSATIONDETAILSLOOKUP",
             "functionName": "findMyTeamCompensationDetails",
             "processJson": true
           },
@@ -63,14 +63,14 @@
             {
               "id": "1782400000002_pPersonId",
               "name": "pPersonId",
-              "value": "{{$context.$nodes.FETCH_LOGGEDIN_EMPLOYEE_CONTEXT.$output.items[0].PersonId}}",
+              "value": "{{$context.$nodes.VALIDATE_PERSON_AND_ASSIGNMENT.$output.result.personId}}",
               "required": false,
               "type": "string"
             },
             {
               "id": "1782400000002_pAssignmentId",
               "name": "pAssignmentId",
-              "value": "{{$context.$nodes.FETCH_LOGGEDIN_EMPLOYEE_CONTEXT.$output.items[0].AssignmentId}}",
+              "value": "{{$context.$nodes.VALIDATE_PERSON_AND_ASSIGNMENT.$output.result.assignmentId}}",
               "required": false
             }
           ],
@@ -199,8 +199,8 @@
           "type": "CODE",
           "metadata": {
             "name": "Validate Person and Assignment",
-            "sourceCode": "const pId = $context.$nodes.FETCH_LOGGEDIN_EMPLOYEE_CONTEXT.$output.items[0].PersonId;\n\nconst aId = $context.$nodes.FETCH_LOGGEDIN_EMPLOYEE_CONTEXT.$output.items[0].AssignmentId;\n\nreturn /^\\d+$/.test(pId) && /^\\d+$/.test(aId);",
-            "returnType": "boolean"
+            "sourceCode": "function validId(value) {\n  const text = String(value || \"\").trim();\n  return /^\\d{1,18}$/.test(text);\n}\n\nconst output = $context.$nodes.FETCH_LOGGEDIN_EMPLOYEE_CONTEXT.$output || {};\nconst items = Array.isArray(output.items) ? output.items : [];\nconst context = items[0] || {};\n\nconst personId = String(context.PersonId || \"\").trim();\nconst assignmentId = String(context.AssignmentId || \"\").trim();\nconst isValid = validId(personId) && validId(assignmentId);\n\nreturn {\n  isValid: isValid,\n  personId: isValid ? personId : \"\",\n  assignmentId: isValid ? assignmentId : \"\"\n};",
+            "returnType": "object"
           },
           "diagram": {
             "x": 5008,
@@ -233,7 +233,7 @@
               "id": "1783059711261_condition",
               "name": "condition",
               "type": "string",
-              "value": "{{$context.$nodes.VALIDATE_PERSON_AND_ASSIGNMENT.$output.result}}"
+              "value": "{{$context.$nodes.VALIDATE_PERSON_AND_ASSIGNMENT.$output.result.isValid === true}}"
             }
           ]
         },
@@ -304,12 +304,12 @@
   "description": "Displays direct reports with compa ratios below 100",
   "family": "HCM",
   "product": "COMPENSATION",
-  "workflowId": "300100659078985",
+  "workflowId": "300100691998440",
   "ownerName": null,
   "seededFlag": false,
   "hiddenFlag": false,
   "status": "DRAFT",
-  "version": 78992843,
+  "version": 79257221,
   "useCaseId": "NA",
   "accessModifier": "public",
   "architecture": "data_pipeline",
@@ -327,7 +327,7 @@
   "aiAppsCompatibleFlag": true,
   "isTemplate": false,
   "ownerId": null,
-  "$id": "300100659078985",
+  "$id": "300100691998440",
   "tags": [],
   "roles": [],
   "seededRoles": [],

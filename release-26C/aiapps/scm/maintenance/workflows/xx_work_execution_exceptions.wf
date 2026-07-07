@@ -157,7 +157,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_SCM_MANUFACTURING_PROD_EXPV2",
+            "businessObjectCode": "ORA_SCM_MANUFACTURING_XX_PROD_EXPV2",
             "functionName": "get_openProductionExceptions",
             "processJson": true,
             "name": "Fetch production exceptions"

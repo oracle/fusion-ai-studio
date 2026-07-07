@@ -22,8 +22,8 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5373,
-            "y": 4938
+            "x": 5620,
+            "y": 5000
           }
         },
         {
@@ -32,7 +32,7 @@
           "type": "BO_FUNCTION",
           "metadata": {
             "name": "Fetch WLF Recommendation Aggregations",
-            "businessObjectCode": "ORA_HCM_LEARNING_WLFRECOMMENDATIONAGGREGATIONSLOOKUP",
+            "businessObjectCode": "ORA_HCM_LEARNING_XX_WLFRECOMMENDATIONAGGREGATIONSLOOKUP",
             "functionName": "getWlfRecommendationAggregations",
             "processJson": true
           },
@@ -42,8 +42,8 @@
           "inputs": [],
           "outputSpecification": "{}",
           "diagram": {
-            "x": 5000,
-            "y": 5200
+            "x": 5211.5,
+            "y": 5428
           }
         },
         {
@@ -62,8 +62,8 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 5040,
-            "y": 5309
+            "x": 5252,
+            "y": 5650
           }
         },
         {
@@ -72,7 +72,7 @@
           "type": "BO_FUNCTION",
           "metadata": {
             "name": "Fetch Learning Items By IDs",
-            "businessObjectCode": "ORA_HCM_LEARNING_LEARNINGITEMSEARCHESLOOKUP",
+            "businessObjectCode": "ORA_HCM_LEARNING_XX_LEARNINGITEMSEARCHESLOOKUP",
             "functionName": "searchLearningItemsByIds",
             "processJson": true
           },
@@ -83,15 +83,15 @@
             {
               "id": "1782600000003_listOfLearningItemIds",
               "name": "listOfLearningItemIds",
-              "value": "{{$context.$nodes.SELECT_TOP_LEARNING_ITEM_IDS.$output.result.listOfLearningItemIds}}",
+              "value": "{{$context.$nodes.VALIDATE_LEARNING_ITEM_IDS.$output.result.listOfLearningItemIds}}",
               "required": false,
               "type": "string"
             }
           ],
           "outputSpecification": "{}",
           "diagram": {
-            "x": 5027,
-            "y": 5687
+            "x": 5031.5,
+            "y": 6316
           }
         },
         {
@@ -111,7 +111,7 @@
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
             "x": 5000,
-            "y": 5800
+            "y": 6538
           }
         },
         {
@@ -149,8 +149,8 @@
             }
           },
           "diagram": {
-            "x": 5000,
-            "y": 6000
+            "x": 5004.5,
+            "y": 6760
           }
         },
         {
@@ -162,8 +162,8 @@
             "name": "Route Message Hint"
           },
           "diagram": {
-            "x": 5266,
-            "y": 5049
+            "x": 5498,
+            "y": 5206
           },
           "outcomes": {
             "InitDisplay": "1782600000001",
@@ -186,8 +186,8 @@
             "name": "Generate Init Actions Response"
           },
           "diagram": {
-            "x": 5476,
-            "y": 5198
+            "x": 5966,
+            "y": 5428
           },
           "outcomes": {
             "success": "end"
@@ -207,12 +207,12 @@
           "type": "CODE",
           "metadata": {
             "name": "Validate Learning Item Ids",
-            "returnType": "boolean",
-            "sourceCode": "let learningItemIds = $context.$nodes.SELECT_TOP_LEARNING_ITEM_IDS.$output.result.listOfLearningItemIds;\n\nif (learningItemIds === undefined || learningItemIds === null || String(learningItemIds).trim() === \"\") {\n  return true;\n}\n\nreturn String(learningItemIds)\n  .split(\",\")\n  .every(id => /^\\d+$/.test(id.trim()));"
+            "returnType": "object",
+            "sourceCode": "const selected = ($context.$nodes.SELECT_TOP_LEARNING_ITEM_IDS.$output || {}).result || {};\nconst rawIds = Array.isArray(selected.learningItemIds) ? selected.learningItemIds : [];\nconst listValue = selected.listOfLearningItemIds;\nconst ids = rawIds.length > 0\n  ? rawIds.map(function(id) { return String(id).trim(); }).filter(function(id) { return id !== \"\"; })\n  : String(listValue || \"\").split(\",\").map(function(id) { return id.trim(); }).filter(function(id) { return id !== \"\"; });\n\nconst isValid = ids.every(function(id) {\n  return /^\\d{1,18}$/.test(id);\n});\n\nreturn {\n  isValid: isValid,\n  learningItemIds: isValid ? ids : [],\n  listOfLearningItemIds: isValid ? ids.join(\",\") : \"\"\n};"
           },
           "diagram": {
-            "x": 5118,
-            "y": 5444
+            "x": 5258,
+            "y": 5872
           },
           "outcomes": {
             "success": "1783063978966"
@@ -229,8 +229,8 @@
             "name": "Check Valid Learning Items"
           },
           "diagram": {
-            "x": 5268,
-            "y": 5568
+            "x": 5258,
+            "y": 6094
           },
           "outcomes": {
             "true": "1782600000003",
@@ -241,7 +241,7 @@
               "id": "1783063978966_condition",
               "name": "condition",
               "type": "string",
-              "value": "{{$context.$nodes.VALIDATE_LEARNING_ITEM_IDS.$output.result}}"
+              "value": "{{$context.$nodes.VALIDATE_LEARNING_ITEM_IDS.$output.result.isValid === true}}"
             }
           ]
         },
@@ -253,8 +253,8 @@
             "name": "Generate Error Message"
           },
           "diagram": {
-            "x": 5495,
-            "y": 5691
+            "x": 5516,
+            "y": 6316
           },
           "outcomes": {
             "success": "end"
@@ -312,12 +312,12 @@
   "description": "Displays recommended learning items for a manager audience to assign for the team.",
   "family": "HCM",
   "product": "LEARNING",
-  "workflowId": "300100659094610",
+  "workflowId": "300100692016435",
   "ownerName": null,
   "seededFlag": false,
   "hiddenFlag": false,
   "status": "DRAFT",
-  "version": 79000954,
+  "version": 79260239,
   "useCaseId": "NA",
   "accessModifier": "public",
   "architecture": "data_pipeline",
@@ -335,7 +335,7 @@
   "aiAppsCompatibleFlag": true,
   "isTemplate": false,
   "ownerId": null,
-  "$id": "300100659094610",
+  "$id": "300100692016435",
   "tags": [],
   "roles": [],
   "seededRoles": [],

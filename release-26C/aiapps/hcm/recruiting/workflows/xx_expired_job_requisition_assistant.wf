@@ -57,8 +57,9 @@
           "type": "BO_FUNCTION",
           "metadata": {
             "name": "Fetch Open Phase and Expired Requisitions",
-            "businessObjectCode": "ORA_HCM_RECRUITING_EXPIREDJOBREQUISITIONS",
-            "functionName": "get_job_requisitions"
+            "businessObjectCode": "ORA_HCM_RECRUITING_XX_EXPIREDJOBREQUISITIONS",
+            "functionName": "get_job_requisitions",
+            "errorNodeId": "1783321785271"
           },
           "diagram": {
             "x": 5031.5,
@@ -99,6 +100,30 @@
               ]
             }
           }
+        },
+        {
+          "id": "1783321785271",
+          "code": "DISPLAY_ERROR_MESSAGE",
+          "type": "LLM",
+          "metadata": {
+            "name": "Display Error message",
+            "answerInUserLanguage": true
+          },
+          "diagram": {
+            "x": 6135.285150784937,
+            "y": 4959.756416079449
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "inputs": [
+            {
+              "id": "1783321785271_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "payload :\n{{$context.$nodes.FETCH_OPEN_PHASE_AND_EXPIRED_REQUISITIONS.$error.$info}}\n\nYour task is to parse the response payload and construct a meaningful functional description of the issue without exposing any Error Code or Technical details.\n\nParse the payload and present to the user in a professional and polite manner. Do not add any follow up action, just inform why the request failed. Do not guess anything.\n"
+            }
+          ]
         },
         {
           "id": "end",
@@ -156,7 +181,7 @@
   "seededFlag": false,
   "hiddenFlag": false,
   "status": "DRAFT",
-  "version": 79005784,
+  "version": 79255692,
   "useCaseId": "NA",
   "accessModifier": "public",
   "architecture": "data_pipeline",
@@ -174,7 +199,7 @@
   "aiAppsCompatibleFlag": true,
   "isTemplate": false,
   "ownerId": null,
-  "$id": "300100732496440",
+  "$id": "300100680719175",
   "tags": [],
   "roles": [],
   "seededRoles": [],

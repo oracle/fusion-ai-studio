@@ -195,7 +195,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_SCM_MAINTENANC_MATERIALWORKORDERASSIGNMENTSEQUENCES",
+            "businessObjectCode": "ORA_SCM_MAINTENANC_XX_MATERIALWORKORDERASSIGNMENTSEQUENCES",
             "functionName": "oraScmMnt_materialAssignments_shortageForDateRange",
             "name": "Fetch Material Shortage For Date Range"
           },
@@ -248,7 +248,7 @@
           "metadata": {
             "name": "Material Shortage Data for Date Range",
             "returnType": "array",
-            "sourceCode": "const items = $context.$nodes.FETCH_MATERIAL_SHORTAGE_FOR_DATE_RANGE.$output?.items ?? [];\nconst arr = Array.isArray(items) ? items : [];\n\nconst byWorkOrderId = new Map();\n\nfor (const it of arr) {\n  const woId = it?.WorkOrderId;\n  const woNum = it?.WorkOrderNumber;\n  const woDesc = ((it?.WorkOrderDescription ?? '').toString().trim() || '');\n  const assetNum = it?.AssetNumber;\n  const woStatus = it?.WoStatusName;\n  const workCenter = it?.WorkCenter;\n  const materialAvailableStatus = it?.MaterialAvailableStatus;\n  if (!woId) continue;\n\n  const rec = byWorkOrderId.get(woId) || { WorkOrderId: woId, WorkOrderNumber: woNum, WorkOrderDescription : woDesc, AssetNumber: assetNum, WoStatusName: woStatus, WorkCenter: workCenter, MaterialAvailableStatus : materialAvailableStatus, DistinctItemShortages : 0, TotalShortageQuantity:0 };\n\n const materialAssignmentItems = it?.MaterialAssignment?.items;\n rec.TotalShortageQuantity = materialAssignmentItems.reduce((sum, item) => sum + Number(item.ShortageQuantity || 0), 0);\n\nconst result = materialAssignmentItems.reduce(\n  (acc, item) => {\n    const qty = Number(item.ShortageQuantity || 0);\n    if (qty > 0) {\n      acc.distinctInventoryItemIds.add(item.InventoryItemId);\n    }\n    acc.sum += qty;\n    return acc;\n  },\n  { sum: 0, distinctInventoryItemIds: new Set() }\n);\n\nrec.TotalShortageQuantity = result.sum;\nrec.DistinctItemShortages = result.distinctInventoryItemIds.size;\n\n  byWorkOrderId.set(woId, rec);\n}\n\nreturn Array.from(byWorkOrderId.values());"
+            "sourceCode": "const items = $context.$nodes.FETCH_MATERIAL_SHORTAGE_FOR_DATE_RANGE.$output?.items ?? [];\nconst arr = Array.isArray(items) ? items : [];\n\nconst byWorkOrderId = new Map();\n\nfor (const it of arr) {\n  const woId = it?.WorkOrderId;\n  const woNum = it?.WorkOrderNumber;\n  const woDesc = ((it?.WorkOrderDescription ?? '').toString().trim() || '');\n  const assetNum = it?.AssetNumber;\n  const woStatus = it?.WoStatusName;\n  const workCenter = it?.WorkCenter;\n  const materialAvailableStatus = it?.MaterialAvailableStatus;\n  if (!woId) continue;\n\n  const rec = byWorkOrderId.get(woId) || { WorkOrderId: woId, WorkOrderNumber: woNum, WorkOrderDescription : woDesc, AssetNumber: assetNum, WoStatusName: woStatus, WorkCenter: workCenter, MaterialAvailableStatus : materialAvailableStatus, DistinctItemShortages : 0, TotalShortageQuantity:0 };\n\n const materialAssignmentItems = Array.isArray(it?.MaterialAssignment?.items) ? it.MaterialAssignment.items : [];\n rec.TotalShortageQuantity = materialAssignmentItems.reduce((sum, item) => sum + Number(item.ShortageQuantity || 0), 0);\n\nconst result = materialAssignmentItems.reduce(\n  (acc, item) => {\n    const qty = Number(item.ShortageQuantity || 0);\n    if (qty > 0) {\n      acc.distinctInventoryItemIds.add(item.InventoryItemId);\n    }\n    acc.sum += qty;\n    return acc;\n  },\n  { sum: 0, distinctInventoryItemIds: new Set() }\n);\n\nrec.TotalShortageQuantity = result.sum;\nrec.DistinctItemShortages = result.distinctInventoryItemIds.size;\n\n  byWorkOrderId.set(woId, rec);\n}\n\nreturn Array.from(byWorkOrderId.values());"
           },
           "outcomes": {
             "success": "1771392353705"
@@ -406,7 +406,7 @@
           "code": "FETCH_MATERIAL_SHORTAGE_DETAILS_FOR_WORK_ORDER",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_SCM_MAINTENANC_MATERIALWORKORDERASSIGNMENTSEQUENCES",
+            "businessObjectCode": "ORA_SCM_MAINTENANC_XX_MATERIALWORKORDERASSIGNMENTSEQUENCES",
             "functionName": "oraScmMnt_materialAssignments_materialShortageForWo",
             "processJson": true,
             "name": "Fetch Material Shortage Details for Work Order"

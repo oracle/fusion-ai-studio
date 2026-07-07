@@ -74,7 +74,7 @@
           "code": "GET_WORKER_EMAILS_VIA_PERSON_ID",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_WORKERDETAILSGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_WORKERDETAILSGHR",
             "functionName": "GetWorkerEmailsByPersonId",
             "processJson": true,
             "name": "Get Worker Emails by Person Id",
@@ -103,7 +103,7 @@
           "code": "GET_WORKER_EMAILS_VIA_PERSON_NUMBER",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_WORKERDETAILSGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_WORKERDETAILSGHR",
             "functionName": "GetWorkerEmailsByPersonNumber",
             "processJson": true,
             "name": "Get Worker Emails by Person Number",

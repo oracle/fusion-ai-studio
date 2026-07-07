@@ -49,7 +49,7 @@
           "code": "GET_WORKER_DETAILS",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_PERSONSEARCHESGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkers",
             "processJson": true,
             "name": "Get Workers by Work Structure",

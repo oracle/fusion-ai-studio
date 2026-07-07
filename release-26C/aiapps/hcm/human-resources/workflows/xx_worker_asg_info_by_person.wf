@@ -37,7 +37,7 @@
           "code": "GETASSIGNMENTINFO",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_EMPLOYMENTGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_EMPLOYMENTGHR",
             "functionName": "GetAssignmentInformationByPerson",
             "processJson": true,
             "name": "Get Assignment Information by Person",
