@@ -22,8 +22,8 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5347,
-            "y": 4933
+            "x": 5620,
+            "y": 5000
           }
         },
         {
@@ -37,13 +37,81 @@
             "processJson": true
           },
           "outcomes": {
-            "success": "1782500000002"
+            "success": "1783065400001"
           },
           "inputs": [],
           "outputSpecification": "{}",
           "diagram": {
-            "x": 5000,
-            "y": 5200
+            "x": 5238.5,
+            "y": 5428
+          }
+        },
+        {
+          "id": "1783065400001",
+          "code": "VALIDATE_PERSON_AND_ASSIGNMENT",
+          "type": "CODE",
+          "metadata": {
+            "name": "Validate Person and Assignment",
+            "description": "Validates logged-in person and assignment identifiers before fetching team compensation details.",
+            "returnType": "object",
+            "sourceCode": "function validId(value) {\n  const text = String(value || \"\").trim();\n  return /^\\d{1,18}$/.test(text);\n}\n\nconst output = $context.$nodes.FETCH_LOGGEDIN_EMPLOYEE_CONTEXT.$output || {};\nconst items = Array.isArray(output.items) ? output.items : [];\nconst context = items[0] || {};\n\nconst personId = String(context.PersonId || \"\").trim();\nconst assignmentId = String(context.AssignmentId || \"\").trim();\nconst isValid = validId(personId) && validId(assignmentId);\n\nreturn {\n  isValid: isValid,\n  personId: isValid ? personId : \"\",\n  assignmentId: isValid ? assignmentId : \"\"\n};"
+          },
+          "outcomes": {
+            "success": "1783065400002"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "diagram": {
+            "x": 5243,
+            "y": 5650
+          }
+        },
+        {
+          "id": "1783065400002",
+          "code": "CHECK_VALID_PERSON_AND_ASSIGNMENT",
+          "type": "CONDITION",
+          "convergenceTargetId": "end",
+          "metadata": {
+            "name": "Check Valid Person and Assignment"
+          },
+          "outcomes": {
+            "true": "1782500000002",
+            "false": "1783065400003"
+          },
+          "inputs": [
+            {
+              "id": "1783065400002_condition",
+              "name": "condition",
+              "type": "string",
+              "value": "{{$context.$nodes.VALIDATE_PERSON_AND_ASSIGNMENT.$output.result.isValid === true}}"
+            }
+          ],
+          "diagram": {
+            "x": 5229.5,
+            "y": 5872
+          }
+        },
+        {
+          "id": "1783065400003",
+          "code": "DISPLAY_ERROR_MESSAGE",
+          "type": "LLM",
+          "metadata": {
+            "name": "Display Error Message"
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "inputs": [
+            {
+              "id": "1783065400003_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "Display \"Error validating person or assignment\""
+            }
+          ],
+          "diagram": {
+            "x": 5516,
+            "y": 6094
           }
         },
         {
@@ -52,7 +120,7 @@
           "type": "BO_FUNCTION",
           "metadata": {
             "name": "Fetch My Team Compensation Details",
-            "businessObjectCode": "ORA_HCM_COMP_MYTEAMCOMPENSATIONDETAILSLOOKUP",
+            "businessObjectCode": "ORA_HCM_COMP_XX_MYTEAMCOMPENSATIONDETAILSLOOKUP",
             "functionName": "findMyTeamCompensationDetails",
             "processJson": true
           },
@@ -63,20 +131,20 @@
             {
               "id": "1782500000002_pPersonId",
               "name": "pPersonId",
-              "value": "{{$context.$nodes.FETCH_LOGGEDIN_EMPLOYEE_CONTEXT.$output.items[0].PersonId}}",
+              "value": "{{$context.$nodes.VALIDATE_PERSON_AND_ASSIGNMENT.$output.result.personId}}",
               "required": false
             },
             {
               "id": "1782500000002_pAssignmentId",
               "name": "pAssignmentId",
-              "value": "{{$context.$nodes.FETCH_LOGGEDIN_EMPLOYEE_CONTEXT.$output.items[0].AssignmentId}}",
+              "value": "{{$context.$nodes.VALIDATE_PERSON_AND_ASSIGNMENT.$output.result.assignmentId}}",
               "required": false
             }
           ],
           "outputSpecification": "{}",
           "diagram": {
             "x": 5000,
-            "y": 5400
+            "y": 6094
           }
         },
         {
@@ -95,8 +163,8 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 5000,
-            "y": 5600
+            "x": 5022.5,
+            "y": 6316
           }
         },
         {
@@ -134,8 +202,8 @@
             }
           },
           "diagram": {
-            "x": 5000,
-            "y": 5800
+            "x": 5013.5,
+            "y": 6538
           }
         },
         {
@@ -147,8 +215,8 @@
             "name": "Route Message Hint"
           },
           "diagram": {
-            "x": 5226,
-            "y": 5045
+            "x": 5498,
+            "y": 5206
           },
           "outcomes": {
             "InitDisplay": "1782500000001",
@@ -171,8 +239,8 @@
             "name": "Generate Init Actions Response"
           },
           "diagram": {
-            "x": 5416,
-            "y": 5207
+            "x": 5966,
+            "y": 5428
           },
           "outcomes": {
             "success": "end"
@@ -230,12 +298,12 @@
   "description": "Displays the direct reports, whose next salary review date has passed, helping compensation teams prioritize overdue review follow-up and maintain timely pay governance.",
   "family": "HCM",
   "product": "COMPENSATION",
-  "workflowId": "300100731774928",
+  "workflowId": "300100692005014",
   "ownerName": null,
   "seededFlag": false,
   "hiddenFlag": false,
   "status": "DRAFT",
-  "version": 78928939,
+  "version": 79257363,
   "useCaseId": "NA",
   "accessModifier": "public",
   "architecture": "data_pipeline",
@@ -253,7 +321,7 @@
   "aiAppsCompatibleFlag": true,
   "isTemplate": false,
   "ownerId": null,
-  "$id": "300100731774928",
+  "$id": "300100692005014",
   "tags": [],
   "roles": [],
   "seededRoles": [],

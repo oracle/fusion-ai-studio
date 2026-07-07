@@ -74,7 +74,7 @@
           "code": "GET_WORKERS_CNT_BY_BUSINESSUNIT_NAME",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_PERSONSEARCHESGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersCountByBusinessUnitName",
             "processJson": true,
             "name": "Get Worker Count by Business Unit Name",

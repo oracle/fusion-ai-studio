@@ -1,9 +1,6 @@
 {
   "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
-  "workflowId": "300100651845004",
   "workflowCode": "XX_FIN_GL_CLEARING_ACCOUNT_WORKFLOW",
-  "name": "Clearing Account Balances",
-  "description": "Monitors clearing account insights for the selected ledger and period, highlights unreconciled or unusual clearing balances, and lets users drill into balances, journals, and supporting transactions to understand and resolve close risks.",
   "specification": {
     "dataPipeline": {
       "pipelineNodes": [
@@ -16,7 +13,7 @@
             "success": "1779094129961"
           },
           "diagram": {
-            "x": 6491.5,
+            "x": 6350,
             "y": 5000
           },
           "code": "START",
@@ -34,7 +31,7 @@
             "success": "1778484517795"
           },
           "diagram": {
-            "x": 6369.5,
+            "x": 6350,
             "y": 5206
           },
           "code": "IDENTIFY_REQUEST_TYPE",
@@ -53,7 +50,7 @@
             "success": "1778071384468"
           },
           "diagram": {
-            "x": 6354.5,
+            "x": 6350,
             "y": 5428
           },
           "code": "CHOOSE_CONTEXT_DETAILS_TO_LOAD",
@@ -65,13 +62,14 @@
         {
           "metadata": {
             "name": "Get Application Context",
-            "workflowCode": "XX_FIN_GL_LEDGER_INSIGHTS_CONTEXT_WORKFLOW"
+            "workflowCode": "XX_FIN_GL_LEDGER_INSIGHTS_CONTEXT_WORKFLOW",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "1778071424902"
           },
           "diagram": {
-            "x": 6369.5,
+            "x": 6350,
             "y": 5650
           },
           "code": "GET_APPLICATION_CONTEXT",
@@ -133,7 +131,7 @@
             "success": "1777998824936"
           },
           "diagram": {
-            "x": 6369.5,
+            "x": 6350,
             "y": 5872
           },
           "code": "READ_APPLICATION_CONTEXT",
@@ -152,7 +150,7 @@
             "success": "1777998847906"
           },
           "diagram": {
-            "x": 6369.5,
+            "x": 6350,
             "y": 6094
           },
           "code": "PREPARE_LOOKUP_VALUES",
@@ -169,7 +167,7 @@
             "success": "1777615154755"
           },
           "diagram": {
-            "x": 6369.5,
+            "x": 6350,
             "y": 6316
           },
           "code": "SAVE_LOOKUP_VALUES",
@@ -203,7 +201,7 @@
             "query": ""
           },
           "diagram": {
-            "x": 6369.5,
+            "x": 6350,
             "y": 6538
           },
           "code": "CHOOSE_STARTING_PATH",
@@ -223,14 +221,14 @@
           "metadata": {
             "name": "Prepare Insight Search Filters",
             "returnType": "string",
-            "sourceCode": "// let q1 = `$filter= insightRecipientId IN ('300100651736634', '300100651736276')&sensorCode=LedgerInsights`;\n\n// return q1;\n\n\n// to-do : remove the above\n\n\n\nlet buildOrLikeFilter = (field, values) => {\n  if (!values.length) return \"\";\n\n  return `(${values\n    .map(value => `${field} ~like '%${value}%'`)\n    .join(\" OR \")})`;\n};\n\nlet buildQuery = ({\n  categories = [],\n  ruleNames = []\n} = {}) => {\n  const categoryFilter = buildOrLikeFilter(\n    \"sensorSignal.policy.categoryCode\",\n    categories\n  );\n\n  const ruleNameFilter = buildOrLikeFilter(\n    \"sensorSignal.policy.ruleName\",\n    ruleNames\n  );\n\n  const statusFilter = \"status.lookupCode='ORA_OPEN'\";\n\n  const ledgerId = $context.$nodes.READ_APPLICATION_CONTEXT.$output.result.ledgerId;\n  const ledgerFilter = `sensorSignal.sensorInsightDetails[dataAccessSetAssignment.ledgerId=${ledgerId}]`\n\n\n  const filters = [\n    categoryFilter,\n    ledgerFilter,\n    \"sensorSignal.policy.activeFlag=true\",\n    ruleNameFilter\n      ? `(${statusFilter} AND ${ruleNameFilter})`\n      : `(${statusFilter})`\n  ].filter(Boolean);\n\n  return [\n    `$filter=${filters.join(\" AND \")}`,\n    `$sortBy=sensorSignal.policy.rulePriority.lookupCode:asc,timeCreated:desc`,\n    `sensorCode=LedgerInsights`\n  ].join(\"&\");\n};\n\nlet q = buildQuery({\n  categories: [\"ORA_RECONCILIATION\"]\n});\n\nreturn q;\n\n\n/*\nlet q = \"$filter=(sensorSignal.policy.categoryCode ~like '%ORA_VARIANCE%') AND sensorSignal.policy.activeFlag=true AND (statusCode ~like 'ORA_OPEN')&$limit=25&$offset=0&$sortBy=sensorSignal.policy.rulePriorityCode:asc,timeCreated:desc&sensorCode=LedgerInsights\";\n\nq;\n*/",
+            "sourceCode": "let buildOrLikeFilter = (field, values) => {\n  if (!values.length) return \"\";\n\n  return `(${values\n    .map(value => `${field} ~like '%${value}%'`)\n    .join(\" OR \")})`;\n};\n\nlet buildQuery = ({\n  categories = [],\n  ruleNames = []\n} = {}) => {\n  const categoryFilter = buildOrLikeFilter(\n    \"sensorSignal.policy.categoryCode\",\n    categories\n  );\n\n  const ruleNameFilter = buildOrLikeFilter(\n    \"sensorSignal.policy.ruleName\",\n    ruleNames\n  );\n\n  const statusFilter = \"status.lookupCode='ORA_OPEN'\";\n\n  const ledgerId = $context.$nodes.READ_APPLICATION_CONTEXT.$output.result.ledgerId;\n  const ledgerFilter = `sensorSignal.sensorInsightDetails[dataAccessSetAssignment.ledgerId=${ledgerId}]`\n\n\n  const filters = [\n    categoryFilter,\n    ledgerFilter,\n    \"sensorSignal.policy.activeFlag=true\",\n    ruleNameFilter\n      ? `(${statusFilter} AND ${ruleNameFilter})`\n      : `(${statusFilter})`\n  ].filter(Boolean);\n\n  return [\n    `$filter=${filters.join(\" AND \")}`,\n    `$sortBy=sensorSignal.policy.rulePriority.lookupCode:asc,timeCreated:desc`,\n    `sensorCode=LedgerInsights`\n  ].join(\"&\");\n};\n\nlet q = buildQuery({\n  categories: [\"ORA_RECONCILIATION\"]\n});\n\nreturn q;",
             "sourceType": "code"
           },
           "outcomes": {
             "success": "1777998988020"
           },
           "diagram": {
-            "x": 5435,
+            "x": 5450,
             "y": 6760
           },
           "code": "PREPARE_INSIGHT_SEARCH_FILTERS",
@@ -241,7 +239,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_FIN_GENERALLED_INSIGHTS_LIST",
+            "businessObjectCode": "ORA_FIN_GL_XX_INSIGHTS_LIST",
             "functionName": "getall_sensorInsightList",
             "name": "Get Clearing Account Insights"
           },
@@ -249,7 +247,7 @@
             "success": "1777999030321"
           },
           "diagram": {
-            "x": 5439.5,
+            "x": 5450,
             "y": 6982
           },
           "code": "GET_CLEARING_ACCOUNT_INSIGHTS",
@@ -286,7 +284,8 @@
         },
         {
           "metadata": {
-            "name": "Find Top Insights"
+            "name": "Find Top Insights",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "1779094519444"
@@ -335,7 +334,8 @@
         },
         {
           "metadata": {
-            "name": "Show Insight Summary"
+            "name": "Show Insight Summary",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "end"
@@ -367,7 +367,8 @@
             }
           },
           "metadata": {
-            "name": "Show Insight List"
+            "name": "Show Insight List",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "end"
@@ -395,7 +396,8 @@
             }
           },
           "metadata": {
-            "name": "Show Priority Insights"
+            "name": "Show Priority Insights",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "end"
@@ -426,7 +428,7 @@
             "success": "1778705737165"
           },
           "diagram": {
-            "x": 7044.5,
+            "x": 7025,
             "y": 6760
           },
           "code": "IDENTIFY_SELECTED_ACTION",
@@ -439,13 +441,13 @@
           "metadata": {
             "name": "Read Selected Insight",
             "returnType": "string",
-            "sourceCode": "let rowData = {};\n\ntry {\n  const rawInput = $context.$app.$OraAction || \"\";\n\n  if (rawInput) {\n    let parsedInput = JSON.parse(rawInput);\n\n    // handle double-encoded JSON\n    if (typeof parsedInput === \"string\") {\n      parsedInput = JSON.parse(parsedInput);\n    }\n\n    rowData = parsedInput?.rowData || {};\n  }\n} catch (e) { }\nreturn rowData.insightRecipientId;"
+            "sourceCode": "const numericOnly = (value) => {\n  const text = value == null ? \"\" : String(value).trim();\n  return /^\\d+$/.test(text) ? text : \"\";\n};\n\nlet rowData = {};\n\ntry {\n  const rawInput = $context.$app.$OraAction || \"\";\n\n  if (rawInput) {\n    let parsedInput = JSON.parse(rawInput);\n\n    // handle double-encoded JSON\n    if (typeof parsedInput === \"string\") {\n      parsedInput = JSON.parse(parsedInput);\n    }\n\n    rowData = parsedInput?.rowData || {};\n  }\n} catch (e) { }\nreturn numericOnly(rowData.insightRecipientId);"
           },
           "outcomes": {
             "success": "1778708234510"
           },
           "diagram": {
-            "x": 7044.5,
+            "x": 7025,
             "y": 6982
           },
           "code": "READ_SELECTED_INSIGHT",
@@ -464,7 +466,7 @@
             "success": "1778071632351"
           },
           "diagram": {
-            "x": 7038.5,
+            "x": 7025,
             "y": 7204
           },
           "code": "READ_SELECTED_ACTION_DETAILS",
@@ -485,7 +487,7 @@
             "explainInsight": ""
           },
           "diagram": {
-            "x": 7044.5,
+            "x": 7025,
             "y": 7426
           },
           "code": "CHOOSE_ACTION_PATH",
@@ -522,7 +524,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_FIN_GENERALLED_INSIGHTS_LIST",
+            "businessObjectCode": "ORA_FIN_GL_XX_INSIGHTS_LIST",
             "functionName": "getall_sensorInsightList",
             "name": "Get Selected Insight Details"
           },
@@ -530,7 +532,7 @@
             "success": "1778706138446"
           },
           "diagram": {
-            "x": 6363.5,
+            "x": 6350,
             "y": 7870
           },
           "code": "GET_SELECTED_INSIGHT_DETAILS",
@@ -556,7 +558,7 @@
             "success": "1778071992419"
           },
           "diagram": {
-            "x": 6345.5,
+            "x": 6350,
             "y": 8092
           },
           "code": "PREPARE_SELECTED_INSIGHT_DETAILS",
@@ -575,7 +577,7 @@
             "success": "1778072040435"
           },
           "diagram": {
-            "x": 6369.5,
+            "x": 6350,
             "y": 8314
           },
           "code": "READ_INSIGHT_FILTERS",
@@ -594,7 +596,7 @@
             "success": "1778072065387"
           },
           "diagram": {
-            "x": 6359,
+            "x": 6350,
             "y": 8536
           },
           "code": "PREPARE_PERIOD_FILTER_REQUEST",
@@ -605,7 +607,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_FIN_GENERALLED_PERIOD_EXPRESSION_RESOLVER",
+            "businessObjectCode": "ORA_FIN_GL_XX_PERIOD_EXPRESSION_RESOLVER",
             "functionName": "resolvePeriodExpression",
             "name": "Resolve Period Filters"
           },
@@ -613,7 +615,7 @@
             "success": "1779969286775"
           },
           "diagram": {
-            "x": 6369.5,
+            "x": 6350,
             "y": 8758
           },
           "code": "RESOLVE_PERIOD_FILTERS",
@@ -623,7 +625,7 @@
               "id": "1778072082624_1",
               "name": "payload",
               "value": "{{$context.$nodes.PREPARE_PERIOD_FILTER_REQUEST.$output.result}}",
-              "required": true
+              "required": false
             }
           ],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"analyticViews\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"avUsage1\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"measureAliases\": {\n              \"type\": \"object\",\n              \"properties\": {\n                \"periodNetBalance\": {\n                  \"type\": \"string\"\n                }\n              },\n              \"required\": [\n                \"periodNetBalance\"\n              ],\n              \"additionalProperties\": false\n            },\n            \"dimensions\": {\n              \"type\": \"object\",\n              \"properties\": {\n                \"accountingPeriod\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"accountingPeriod\": {\n                      \"type\": \"object\",\n                      \"properties\": {\n                        \"aliases\": {\n                          \"type\": \"object\",\n                          \"properties\": {\n                            \"$memberName\": {\n                              \"type\": \"string\"\n                            },\n                            \"$memberDescription\": {\n                              \"type\": \"string\"\n                            },\n                            \"$depth\": {\n                              \"type\": \"string\"\n                            }\n                          },\n                          \"required\": [\n                            \"$memberName\",\n                            \"$memberDescription\",\n                            \"$depth\"\n                          ],\n                          \"additionalProperties\": false\n                        }\n                      },\n                      \"required\": [\n                        \"aliases\"\n                      ],\n                      \"additionalProperties\": false\n                    }\n                  },\n                  \"required\": [\n                    \"accountingPeriod\"\n                  ],\n                  \"additionalProperties\": false\n                },\n                \"currency\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"currency\": {\n                      \"type\": \"object\",\n                      \"properties\": {\n                        \"aliases\": {\n                          \"type\": \"object\",\n                          \"properties\": {\n                            \"$levelName\": {\n                              \"type\": \"string\"\n                            },\n                            \"$memberName\": {\n                              \"type\": \"string\"\n                            },\n                            \"$memberDescription\": {\n                              \"type\": \"string\"\n                            }\n                          },\n                          \"required\": [\n                            \"$levelName\",\n                            \"$memberName\",\n                            \"$memberDescription\"\n                          ],\n                          \"additionalProperties\": false\n                        }\n                      },\n                      \"required\": [\n                        \"aliases\"\n                      ],\n                      \"additionalProperties\": false\n                    }\n                  },\n                  \"required\": [\n                    \"currency\"\n                  ],\n                  \"additionalProperties\": false\n                },\n                \"currencyType\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"currencyType\": {\n                      \"type\": \"object\",\n                      \"properties\": {\n                        \"aliases\": {\n                          \"type\": \"object\",\n                          \"properties\": {\n                            \"$levelName\": {\n                              \"type\": \"string\"\n                            },\n                            \"$memberName\": {\n                              \"type\": \"string\"\n                            },\n                            \"$memberDescription\": {\n                              \"type\": \"string\"\n                            }\n                          },\n                          \"required\": [\n                            \"$levelName\",\n                            \"$memberName\",\n                            \"$memberDescription\"\n                          ],\n                          \"additionalProperties\": false\n                        }\n                      },\n                      \"required\": [\n                        \"aliases\"\n                      ],\n                      \"additionalProperties\": false\n                    }\n                  },\n                  \"required\": [\n                    \"currencyType\"\n                  ],\n                  \"additionalProperties\": false\n                },\n                \"ledger\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"ledger\": {\n                      \"type\": \"object\",\n                      \"properties\": {\n                        \"aliases\": {\n                          \"type\": \"object\",\n                          \"properties\": {\n                            \"$levelName\": {\n                              \"type\": \"string\"\n                            },\n                            \"$memberName\": {\n                              \"type\": \"string\"\n                            },\n                            \"ledgerSetName\": {\n                              \"type\": \"string\"\n                            },\n                            \"$memberDescription\": {\n                              \"type\": \"string\"\n                            },\n                            \"ledgerId\": {\n                              \"type\": \"string\"\n                            },\n                            \"ledgerCurrency\": {\n                              \"type\": \"string\"\n                            }\n                          },\n                          \"required\": [\n                            \"$levelName\",\n                            \"$memberName\",\n                            \"ledgerSetName\",\n                            \"$memberDescription\",\n                            \"ledgerId\",\n                            \"ledgerCurrency\"\n                          ],\n                          \"additionalProperties\": false\n                        }\n                      },\n                      \"required\": [\n                        \"aliases\"\n                      ],\n                      \"additionalProperties\": false\n                    }\n                  },\n                  \"required\": [\n                    \"ledger\"\n                  ],\n                  \"additionalProperties\": false\n                },\n                \"scenario\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"scenario\": {\n                      \"type\": \"object\",\n                      \"properties\": {\n                        \"aliases\": {\n                          \"type\": \"object\",\n                          \"properties\": {\n                            \"$levelName\": {\n                              \"type\": \"string\"\n                            },\n                            \"$memberName\": {\n                              \"type\": \"string\"\n                            },\n                            \"$memberDescription\": {\n                              \"type\": \"string\"\n                            }\n                          },\n                          \"required\": [\n                            \"$levelName\",\n                            \"$memberName\",\n                            \"$memberDescription\"\n                          ],\n                          \"additionalProperties\": false\n                        }\n                      },\n                      \"required\": [\n                        \"aliases\"\n                      ],\n                      \"additionalProperties\": false\n                    }\n                  },\n                  \"required\": [\n                    \"scenario\"\n                  ],\n                  \"additionalProperties\": false\n                },\n                \"account\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"account\": {\n                      \"type\": \"object\",\n                      \"properties\": {\n                        \"aliases\": {\n                          \"type\": \"object\",\n                          \"properties\": {\n                            \"$levelName\": {\n                              \"type\": \"string\"\n                            },\n                            \"$memberName\": {\n                              \"type\": \"string\"\n                            },\n                            \"treeVersionName\": {\n                              \"type\": \"string\"\n                            },\n                            \"$memberDescription\": {\n                              \"type\": \"string\"\n                            }\n                          },\n                          \"required\": [\n                            \"$levelName\",\n                            \"$memberName\",\n                            \"treeVersionName\",\n                            \"$memberDescription\"\n                          ],\n                          \"additionalProperties\": false\n                        }\n                      },\n                      \"required\": [\n                        \"aliases\"\n                      ],\n                      \"additionalProperties\": false\n                    }\n                  },\n                  \"required\": [\n                    \"account\"\n                  ],\n                  \"additionalProperties\": false\n                },\n                \"company\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"company\": {\n                      \"type\": \"object\",\n                      \"properties\": {\n                        \"aliases\": {\n                          \"type\": \"object\",\n                          \"properties\": {\n                            \"$levelName\": {\n                              \"type\": \"string\"\n                            },\n                            \"$memberName\": {\n                              \"type\": \"string\"\n                            },\n                            \"treeVersionName\": {\n                              \"type\": \"string\"\n                            },\n                            \"$memberDescription\": {\n                              \"type\": \"string\"\n                            }\n                          },\n                          \"required\": [\n                            \"$levelName\",\n                            \"$memberName\",\n                            \"treeVersionName\",\n                            \"$memberDescription\"\n                          ],\n                          \"additionalProperties\": false\n                        }\n                      },\n                      \"required\": [\n                        \"aliases\"\n                      ],\n                      \"additionalProperties\": false\n                    }\n                  },\n                  \"required\": [\n                    \"company\"\n                  ],\n                  \"additionalProperties\": false\n                }\n              },\n              \"required\": [\n                \"accountingPeriod\",\n                \"currency\",\n                \"currencyType\",\n                \"ledger\",\n                \"scenario\",\n                \"account\",\n                \"company\"\n              ],\n              \"additionalProperties\": false\n            },\n            \"module\": {\n              \"type\": \"string\"\n            },\n            \"name\": {\n              \"type\": \"string\"\n            },\n            \"filter\": {\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"measureAliases\",\n            \"dimensions\",\n            \"module\",\n            \"name\",\n            \"filter\"\n          ],\n          \"additionalProperties\": false\n        }\n      },\n      \"required\": [\n        \"avUsage1\"\n      ],\n      \"additionalProperties\": false\n    },\n    \"select\": {\n      \"type\": \"string\"\n    },\n    \"return\": {\n      \"type\": \"array\"\n    }\n  },\n  \"required\": [\n    \"analyticViews\",\n    \"select\",\n    \"return\"\n  ],\n  \"additionalProperties\": false\n}",
@@ -639,7 +641,7 @@
             "sourceCode": "let output = $context.$nodes.RESOLVE_PERIOD_FILTERS.$output;\nif(typeof output == 'string'){\n  return JSON.parse(output);\n}\nreturn output;"
           },
           "diagram": {
-            "x": 6369.5,
+            "x": 6350,
             "y": 8980
           },
           "outcomes": {
@@ -658,7 +660,7 @@
             "sourceCode": "const parseFilterFromPayload = (payload) => {\n  const filter = getFilterFromPayload(payload);\n  return filter ? parseFilter(filter) : {};\n};\n\n// Fetches filter string from the Balances AV query\nconst getFilterFromPayload = (payload) => {\n  const analyticViews = payload?.analyticViews;\n\n  if (!analyticViews || typeof analyticViews !== \"object\") {\n    return \"\";\n  }\n\n  const firstAnalyticView = Object.values(analyticViews)[0];\n\n  return typeof firstAnalyticView?.filter === \"string\"\n    ? firstAnalyticView.filter\n    : \"\";\n};\n\nconst parseFilter = (filter) => {\n  const conditions = splitByLogicalAnd(filter);\n  const result = {};\n\n  for (const condition of conditions) {\n    let parsedCondition;\n\n    try {\n      parsedCondition = parseCondition(condition);\n    } catch (error) {\n      continue;\n    }\n\n    const {\n      dimension,\n      attribute,\n      operator,\n      value,\n      original,\n      expression\n    } = parsedCondition;\n\n    result[dimension] ??= {};\n\n    result[dimension][attribute] = {\n      operator,\n      value,\n      original,\n      expression\n    };\n  }\n\n  return result;\n};\n\n// Splits by AND, but ignores AND inside quotes or parentheses\nconst splitByLogicalAnd = (filter) => {\n  const conditions = [];\n\n  let current = \"\";\n  let insideQuote = false;\n  let parenthesesDepth = 0;\n\n  for (let i = 0; i < filter.length; i++) {\n    const char = filter[i];\n\n    if (char === \"'\") {\n      insideQuote = !insideQuote;\n      current += char;\n      continue;\n    }\n\n    if (!insideQuote) {\n      if (char === \"(\") {\n        parenthesesDepth++;\n      } else if (char === \")\") {\n        parenthesesDepth--;\n      }\n\n      const remaining = filter.slice(i);\n      const andMatch = remaining.match(/^\\s+\\band\\b\\s+/i);\n\n      if (parenthesesDepth === 0 && andMatch) {\n        conditions.push(current.trim());\n        current = \"\";\n\n        i += andMatch[0].length - 1;\n        continue;\n      }\n    }\n\n    current += char;\n  }\n\n  if (current.trim()) {\n    conditions.push(current.trim());\n  }\n\n  return conditions;\n};\n\n// Parses one condition\nconst parseCondition = (condition) => {\n  const original = condition.trim();\n\n  const operatorMatch = findOperator(original);\n\n  if (!operatorMatch) {\n    throw new Error(`Unsupported condition: ${condition}`);\n  }\n\n  const operator = normalizeOperator(operatorMatch.operator);\n\n  const leftSide = original.slice(0, operatorMatch.index).trim();\n\n  const rightSide = original\n    .slice(operatorMatch.index + operatorMatch.raw.length)\n    .trim();\n\n  const { dimension, attribute } = parseLeftSide(leftSide);\n\n  return {\n    dimension,\n    attribute,\n    operator,\n    value: parseValue(operator, rightSide),\n    original,\n    expression: `${operator} ${rightSide}`\n  };\n};\n\n// Finds supported operators\nconst findOperator = (condition) => {\n  const match = condition.match(\n    /\\s+(not\\s+in|in)\\s*(?=\\()|\\s+(not\\s+in|in)\\s+|\\s*(>=|<=|!=|>|<|=)\\s*/i\n  );\n\n  if (!match) {\n    return null;\n  }\n\n  return {\n    index: match.index,\n    raw: match[0],\n    operator: match[1] || match[2] || match[3]\n  };\n};\n\n// Normalizes operator casing\nconst normalizeOperator = (operator) => {\n  return operator\n    .trim()\n    .replace(/\\s+/g, \" \")\n    .toUpperCase();\n};\n\n// Splits left side into dimension and attribute\nconst parseLeftSide = (leftSide) => {\n  const dotIndex = leftSide.indexOf(\".\");\n\n  if (dotIndex === -1) {\n    throw new Error(`Invalid condition left side: ${leftSide}`);\n  }\n\n  return {\n    dimension: leftSide.slice(0, dotIndex).trim(),\n    attribute: leftSide.slice(dotIndex + 1).trim()\n  };\n};\n\n// Parses right-side value\nconst parseValue = (operator, rawValue) => {\n  if (operator === \"IN\" || operator === \"NOT IN\") {\n    return parseListValue(rawValue);\n  }\n\n  return stripOuterQuotes(rawValue);\n};\n\n// Parses values inside IN (...)\nconst parseListValue = (rawValue) => {\n  const trimmed = rawValue.trim();\n\n  if (!trimmed.startsWith(\"(\") || !trimmed.endsWith(\")\")) {\n    throw new Error(`Invalid list value: ${rawValue}`);\n  }\n\n  const innerValue = trimmed.slice(1, -1);\n\n  const parts = splitCommaSeparatedValues(innerValue);\n\n  return parts.map(stripOuterQuotes);\n};\n\n// Splits comma-separated values\nconst splitCommaSeparatedValues = (value) => {\n  const result = [];\n\n  let current = \"\";\n  let insideQuote = false;\n\n  for (let i = 0; i < value.length; i++) {\n    const char = value[i];\n\n    if (char === \"'\") {\n      insideQuote = !insideQuote;\n      current += char;\n      continue;\n    }\n\n    if (char === \",\" && !insideQuote) {\n      result.push(current.trim());\n      current = \"\";\n      continue;\n    }\n\n    current += char;\n  }\n\n  if (current.trim()) {\n    result.push(current.trim());\n  }\n\n  return result;\n};\n\n// Removes surrounding quotes\nconst stripOuterQuotes = (value) => {\n  const trimmed = String(value).trim();\n\n  if (trimmed.startsWith(\"'\") && trimmed.endsWith(\"'\")) {\n    return trimmed.slice(1, -1);\n  }\n\n  return trimmed;\n};\n\n// Extract accountingPeriod.$memberName values\nconst getAccountingPeriodMemberNames = (payload) => {\n  const parsed = parseFilterFromPayload(payload);\n\n  const value =\n    parsed?.accountingPeriod?.$memberName?.value;\n\n  if (!value) {\n    return [];\n  }\n\n  return Array.isArray(value)\n    ? value\n    : [value];\n};\n\n// Usage\nlet balancesAVRequest = $context.$nodes.PREPARE_RESOLVED_FILTERS.$output.result;\nif(typeof balancesAVRequest == 'string'){\n  balancesAVRequest = JSON.parse(balancesAVRequest);\n}\nlet periodNames = [];\n\n\ntry {\n  periodNames = getAccountingPeriodMemberNames(balancesAVRequest) || [];\n} catch (e) {\n  return \"ORA_ACCOUNTING_CONTROLS\";\n}\n\nreturn periodNames.length == 2\n  ? \"ORA_VARIANCE\"\n  : \"ORA_ACCOUNTING_CONTROLS\";"
           },
           "diagram": {
-            "x": 6369.5,
+            "x": 6350,
             "y": 9202
           },
           "outcomes": {
@@ -676,7 +678,7 @@
             "name": "Check for Variance Insight"
           },
           "diagram": {
-            "x": 6369.5,
+            "x": 6350,
             "y": 9424
           },
           "outcomes": {
@@ -702,7 +704,7 @@
             "success": "1778576232290"
           },
           "diagram": {
-            "x": 5318.5,
+            "x": 5410,
             "y": 9646
           },
           "code": "PREPARE_BALANCE_DETAIL_REQUEST",
@@ -719,7 +721,7 @@
             "success": "1778072103682"
           },
           "diagram": {
-            "x": 5332,
+            "x": 5410,
             "y": 9868
           },
           "code": "SAVE_BALANCE_DETAIL_REQUEST",
@@ -735,7 +737,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_FIN_GENERALLED_EXECUTE_BOSS_QUERY_HELPER",
+            "businessObjectCode": "ORA_FIN_GL_XX_EXECUTE_BOSS_QUERY_HELPER",
             "functionName": "extractAV",
             "name": "Get Balance Details"
           },
@@ -743,7 +745,7 @@
             "success": "1779705441186"
           },
           "diagram": {
-            "x": 5333.5,
+            "x": 5410,
             "y": 10090
           },
           "code": "GET_BALANCE_DETAILS",
@@ -764,7 +766,7 @@
             "name": "Save Balance Details"
           },
           "diagram": {
-            "x": 5333.5,
+            "x": 5410,
             "y": 11752
           },
           "outcomes": {
@@ -783,13 +785,14 @@
         },
         {
           "metadata": {
-            "name": "Summarize Balance Details"
+            "name": "Summarize Balance Details",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "1778072188291"
           },
           "diagram": {
-            "x": 5333.5,
+            "x": 5410,
             "y": 11974
           },
           "code": "SUMMARIZE_BALANCE_DETAILS",
@@ -825,13 +828,14 @@
                 "max_completion_tokens": 32000,
                 "reasoning_effort": "low"
               }
-            }
+            },
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "end"
           },
           "diagram": {
-            "x": 5333.5,
+            "x": 5410,
             "y": 12196
           },
           "code": "SHOW_BALANCE_DETAILS",
@@ -856,7 +860,7 @@
             "sourceCode": "let bossQ =  JSON.parse( $context.$nodes.RESOLVE_PERIOD_FILTERS.$output || '');\nlet queries = [];\n\nif(typeof bossQ == \"string\"){\n    bossQ = JSON.parse(bossQ);\n}\n\nif(bossQ.viewQueries) return 'JournalsBV';\nelse if( bossQ.analyticViews ){\n  let name = bossQ.analyticViews.avUsage1.name || '';\n  if( name.endsWith('JournalSummary') ){\n    return 'JournalsAV';\n  }  \n return 'BalancesAV';\n}\n\nreturn '';"
           },
           "diagram": {
-            "x": 6609.5,
+            "x": 6575,
             "y": 9646
           },
           "outcomes": {
@@ -874,7 +878,7 @@
             "name": "Check Detail Request Type"
           },
           "diagram": {
-            "x": 6609.5,
+            "x": 6575,
             "y": 9868
           },
           "outcomes": {
@@ -900,7 +904,7 @@
             "sourceCode": "let bossQ =  JSON.parse( $context.$nodes.RESOLVE_PERIOD_FILTERS.$output || '');\nlet queries = [];\n\nif(typeof bossQ == \"string\"){\n    bossQ = JSON.parse(bossQ);\n}\nreturn bossQ;\n/*\nqueries.push(bossQ);\n\nlet payload = {\n    \"rowLimit\": 25,\n    \"ledgerId\": $context.$nodes.READ_APPLICATION_CONTEXT.$output.result.ledgerId,\n    \"includeData\":true,\n    \"varianceColumn\": \"accountingPeriod.$memberName\",\n    \"expandAggregateDataByOneLevel\": true,\n    \"useCase\": \"LedgerInsights\",\n    \"expandBasedOnAccountType\": true,\n    \"queries\": queries\n};\n\npayload;\n*/"
           },
           "diagram": {
-            "x": 7390.5,
+            "x": 7290,
             "y": 10090
           },
           "outcomes": {
@@ -919,7 +923,7 @@
             "returnType": "object"
           },
           "diagram": {
-            "x": 6752.5,
+            "x": 6707.5,
             "y": 12418
           },
           "outcomes": {
@@ -933,12 +937,12 @@
           "code": "GET_JOURNAL_DETAILS",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_FIN_GENERALLED_EXECUTE_BOSS_QUERY_HELPER",
+            "businessObjectCode": "ORA_FIN_GL_XX_EXECUTE_BOSS_QUERY_HELPER",
             "functionName": "bossExtract",
             "name": "Get Journal Details"
           },
           "diagram": {
-            "x": 6767.5,
+            "x": 6707.5,
             "y": 12640
           },
           "outcomes": {
@@ -964,7 +968,7 @@
             "sourceCode": "let response = $context.$nodes.GET_JOURNAL_DETAILS.$output;\nif(typeof response == 'string')\n  response = JSON.parse(response);\nreturn response;"
           },
           "diagram": {
-            "x": 6767.5,
+            "x": 6707.5,
             "y": 12862
           },
           "outcomes": {
@@ -981,7 +985,7 @@
             "name": "Save Journal Details"
           },
           "diagram": {
-            "x": 6767.5,
+            "x": 6707.5,
             "y": 13084
           },
           "outcomes": {
@@ -1010,10 +1014,11 @@
                 "max_completion_tokens": 32000,
                 "reasoning_effort": "low"
               }
-            }
+            },
+            "answerInUserLanguage": true
           },
           "diagram": {
-            "x": 6767.5,
+            "x": 6707.5,
             "y": 13306
           },
           "outcomes": {
@@ -1046,10 +1051,11 @@
           "code": "SHOW_JOURNAL_DETAILS",
           "type": "LLM",
           "metadata": {
-            "name": "Show Journal Details"
+            "name": "Show Journal Details",
+            "answerInUserLanguage": true
           },
           "diagram": {
-            "x": 6767.5,
+            "x": 6707.5,
             "y": 13528
           },
           "outcomes": {
@@ -1080,9 +1086,9 @@
             "name": "Get Supporting Details"
           },
           "diagram": {
-            "x": 5798.5,
+            "x": 5860,
             "y": 10090,
-            "width": 1442,
+            "width": 1280,
             "height": 1512
           },
           "outcomes": {
@@ -1101,7 +1107,7 @@
             "name": "Check Balance Detail Type"
           },
           "diagram": {
-            "x": 6369.5,
+            "x": 6350,
             "y": 11752
           },
           "outcomes": {
@@ -1127,7 +1133,7 @@
             "sourceCode": "let payload = {};\n\npayload.module = 'oraErpCoreAccountingEntries';\npayload.businessObject = 'JournalLine';\npayload.view = 'generalLedgerJournalDetail';\n\npayload.balancesAVRequest = $context.$nodes.PREPARE_BALANCE_EXPLANATION_REQUEST.$output.result.queries[0];\npayload.balancesAVResponse = $context.$nodes.GET_BALANCE_EXPLANATION_DETAILS.$output;\npayload.avMetadata  = $context.$nodes.GET_BALANCE_SETUP_DETAILS.$output;\n\npayload.chartOfAccountsMetadata = $context.$nodes.GET_CHART_OF_ACCOUNTS_DETAILS.$output?.result;\n\npayload.ledgerName = $context.$nodes.READ_APPLICATION_CONTEXT.$output.result.ledgerName;\n\npayload.chartOfAccountsId  = $context.$nodes.READ_APPLICATION_CONTEXT.$output.result.chartOfAccountsId;\n\npayload.READ_APPLICATION_CONTEXT = $context.$nodes.READ_APPLICATION_CONTEXT.$output.result;\n\npayload.insightDetails = $context.$nodes.PREPARE_SELECTED_INSIGHT_DETAILS.$output.result;\n\npayload.defaultQueries = [\n  \"(accountedCredit != 0 OR accountedDebit != 0 OR enteredDebit != 0 OR enteredCredit != 0 )\",\n  \"batchStatusCode = 'P'\"\n];\n\npayload.fieldAliases = {\n\"header.batch.description\": \"batchDescription\",\n          \"ledger.ledgerId\": \"ledgerId\",\n          \"header.batch.errorMessage\": \"errorMessage\",\n          \"periodName\": \"periodName\",\n          \"description\": \"lineDescription\",\n          \"header.batch.name\": \"batchName\",\n          \"netEnteredAmount\": \"netEnteredAmount\",\n          \"ledger.name\": \"ledgerName\",\n          \"netAccountedAmount\": \"netAccountedAmount\",\n          \"header.name\": \"journalName\",\n          \"dateCreated\": \"dateCreated\",\n          \"currency.currencyCode\": \"enteredCurrency\",\n          \"account.concatenatedSegments\": \"concatenatedSegments\",\n          \"journalLineNumber\": \"journalLineNumber\",\n          \"currencyConversionDate\": \"currencyConversionDate\",\n          \"accountingDate\": \"accountingDate\",\n          \"updatedBy\": \"updatedBy\",\n          \"accountedCredit\": \"accountedCredit\",\n          \"header.journalSource.userJeSourceName\": \"journalSource\",\n          \"header.description\": \"journalDescription\",\n          \"ledger.currency.currencyCode\": \"ledgerCurrencyCode\",\n          \"header.batch.lookupBatchStatus.meaning\": \"batchStatus\",\n          \"dateUpdated\": \"dateUpdated\",\n          \"createdBy\": \"createdBy\",\n          \"header.batch.lookupBatchStatus.lookupCode\": \"batchStatusCode\",\n          \"accountedDebit\": \"accountedDebit\",\n          \"enteredDebit\": \"enteredDebit\",\n          \"enteredCredit\": \"enteredCredit\",\n          \"currencyConversionRate\": \"currencyConversionRate\",\n          \"header.journalCategory.userJeCategoryName\": \"journalCategory\"\n        }\n\nreturn payload;"
           },
           "diagram": {
-            "x": 6105.5,
+            "x": 6125,
             "y": 11974
           },
           "outcomes": {
@@ -1142,10 +1148,11 @@
           "type": "WORKFLOW",
           "metadata": {
             "name": "Build Journal Drilldown Request",
-            "workflowCode": "XX_FIN_GL_LEDGER_INSIGHTS_QUERY_HELPER"
+            "workflowCode": "XX_FIN_GL_LEDGER_INSIGHTS_QUERY_HELPER",
+            "answerInUserLanguage": true
           },
           "diagram": {
-            "x": 6114.5,
+            "x": 6125,
             "y": 12196
           },
           "outcomes": {
@@ -1172,10 +1179,11 @@
           "code": "SUMMARIZE_EXPLANATION_DETAILS",
           "type": "LLM",
           "metadata": {
-            "name": "Summarize Explanation Details"
+            "name": "Summarize Explanation Details",
+            "answerInUserLanguage": true
           },
           "diagram": {
-            "x": 6612.5,
+            "x": 6575,
             "y": 11974
           },
           "outcomes": {
@@ -1205,10 +1213,11 @@
                 "max_completion_tokens": 32000,
                 "reasoning_effort": "low"
               }
-            }
+            },
+            "answerInUserLanguage": true
           },
           "diagram": {
-            "x": 6623,
+            "x": 6575,
             "y": 12196
           },
           "outcomes": {
@@ -1241,13 +1250,14 @@
             }
           },
           "metadata": {
-            "name": "Show Review Comment Form"
+            "name": "Show Review Comment Form",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "end"
           },
           "diagram": {
-            "x": 7743.5,
+            "x": 7700,
             "y": 7648
           },
           "code": "SHOW_REVIEW_COMMENT_FORM",
@@ -1270,7 +1280,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_FIN_GENERALLED_INSIGHT_REVIEW_ACTIONS",
+            "businessObjectCode": "ORA_FIN_GL_XX_INSIGHT_REVIEW_ACTIONS",
             "functionName": "dismissInsight",
             "name": "Dismiss Insight"
           },
@@ -1278,7 +1288,7 @@
             "success": "1778704929597"
           },
           "diagram": {
-            "x": 7293.5,
+            "x": 7250,
             "y": 7648
           },
           "code": "DISMISS_INSIGHT",
@@ -1302,13 +1312,14 @@
             }
           },
           "metadata": {
-            "name": "Show Dismiss Confirmation"
+            "name": "Show Dismiss Confirmation",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "end"
           },
           "diagram": {
-            "x": 7293.5,
+            "x": 7250,
             "y": 7870
           },
           "code": "SHOW_DISMISS_CONFIRMATION",
@@ -1333,13 +1344,13 @@
           "metadata": {
             "name": "Read Review Comments",
             "returnType": "object",
-            "sourceCode": "try {\n\n  const str = $context?.$app?.$OraAction || \"\";\n\n  if (!str || typeof str !== \"string\") {\n\n    return {};\n\n  }\n\n  // Extract JSON content safely\n\n  const jsonMatch = str.match(/<oraFormSubmit[^>]*>([\\s\\S]*?)<\\/oraFormSubmit>/);\n\n  if (!jsonMatch || !jsonMatch[1]) {\n\n    return {};\n\n  }\n\n  const jsonString = jsonMatch[1].trim();\n\n  if (!jsonString) {\n\n    return {};\n\n  }\n\n  const data = JSON.parse(jsonString);\n\n  if (!Array.isArray(data)) {\n\n    return {};\n\n  }\n\n  // Convert array into key-value object\n\n  return data.reduce((result, item) => {\n\n    if (item?.id) {\n\n      result[item.id] = item.value;\n\n    }\n\n    return result;\n\n  }, {});\n\n} catch (error) {\n\n  return {};\n\n}"
+            "sourceCode": "const numericOnly = (value) => {\n  const text = value == null ? \"\" : String(value).trim();\n  return /^\\d+$/.test(text) ? text : \"\";\n};\n\ntry {\n\n  const str = $context?.$app?.$OraAction || \"\";\n\n  if (!str || typeof str !== \"string\") {\n\n    return {};\n\n  }\n\n  // Extract JSON content safely\n\n  const jsonMatch = str.match(/<oraFormSubmit[^>]*>([\\s\\S]*?)<\\/oraFormSubmit>/);\n\n  if (!jsonMatch || !jsonMatch[1]) {\n\n    return {};\n\n  }\n\n  const jsonString = jsonMatch[1].trim();\n\n  if (!jsonString) {\n\n    return {};\n\n  }\n\n  const data = JSON.parse(jsonString);\n\n  if (!Array.isArray(data)) {\n\n    return {};\n\n  }\n\n  // Convert array into key-value object\n\n  return data.reduce((result, item) => {\n\n    if (item?.id) {\n\n      result[item.id] = item.id === \"InsightRecipientId\" ? numericOnly(item.value) : item.value;\n\n    }\n\n    return result;\n\n  }, {});\n\n} catch (error) {\n\n  return {};\n\n}"
           },
           "outcomes": {
             "success": "1778838416905"
           },
           "diagram": {
-            "x": 6843.5,
+            "x": 6800,
             "y": 7648
           },
           "code": "READ_REVIEW_COMMENTS",
@@ -1350,7 +1361,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_FIN_GENERALLED_INSIGHT_REVIEW_ACTIONS",
+            "businessObjectCode": "ORA_FIN_GL_XX_INSIGHT_REVIEW_ACTIONS",
             "functionName": "markInsightAsReviewed",
             "name": "Mark Insight as Reviewed"
           },
@@ -1358,7 +1369,7 @@
             "success": "1778709418230"
           },
           "diagram": {
-            "x": 6843.5,
+            "x": 6800,
             "y": 7870
           },
           "code": "MARK_INSIGHT_AS_REVIEWED",
@@ -1388,13 +1399,14 @@
             }
           },
           "metadata": {
-            "name": "Show Review Confirmation"
+            "name": "Show Review Confirmation",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "end"
           },
           "diagram": {
-            "x": 6843.5,
+            "x": 6800,
             "y": 8092
           },
           "code": "SHOW_REVIEW_CONFIRMATION",
@@ -1419,7 +1431,7 @@
             "sourceCode": "let bossQ =  JSON.parse( $context.$nodes.RESOLVE_PERIOD_FILTERS.$output || '');\nlet queries = [];\n\nif(typeof bossQ == \"string\"){\n    bossQ = JSON.parse(bossQ);\n}\n\nqueries.push(bossQ);\n\nlet payload = {\n    \"rowLimit\": 25,\n    \"ledgerId\": $context.$nodes.READ_APPLICATION_CONTEXT.$output.result.ledgerId,\n    \"includeData\":true,\n    \"varianceColumn\": \"accountingPeriod.$memberName\",\n    \"expandAggregateDataByOneLevel\": true,\n    \"useCase\": \"LedgerInsights\",\n    \"expandBasedOnAccountType\": true,\n    \"queries\": queries\n};\n\npayload;"
           },
           "diagram": {
-            "x": 5823,
+            "x": 5880,
             "y": 10331
           },
           "outcomes": {
@@ -1433,12 +1445,12 @@
           "code": "GET_BALANCE_EXPLANATION_DETAILS",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_FIN_GENERALLED_EXECUTE_BOSS_QUERY_HELPER",
+            "businessObjectCode": "ORA_FIN_GL_XX_EXECUTE_BOSS_QUERY_HELPER",
             "functionName": "extractAV",
             "name": "Get Balance Explanation Details"
           },
           "diagram": {
-            "x": 5841,
+            "x": 5880,
             "y": 11051
           },
           "outcomes": {
@@ -1464,7 +1476,7 @@
             "sourceCode": "let avResponse = $context.$nodes.GET_BALANCE_EXPLANATION_DETAILS?.$output;\nreturn avResponse;\n\n/*\nlet response = {};\n\nif (bvResponse) {\n  response = bvResponse;\n} else if (avResponse) {\n  response = avResponse;\n}\n\nreturn response;\n*/"
           },
           "diagram": {
-            "x": 5818.5,
+            "x": 5880,
             "y": 11273
           },
           "outcomes": {
@@ -1481,7 +1493,7 @@
             "name": "Save Balance Explanation Details"
           },
           "diagram": {
-            "x": 5836.5,
+            "x": 5880,
             "y": 11495
           },
           "outcomes": {
@@ -1503,9 +1515,9 @@
             "name": "Get Account Setup Details"
           },
           "diagram": {
-            "x": 6352.5,
+            "x": 6330,
             "y": 10331,
-            "width": 868,
+            "width": 790,
             "height": 570
           },
           "outcomes": {
@@ -1525,7 +1537,7 @@
             "sourceCode": "let ledgerId = $context.$nodes.READ_APPLICATION_CONTEXT.$output.result?.ledgerId;\nlet payload = {\n    \"parameters\": {\n        \"ledgerId\": ledgerId\n    },\n    \"select\": \"SELECT  funAvMetadata.analyticViewName,funAvMetadataDetail.dimensionDisplayName, funAvMetadataDetail.dimensionSequenceNumber,funAvMetadataDetail.hierarchyDisplayName,funAvMetadataDetail.hierarchyName, funAvMetadataDetail.dimensionAttributeName  FROM  ledger, funAvMetadata,funAvMetadataDetail  WHERE ledger.ledgerId = :ledgerId and ledger.chartOfAccountsId = funAvMetadata.chartOfAccountsId and ledger.calendarId = funAvMetadata.accountingCalendarId and funAvMetadata.usageCode = 'GL_BALANCES_AV' and funAvMetadata.analyticViewId = funAvMetadataDetail.analyticViewId and funAvMetadataDetail.segmentTypeCode = 'COA' order by funAvMetadataDetail.dimensionSequenceNumber\",\n    \"viewQueries\": {\n        \"ledger\": {\n            \"module\": \"oraErpCoreStructure\",\n            \"businessObject\": \"Ledger\",\n            \"view\": \"ledgerList\",\n            \"fieldAliases\": {\n                \"ledgerId\": \"ledgerId\",\n                \"chartOfAccount.structureInstanceNumber\": \"chartOfAccountsId\",\n                \"calendar.calendarId\": \"calendarId\"\n            }\n        },\n        \"funAvMetadata\": {\n            \"module\": \"oraErpCoreCommonObjects\",\n            \"businessObject\": \"AnalyticViewMetadata\",\n            \"view\": \"analyticViewMetadataList\",\n            \"fieldAliases\": {\n                \"usageCode\": \"usageCode\",\n                \"setupFlag\": \"setupFlag\",\n                \"userDefinedName\": \"userDefinedName\",\n                \"analyticViewName\": \"analyticViewName\",\n                \"calendar.calendarId\": \"accountingCalendarId\",\n                \"structureInstance.structureInstanceNumber\": \"chartOfAccountsId\",\n                \"analyticViewId\": \"analyticViewId\"\n            }\n        },\n        \"funAvMetadataDetail\": {\n            \"module\": \"oraErpCoreCommonObjects\",\n            \"businessObject\": \"AnalyticViewMetadataDetail\",\n            \"view\": \"analyticViewMetadataDetailList\",\n            \"fieldAliases\": {\n                \"segmentTypeCode\": \"segmentTypeCode\",\n                \"dimensionLevelAttributes\": \"dimensionLevelAttributes\",\n                \"hierarchyDisplayName\": \"hierarchyDisplayName\",\n                \"dimensionLevelDescriptions\": \"dimensionLevelDescriptions\",\n                \"dimensionSequenceNumber\": \"dimensionSequenceNumber\",\n                \"dimensionAttributes\": \"dimensionAttributes\",\n                \"hierarchyName\": \"hierarchyName\",\n                \"valueSet.valueSetId\": \"valueSetId\",\n                \"dimensionDisplayName\": \"dimensionDisplayName\",\n                \"hierarchyAttributes\": \"hierarchyAttributes\",\n                \"uiFlag\": \"uiFlag\",\n                \"sourceViewName\": \"sourceViewName\",\n                \"dimensionAttributeName\": \"dimensionAttributeName\",\n                \"tree.treeVersionGUID\": \"treeVersionId\",\n                \"analyticViewId\": \"analyticViewId\"\n            }\n        }\n    }\n};\n\nreturn payload;"
           },
           "diagram": {
-            "x": 6372.5,
+            "x": 6350,
             "y": 10572
           },
           "outcomes": {
@@ -1539,12 +1551,12 @@
           "code": "GET_BALANCE_SETUP_DETAILS",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_FIN_GENERALLED_EXECUTE_BOSS_QUERY_HELPER",
+            "businessObjectCode": "ORA_FIN_GL_XX_EXECUTE_BOSS_QUERY_HELPER",
             "functionName": "bossExtract",
             "name": "Get Balance Setup Details"
           },
           "diagram": {
-            "x": 6383,
+            "x": 6350,
             "y": 10794
           },
           "outcomes": {
@@ -1570,7 +1582,7 @@
             "sourceCode": "let payload = {\n\"chartOfAccountsId\" : String($context.$nodes.READ_APPLICATION_CONTEXT.$output.result.chartOfAccountsId)\n};\n\nreturn payload;"
           },
           "diagram": {
-            "x": 6843.5,
+            "x": 6800,
             "y": 10572
           },
           "outcomes": {
@@ -1584,12 +1596,12 @@
           "code": "GET_CHART_OF_ACCOUNTS_DETAILS",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_FIN_GENERALLED_CHART_OF_ACCOUNTS_DETAILS",
+            "businessObjectCode": "ORA_FIN_GL_XX_CHART_OF_ACCOUNTS_DETAILS",
             "functionName": "getChartOfAccountDetails",
             "name": "Get Chart of Accounts Details"
           },
           "diagram": {
-            "x": 6861.5,
+            "x": 6800,
             "y": 10794
           },
           "outcomes": {
@@ -1597,10 +1609,11 @@
           },
           "inputs": [
             {
-              "id": "1779047872142_payload",
-              "name": "payload",
-              "value": "{{$context.$nodes.PREPARE_CHART_OF_ACCOUNTS_REQUEST.$output.result}}",
-              "required": false
+              "id": "1779964558117_chartOfAccountsId",
+              "name": "chartOfAccountsId",
+              "value": "{{$context.$nodes.PREPARE_CHART_OF_ACCOUNTS_REQUEST.$output.result.chartOfAccountsId}}",
+              "required": false,
+              "type": "string"
             }
           ],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"sequenceNumber\": {\n            \"type\": \"string\"\n          },\n          \"valueSetSecured\": {\n            \"type\": \"string\"\n          },\n          \"fieldName\": {\n            \"type\": \"string\"\n          },\n          \"segmentCode\": {\n            \"type\": \"string\"\n          },\n          \"segmentName\": {\n            \"type\": \"string\"\n          },\n          \"treeVersionName\": {\n            \"type\": \"string\"\n          },\n          \"treeName\": {\n            \"type\": \"string\"\n          },\n          \"delimiter\": {\n            \"type\": \"string\"\n          },\n          \"segmentLabels\": {\n            \"type\": \"string\"\n          },\n          \"valueSetBusinessObject\": {\n            \"type\": \"string\"\n          },\n          \"valueSetCode\": {\n            \"type\": \"string\"\n          },\n          \"treeCode\": {\n            \"type\": \"string\"\n          },\n          \"segmentColumnName\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"sequenceNumber\",\n          \"valueSetSecured\",\n          \"fieldName\",\n          \"segmentCode\",\n          \"segmentName\",\n          \"delimiter\",\n          \"segmentLabels\",\n          \"valueSetBusinessObject\",\n          \"valueSetCode\",\n          \"treeCode\",\n          \"segmentColumnName\"\n        ],\n        \"additionalProperties\": true\n      }\n    }\n  },\n  \"required\": [\n    \"result\"\n  ],\n  \"additionalProperties\": false\n}"
@@ -1746,61 +1759,61 @@
           "name": "New run profile 1",
           "type": "rest",
           "agenticAppMode": "initDisplay",
-          "restConfigJson": "{\n    \"OraAction\": \"{ \\\"actionCode\\\": \\\"openClrAccBalInsight\\\", \\\"secActionCode\\\": \\\"explain\\\",  \\\"rowData\\\" : { \\\"insightRecipientId\\\" : 300100651736276 } }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
         },
         {
           "id": "6fff7d7f-6411-41d3-8e9c-f39c34caa22b",
           "name": "New run profile 2",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{ \\\"actionCode\\\": \\\"openVarInsight\\\", \\\"secActionCode\\\": \\\"explain\\\",  \\\"rowData\\\" : { \\\"insightRecipientId\\\" : 300100655197374 } }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
         },
         {
           "id": "d77b2b7f-6f23-42e5-b336-ee328ed43499",
-          "name": "Compare period activity of account Accounts Payable for Vision Foods Napa in Apr-26 and May-26 > 30%",
+          "name": "Compare period activity of account Accounts Payable for Company in Period and Period > 30%",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{ \\\"actionCode\\\": \\\"openVarInsight\\\", \\\"secActionCode\\\": \\\"explain\\\",  \\\"rowData\\\" : { \\\"insightRecipientId\\\" : 300100655371426 } }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
-          "inputMessage": "Compare period activity of account Accounts Payable for Vision Foods Napa in Apr-26 and May-26 > 30%"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
+          "inputMessage": "Compare period activity of account Accounts Payable for Company in Period and Period > 30%"
         },
         {
           "id": "ec261021-7457-4b8e-8c1e-7bd616e8acc6",
-          "name": "Alet if for company 3121 and account 17810 the period activity > 15% current period over previous period",
+          "name": "Alert if for company 1000 and account 10000 the period activity > 15% current period over previous period",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{ \\\"actionCode\\\": \\\"openVarInsight\\\", \\\"secActionCode\\\": \\\"explain\\\",  \\\"rowData\\\" : { \\\"insightRecipientId\\\" : 300100655371424 } }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
-          "inputMessage": "Alet if for company 3121 and account 17810 the period activity > 15% current period over previous period"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
+          "inputMessage": "Alert if for company 1000 and account 10000 the period activity > 15% current period over previous period"
         },
         {
           "id": "2d22635b-c975-4788-89e8-3b99747cc671",
-          "name": "Alert when period activity of account Accounts Receivable for Vision Foods Marketing - US in Apr-26 over current month > 10%",
+          "name": "Alert when period activity of account Accounts Receivable for Company in Period over current month > 10%",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{ \\\"actionCode\\\": \\\"openVarInsight\\\", \\\"secActionCode\\\": \\\"explain\\\",  \\\"rowData\\\" : { \\\"insightRecipientId\\\" : 300100655371686 } }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
-          "inputMessage": "Alert when period activity of account Accounts Receivable for Vision Foods Marketing - US in Apr-26 over current month > 10%"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
+          "inputMessage": "Alert when period activity of account Accounts Receivable for Company in Period over current month > 10%"
         },
         {
           "id": "c2a885df-c198-420a-aa90-b7f4cb89e1a6",
-          "name": "Alert if period activity for Computers Depreciation account and for company Vision Foods Sales - US > 10% Apr-26 over Mar-26",
+          "name": "Alert if period activity for Computers Depreciation account and for company > 10% Period_X over Period_Y",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{ \\\"actionCode\\\": \\\"openVarInsight\\\", \\\"secActionCode\\\": \\\"explain\\\",  \\\"rowData\\\" : { \\\"insightRecipientId\\\" : 300100655371682 } }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
-          "inputMessage": "Alert if period activity for Computers Depreciation account and for company Vision Foods Sales - US > 10% Apr-26 over Mar-26"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
+          "inputMessage": "Alert if period activity for Computers Depreciation account and for company Vision Foods Sales - US > 10% Period_X over Period_Y"
         },
         {
           "id": "d9998668-752b-41d4-9a36-513b62d67b12",
-          "name": "Compare period activity of account Total Trade Pavables for Vision Foods Farms in Apr-26 and May-26 > 10%",
+          "name": "Compare period activity of account Total Trade Pavables for Vision Foods Farms in Period_X and Period_Y > 10%",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{ \\\"actionCode\\\": \\\"openVarInsight\\\", \\\"secActionCode\\\": \\\"explain\\\",  \\\"rowData\\\" : { \\\"insightRecipientId\\\" : 300100655371680 } }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
-          "inputMessage": "Compare period activity of account Total Trade Pavables for Vision Foods Farms in Apr-26 and May-26 > 10%"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
+          "inputMessage": "Compare period activity of account Total Trade Pavables for Vision Foods Farms in Period_X and Period_Y > 10%"
         },
         {
           "id": "ff15170b-f0c1-47b1-acbc-8bcb16469714",
           "name": "agentic app, payables",
           "type": "agentic-app",
           "agenticAppMode": "invokeAction",
-          "invokeActionPayload": "{ \"actionCode\": \"openVarInsight\", \"secActionCode\": \"explain\",  \"rowData\" : { \"insightRecipientId\" : 300100654981877 } }"
+          "invokeActionPayload": "{ \"actionCode\": \"openVarInsight\", \"secActionCode\": \"explain\",  \"rowData\" : { \"insightRecipientId\" : MOCK_INSIGHTRECIPIENTID } }"
         },
         {
           "id": "595b1a9e-c5cb-4e33-b694-2d235e98a62f",
@@ -1813,7 +1826,7 @@
           "name": "Insight Click",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\": {\\\"insightRecipientId\\\":\\\"300100655938941\\\",\\\"ruleName\\\":\\\"Compare period activity of account Accounts Payable for Vision Foods Napa in Apr-26 and May-26 > 30%\\\",\\\"insightSummary\\\":\\\"Accounts Payable for Vision Foods Napa increased 1,468,737.59 USD (116.6%) from Apr-26 to May-26, led by Cost_Center 110 R&D US contributing 2,387,880 USD in May with partial offsets from Cost_Center 000 None and various operations.\\\",\\\"rulePriorityCode\\\":\\\"ORA_HIGH\\\",\\\"rulePriorityCodeMeaning\\\":\\\"High\\\",\\\"categoryCode\\\":\\\"ORA_VARIANCE\\\",\\\"categoryCodeMeaning\\\":\\\"Variance\\\",\\\"displayRuleName\\\":\\\"Accounts Payable increase exceeds 100% MoM\\\",\\\"rank\\\":2}, \\\"actionCode\\\": \\\"openVarInsight\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\":{\\\"insightRecipientId\\\":\\\"MOCK_INSIGHTRECIPIENTID\\\",\\\"ruleName\\\":\\\"MOCK_RULENAME\\\",\\\"insightSummary\\\":\\\"MOCK_INSIGHTSUMMARY\\\",\\\"rulePriorityCode\\\":\\\"MOCK_RULEPRIORITYCODE\\\",\\\"rulePriorityCodeMeaning\\\":\\\"MOCK_RULEPRIORITYCODEMEANING\\\",\\\"categoryCode\\\":\\\"MOCK_CATEGORYCODE\\\",\\\"categoryCodeMeaning\\\":\\\"MOCK_CATEGORYCODEMEANING\\\",\\\"displayRuleName\\\":\\\"MOCK_DISPLAYRULENAME\\\",\\\"rank\\\":0},\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
           "inputMessage": "Hi"
         },
         {
@@ -1827,49 +1840,49 @@
           "name": "click control",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\": {\\\"insightRecipientId\\\":\\\"300100651736634\\\",\\\"ruleName\\\":\\\"Unapproved journals for more than a week\\\",\\\"insightSummary\\\":\\\"29 journals totaling 306,634,296.77 from 1997-12-23 to 2015-12-02 for Vision Foods - USA Ledger, with large Manual and AutoCopy Adjustment and Accrual entries.\\\",\\\"rulePriorityCode\\\":\\\"ORA_HIGH\\\",\\\"rulePriorityCodeMeaning\\\":\\\"High\\\",\\\"categoryCode\\\":\\\"ORA_ACCOUNTING_CONTROLS\\\",\\\"categoryCodeMeaning\\\":\\\"Accounting controls\\\",\\\"displayRuleName\\\":\\\"More than 29 unapproved journals pending over a week\\\",\\\"rank\\\":2},\\\"actionCode\\\": \\\"openClrAccBalInsight\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptcoelqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\":{\\\"insightRecipientId\\\":\\\"MOCK_INSIGHTRECIPIENTID\\\",\\\"ruleName\\\":\\\"MOCK_RULENAME\\\",\\\"insightSummary\\\":\\\"MOCK_INSIGHTSUMMARY\\\",\\\"rulePriorityCode\\\":\\\"MOCK_RULEPRIORITYCODE\\\",\\\"rulePriorityCodeMeaning\\\":\\\"MOCK_RULEPRIORITYCODEMEANING\\\",\\\"categoryCode\\\":\\\"MOCK_CATEGORYCODE\\\",\\\"categoryCodeMeaning\\\":\\\"MOCK_CATEGORYCODEMEANING\\\",\\\"displayRuleName\\\":\\\"MOCK_DISPLAYRULENAME\\\",\\\"rank\\\":0},\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
         },
         {
           "id": "01297005-d2bd-4e3b-ba5c-314e2de7e1df",
           "name": "New run profile 13",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\": {\\\"insightRecipientId\\\":\\\"300100651768627\\\",\\\"ruleName\\\":\\\"Alert if balance of account Total Cash for Vision Foods - Americas > 1000000 USD\\\",\\\"insightSummary\\\":\\\"Vision Foods - USA Ledger Total Cash for Vision Foods - Americas totaled 6126229900.03 USD in May 2026, driven mainly by Total Cash- Checking and Total Cash- Savings balances.\\\",\\\"rulePriorityCode\\\":\\\"ORA_HIGH\\\",\\\"rulePriorityCodeMeaning\\\":\\\"High\\\",\\\"categoryCode\\\":\\\"ORA_RECONCILIATION\\\",\\\"categoryCodeMeaning\\\":\\\"Reconciliation\\\",\\\"displayRuleName\\\":\\\"Total Cash balance exceeds $1,000,000 for Vision Foods\\\",\\\"rank\\\":1},\\\"actionCode\\\": \\\"openClrAccBalInsight\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptcoelqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\":{\\\"insightRecipientId\\\":\\\"MOCK_INSIGHTRECIPIENTID\\\",\\\"ruleName\\\":\\\"MOCK_RULENAME\\\",\\\"insightSummary\\\":\\\"MOCK_INSIGHTSUMMARY\\\",\\\"rulePriorityCode\\\":\\\"MOCK_RULEPRIORITYCODE\\\",\\\"rulePriorityCodeMeaning\\\":\\\"MOCK_RULEPRIORITYCODEMEANING\\\",\\\"categoryCode\\\":\\\"MOCK_CATEGORYCODE\\\",\\\"categoryCodeMeaning\\\":\\\"MOCK_CATEGORYCODEMEANING\\\",\\\"displayRuleName\\\":\\\"MOCK_DISPLAYRULENAME\\\",\\\"rank\\\":0},\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
         },
         {
           "id": "553edca1-67ce-44ad-9560-48cfb735fe42",
           "name": "New run profile 14",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{ \\\"actionCode\\\": \\\"openClrAccBalInsight\\\", \\\"secActionCode\\\": \\\"explain\\\",  \\\"rowData\\\" : { \\\"insightRecipientId\\\" : 300100651767938 } }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptcoelqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
         },
         {
           "id": "afebf1b7-54ae-4ef2-a14d-e5ae05821c0e",
           "name": "New run profile 15",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{ \\\"actionCode\\\": \\\"openClrAccBalInsight\\\", \\\"secActionCode\\\": \\\"explain\\\",  \\\"rowData\\\" : { \\\"insightRecipientId\\\" : 300100652639219 } }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptcoelqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
         },
         {
           "id": "739553f7-8287-429d-acc2-6198791fed16",
           "name": "New run profile 16",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\": {\\\"insightRecipientId\\\":\\\"300100653330171\\\",\\\"ruleName\\\":\\\"Asset Clearing Account with non zero balance for current period\\\",\\\"insightSummary\\\":\\\"For June 2026, Vision Foods - USA Ledger shows Asset Clearing balances of 1,542,500.0 USD and 1,670,000.0 USD, driven mainly by Vision Foods Napa and cost center R&D US.\\\",\\\"rulePriorityCode\\\":\\\"ORA_HIGH\\\",\\\"rulePriorityCodeMeaning\\\":\\\"High\\\",\\\"categoryCode\\\":\\\"ORA_RECONCILIATION\\\",\\\"categoryCodeMeaning\\\":\\\"Reconciliation\\\",\\\"displayRuleName\\\":\\\"Asset Clearing Account Has Non-Zero Balance This Period\\\",\\\"rank\\\":1},\\\"actionCode\\\": \\\"openClrAccBalInsight\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptcoelqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\":{\\\"insightRecipientId\\\":\\\"MOCK_INSIGHTRECIPIENTID\\\",\\\"ruleName\\\":\\\"MOCK_RULENAME\\\",\\\"insightSummary\\\":\\\"MOCK_INSIGHTSUMMARY\\\",\\\"rulePriorityCode\\\":\\\"MOCK_RULEPRIORITYCODE\\\",\\\"rulePriorityCodeMeaning\\\":\\\"MOCK_RULEPRIORITYCODEMEANING\\\",\\\"categoryCode\\\":\\\"MOCK_CATEGORYCODE\\\",\\\"categoryCodeMeaning\\\":\\\"MOCK_CATEGORYCODEMEANING\\\",\\\"displayRuleName\\\":\\\"MOCK_DISPLAYRULENAME\\\",\\\"rank\\\":0},\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
         },
         {
           "id": "20149ebe-f797-402a-9a00-c864d7db39cc",
           "name": "Run",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\": {\\\"insightRecipientId\\\":\\\"300100658883074\\\",\\\"ruleName\\\":\\\"Show posted journals in account 52330 where accounted amount exceeds USD 700000 during current period\\\",\\\"insightSummary\\\":\\\"Posted activity to account 52330 in Jun-26 totals 2,025,300.00 USD, driven primarily by Vision Foods Packaging US and Vision Foods Plant Operations US.\\\",\\\"rulePriorityCode\\\":\\\"ORA_HIGH\\\",\\\"rulePriorityCodeMeaning\\\":\\\"High\\\",\\\"categoryCode\\\":\\\"ORA_VARIANCE\\\",\\\"categoryCodeMeaning\\\":\\\"Variance\\\",\\\"displayRuleName\\\":\\\"Account 52330 posted journals exceed USD 700,000 current period\\\",\\\"rank\\\":2}, \\\"actionCode\\\": \\\"openVarInsight\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptcoelqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\",\n    \"correlationId\": \"264beb4b-d073-482a-ad78-aff1019a51cf\"\n}"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\":{\\\"insightRecipientId\\\":\\\"MOCK_INSIGHTRECIPIENTID\\\",\\\"ruleName\\\":\\\"MOCK_RULENAME\\\",\\\"insightSummary\\\":\\\"MOCK_INSIGHTSUMMARY\\\",\\\"rulePriorityCode\\\":\\\"MOCK_RULEPRIORITYCODE\\\",\\\"rulePriorityCodeMeaning\\\":\\\"MOCK_RULEPRIORITYCODEMEANING\\\",\\\"categoryCode\\\":\\\"MOCK_CATEGORYCODE\\\",\\\"categoryCodeMeaning\\\":\\\"MOCK_CATEGORYCODEMEANING\\\",\\\"displayRuleName\\\":\\\"MOCK_DISPLAYRULENAME\\\",\\\"rank\\\":0},\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\",\n    \"correlationId\": \"MOCK_CORRELATIONID\"\n}"
         },
         {
           "id": "fe56b92b-7d7b-42ab-ab60-0a6d38c859ac",
           "name": "No Balances Data",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\": {\\\"insightRecipientId\\\":\\\"300100658907380\\\",\\\"ruleName\\\":\\\"Assest Clearing with 25%\\\",\\\"insightSummary\\\":\\\"Total asset clearing on 2026-06-01 for Vision Foods - USA Ledger amounted to 6,420,000.00 USD, driven entirely by Advanced Network Devices across Marketing, Sales, and Plant Operations companies.\\\",\\\"rulePriorityCode\\\":\\\"ORA_LOW\\\",\\\"rulePriorityCodeMeaning\\\":\\\"Low\\\",\\\"categoryCode\\\":\\\"ORA_RECONCILIATION\\\",\\\"categoryCodeMeaning\\\":\\\"Reconciliation\\\",\\\"displayRuleName\\\":\\\"Asset Clearing Total Amount Reported\\\",\\\"rank\\\":1}, \\\"actionCode\\\": \\\"openClrAccBalInsight\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptcoelqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\",\n    \"correlationId\": \"547f2efb-e281-480f-a5f9-312b5c77b7f7\"\n}"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\":{\\\"insightRecipientId\\\":\\\"MOCK_INSIGHTRECIPIENTID\\\",\\\"ruleName\\\":\\\"MOCK_RULENAME\\\",\\\"insightSummary\\\":\\\"MOCK_INSIGHTSUMMARY\\\",\\\"rulePriorityCode\\\":\\\"MOCK_RULEPRIORITYCODE\\\",\\\"rulePriorityCodeMeaning\\\":\\\"MOCK_RULEPRIORITYCODEMEANING\\\",\\\"categoryCode\\\":\\\"MOCK_CATEGORYCODE\\\",\\\"categoryCodeMeaning\\\":\\\"MOCK_CATEGORYCODEMEANING\\\",\\\"displayRuleName\\\":\\\"MOCK_DISPLAYRULENAME\\\",\\\"rank\\\":0},\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\",\n    \"correlationId\": \"MOCK_CORRELATIONID\"\n}"
         }
       ]
     },
@@ -1911,22 +1924,38 @@
     "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI",
     "allowAllEmployeeAccess": true
   },
-  "status": "DRAFT",
-  "version": 78302997,
+  "name": "Clearing Account Balances",
+  "description": "Monitors clearing account insights for the selected ledger and period, highlights unreconciled or unusual clearing balances, and lets users drill into balances, journals, and supporting transactions to understand and resolve close risks.",
   "family": "FIN",
   "product": "GENERAL_LEDGER",
+  "workflowId": "300100651845004",
   "ownerName": null,
-  "customFlag": false,
   "seededFlag": false,
-  "isTemplate": false,
   "hiddenFlag": false,
+  "status": "DRAFT",
+  "version": 79337141,
   "useCaseId": "NA",
   "accessModifier": "public",
   "architecture": "data_pipeline",
-  "aiAppsCompatibleFlag": true,
-  "followupEnabledFlag": false,
   "followupPrompt": "Based on the following conversion: $param.system_context.chat_history generate $param.system_context.number_of_follow_up_questions\nfollow up questions only while strictly adhering to the JSON Schema format mentioned below. Remove the ```json markdown from the output.\nHere is the JSON Schema format the output should adhere to:\n[{\"question\": \"<put first question generated here>\"}, {\"question\": \"<put second question generated here>\"}, {\"question\": \"<put third question generated here>\"}",
-  "header": {
-    "ETag": "\"33\""
-  }
+  "firstStarterQuestion": null,
+  "secondStarterQuestion": null,
+  "thirdStarterQuestion": null,
+  "followupEnabledFlag": false,
+  "maxInteractions": null,
+  "customFlag": false,
+  "sourceWorkflowCode": null,
+  "customizationPolicy": null,
+  "emailConfigCode": null,
+  "jobRequestId": null,
+  "aiAppsCompatibleFlag": true,
+  "isTemplate": false,
+  "ownerId": null,
+  "$id": "300100651845004",
+  "tags": [],
+  "roles": [],
+  "seededRoles": [],
+  "customizedSpecifications": [],
+  "initialTags": [],
+  "initialRoles": []
 }

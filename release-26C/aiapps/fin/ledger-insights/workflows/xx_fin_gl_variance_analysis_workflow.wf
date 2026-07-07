@@ -1,9 +1,6 @@
 {
   "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
-  "workflowId": "300100651843063",
   "workflowCode": "XX_FIN_GL_VARIANCE_ANALYSIS_WORKFLOW",
-  "name": "Variance Analysis",
-  "description": "Analyzes significant balance variances for the selected ledger and period, ranks variance insights by business impact, and supports drilldowns into balances and review or dismissal actions.",
   "specification": {
     "dataPipeline": {
       "pipelineNodes": [
@@ -16,7 +13,7 @@
             "success": "1779094129961"
           },
           "diagram": {
-            "x": 6491.5,
+            "x": 6350,
             "y": 5000
           },
           "code": "START",
@@ -34,7 +31,7 @@
             "success": "1778484517795"
           },
           "diagram": {
-            "x": 6369.5,
+            "x": 6350,
             "y": 5206
           },
           "code": "IDENTIFY_REQUEST_TYPE",
@@ -53,7 +50,7 @@
             "success": "1778071384468"
           },
           "diagram": {
-            "x": 6354.5,
+            "x": 6350,
             "y": 5428
           },
           "code": "CHOOSE_CONTEXT_DETAILS_TO_LOAD",
@@ -65,13 +62,14 @@
         {
           "metadata": {
             "name": "Get Application Context",
-            "workflowCode": "XX_FIN_GL_LEDGER_INSIGHTS_CONTEXT_WORKFLOW"
+            "workflowCode": "XX_FIN_GL_LEDGER_INSIGHTS_CONTEXT_WORKFLOW",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "1778071424902"
           },
           "diagram": {
-            "x": 6369.5,
+            "x": 6350,
             "y": 5650
           },
           "code": "GET_APPLICATION_CONTEXT",
@@ -133,7 +131,7 @@
             "success": "1777998824936"
           },
           "diagram": {
-            "x": 6369.5,
+            "x": 6350,
             "y": 5872
           },
           "code": "READ_APPLICATION_CONTEXT",
@@ -152,7 +150,7 @@
             "success": "1777998847906"
           },
           "diagram": {
-            "x": 6369.5,
+            "x": 6350,
             "y": 6094
           },
           "code": "PREPARE_LOOKUP_VALUES",
@@ -169,7 +167,7 @@
             "success": "1777615154755"
           },
           "diagram": {
-            "x": 6369.5,
+            "x": 6350,
             "y": 6316
           },
           "code": "SAVE_LOOKUP_VALUES",
@@ -203,7 +201,7 @@
             "query": ""
           },
           "diagram": {
-            "x": 6369.5,
+            "x": 6350,
             "y": 6538
           },
           "code": "CHOOSE_STARTING_PATH",
@@ -230,7 +228,7 @@
             "success": "1777998988020"
           },
           "diagram": {
-            "x": 5435,
+            "x": 5450,
             "y": 6760
           },
           "code": "PREPARE_INSIGHT_SEARCH_FILTERS",
@@ -249,7 +247,7 @@
             "success": "1778705737165"
           },
           "diagram": {
-            "x": 7044.5,
+            "x": 7025,
             "y": 6760
           },
           "code": "IDENTIFY_SELECTED_ACTION",
@@ -260,7 +258,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_FIN_GENERALLED_INSIGHTS_LIST",
+            "businessObjectCode": "ORA_FIN_GL_XX_INSIGHTS_LIST",
             "functionName": "getall_sensorInsightList",
             "name": "Get Variance Insights"
           },
@@ -288,13 +286,13 @@
           "metadata": {
             "name": "Read Selected Insight",
             "returnType": "string",
-            "sourceCode": "let rowData = {};\n\ntry {\n  const rawInput = $context.$app.$OraAction || \"\";\n\n  if (rawInput) {\n    let parsedInput = JSON.parse(rawInput);\n\n    // handle double-encoded JSON\n    if (typeof parsedInput === \"string\") {\n      parsedInput = JSON.parse(parsedInput);\n    }\n\n    rowData = parsedInput?.rowData || {};\n  }\n} catch (e) { }\nreturn rowData.insightRecipientId;"
+            "sourceCode": "const numericOnly = (value) => {\n  const text = value == null ? \"\" : String(value).trim();\n  return /^\\d+$/.test(text) ? text : \"\";\n};\n\nlet rowData = {};\n\ntry {\n  const rawInput = $context.$app.$OraAction || \"\";\n\n  if (rawInput) {\n    let parsedInput = JSON.parse(rawInput);\n\n    // handle double-encoded JSON\n    if (typeof parsedInput === \"string\") {\n      parsedInput = JSON.parse(parsedInput);\n    }\n\n    rowData = parsedInput?.rowData || {};\n  }\n} catch (e) { }\nreturn numericOnly(rowData.insightRecipientId);"
           },
           "outcomes": {
             "success": "1778708234510"
           },
           "diagram": {
-            "x": 7044.5,
+            "x": 7025,
             "y": 6982
           },
           "code": "READ_SELECTED_INSIGHT",
@@ -332,7 +330,7 @@
             "success": "1778071632351"
           },
           "diagram": {
-            "x": 7038.5,
+            "x": 7025,
             "y": 7204
           },
           "code": "READ_SELECTED_ACTION_DETAILS",
@@ -343,7 +341,8 @@
         },
         {
           "metadata": {
-            "name": "Find Top Insights"
+            "name": "Find Top Insights",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "1779094519444"
@@ -359,7 +358,7 @@
               "id": "1778060392960_1",
               "name": "prompt",
               "type": "string",
-              "value": "You are specialized agent which will analyze and return array of insight objects. \n\n**INPUT**\n- Insight data: `{{$context.$nodes.ORGANIZE_INSIGHT_RESULTS.$output.result}}`\n\nEach object contains:\n- ruleName\n- insightSummary\n- rulePriorityCodeMeaning\n\n**DIRECTIVE**\n\nYour task is to:\n\n1. Transform `ruleName` into a user-friendly display label.\n   - Maximum 8-10 words\n   - Must preserve the financial meaning of the condition\n   - Must not introduce interpretation beyond what the condition states\n   - Convert technical/system-style names into readable business language.\n   - Add the transformed value as a new field called `displayRuleName`.\n   - Do NOT modify the original `ruleName`.\n   - never return data from below examples, only use these examples to transform the the `ruleName`\n   - Below are few examples:\n     Example - 1:\n     ruleName - Alert if the variance is > 15% between last period and current period for account Travel and Entertainment and company Fusion Napa\n     displayRuleName - Travel & Entertainment variance exceeds 15% MoM for Fusion Napa\n\n     Example - 2:\n     ruleName - asset clearing account 211347 balance >$1000 for company 3111 for last period\n     displayRuleName - Asset Clearing account unreconciled beyond 30 days\n     \n     Example - 3:\n     ruleName - Unapproved journals count >10 for current period \n     displayRuleName - More than 10 unapproved journals pending\n\n2. Analyze the `insightSummary` text and identify:\n   - primary financial figure from the narrative text\n   - if multiple figures are present, select the one representing total exposure or net variance or in similar financial terminology\n   - percentages\n   - counts\n   - numeric impact indicators\n   - risk/severity indicators\n   - trend direction (increase/decrease)\n   - urgency indicators\n\n3. Rank and sort the array based on overall business impact using:\n   - higher percentages\n   - larger counts\n   - stronger severity/risk wording\n   - higher priority values\n   - stronger negative or critical trends\n   - If there is no financial figure in insightSummary, assign rank = lowest (display last)\n3. If then input contains more than 5 items then Return ONLY the top 5 items based on rank\n4. Preserve the original objects exactly as they appear in the input.\n5. Do NOT modify, summarize, rewrite, rename, or remove any fields.\n6. Output must be a valid JSON array.\n\n**OUTPUT RULES**\n- Preserve all original fields exactly as provided.\n- Only add:\n  - `displayRuleName`\n  - `rank`\n- Do not summarize or rewrite the `insight`.\n- Do not remove any objects.\n- Return valid JSON array only.\n- No markdown.\n- No explanations."
+              "value": "You are specialized agent which will analyze and return array of insight objects. \n\n**INPUT**\n- Insight data: `{{$context.$nodes.ORGANIZE_INSIGHT_RESULTS.$output.result}}`\n\nEach object contains:\n- ruleName\n- insightSummary\n- rulePriorityCodeMeaning\n\n**DIRECTIVE**\n\nYour task is to:\n\n1. Transform `ruleName` into a user-friendly display label.\n   - Maximum 8-10 words\n   - Must preserve the financial meaning of the condition\n   - Must not introduce interpretation beyond what the condition states\n   - Convert technical/system-style names into readable business language.\n   - Add the transformed value as a new field called `displayRuleName`.\n   - Do NOT modify the original `ruleName`.\n   - never return data from below examples, only use these examples to transform the the `ruleName`\n   - Below are few examples:\n     Example - 1:\n     ruleName - Alert if the variance is > 15% between last period and current period for account Travel and Entertainment and company \n     displayRuleName - Travel & Entertainment variance exceeds 15% MoM for Fusion Napa\n\n     Example - 2:\n     ruleName - asset clearing account 100000 balance >$1000 for company 1000 for last period\n     displayRuleName - Asset Clearing account unreconciled beyond 30 days\n     \n     Example - 3:\n     ruleName - Unapproved journals count >10 for current period \n     displayRuleName - More than 10 unapproved journals pending\n\n2. Analyze the `insightSummary` text and identify:\n   - primary financial figure from the narrative text\n   - if multiple figures are present, select the one representing total exposure or net variance or in similar financial terminology\n   - percentages\n   - counts\n   - numeric impact indicators\n   - risk/severity indicators\n   - trend direction (increase/decrease)\n   - urgency indicators\n\n3. Rank and sort the array based on overall business impact using:\n   - higher percentages\n   - larger counts\n   - stronger severity/risk wording\n   - higher priority values\n   - stronger negative or critical trends\n   - If there is no financial figure in insightSummary, assign rank = lowest (display last)\n3. If then input contains more than 5 items then Return ONLY the top 5 items based on rank\n4. Preserve the original objects exactly as they appear in the input.\n5. Do NOT modify, summarize, rewrite, rename, or remove any fields.\n6. Output must be a valid JSON array.\n\n**OUTPUT RULES**\n- Preserve all original fields exactly as provided.\n- Only add:\n  - `displayRuleName`\n  - `rank`\n- Do not summarize or rewrite the `insight`.\n- Do not remove any objects.\n- Return valid JSON array only.\n- No markdown.\n- No explanations."
             }
           ],
           "type": "LLM"
@@ -376,7 +375,7 @@
             "explainInsight": ""
           },
           "diagram": {
-            "x": 7044.5,
+            "x": 7025,
             "y": 7426
           },
           "code": "CHOOSE_ACTION_PATH",
@@ -447,13 +446,14 @@
             }
           },
           "metadata": {
-            "name": "Show Review Comment Form"
+            "name": "Show Review Comment Form",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "end"
           },
           "diagram": {
-            "x": 7743.5,
+            "x": 7700,
             "y": 7648
           },
           "code": "SHOW_REVIEW_COMMENT_FORM",
@@ -476,7 +476,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_FIN_GENERALLED_INSIGHT_REVIEW_ACTIONS",
+            "businessObjectCode": "ORA_FIN_GL_XX_INSIGHT_REVIEW_ACTIONS",
             "functionName": "dismissInsight",
             "name": "Dismiss Insight"
           },
@@ -484,7 +484,7 @@
             "success": "1778704929597"
           },
           "diagram": {
-            "x": 7293.5,
+            "x": 7250,
             "y": 7648
           },
           "code": "DISMISS_INSIGHT",
@@ -503,13 +503,13 @@
           "metadata": {
             "name": "Read Review Comments",
             "returnType": "object",
-            "sourceCode": "try {\n\n  const str = $context?.$app?.$OraAction || \"\";\n\n  if (!str || typeof str !== \"string\") {\n\n    return {};\n\n  }\n\n  // Extract JSON content safely\n\n  const jsonMatch = str.match(/<oraFormSubmit[^>]*>([\\s\\S]*?)<\\/oraFormSubmit>/);\n\n  if (!jsonMatch || !jsonMatch[1]) {\n\n    return {};\n\n  }\n\n  const jsonString = jsonMatch[1].trim();\n\n  if (!jsonString) {\n\n    return {};\n\n  }\n\n  const data = JSON.parse(jsonString);\n\n  if (!Array.isArray(data)) {\n\n    return {};\n\n  }\n\n  // Convert array into key-value object\n\n  return data.reduce((result, item) => {\n\n    if (item?.id) {\n\n      result[item.id] = item.value;\n\n    }\n\n    return result;\n\n  }, {});\n\n} catch (error) {\n\n  return {};\n\n}"
+            "sourceCode": "const numericOnly = (value) => {\n  const text = value == null ? \"\" : String(value).trim();\n  return /^\\d+$/.test(text) ? text : \"\";\n};\n\ntry {\n\n  const str = $context?.$app?.$OraAction || \"\";\n\n  if (!str || typeof str !== \"string\") {\n\n    return {};\n\n  }\n\n  // Extract JSON content safely\n\n  const jsonMatch = str.match(/<oraFormSubmit[^>]*>([\\s\\S]*?)<\\/oraFormSubmit>/);\n\n  if (!jsonMatch || !jsonMatch[1]) {\n\n    return {};\n\n  }\n\n  const jsonString = jsonMatch[1].trim();\n\n  if (!jsonString) {\n\n    return {};\n\n  }\n\n  const data = JSON.parse(jsonString);\n\n  if (!Array.isArray(data)) {\n\n    return {};\n\n  }\n\n  // Convert array into key-value object\n\n  return data.reduce((result, item) => {\n\n    if (item?.id) {\n\n      result[item.id] = item.id === \"InsightRecipientId\" ? numericOnly(item.value) : item.value;\n\n    }\n\n    return result;\n\n  }, {});\n\n} catch (error) {\n\n  return {};\n\n}"
           },
           "outcomes": {
             "success": "1778838416905"
           },
           "diagram": {
-            "x": 6843.5,
+            "x": 6800,
             "y": 7648
           },
           "code": "READ_REVIEW_COMMENTS",
@@ -520,7 +520,8 @@
         },
         {
           "metadata": {
-            "name": "Show Insight Summary"
+            "name": "Show Insight Summary",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "end"
@@ -552,7 +553,8 @@
             }
           },
           "metadata": {
-            "name": "Show Insight List"
+            "name": "Show Insight List",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "end"
@@ -580,7 +582,8 @@
             }
           },
           "metadata": {
-            "name": "Show Priority Insights"
+            "name": "Show Priority Insights",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "end"
@@ -603,7 +606,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_FIN_GENERALLED_INSIGHTS_LIST",
+            "businessObjectCode": "ORA_FIN_GL_XX_INSIGHTS_LIST",
             "functionName": "getall_sensorInsightList",
             "name": "Get Selected Insight Details"
           },
@@ -611,7 +614,7 @@
             "success": "1778706138446"
           },
           "diagram": {
-            "x": 6363.5,
+            "x": 6350,
             "y": 7870
           },
           "code": "GET_SELECTED_INSIGHT_DETAILS",
@@ -636,13 +639,14 @@
             }
           },
           "metadata": {
-            "name": "Show Dismiss Confirmation"
+            "name": "Show Dismiss Confirmation",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "end"
           },
           "diagram": {
-            "x": 7293.5,
+            "x": 7250,
             "y": 7870
           },
           "code": "SHOW_DISMISS_CONFIRMATION",
@@ -665,7 +669,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_FIN_GENERALLED_INSIGHT_REVIEW_ACTIONS",
+            "businessObjectCode": "ORA_FIN_GL_XX_INSIGHT_REVIEW_ACTIONS",
             "functionName": "markInsightAsReviewed",
             "name": "Mark Insight as Reviewed"
           },
@@ -673,7 +677,7 @@
             "success": "1778709418230"
           },
           "diagram": {
-            "x": 6843.5,
+            "x": 6800,
             "y": 7870
           },
           "code": "MARK_INSIGHT_AS_REVIEWED",
@@ -704,7 +708,7 @@
             "success": "1778071992419"
           },
           "diagram": {
-            "x": 6345.5,
+            "x": 6350,
             "y": 8092
           },
           "code": "PREPARE_SELECTED_INSIGHT_DETAILS",
@@ -722,13 +726,14 @@
             }
           },
           "metadata": {
-            "name": "Show Review Confirmation"
+            "name": "Show Review Confirmation",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "end"
           },
           "diagram": {
-            "x": 6843.5,
+            "x": 6800,
             "y": 8092
           },
           "code": "SHOW_REVIEW_CONFIRMATION",
@@ -753,7 +758,7 @@
             "success": "1778072040435"
           },
           "diagram": {
-            "x": 6369.5,
+            "x": 6350,
             "y": 8314
           },
           "code": "READ_INSIGHT_FILTERS",
@@ -772,7 +777,7 @@
             "success": "1778072065387"
           },
           "diagram": {
-            "x": 6359,
+            "x": 6350,
             "y": 8536
           },
           "code": "PREPARE_PERIOD_FILTER_REQUEST",
@@ -783,7 +788,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_FIN_GENERALLED_PERIOD_EXPRESSION_RESOLVER",
+            "businessObjectCode": "ORA_FIN_GL_XX_PERIOD_EXPRESSION_RESOLVER",
             "functionName": "resolvePeriodExpression",
             "name": "Resolve Period Filters"
           },
@@ -791,7 +796,7 @@
             "success": "1778072140352"
           },
           "diagram": {
-            "x": 6369.5,
+            "x": 6350,
             "y": 8758
           },
           "code": "RESOLVE_PERIOD_FILTERS",
@@ -817,7 +822,7 @@
             "success": "1778576232290"
           },
           "diagram": {
-            "x": 6354.5,
+            "x": 6350,
             "y": 8980
           },
           "code": "PREPARE_BALANCE_DETAIL_REQUEST",
@@ -834,7 +839,7 @@
             "success": "1778072103682"
           },
           "diagram": {
-            "x": 6368,
+            "x": 6350,
             "y": 9202
           },
           "code": "SAVE_BALANCE_DETAIL_REQUEST",
@@ -850,7 +855,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_FIN_GENERALLED_EXECUTE_BOSS_QUERY_HELPER",
+            "businessObjectCode": "ORA_FIN_GL_XX_EXECUTE_BOSS_QUERY_HELPER",
             "functionName": "extractAV",
             "name": "Get Balance Details"
           },
@@ -858,7 +863,7 @@
             "success": "1779705441186"
           },
           "diagram": {
-            "x": 6369.5,
+            "x": 6350,
             "y": 9424
           },
           "code": "GET_BALANCE_DETAILS",
@@ -880,7 +885,7 @@
             "name": "Save Balance Details"
           },
           "diagram": {
-            "x": 6369.5,
+            "x": 6350,
             "y": 9646
           },
           "outcomes": {
@@ -907,7 +912,7 @@
             "success": "1778072167119"
           },
           "diagram": {
-            "x": 6369.5,
+            "x": 6350,
             "y": 9868
           },
           "code": "IDENTIFY_NEXT_ACTION",
@@ -918,13 +923,14 @@
         },
         {
           "metadata": {
-            "name": "Summarize Explanation Details"
+            "name": "Summarize Explanation Details",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "1778072188291"
           },
           "diagram": {
-            "x": 6359,
+            "x": 6350,
             "y": 10090
           },
           "code": "SUMMARIZE_EXPLANATION_DETAILS",
@@ -960,13 +966,14 @@
                 "max_completion_tokens": 32000,
                 "reasoning_effort": "low"
               }
-            }
+            },
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "end"
           },
           "diagram": {
-            "x": 6369.5,
+            "x": 6350,
             "y": 10312
           },
           "code": "SHOW_EXPLANATION_DETAILS",
@@ -1104,61 +1111,61 @@
           "name": "New run profile 1",
           "type": "rest",
           "agenticAppMode": "initDisplay",
-          "restConfigJson": "{\n    \"OraAction\": \"{ \\\"actionCode\\\": \\\"openVarInsight\\\", \\\"secActionCode\\\": \\\"explain\\\",  \\\"rowData\\\" : { \\\"insightRecipientId\\\" : 300100651906486 } }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
         },
         {
           "id": "6fff7d7f-6411-41d3-8e9c-f39c34caa22b",
           "name": "New run profile 2",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{ \\\"actionCode\\\": \\\"openVarInsight\\\", \\\"secActionCode\\\": \\\"explain\\\", \\\"workflow\\\": \\\"ORA_VARIANCE_ANALYSIS\\\", \\\"rowData\\\" : { \\\"insightRecipientId\\\" : 300100653379796 } }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptcoelqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"workflow\\\":\\\"MOCK_WORKFLOW\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
         },
         {
           "id": "d77b2b7f-6f23-42e5-b336-ee328ed43499",
           "name": "Compare period activity of account Accounts Payable for Vision Foods Napa in Apr-26 and May-26 > 30%",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{ \\\"actionCode\\\": \\\"openVarInsight\\\", \\\"secActionCode\\\": \\\"explain\\\",  \\\"rowData\\\" : { \\\"insightRecipientId\\\" : 300100655371426 } }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
           "inputMessage": "Compare period activity of account Accounts Payable for Vision Foods Napa in Apr-26 and May-26 > 30%"
         },
         {
           "id": "ec261021-7457-4b8e-8c1e-7bd616e8acc6",
-          "name": "Alet if for company 3121 and account 17810 the period activity > 15% current period over previous period",
+          "name": "Alert if for company 1000 and account 10000 the period activity > 15% current period over previous period",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{ \\\"actionCode\\\": \\\"openVarInsight\\\", \\\"secActionCode\\\": \\\"explain\\\",  \\\"rowData\\\" : { \\\"insightRecipientId\\\" : 300100655371424 } }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
-          "inputMessage": "Alet if for company 3121 and account 17810 the period activity > 15% current period over previous period"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
+          "inputMessage": "Alert if for company 1000 and account 10000 the period activity > 15% current period over previous period"
         },
         {
           "id": "2d22635b-c975-4788-89e8-3b99747cc671",
-          "name": "Alert when period activity of account Accounts Receivable for Vision Foods Marketing - US in Apr-26 over current month > 10%",
+          "name": "Alert when period activity of account Accounts Receivable for Company 1000 in Period_X over current month > 10%",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{ \\\"actionCode\\\": \\\"openVarInsight\\\", \\\"secActionCode\\\": \\\"explain\\\",  \\\"rowData\\\" : { \\\"insightRecipientId\\\" : 300100655371686 } }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
-          "inputMessage": "Alert when period activity of account Accounts Receivable for Vision Foods Marketing - US in Apr-26 over current month > 10%"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
+          "inputMessage": "Alert when period activity of account Accounts Receivable for Company 1000 in Period_X over current month > 10%"
         },
         {
           "id": "c2a885df-c198-420a-aa90-b7f4cb89e1a6",
-          "name": "Alert if period activity for Computers Depreciation account and for company Vision Foods Sales - US > 10% Apr-26 over Mar-26",
+          "name": "Alert if period activity for Computers Depreciation account and for company 1000 - US > 10% Period_X over Period_Y",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{ \\\"actionCode\\\": \\\"openVarInsight\\\", \\\"secActionCode\\\": \\\"explain\\\",  \\\"rowData\\\" : { \\\"insightRecipientId\\\" : 300100655371682 } }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
-          "inputMessage": "Alert if period activity for Computers Depreciation account and for company Vision Foods Sales - US > 10% Apr-26 over Mar-26"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
+          "inputMessage": "Alert if period activity for Computers Depreciation account and for company 1000 - US > 10% Period_X over Period_Y"
         },
         {
           "id": "d9998668-752b-41d4-9a36-513b62d67b12",
-          "name": "Compare period activity of account Total Trade Pavables for Vision Foods Farms in Apr-26 and May-26 > 10%",
+          "name": "Compare period activity of account Total Trade Pavables for Company 1000 in Period_X and Period_Y > 10%",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{ \\\"actionCode\\\": \\\"openVarInsight\\\", \\\"secActionCode\\\": \\\"explain\\\",  \\\"rowData\\\" : { \\\"insightRecipientId\\\" : 300100655371680 } }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
-          "inputMessage": "Compare period activity of account Total Trade Pavables for Vision Foods Farms in Apr-26 and May-26 > 10%"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
+          "inputMessage": "Compare period activity of account Total Trade Pavables for Company 1000 in Period_X and Period_Y > 10%"
         },
         {
           "id": "ff15170b-f0c1-47b1-acbc-8bcb16469714",
           "name": "agentic app, payables",
           "type": "agentic-app",
           "agenticAppMode": "invokeAction",
-          "invokeActionPayload": "{ \"actionCode\": \"openVarInsight\", \"secActionCode\": \"explain\",  \"rowData\" : { \"insightRecipientId\" : 300100654981877 } }"
+          "invokeActionPayload": "{ \"actionCode\": \"openVarInsight\", \"secActionCode\": \"explain\",  \"rowData\" : { \"insightRecipientId\" : 0 } }"
         },
         {
           "id": "595b1a9e-c5cb-4e33-b694-2d235e98a62f",
@@ -1171,23 +1178,23 @@
           "name": "Insight Click",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\": {\\\"insightRecipientId\\\":\\\"300100655938941\\\",\\\"ruleName\\\":\\\"Compare period activity of account Accounts Payable for Vision Foods Napa in Apr-26 and May-26 > 30%\\\",\\\"insightSummary\\\":\\\"Accounts Payable for Vision Foods Napa increased 1,468,737.59 USD (116.6%) from Apr-26 to May-26, led by Cost_Center 110 R&D US contributing 2,387,880 USD in May with partial offsets from Cost_Center 000 None and various operations.\\\",\\\"rulePriorityCode\\\":\\\"ORA_HIGH\\\",\\\"rulePriorityCodeMeaning\\\":\\\"High\\\",\\\"categoryCode\\\":\\\"ORA_VARIANCE\\\",\\\"categoryCodeMeaning\\\":\\\"Variance\\\",\\\"displayRuleName\\\":\\\"Accounts Payable increase exceeds 100% MoM\\\",\\\"rank\\\":2}, \\\"actionCode\\\": \\\"openVarInsight\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\":{\\\"insightRecipientId\\\":\\\"MOCK_INSIGHTRECIPIENTID\\\",\\\"ruleName\\\":\\\"MOCK_RULENAME\\\",\\\"insightSummary\\\":\\\"MOCK_INSIGHTSUMMARY\\\",\\\"rulePriorityCode\\\":\\\"MOCK_RULEPRIORITYCODE\\\",\\\"rulePriorityCodeMeaning\\\":\\\"MOCK_RULEPRIORITYCODEMEANING\\\",\\\"categoryCode\\\":\\\"MOCK_CATEGORYCODE\\\",\\\"categoryCodeMeaning\\\":\\\"MOCK_CATEGORYCODEMEANING\\\",\\\"displayRuleName\\\":\\\"MOCK_DISPLAYRULENAME\\\",\\\"rank\\\":0},\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
           "inputMessage": "Hi"
         },
         {
           "id": "852d20d6-0eb9-4794-bc51-5df7d30e0195",
-          "name": "Explain, Accounts Payable variance exceeds 20% MoM for Vision Foods Napa",
+          "name": "Explain, Accounts Payable variance exceeds 20% MoM for Company 1000",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{ \\\"actionCode\\\": \\\"openVarInsight\\\", \\\"secActionCode\\\": \\\"explain\\\", \\\"workflow\\\": \\\"ORA_VARIANCE_ANALYSIS\\\", \\\"rowData\\\" : { \\\"insightRecipientId\\\" : 300100651760837 } }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptcoelqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"workflow\\\":\\\"MOCK_WORKFLOW\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
           "inputMessage": "Explain"
         },
         {
           "id": "687d8560-252d-494c-aca5-84fcc1da1b67",
-          "name": "Explain, Accounts Receivable drop exceeds 25% MoM for Vision Foods Marketing - US",
+          "name": "Explain, Accounts Receivable drop exceeds 25% MoM for Company 1000",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{ \\\"actionCode\\\": \\\"openVarInsight\\\", \\\"secActionCode\\\": \\\"explain\\\", \\\"workflow\\\": \\\"ORA_VARIANCE_ANALYSIS\\\", \\\"rowData\\\" : { \\\"insightRecipientId\\\" : 300100651768632 } }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptcoelqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"workflow\\\":\\\"MOCK_WORKFLOW\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
           "inputMessage": "Hi"
         },
         {
@@ -1195,7 +1202,7 @@
           "name": "Query, QA",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraMessageHint\": \"Query\",\n    \"OraChatHistory\": \"USER: Why did the Payables journal source worsen from April to May, and which suppliers contributed most to that change?\\nAI: {\\\"XX_FIN_GL_VARIANCE_ANALYSIS_WORKFLOW\\\":\\\"<oraInfoDisplay key=\\\\\\\"list\\\\\\\">\\\\n{\\\\n  \\\\\\\"patternId\\\\\\\": \\\\\\\"messageListWidget\\\\\\\",\\\\n  \\\\\\\"description\\\\\\\": \\\\\\\"Matching insights for Accounts Payable variance\\\\\\\",\\\\n  \\\\\\\"properties\\\\\\\": {\\\\n    \\\\\\\"items\\\\\\\": [\\\\n      {\\\\n        \\\\\\\"title\\\\\\\": \\\\\\\"Accounts Payable variance exceeds 20% Apr to May\\\\\\\",\\\\n        \\\\\\\"subtitle\\\\\\\": \\\\\\\"For ledger 1225, Accounts Payable for Vision Foods Napa changed 70.33% from $32,954,100 in Apr-26 to $9,778,500 in Current Period, a -$23,175,600 variance, driven by All Intercompany Values and All Program Values.\\\\\\\",\\\\n        \\\\\\\"badgeText\\\\\\\": \\\\\\\"High\\\\\\\",\\\\n        \\\\\\\"priority\\\\\\\": \\\\\\\"alert\\\\\\\",\\\\n        \\\\\\\"action\\\\\\\": \\\\\\\"ora.Invoke(\\\\\\\\\\\\\\\"openVarInsight\\\\\\\\\\\\\\\", {\\\\\\\\\\\\\\\"rowData\\\\\\\\\\\\\\\": {\\\\\\\\\\\\\\\"insightRecipientId\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"300100651976876\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"ruleName\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"Alert when period activity of account Accounts Payable for Vision Foods Napa in Apr-26 and Current Period > 20%\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"insightSummary\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"For ledger 1225, Accounts Payable for Vision Foods Napa changed 70.33% from $32,954,100 in Apr-26 to $9,778,500 in Current Period, a -$23,175,600 variance, driven by All Intercompany Values and All Program Values.\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"rulePriorityCode\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"ORA_HIGH\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"rulePriorityCodeMeaning\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"High\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"categoryCode\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"ORA_VARIANCE\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"displayRuleName\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"Accounts Payable variance exceeds 20% Apr to May\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"rank\\\\\\\\\\\\\\\":1,\\\\\\\\\\\\\\\"matchType\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"exact\\\\\\\\\\\\\\\"},\\\\\\\\\\\\\\\"actionCode\\\\\\\\\\\\\\\": \\\\\\\\\\\\\\\"openVarInsight\\\\\\\\\\\\\\\"})\\\\\\\"\\\\n      },\\\\n      {\\\\n        \\\\\\\"title\\\\\\\": \\\\\\\"Accounts Payable variance exceeds 20% Apr to May\\\\\\\",\\\\n        \\\\\\\"subtitle\\\\\\\": \\\\\\\"Accounts Payable for Vision Foods Napa moved 70.33% between Apr-26 and the current period, from $32,954,100 to $9,778,500, a -$23,175,600 variance.\\\\\\\",\\\\n        \\\\\\\"badgeText\\\\\\\": \\\\\\\"High\\\\\\\",\\\\n        \\\\\\\"priority\\\\\\\": \\\\\\\"alert\\\\\\\",\\\\n        \\\\\\\"action\\\\\\\": \\\\\\\"ora.Invoke(\\\\\\\\\\\\\\\"openVarInsight\\\\\\\\\\\\\\\", {\\\\\\\\\\\\\\\"rowData\\\\\\\\\\\\\\\": {\\\\\\\\\\\\\\\"insightRecipientId\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"300100651976867\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"ruleName\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"Alert if  period activity of account Accounts Payable for Vision Foods Napa in Apr-26 and Current Period > 20%\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"insightSummary\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"Accounts Payable for Vision Foods Napa moved 70.33% between Apr-26 and the current period, from $32,954,100 to $9,778,500, a -$23,175,600 variance.\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"rulePriorityCode\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"ORA_HIGH\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"rulePriorityCodeMeaning\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"High\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"categoryCode\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"ORA_VARIANCE\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"displayRuleName\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"Accounts Payable variance exceeds 20% Apr to May\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"rank\\\\\\\\\\\\\\\":2,\\\\\\\\\\\\\\\"matchType\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"exact\\\\\\\\\\\\\\\"},\\\\\\\\\\\\\\\"actionCode\\\\\\\\\\\\\\\": \\\\\\\\\\\\\\\"openVarInsight\\\\\\\\\\\\\\\"})\\\\\\\"\\\\n      }\\\\n    ]\\\\n  }\\\\n}\\\\n</oraInfoDisplay>\\\"}\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptcoelqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"OraUiContext\": \"{\\\"panels\\\":[{\\\"containerId\\\":\\\"container-1777364097719\\\",\\\"agentCode\\\":\\\"XX_FIN_GL_ACCOUNTING_EXCEPTIONS_WORKFLOW\\\",\\\"panelName\\\":\\\"Accounting Exceptions\\\",\\\"title\\\":\\\"Accounting Exceptions\\\",\\\"widgets\\\":[{\\\"type\\\":\\\"messageListWidget\\\",\\\"config\\\":{\\\"items\\\":[{\\\"title\\\":\\\"Subledger Transaction Data\\\",\\\"summary\\\":\\\"Exception Count: 1\\\",\\\"timestamp\\\":null,\\\"action\\\":\\\"ora.Invoke(\\\\\\\"drillDownToTransactions\\\\\\\", {\\\\\\\"command\\\\\\\": \\\\\\\"drillDownToTransactions\\\\\\\", \\\\\\\"showMore\\\\\\\": \\\\\\\"false\\\\\\\", \\\\\\\"data\\\\\\\": {\\\\\\\"category\\\\\\\": \\\\\\\"Subledger Transaction Data\\\\\\\", \\\\\\\"code\\\\\\\": \\\\\\\"ORA_SUBLEDGER_TRANSACTION_DATA\\\\\\\", \\\\\\\"metrics\\\\\\\": {\\\\\\\"exceptionCount\\\\\\\": 1, \\\\\\\"totalAmount\\\\\\\": 0}}})\\\"},{\\\"title\\\":\\\"Other\\\",\\\"summary\\\":\\\"Exception Count: 4\\\",\\\"timestamp\\\":null,\\\"action\\\":\\\"ora.Invoke(\\\\\\\"drillDownToTransactions\\\\\\\", {\\\\\\\"command\\\\\\\": \\\\\\\"drillDownToTransactions\\\\\\\", \\\\\\\"showMore\\\\\\\": \\\\\\\"false\\\\\\\", \\\\\\\"data\\\\\\\": {\\\\\\\"category\\\\\\\": \\\\\\\"Other\\\\\\\", \\\\\\\"code\\\\\\\": \\\\\\\"ORA_OTHER\\\\\\\", \\\\\\\"metrics\\\\\\\": {\\\\\\\"exceptionCount\\\\\\\": 4, \\\\\\\"totalAmount\\\\\\\": 0}}})\\\"},{\\\"title\\\":\\\"Account Status\\\",\\\"summary\\\":\\\"Exception Count: 1\\\",\\\"timestamp\\\":null,\\\"action\\\":\\\"ora.Invoke(\\\\\\\"drillDownToTransactions\\\\\\\", {\\\\\\\"command\\\\\\\": \\\\\\\"drillDownToTransactions\\\\\\\", \\\\\\\"showMore\\\\\\\": \\\\\\\"false\\\\\\\", \\\\\\\"data\\\\\\\": {\\\\\\\"category\\\\\\\": \\\\\\\"Account Status\\\\\\\", \\\\\\\"code\\\\\\\": \\\\\\\"ORA_ACCOUNT_STATUS\\\\\\\", \\\\\\\"metrics\\\\\\\": {\\\\\\\"exceptionCount\\\\\\\": 1, \\\\\\\"totalAmount\\\\\\\": 0}}})\\\"}]}}]},{\\\"containerId\\\":\\\"container-1777439356205\\\",\\\"agentCode\\\":\\\"XX_FIN_GL_PERIOD_STATUS_WORKFLOW\\\",\\\"panelName\\\":\\\"Period Status\\\",\\\"title\\\":\\\"Period Status\\\",\\\"widgets\\\":[{\\\"type\\\":\\\"messageListWidget\\\",\\\"config\\\":{\\\"items\\\":[{\\\"title\\\":\\\"Payables\\\",\\\"timestamp\\\":null,\\\"action\\\":\\\"ora.Invoke(\\\\\\\"openLedgerPeriodStatus\\\\\\\", {\\\\\\\"rowData\\\\\\\": {\\\\\\\"LEDGERNAME\\\\\\\":\\\\\\\"Vision Foods - USA Ledger\\\\\\\",\\\\\\\"LEDGERID\\\\\\\":1225,\\\\\\\"PERIODNAME\\\\\\\":\\\\\\\"May-26\\\\\\\",\\\\\\\"APPLICATIONID\\\\\\\":200,\\\\\\\"SUBLEDGERORLEDGER\\\\\\\":\\\\\\\"Payables\\\\\\\",\\\\\\\"APPLICATIONSHORTNAME\\\\\\\":\\\\\\\"AP\\\\\\\",\\\\\\\"PERIODSTATUS\\\\\\\":\\\\\\\"Open\\\\\\\",\\\\\\\"PERIODSTATUSCODE\\\\\\\":\\\\\\\"O\\\\\\\",\\\\\\\"STARTDATE\\\\\\\":\\\\\\\"2026-05-01T00:00:00Z\\\\\\\",\\\\\\\"ENDDATE\\\\\\\":\\\\\\\"2026-05-31T00:00:00Z\\\\\\\",\\\\\\\"category\\\\\\\":\\\\\\\"LEDGER\\\\\\\"}, \\\\\\\"actionCode\\\\\\\": \\\\\\\"openLedgerPeriodStatus\\\\\\\"})\\\"},{\\\"title\\\":\\\"Receivables\\\",\\\"timestamp\\\":null,\\\"action\\\":\\\"ora.Invoke(\\\\\\\"openLedgerPeriodStatus\\\\\\\", {\\\\\\\"rowData\\\\\\\": {\\\\\\\"LEDGERNAME\\\\\\\":\\\\\\\"Vision Foods - USA Ledger\\\\\\\",\\\\\\\"LEDGERID\\\\\\\":1225,\\\\\\\"PERIODNAME\\\\\\\":\\\\\\\"May-26\\\\\\\",\\\\\\\"APPLICATIONID\\\\\\\":222,\\\\\\\"SUBLEDGERORLEDGER\\\\\\\":\\\\\\\"Receivables\\\\\\\",\\\\\\\"APPLICATIONSHORTNAME\\\\\\\":\\\\\\\"AR\\\\\\\",\\\\\\\"PERIODSTATUS\\\\\\\":\\\\\\\"Open\\\\\\\",\\\\\\\"PERIODSTATUSCODE\\\\\\\":\\\\\\\"O\\\\\\\",\\\\\\\"STARTDATE\\\\\\\":\\\\\\\"2026-05-01T00:00:00Z\\\\\\\",\\\\\\\"ENDDATE\\\\\\\":\\\\\\\"2026-05-31T00:00:00Z\\\\\\\",\\\\\\\"category\\\\\\\":\\\\\\\"LEDGER\\\\\\\"}, \\\\\\\"actionCode\\\\\\\": \\\\\\\"openLedgerPeriodStatus\\\\\\\"})\\\"},{\\\"title\\\":\\\"Revenue Management\\\",\\\"timestamp\\\":null,\\\"action\\\":\\\"ora.Invoke(\\\\\\\"openLedgerPeriodStatus\\\\\\\", {\\\\\\\"rowData\\\\\\\": {\\\\\\\"LEDGERNAME\\\\\\\":\\\\\\\"Vision Foods - USA Ledger\\\\\\\",\\\\\\\"LEDGERID\\\\\\\":1225,\\\\\\\"PERIODNAME\\\\\\\":\\\\\\\"May-26\\\\\\\",\\\\\\\"APPLICATIONID\\\\\\\":10455,\\\\\\\"SUBLEDGERORLEDGER\\\\\\\":\\\\\\\"Revenue Management\\\\\\\",\\\\\\\"APPLICATIONSHORTNAME\\\\\\\":\\\\\\\"VRM\\\\\\\",\\\\\\\"PERIODSTATUS\\\\\\\":\\\\\\\"Never Opened\\\\\\\",\\\\\\\"PERIODSTATUSCODE\\\\\\\":\\\\\\\"N\\\\\\\",\\\\\\\"STARTDATE\\\\\\\":\\\\\\\"2026-05-01T00:00:00Z\\\\\\\",\\\\\\\"ENDDATE\\\\\\\":\\\\\\\"2026-05-31T00:00:00Z\\\\\\\",\\\\\\\"category\\\\\\\":\\\\\\\"LEDGER\\\\\\\"}, \\\\\\\"actionCode\\\\\\\": \\\\\\\"openLedgerPeriodStatus\\\\\\\"})\\\"}]}}]},{\\\"containerId\\\":\\\"container-1777524402497\\\",\\\"agentCode\\\":\\\"XX_FIN_GL_CONTROLS_COMPLIANCE_WORKFLOW\\\",\\\"panelName\\\":\\\"Controls & Compliance\\\",\\\"title\\\":\\\"Controls & Compliance\\\",\\\"widgets\\\":[{\\\"type\\\":\\\"messageListWidget\\\",\\\"config\\\":{\\\"items\\\":[{\\\"title\\\":\\\"Unapproved journals outstanding over one week\\\",\\\"subtitle\\\":\\\"The total accounted debit is about $306,634,296.77, led by Vision Foods - USA Ledger via manual and AutoCopy adjustments; records span 2010-02-18 to 2015-12-02.\\\",\\\"status\\\":\\\"Accounting controls\\\",\\\"action\\\":\\\"ora.Invoke(\\\\\\\"openCtrlCmpInsight\\\\\\\", {\\\\\\\"rowData\\\\\\\": {\\\\\\\"insightRecipientId\\\\\\\":\\\\\\\"300100651905035\\\\\\\",\\\\\\\"ruleName\\\\\\\":\\\\\\\"Unapproved journals for more than a week\\\\\\\",\\\\\\\"insightSummary\\\\\\\":\\\\\\\"The total accounted debit is about 306,634,296.77, led by Vision Foods - USA Ledger via manual and AutoCopy adjustments; records span 2010-02-18 to 2015-12-02.\\\\\\\",\\\\\\\"rulePriorityCode\\\\\\\":\\\\\\\"ORA_HIGH\\\\\\\",\\\\\\\"rulePriorityCodeMeaning\\\\\\\":\\\\\\\"High\\\\\\\",\\\\\\\"categoryCode\\\\\\\":\\\\\\\"ORA_ACCOUNTING_CONTROLS\\\\\\\",\\\\\\\"categoryCodeMeaning\\\\\\\":\\\\\\\"Accounting controls\\\\\\\",\\\\\\\"displayRuleName\\\\\\\":\\\\\\\"Unapproved journals outstanding over one week\\\\\\\",\\\\\\\"rank\\\\\\\":1}, \\\\\\\"actionCode\\\\\\\": \\\\\\\"openCtrlCmpInsight\\\\\\\"})\\\"},{\\\"title\\\":\\\"Journals posted in prior accounting periods\\\",\\\"subtitle\\\":\\\"Vision Foods - USA Ledger (183,953,053.39 USD) and Vision Foods - USA IFRS SecLed (177,403,053.39 USD) recorded postings across periods including Apr-26 and Jan-26, driven mainly by Sales Invoices (123,885,000 USD), Payables Supplier Cost (34,204,100 USD) and Receivables Receipts (12,450,000 USD).\\\",\\\"status\\\":\\\"Accounting controls\\\",\\\"action\\\":\\\"ora.Invoke(\\\\\\\"openCtrlCmpInsight\\\\\\\", {\\\\\\\"rowData\\\\\\\": {\\\\\\\"insightRecipientId\\\\\\\":\\\\\\\"300100651919965\\\\\\\",\\\\\\\"ruleName\\\\\\\":\\\\\\\"Journals posted in a prior period\\\\\\\",\\\\\\\"insightSummary\\\\\\\":\\\\\\\"Vision Foods - USA Ledger (183,953,053.39 USD) and Vision Foods - USA IFRS SecLed (177,403,053.39 USD) recorded postings across periods including Apr-26 and Jan-26, driven mainly by Sales Invoices (123,885,000 USD), Payables Supplier Cost (34,204,100 USD) and Receivables Receipts (12,450,000 USD).\\\\\\\",\\\\\\\"rulePriorityCode\\\\\\\":\\\\\\\"ORA_HIGH\\\\\\\",\\\\\\\"rulePriorityCodeMeaning\\\\\\\":\\\\\\\"High\\\\\\\",\\\\\\\"categoryCode\\\\\\\":\\\\\\\"ORA_ACCOUNTING_CONTROLS\\\\\\\",\\\\\\\"categoryCodeMeaning\\\\\\\":\\\\\\\"Accounting controls\\\\\\\",\\\\\\\"displayRuleName\\\\\\\":\\\\\\\"Journals posted in prior accounting periods\\\\\\\",\\\\\\\"rank\\\\\\\":2}, \\\\\\\"actionCode\\\\\\\": \\\\\\\"openCtrlCmpInsight\\\\\\\"})\\\"},{\\\"title\\\":\\\"Manual journals posted without approval\\\",\\\"subtitle\\\":\\\"Vision Foods - USA Ledger posted three manual journals in a batch marked 'Batch is posted', totaling USD 13,150,000 debits and credits; journalCategory 'Adjustment' was the primary contributor.\\\",\\\"status\\\":\\\"Accounting controls\\\",\\\"action\\\":\\\"ora.Invoke(\\\\\\\"openCtrlCmpInsight\\\\\\\", {\\\\\\\"rowData\\\\\\\": {\\\\\\\"insightRecipientId\\\\\\\":\\\\\\\"300100651919971\\\\\\\",\\\\\\\"ruleName\\\\\\\":\\\\\\\"Manual posted journals without approvals\\\\\\\",\\\\\\\"insightSummary\\\\\\\":\\\\\\\"Vision Foods - USA Ledger posted three manual journals in a batch marked 'Batch is posted', totaling USD 13,150,000 debits and credits; journalCategory 'Adjustment' was the primary contributor.\\\\\\\",\\\\\\\"rulePriorityCode\\\\\\\":\\\\\\\"ORA_HIGH\\\\\\\",\\\\\\\"rulePriorityCodeMeaning\\\\\\\":\\\\\\\"High\\\\\\\",\\\\\\\"categoryCode\\\\\\\":\\\\\\\"ORA_ACCOUNTING_CONTROLS\\\\\\\",\\\\\\\"categoryCodeMeaning\\\\\\\":\\\\\\\"Accounting controls\\\\\\\",\\\\\\\"displayRuleName\\\\\\\":\\\\\\\"Manual journals posted without approval\\\\\\\",\\\\\\\"rank\\\\\\\":3}, \\\\\\\"actionCode\\\\\\\": \\\\\\\"openCtrlCmpInsight\\\\\\\"})\\\"}]}}]},{\\\"containerId\\\":\\\"container-1777976558355\\\",\\\"agentCode\\\":\\\"XX_FIN_GL_VARIANCE_ANALYSIS_WORKFLOW\\\",\\\"panelName\\\":\\\"Variance Analysis\\\",\\\"title\\\":\\\"Variance Analysis\\\",\\\"widgets\\\":[{\\\"type\\\":\\\"messageListWidget\\\",\\\"config\\\":{\\\"items\\\":[{\\\"title\\\":\\\"Accounts Receivable variance exceeds 25% MoM for Vision Foods Marketing - US\\\",\\\"action\\\":\\\"ora.Invoke(\\\\\\\"openVarInsight\\\\\\\", {\\\\\\\"rowData\\\\\\\": {\\\\\\\"insightRecipientId\\\\\\\":\\\\\\\"300100651978701\\\\\\\",\\\\\\\"ruleName\\\\\\\":\\\\\\\"Alert if period activity of account Accounts Receivable for Vision Foods Marketing - US in Apr-26 and Current Period > 25%\\\\\\\",\\\\\\\"insightSummary\\\\\\\":null,\\\\\\\"rulePriorityCode\\\\\\\":\\\\\\\"ORA_HIGH\\\\\\\",\\\\\\\"rulePriorityCodeMeaning\\\\\\\":\\\\\\\"High\\\\\\\",\\\\\\\"categoryCode\\\\\\\":\\\\\\\"ORA_VARIANCE\\\\\\\",\\\\\\\"categoryCodeMeaning\\\\\\\":\\\\\\\"Variance\\\\\\\",\\\\\\\"displayRuleName\\\\\\\":\\\\\\\"Accounts Receivable variance exceeds 25% MoM for Vision Foods Marketing - US\\\\\\\",\\\\\\\"rank\\\\\\\":1}, \\\\\\\"actionCode\\\\\\\": \\\\\\\"openVarInsight\\\\\\\"})\\\"},{\\\"title\\\":\\\"Accounts Payable variance exceeds 20% MoM for Vision Foods Napa\\\",\\\"action\\\":\\\"ora.Invoke(\\\\\\\"openVarInsight\\\\\\\", {\\\\\\\"rowData\\\\\\\": {\\\\\\\"insightRecipientId\\\\\\\":\\\\\\\"300100651976876\\\\\\\",\\\\\\\"ruleName\\\\\\\":\\\\\\\"Alert when period activity of account Accounts Payable for Vision Foods Napa in Apr-26 and Current Period > 20%\\\\\\\",\\\\\\\"insightSummary\\\\\\\":null,\\\\\\\"rulePriorityCode\\\\\\\":\\\\\\\"ORA_HIGH\\\\\\\",\\\\\\\"rulePriorityCodeMeaning\\\\\\\":\\\\\\\"High\\\\\\\",\\\\\\\"categoryCode\\\\\\\":\\\\\\\"ORA_VARIANCE\\\\\\\",\\\\\\\"categoryCodeMeaning\\\\\\\":\\\\\\\"Variance\\\\\\\",\\\\\\\"displayRuleName\\\\\\\":\\\\\\\"Accounts Payable variance exceeds 20% MoM for Vision Foods Napa\\\\\\\",\\\\\\\"rank\\\\\\\":2}, \\\\\\\"actionCode\\\\\\\": \\\\\\\"openVarInsight\\\\\\\"})\\\"},{\\\"title\\\":\\\"Accounts Payable variance exceeds 20% MoM for Vision Foods Napa\\\",\\\"action\\\":\\\"ora.Invoke(\\\\\\\"openVarInsight\\\\\\\", {\\\\\\\"rowData\\\\\\\": {\\\\\\\"insightRecipientId\\\\\\\":\\\\\\\"300100651976867\\\\\\\",\\\\\\\"ruleName\\\\\\\":\\\\\\\"Alert if  period activity of account Accounts Payable for Vision Foods Napa in Apr-26 and Current Period > 20%\\\\\\\",\\\\\\\"insightSummary\\\\\\\":null,\\\\\\\"rulePriorityCode\\\\\\\":\\\\\\\"ORA_HIGH\\\\\\\",\\\\\\\"rulePriorityCodeMeaning\\\\\\\":\\\\\\\"High\\\\\\\",\\\\\\\"categoryCode\\\\\\\":\\\\\\\"ORA_VARIANCE\\\\\\\",\\\\\\\"categoryCodeMeaning\\\\\\\":\\\\\\\"Variance\\\\\\\",\\\\\\\"displayRuleName\\\\\\\":\\\\\\\"Accounts Payable variance exceeds 20% MoM for Vision Foods Napa\\\\\\\",\\\\\\\"rank\\\\\\\":2}, \\\\\\\"actionCode\\\\\\\": \\\\\\\"openVarInsight\\\\\\\"})\\\"}]}}]},{\\\"containerId\\\":\\\"container-1777976575171\\\",\\\"agentCode\\\":\\\"XX_FIN_GL_CLEARING_ACCOUNT_WORKFLOW_V2\\\",\\\"panelName\\\":\\\"Clearing Account Balances\\\",\\\"title\\\":\\\"Clearing Account Balances\\\",\\\"widgets\\\":[{\\\"type\\\":\\\"messageListWidget\\\",\\\"config\\\":{\\\"items\\\":[{\\\"title\\\":\\\"Asset Clearing activity exceeds $99,999 for Vision Foods USA\\\",\\\"subtitle\\\":\\\"Vision Foods USA Asset Clearing totaled $7,500,000 in May 2026, driven primarily by All Intercompany Values and All Cost_Center Values, exceeding the $99,999 alert threshold.\\\",\\\"action\\\":\\\"ora.Invoke(\\\\\\\"openClrAccBalInsight\\\\\\\", {\\\\\\\"rowData\\\\\\\": {\\\\\\\"insightRecipientId\\\\\\\":\\\\\\\"300100651967340\\\\\\\",\\\\\\\"ruleName\\\\\\\":\\\\\\\"Alert if period activity of account Asset Clearing for company Vision Foods USA is > 99999 USD\\\\\\\",\\\\\\\"insightSummary\\\\\\\":\\\\\\\"Vision Foods USA Asset Clearing totaled $7,500,000 in May 2026, driven primarily by All Intercompany Values and All Cost_Center Values, exceeding the $99,999 alert threshold.\\\\\\\",\\\\\\\"rulePriorityCode\\\\\\\":\\\\\\\"ORA_HIGH\\\\\\\",\\\\\\\"rulePriorityCodeMeaning\\\\\\\":\\\\\\\"High\\\\\\\",\\\\\\\"categoryCode\\\\\\\":\\\\\\\"ORA_RECONCILIATION\\\\\\\",\\\\\\\"categoryCodeMeaning\\\\\\\":\\\\\\\"Reconciliation\\\\\\\",\\\\\\\"displayRuleName\\\\\\\":\\\\\\\"Asset Clearing activity exceeds $99,999 for Vision Foods USA\\\\\\\",\\\\\\\"rank\\\\\\\":1},\\\\\\\"actionCode\\\\\\\": \\\\\\\"openClrAccBalInsight\\\\\\\"})\\\"},{\\\"title\\\":\\\"Asset Clearing activity exceeds $99,999 Cr for Jan-26\\\",\\\"subtitle\\\":\\\"For January 2026, Asset Clearing activity on the Vision Foods - USA Ledger for Vision Foods USA totaled $1,800,000, driven primarily by All Intercompany Values and recorded under the specified ledger.\\\",\\\"action\\\":\\\"ora.Invoke(\\\\\\\"openClrAccBalInsight\\\\\\\", {\\\\\\\"rowData\\\\\\\": {\\\\\\\"insightRecipientId\\\\\\\":\\\\\\\"300100651967355\\\\\\\",\\\\\\\"ruleName\\\\\\\":\\\\\\\"Alert if period activity of account Asset Clearing for company Vision Foods USA is > 99999 Cr for Jan-26\\\\\\\",\\\\\\\"insightSummary\\\\\\\":\\\\\\\"For January 2026, Asset Clearing activity on the Vision Foods - USA Ledger for Vision Foods USA totaled $1,800,000, driven primarily by All Intercompany Values and recorded under the specified ledger.\\\\\\\",\\\\\\\"rulePriorityCode\\\\\\\":\\\\\\\"ORA_HIGH\\\\\\\",\\\\\\\"rulePriorityCodeMeaning\\\\\\\":\\\\\\\"High\\\\\\\",\\\\\\\"categoryCode\\\\\\\":\\\\\\\"ORA_RECONCILIATION\\\\\\\",\\\\\\\"categoryCodeMeaning\\\\\\\":\\\\\\\"Reconciliation\\\\\\\",\\\\\\\"displayRuleName\\\\\\\":\\\\\\\"Asset Clearing activity exceeds $99,999 Cr for Jan-26\\\\\\\",\\\\\\\"rank\\\\\\\":2},\\\\\\\"actionCode\\\\\\\": \\\\\\\"openClrAccBalInsight\\\\\\\"})\\\"},{\\\"title\\\":\\\"Asset Clearing activity exceeds $100,000 Cr for Jan-26\\\",\\\"action\\\":\\\"ora.Invoke(\\\\\\\"openClrAccBalInsight\\\\\\\", {\\\\\\\"rowData\\\\\\\": {\\\\\\\"insightRecipientId\\\\\\\":\\\\\\\"300100651978698\\\\\\\",\\\\\\\"ruleName\\\\\\\":\\\\\\\"Alert if period activity of account Asset Clearing for company Vision Foods USA is > 100000 Cr for Jan-26\\\\\\\",\\\\\\\"insightSummary\\\\\\\":null,\\\\\\\"rulePriorityCode\\\\\\\":\\\\\\\"ORA_HIGH\\\\\\\",\\\\\\\"rulePriorityCodeMeaning\\\\\\\":\\\\\\\"High\\\\\\\",\\\\\\\"categoryCode\\\\\\\":\\\\\\\"ORA_RECONCILIATION\\\\\\\",\\\\\\\"categoryCodeMeaning\\\\\\\":\\\\\\\"Reconciliation\\\\\\\",\\\\\\\"displayRuleName\\\\\\\":\\\\\\\"Asset Clearing activity exceeds $100,000 Cr for Jan-26\\\\\\\",\\\\\\\"rank\\\\\\\":5},\\\\\\\"actionCode\\\\\\\": \\\\\\\"openClrAccBalInsight\\\\\\\"})\\\"},{\\\"title\\\":\\\"Asset Clearing activity exceeds $100,000 for Vision Foods USA\\\",\\\"action\\\":\\\"ora.Invoke(\\\\\\\"openClrAccBalInsight\\\\\\\", {\\\\\\\"rowData\\\\\\\": {\\\\\\\"insightRecipientId\\\\\\\":\\\\\\\"300100651976870\\\\\\\",\\\\\\\"ruleName\\\\\\\":\\\\\\\"Alert if period activity of account Asset Clearing for company Vision Foods USA is > 100000 USD\\\\\\\",\\\\\\\"insightSummary\\\\\\\":null,\\\\\\\"rulePriorityCode\\\\\\\":\\\\\\\"ORA_HIGH\\\\\\\",\\\\\\\"rulePriorityCodeMeaning\\\\\\\":\\\\\\\"High\\\\\\\",\\\\\\\"categoryCode\\\\\\\":\\\\\\\"ORA_RECONCILIATION\\\\\\\",\\\\\\\"categoryCodeMeaning\\\\\\\":\\\\\\\"Reconciliation\\\\\\\",\\\\\\\"displayRuleName\\\\\\\":\\\\\\\"Asset Clearing activity exceeds $100,000 for Vision Foods USA\\\\\\\",\\\\\\\"rank\\\\\\\":5},\\\\\\\"actionCode\\\\\\\": \\\\\\\"openClrAccBalInsight\\\\\\\"})\\\"},{\\\"title\\\":\\\"Total Cash balance exceeds $1,000,000 for Vision Foods Americas\\\",\\\"action\\\":\\\"ora.Invoke(\\\\\\\"openClrAccBalInsight\\\\\\\", {\\\\\\\"rowData\\\\\\\": {\\\\\\\"insightRecipientId\\\\\\\":\\\\\\\"300100651976874\\\\\\\",\\\\\\\"ruleName\\\\\\\":\\\\\\\"Alert if balance of account Total Cash for Vision Foods - Americas > 1000000 USD\\\\\\\",\\\\\\\"insightSummary\\\\\\\":null,\\\\\\\"rulePriorityCode\\\\\\\":\\\\\\\"ORA_HIGH\\\\\\\",\\\\\\\"rulePriorityCodeMeaning\\\\\\\":\\\\\\\"High\\\\\\\",\\\\\\\"categoryCode\\\\\\\":\\\\\\\"ORA_RECONCILIATION\\\\\\\",\\\\\\\"categoryCodeMeaning\\\\\\\":\\\\\\\"Reconciliation\\\\\\\",\\\\\\\"displayRuleName\\\\\\\":\\\\\\\"Total Cash balance exceeds $1,000,000 for Vision Foods Americas\\\\\\\",\\\\\\\"rank\\\\\\\":5},\\\\\\\"actionCode\\\\\\\": \\\\\\\"openClrAccBalInsight\\\\\\\"})\\\"}]}}]}]}\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\",\n    \"OraAgenticAppsParentConversationId\": \"62e8a6e3-9866-45c7-a80a-8e03cd95e528\"\n}",
+          "restConfigJson": "{\n    \"OraMessageHint\": \"Query\",\n    \"OraChatHistory\": \"MOCK_ORACHATHISTORY\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"OraUiContext\": \"{\\\"panels\\\":[{\\\"containerId\\\":\\\"MOCK_CONTAINERID\\\",\\\"agentCode\\\":\\\"MOCK_AGENTCODE\\\",\\\"panelName\\\":\\\"MOCK_PANELNAME\\\",\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"widgets\\\":[{\\\"type\\\":\\\"messageListWidget\\\",\\\"config\\\":{\\\"items\\\":[{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"summary\\\":\\\"MOCK_SUMMARY\\\",\\\"timestamp\\\":null,\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"summary\\\":\\\"MOCK_SUMMARY\\\",\\\"timestamp\\\":null,\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"summary\\\":\\\"MOCK_SUMMARY\\\",\\\"timestamp\\\":null,\\\"action\\\":\\\"MOCK_ACTION\\\"}]}}]},{\\\"containerId\\\":\\\"MOCK_CONTAINERID\\\",\\\"agentCode\\\":\\\"MOCK_AGENTCODE\\\",\\\"panelName\\\":\\\"MOCK_PANELNAME\\\",\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"widgets\\\":[{\\\"type\\\":\\\"messageListWidget\\\",\\\"config\\\":{\\\"items\\\":[{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"timestamp\\\":null,\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"timestamp\\\":null,\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"timestamp\\\":null,\\\"action\\\":\\\"MOCK_ACTION\\\"}]}}]},{\\\"containerId\\\":\\\"MOCK_CONTAINERID\\\",\\\"agentCode\\\":\\\"MOCK_AGENTCODE\\\",\\\"panelName\\\":\\\"MOCK_PANELNAME\\\",\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"widgets\\\":[{\\\"type\\\":\\\"messageListWidget\\\",\\\"config\\\":{\\\"items\\\":[{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"subtitle\\\":\\\"MOCK_SUBTITLE\\\",\\\"status\\\":\\\"MOCK_STATUS\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"subtitle\\\":\\\"MOCK_SUBTITLE\\\",\\\"status\\\":\\\"MOCK_STATUS\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"subtitle\\\":\\\"MOCK_SUBTITLE\\\",\\\"status\\\":\\\"MOCK_STATUS\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"}]}}]},{\\\"containerId\\\":\\\"MOCK_CONTAINERID\\\",\\\"agentCode\\\":\\\"MOCK_AGENTCODE\\\",\\\"panelName\\\":\\\"MOCK_PANELNAME\\\",\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"widgets\\\":[{\\\"type\\\":\\\"messageListWidget\\\",\\\"config\\\":{\\\"items\\\":[{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"}]}}]},{\\\"containerId\\\":\\\"MOCK_CONTAINERID\\\",\\\"agentCode\\\":\\\"MOCK_AGENTCODE\\\",\\\"panelName\\\":\\\"MOCK_PANELNAME\\\",\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"widgets\\\":[{\\\"type\\\":\\\"messageListWidget\\\",\\\"config\\\":{\\\"items\\\":[{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"subtitle\\\":\\\"MOCK_SUBTITLE\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"subtitle\\\":\\\"MOCK_SUBTITLE\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"}]}}]}]}\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\",\n    \"OraAgenticAppsParentConversationId\": \"MOCK_ORAAGENTICAPPSPARENTCONVERSATIONID\"\n}",
           "inputMessage": "Why did the Payables journal source worsen from April to May, and which suppliers contributed most to that change?"
         },
         {
@@ -1203,7 +1210,7 @@
           "name": "Explain, Payables",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{ \\\"actionCode\\\": \\\"openVarInsight\\\", \\\"secActionCode\\\": \\\"explain\\\", \\\"workflow\\\": \\\"ORA_VARIANCE_ANALYSIS\\\", \\\"rowData\\\" : { \\\"insightRecipientId\\\" : 300100652984248 } }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptcoelqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"workflow\\\":\\\"MOCK_WORKFLOW\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
           "inputMessage": "Hi"
         },
         {
@@ -1211,7 +1218,7 @@
           "name": "Run",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\": {\\\"insightRecipientId\\\":\\\"300100658883074\\\",\\\"ruleName\\\":\\\"Show posted journals in account 52330 where accounted amount exceeds USD 700000 during current period\\\",\\\"insightSummary\\\":\\\"Posted activity to account 52330 in Jun-26 totals 2,025,300.00 USD, driven primarily by Vision Foods Packaging US and Vision Foods Plant Operations US.\\\",\\\"rulePriorityCode\\\":\\\"ORA_HIGH\\\",\\\"rulePriorityCodeMeaning\\\":\\\"High\\\",\\\"categoryCode\\\":\\\"ORA_VARIANCE\\\",\\\"categoryCodeMeaning\\\":\\\"Variance\\\",\\\"displayRuleName\\\":\\\"Account 52330 posted journals exceed USD 700,000 current period\\\",\\\"rank\\\":2}, \\\"actionCode\\\": \\\"openVarInsight\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptcoelqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\",\n    \"correlationId\": \"264beb4b-d073-482a-ad78-aff1019a51cf\"\n}",
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\":{\\\"insightRecipientId\\\":\\\"MOCK_INSIGHTRECIPIENTID\\\",\\\"ruleName\\\":\\\"MOCK_RULENAME\\\",\\\"insightSummary\\\":\\\"MOCK_INSIGHTSUMMARY\\\",\\\"rulePriorityCode\\\":\\\"MOCK_RULEPRIORITYCODE\\\",\\\"rulePriorityCodeMeaning\\\":\\\"MOCK_RULEPRIORITYCODEMEANING\\\",\\\"categoryCode\\\":\\\"MOCK_CATEGORYCODE\\\",\\\"categoryCodeMeaning\\\":\\\"MOCK_CATEGORYCODEMEANING\\\",\\\"displayRuleName\\\":\\\"MOCK_DISPLAYRULENAME\\\",\\\"rank\\\":0},\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\",\n    \"correlationId\": \"MOCK_CORRELATIONID\"\n}",
           "inputMessage": ""
         }
       ]
@@ -1253,22 +1260,38 @@
     "chatExpThirdPartyDetails": [],
     "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI"
   },
-  "status": "DRAFT",
-  "version": 78300855,
+  "name": "Variance Analysis",
+  "description": "Analyzes significant balance variances for the selected ledger and period, ranks variance insights by business impact, and supports drilldowns into balances and review or dismissal actions.",
   "family": "FIN",
   "product": "GENERAL_LEDGER",
-  "ownerName": "Mary Johnson",
-  "customFlag": false,
+  "workflowId": "300100651843063",
+  "ownerName": null,
   "seededFlag": false,
-  "isTemplate": false,
   "hiddenFlag": false,
+  "status": "DRAFT",
+  "version": 79337307,
   "useCaseId": "NA",
   "accessModifier": "public",
   "architecture": "data_pipeline",
-  "aiAppsCompatibleFlag": true,
-  "followupEnabledFlag": false,
   "followupPrompt": "Based on the following conversion: $param.system_context.chat_history generate $param.system_context.number_of_follow_up_questions\nfollow up questions only while strictly adhering to the JSON Schema format mentioned below. Remove the ```json markdown from the output.\nHere is the JSON Schema format the output should adhere to:\n[{\"question\": \"<put first question generated here>\"}, {\"question\": \"<put second question generated here>\"}, {\"question\": \"<put third question generated here>\"}",
-  "header": {
-    "ETag": "\"378\""
-  }
+  "firstStarterQuestion": null,
+  "secondStarterQuestion": null,
+  "thirdStarterQuestion": null,
+  "followupEnabledFlag": false,
+  "maxInteractions": null,
+  "customFlag": false,
+  "sourceWorkflowCode": null,
+  "customizationPolicy": null,
+  "emailConfigCode": null,
+  "jobRequestId": null,
+  "aiAppsCompatibleFlag": true,
+  "isTemplate": false,
+  "ownerId": "100010026335772",
+  "$id": "300100651843063",
+  "tags": [],
+  "roles": [],
+  "seededRoles": [],
+  "customizedSpecifications": [],
+  "initialTags": [],
+  "initialRoles": []
 }

@@ -83,7 +83,7 @@
               "id": "1783065000002_condition",
               "name": "condition",
               "type": "string",
-              "value": "{{$context.$nodes.VALIDATE_TIME_CARD_DATE_RANGE.$output.result}}"
+              "value": "{{$context.$nodes.VALIDATE_TIME_CARD_DATE_RANGE.$output.result === true}}"
             }
           ],
           "diagram": {
@@ -120,7 +120,7 @@
           "type": "BO_FUNCTION",
           "metadata": {
             "name": "Fetch Time Card Status Aggregations",
-            "businessObjectCode": "ORA_HCM_TIMEANDLAB_TIMECARDSTATUSAGGREGATIONSLOOKUP",
+            "businessObjectCode": "ORA_HCM_TIMEANDLAB_XX_TIMECARDSTATUSAGGREGATIONSLOOKUP",
             "functionName": "getTimeCardAggregationsByStatus",
             "processJson": true
           },
@@ -155,7 +155,7 @@
           "type": "BO_FUNCTION",
           "metadata": {
             "name": "Fetch Missing Person Time Card Aggregations",
-            "businessObjectCode": "ORA_HCM_TIMEANDLAB_MISSINGPERSONTIMECARDAGGREGATIONSLOOKUP",
+            "businessObjectCode": "ORA_HCM_TIMEANDLAB_XX_MISSINGPERSONTIMECARDAGGREGATIONSLOOKUP",
             "functionName": "getMissingPersonTimeCardAggregations",
             "processJson": true
           },

@@ -74,7 +74,7 @@
           "code": "GET_WORKER_DETAILS_BY_BUSINESSUNIT_ID",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_PERSONSEARCHESGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersByBusinessUnitId",
             "processJson": true,
             "name": "Get Workers by Business Unit Id",
@@ -103,7 +103,7 @@
           "code": "GET_WORKER_DETAILS_BY_BUSINESSUNIT_NAME",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_PERSONSEARCHESGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersByBusinessUnitName",
             "processJson": true,
             "name": "Get Workers by Business Unit Name",

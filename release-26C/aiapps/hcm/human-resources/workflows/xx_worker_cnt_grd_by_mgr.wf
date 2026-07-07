@@ -93,7 +93,7 @@
           "code": "WORKERCOUNTBYMANAGERANDGRADE",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_PERSONSEARCHESGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkerCount",
             "processJson": true,
             "name": "Get Worker Count by Manager and Grade",

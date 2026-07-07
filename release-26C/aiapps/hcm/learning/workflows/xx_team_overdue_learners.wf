@@ -28,11 +28,11 @@
         },
         {
           "id": "1782387203244",
-          "code": "NEW_SWITCH_NODE",
+          "code": "ROUTE_MESSAGE_HINT",
           "type": "SWITCH",
           "convergenceTargetId": "end",
           "metadata": {
-            "name": "New switch Node"
+            "name": "Route Message Hint"
           },
           "diagram": {
             "x": 5000,
@@ -56,7 +56,7 @@
           "type": "BO_FUNCTION",
           "metadata": {
             "name": "Fetch Overdue Learners",
-            "businessObjectCode": "ORA_HCM_LEARNING_LEARNINGSEARCHES",
+            "businessObjectCode": "ORA_HCM_LEARNING_XX_LEARNINGSEARCHES",
             "functionName": "learner_aggregations",
             "errorNodeId": "1782387299388"
           },

@@ -30,7 +30,7 @@
           "code": "GETPERSONSENIORITY",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_EMPLOYMENTGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_EMPLOYMENTGHR",
             "functionName": "GetPersonSeniorityInformation",
             "processJson": true,
             "name": "Get Person Seniority Information",

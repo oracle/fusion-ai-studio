@@ -182,7 +182,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_SCM_MAINTENANCE_WO_SEARCHES",
+            "businessObjectCode": "ORA_SCM_MAINTENANC_XX_WO_SEARCHES",
             "functionName": "oraScmMnt_searchWorkOrders_dates_and_org",
             "processJson": true,
             "name": "Fetch Work Orders"

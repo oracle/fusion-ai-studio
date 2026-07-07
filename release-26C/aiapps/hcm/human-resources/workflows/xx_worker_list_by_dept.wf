@@ -74,7 +74,7 @@
           "code": "GET_WORKER_DETAILS_BY_DEPARTMENT_NAME",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_PERSONSEARCHESGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersByDepartmentName",
             "processJson": true,
             "name": "Get Workers by Department Name",

@@ -130,7 +130,7 @@
               "id": "1783065100002_condition",
               "name": "condition",
               "type": "string",
-              "value": "{{$context.$nodes.VALIDATE_TIME_CARD_EXCEPTION_DATE_RANGE.$output.result}}"
+              "value": "{{$context.$nodes.VALIDATE_TIME_CARD_EXCEPTION_DATE_RANGE.$output.result === true}}"
             }
           ],
           "diagram": {
@@ -167,7 +167,7 @@
           "type": "BO_FUNCTION",
           "metadata": {
             "name": "Fetch Time Card Exception Aggregations",
-            "businessObjectCode": "ORA_HCM_TIMEANDLAB_TIMECARDEXCEPTIONAGGREGATIONSLOOKUP",
+            "businessObjectCode": "ORA_HCM_TIMEANDLAB_XX_TIMECARDEXCEPTIONAGGREGATIONSLOOKUP",
             "functionName": "getTimeCardAggregationsByException",
             "processJson": true
           },
@@ -253,7 +253,7 @@
               "id": "1783065100005_condition",
               "name": "condition",
               "type": "string",
-              "value": "{{$context.$nodes.VALIDATE_EXCEPTION_TIME_CARD_SEARCH_INPUTS.$output.result}}"
+              "value": "{{$context.$nodes.VALIDATE_EXCEPTION_TIME_CARD_SEARCH_INPUTS.$output.result === true}}"
             }
           ],
           "diagram": {
@@ -290,7 +290,7 @@
           "type": "BO_FUNCTION",
           "metadata": {
             "name": "Fetch Exception Time Cards",
-            "businessObjectCode": "ORA_HCM_TIMEANDLAB_TIMECARDEXCEPTIONSEARCHESLOOKUP",
+            "businessObjectCode": "ORA_HCM_TIMEANDLAB_XX_TIMECARDEXCEPTIONSEARCHESLOOKUP",
             "functionName": "searchTimeCardsByException",
             "processJson": true
           },

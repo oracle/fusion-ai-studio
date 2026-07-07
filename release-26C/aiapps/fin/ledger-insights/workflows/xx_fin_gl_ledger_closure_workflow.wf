@@ -1,9 +1,6 @@
 {
   "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
-  "workflowId": "300100658844721",
   "workflowCode": "XX_FIN_GL_LEDGER_CLOSURE_WORKFLOW",
-  "name": "Ledger Closure Workflow",
-  "description": "Orchestrates the Ledger Close Workspace by loading application context, routing app message hints, invoking the period status, accounting exceptions, controls compliance, clearing account, and variance workflows in parallel, and rendering an executive close summary.",
   "specification": {
     "dataPipeline": {
       "pipelineNodes": [
@@ -20,14 +17,15 @@
           "inputs": [],
           "type": "START",
           "diagram": {
-            "x": 6147,
+            "x": 5920,
             "y": 5000
           }
         },
         {
           "metadata": {
             "name": "Get App Context",
-            "workflowCode": "XX_FIN_GL_LEDGER_INSIGHTS_CONTEXT_WORKFLOW"
+            "workflowCode": "XX_FIN_GL_LEDGER_INSIGHTS_CONTEXT_WORKFLOW",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "1778910356550"
@@ -81,7 +79,7 @@
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"input\": {\n      \"type\": \"string\"\n    },\n    \"output\": {\n      \"type\": \"string\"\n    },\n    \"error\": {\n      \"type\": \"null\"\n    },\n    \"followUpQuestions\": {\n      \"type\": \"array\",\n      \"items\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"string\"\n        }\n      ]\n    },\n    \"jobId\": {\n      \"type\": \"string\"\n    },\n    \"conversationId\": {\n      \"type\": \"string\"\n    },\n    \"traceId\": {\n      \"type\": \"string\"\n    },\n    \"status\": {\n      \"type\": \"string\"\n    },\n    \"supportingChunks\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"citations\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"nodes\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"waitingToolCode\": {\n      \"type\": \"null\"\n    },\n    \"workflowCode\": {\n      \"type\": \"string\"\n    },\n    \"workflowVersion\": {\n      \"type\": \"integer\"\n    },\n    \"workflowStatus\": {\n      \"type\": \"string\"\n    },\n    \"startDate\": {\n      \"type\": \"integer\"\n    },\n    \"endTime\": {\n      \"type\": \"integer\"\n    },\n    \"createDate\": {\n      \"type\": \"string\"\n    },\n    \"endDate\": {\n      \"type\": \"string\"\n    },\n    \"timeTaken\": {\n      \"type\": \"integer\"\n    },\n    \"inputTokenCount\": {\n      \"type\": \"integer\"\n    },\n    \"outputTokenCount\": {\n      \"type\": \"integer\"\n    }\n  },\n  \"required\": []\n}",
           "type": "WORKFLOW",
           "diagram": {
-            "x": 6025,
+            "x": 5920,
             "y": 5206
           }
         },
@@ -100,7 +98,7 @@
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "type": "CODE",
           "diagram": {
-            "x": 6025,
+            "x": 5920,
             "y": 5428
           }
         },
@@ -125,7 +123,7 @@
           ],
           "type": "SWITCH",
           "diagram": {
-            "x": 6025,
+            "x": 5920,
             "y": 5650
           }
         },
@@ -148,13 +146,14 @@
           "diagram": {
             "x": 5000,
             "y": 5872,
-            "width": 2350,
+            "width": 2140,
             "height": 348
           }
         },
         {
           "metadata": {
-            "name": "Render Summary"
+            "name": "Render Summary",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "1780579725375"
@@ -171,14 +170,36 @@
           ],
           "type": "LLM",
           "diagram": {
-            "x": 6025,
+            "x": 5920,
             "y": 6370
           }
         },
         {
+          "id": "1780579725375",
+          "code": "RETURN_SUMMARY",
+          "type": "RETURN",
+          "metadata": {
+            "name": "Return Summary"
+          },
+          "diagram": {
+            "x": 5920,
+            "y": 6592
+          },
+          "outcomes": {},
+          "inputs": [
+            {
+              "id": "1780579725375_returnValue",
+              "name": "returnValue",
+              "type": "string",
+              "value": "{{$context.$nodes.RENDER_SUMMARY.$output}} "
+            }
+          ]
+        },
+        {
           "metadata": {
             "name": "fetch Period Status",
-            "workflowCode": "XX_FIN_GL_PERIOD_STATUS_WORKFLOW"
+            "workflowCode": "XX_FIN_GL_PERIOD_STATUS_WORKFLOW",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "1777453613645"
@@ -215,7 +236,8 @@
         {
           "metadata": {
             "name": "fetch Controls and Compliance",
-            "workflowCode": "XX_FIN_GL_CONTROLS_COMPLIANCE_WORKFLOW"
+            "workflowCode": "XX_FIN_GL_CONTROLS_COMPLIANCE_WORKFLOW",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "1777453613645"
@@ -252,7 +274,8 @@
         {
           "metadata": {
             "name": "fetch Variance Analysis Information",
-            "workflowCode": "XX_FIN_GL_VARIANCE_ANALYSIS_WORKFLOW"
+            "workflowCode": "XX_FIN_GL_VARIANCE_ANALYSIS_WORKFLOW",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "1777453613645"
@@ -282,14 +305,15 @@
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"input\": {\n      \"type\": \"string\"\n    },\n    \"output\": {\n      \"type\": \"string\"\n    },\n    \"error\": {\n      \"type\": \"null\"\n    },\n    \"followUpQuestions\": {\n      \"type\": \"array\",\n      \"items\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"string\"\n        }\n      ]\n    },\n    \"jobId\": {\n      \"type\": \"string\"\n    },\n    \"conversationId\": {\n      \"type\": \"string\"\n    },\n    \"traceId\": {\n      \"type\": \"string\"\n    },\n    \"status\": {\n      \"type\": \"string\"\n    },\n    \"supportingChunks\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"citations\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"nodes\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"waitingToolCode\": {\n      \"type\": \"null\"\n    },\n    \"workflowCode\": {\n      \"type\": \"string\"\n    },\n    \"workflowVersion\": {\n      \"type\": \"integer\"\n    },\n    \"workflowStatus\": {\n      \"type\": \"string\"\n    },\n    \"startDate\": {\n      \"type\": \"integer\"\n    },\n    \"endTime\": {\n      \"type\": \"integer\"\n    },\n    \"createDate\": {\n      \"type\": \"string\"\n    },\n    \"endDate\": {\n      \"type\": \"string\"\n    },\n    \"timeTaken\": {\n      \"type\": \"integer\"\n    },\n    \"inputTokenCount\": {\n      \"type\": \"integer\"\n    },\n    \"outputTokenCount\": {\n      \"type\": \"integer\"\n    }\n  },\n  \"required\": []\n}",
           "type": "WORKFLOW",
           "diagram": {
-            "x": 5941,
+            "x": 5920,
             "y": 6113
           }
         },
         {
           "metadata": {
             "name": "fetch Clearing Account Balance Analysis",
-            "workflowCode": "XX_FIN_GL_CLEARING_ACCOUNT_WORKFLOW"
+            "workflowCode": "XX_FIN_GL_CLEARING_ACCOUNT_WORKFLOW",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "1777453613645"
@@ -319,14 +343,15 @@
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"input\": {\n      \"type\": \"string\"\n    },\n    \"output\": {\n      \"type\": \"string\"\n    },\n    \"error\": {\n      \"type\": \"null\"\n    },\n    \"followUpQuestions\": {\n      \"type\": \"array\",\n      \"items\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"string\"\n        }\n      ]\n    },\n    \"jobId\": {\n      \"type\": \"string\"\n    },\n    \"conversationId\": {\n      \"type\": \"string\"\n    },\n    \"traceId\": {\n      \"type\": \"string\"\n    },\n    \"status\": {\n      \"type\": \"string\"\n    },\n    \"supportingChunks\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"citations\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"nodes\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"waitingToolCode\": {\n      \"type\": \"null\"\n    },\n    \"workflowCode\": {\n      \"type\": \"string\"\n    },\n    \"workflowVersion\": {\n      \"type\": \"integer\"\n    },\n    \"workflowStatus\": {\n      \"type\": \"string\"\n    },\n    \"startDate\": {\n      \"type\": \"integer\"\n    },\n    \"endTime\": {\n      \"type\": \"integer\"\n    },\n    \"createDate\": {\n      \"type\": \"string\"\n    },\n    \"endDate\": {\n      \"type\": \"string\"\n    },\n    \"timeTaken\": {\n      \"type\": \"integer\"\n    },\n    \"inputTokenCount\": {\n      \"type\": \"integer\"\n    },\n    \"outputTokenCount\": {\n      \"type\": \"integer\"\n    }\n  },\n  \"required\": []\n}",
           "type": "WORKFLOW",
           "diagram": {
-            "x": 6466,
+            "x": 6370,
             "y": 6113
           }
         },
         {
           "metadata": {
             "name": "fetch Accounting Exceptions",
-            "workflowCode": "XX_FIN_GL_ACCOUNTING_EXCEPTIONS_WORKFLOW"
+            "workflowCode": "XX_FIN_GL_ACCOUNTING_EXCEPTIONS_WORKFLOW",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "1777453613645"
@@ -356,30 +381,9 @@
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"input\": {\n      \"type\": \"string\"\n    },\n    \"output\": {\n      \"type\": \"string\"\n    },\n    \"error\": {\n      \"type\": \"null\"\n    },\n    \"followUpQuestions\": {\n      \"type\": \"array\",\n      \"items\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"string\"\n        }\n      ]\n    },\n    \"jobId\": {\n      \"type\": \"string\"\n    },\n    \"conversationId\": {\n      \"type\": \"string\"\n    },\n    \"traceId\": {\n      \"type\": \"string\"\n    },\n    \"status\": {\n      \"type\": \"string\"\n    },\n    \"supportingChunks\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"citations\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"nodes\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"waitingToolCode\": {\n      \"type\": \"null\"\n    },\n    \"workflowCode\": {\n      \"type\": \"string\"\n    },\n    \"workflowVersion\": {\n      \"type\": \"integer\"\n    },\n    \"workflowStatus\": {\n      \"type\": \"string\"\n    },\n    \"startDate\": {\n      \"type\": \"integer\"\n    },\n    \"endTime\": {\n      \"type\": \"integer\"\n    },\n    \"createDate\": {\n      \"type\": \"string\"\n    },\n    \"endDate\": {\n      \"type\": \"string\"\n    },\n    \"timeTaken\": {\n      \"type\": \"integer\"\n    },\n    \"inputTokenCount\": {\n      \"type\": \"integer\"\n    },\n    \"outputTokenCount\": {\n      \"type\": \"integer\"\n    }\n  },\n  \"required\": []\n}",
           "type": "WORKFLOW",
           "diagram": {
-            "x": 7027,
+            "x": 6820,
             "y": 6113
           }
-        },
-        {
-          "id": "1780579725375",
-          "code": "RETURN_SUMMARY",
-          "type": "RETURN",
-          "metadata": {
-            "name": "Return Summary"
-          },
-          "diagram": {
-            "x": 6023.957117510153,
-            "y": 6526.315742765851
-          },
-          "outcomes": {},
-          "inputs": [
-            {
-              "id": "1780579725375_returnValue",
-              "name": "returnValue",
-              "type": "string",
-              "value": "{{$context.$nodes.RENDER_SUMMARY.$output}} "
-            }
-          ]
         },
         {
           "metadata": {
@@ -466,22 +470,38 @@
       "commentNodes": []
     }
   },
-  "status": "DRAFT",
-  "version": 78301030,
+  "name": "Ledger Closure Workflow",
+  "description": "Orchestrates the Ledger Close Workspace by loading application context, routing app message hints, invoking the period status, accounting exceptions, controls compliance, clearing account, and variance workflows in parallel, and rendering an executive close summary.",
   "family": "FIN",
   "product": "GENERAL_LEDGER",
+  "workflowId": "300100658844721",
   "ownerName": null,
-  "customFlag": false,
   "seededFlag": false,
-  "isTemplate": false,
   "hiddenFlag": false,
+  "status": "DRAFT",
+  "version": 79337161,
   "useCaseId": "NA",
   "accessModifier": "public",
   "architecture": "data_pipeline",
-  "aiAppsCompatibleFlag": true,
-  "followupEnabledFlag": false,
   "followupPrompt": "Based on the following conversion: $param.system_context.chat_history generate $param.system_context.number_of_follow_up_questions\nfollow up questions only while strictly adhering to the JSON Schema format mentioned below. Remove the ```json markdown from the output.\nHere is the JSON Schema format the output should adhere to:\n[{\"question\": \"<put first question generated here>\"}, {\"question\": \"<put second question generated here>\"}, {\"question\": \"<put third question generated here>\"}",
-  "header": {
-    "ETag": "\"28\""
-  }
+  "firstStarterQuestion": null,
+  "secondStarterQuestion": null,
+  "thirdStarterQuestion": null,
+  "followupEnabledFlag": false,
+  "maxInteractions": null,
+  "customFlag": false,
+  "sourceWorkflowCode": null,
+  "customizationPolicy": null,
+  "emailConfigCode": null,
+  "jobRequestId": null,
+  "aiAppsCompatibleFlag": true,
+  "isTemplate": false,
+  "ownerId": null,
+  "$id": "300100658844721",
+  "tags": [],
+  "roles": [],
+  "seededRoles": [],
+  "customizedSpecifications": [],
+  "initialTags": [],
+  "initialRoles": []
 }

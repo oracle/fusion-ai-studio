@@ -75,7 +75,7 @@
           "code": "GET_WORKER_DETAILS_BY_GRADE_ID",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_PERSONSEARCHESGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersByGradeId",
             "processJson": true,
             "name": "Get Workers by Grade Id",
@@ -104,7 +104,7 @@
           "code": "GET_WORKER_DETAILS_BY_GRADE_CODE",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_PERSONSEARCHESGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersByGradeCode",
             "processJson": true,
             "name": "Get Workers by Grade Code",
@@ -133,7 +133,7 @@
           "code": "GET_WORKER_DETAILS_BY_GRADE_NAME",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_PERSONSEARCHESGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersByGradeName",
             "processJson": true,
             "name": "Get Workers by Grade Name",

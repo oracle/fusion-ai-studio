@@ -32,7 +32,7 @@
           "type": "BO_FUNCTION",
           "metadata": {
             "name": "Fetch Overdue Team Journeys",
-            "businessObjectCode": "ORA_HCM_JOURNEYS_JOURNEYSEARCHESANDAGGREGATION",
+            "businessObjectCode": "ORA_HCM_JOURNEYS_XX_JOURNEYSEARCHESANDAGGREGATION",
             "functionName": "getWorkerTeamJourney"
           },
           "diagram": {
@@ -47,7 +47,8 @@
               "id": "1782379308780_Status",
               "name": "Status",
               "value": "Overdue",
-              "required": false
+              "required": false,
+              "type": "string"
             },
             {
               "id": "1782379308780_Categories",
@@ -200,7 +201,7 @@
   "seededFlag": false,
   "hiddenFlag": false,
   "status": "DRAFT",
-  "version": 79012025,
+  "version": 79262093,
   "useCaseId": "NA",
   "accessModifier": "public",
   "architecture": "data_pipeline",
@@ -224,8 +225,5 @@
   "seededRoles": [],
   "customizedSpecifications": [],
   "initialTags": [],
-  "initialRoles": [],
-  "header": {
-    "ETag": "\"8\""
-  }
+  "initialRoles": []
 }

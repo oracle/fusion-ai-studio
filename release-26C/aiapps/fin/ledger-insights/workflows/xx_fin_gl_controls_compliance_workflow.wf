@@ -1,9 +1,6 @@
 {
   "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
-  "workflowId": "300100651845001",
   "workflowCode": "XX_FIN_GL_CONTROLS_COMPLIANCE_WORKFLOW",
-  "name": "Controls and Compliance",
-  "description": "Surfaces controls and compliance insights for ledger close, prioritizes policy exceptions and audit risks, supports review or dismissal of flagged issues, and provides drilldowns into journals, balances, and supporting details.",
   "specification": {
     "dataPipeline": {
       "pipelineNodes": [
@@ -16,7 +13,7 @@
             "success": "1778586520878"
           },
           "diagram": {
-            "x": 7256,
+            "x": 7065,
             "y": 5000
           },
           "code": "START",
@@ -34,7 +31,7 @@
             "success": "1778484325344"
           },
           "diagram": {
-            "x": 7134,
+            "x": 7065,
             "y": 5206
           },
           "code": "IDENTIFY_REQUEST_TYPE",
@@ -53,7 +50,7 @@
             "success": "1778074597470"
           },
           "diagram": {
-            "x": 7119,
+            "x": 7065,
             "y": 5428
           },
           "code": "CHOOSE_CONTEXT_DETAILS_TO_LOAD",
@@ -65,13 +62,14 @@
         {
           "metadata": {
             "name": "Get Application Context",
-            "workflowCode": "XX_FIN_GL_LEDGER_INSIGHTS_CONTEXT_WORKFLOW"
+            "workflowCode": "XX_FIN_GL_LEDGER_INSIGHTS_CONTEXT_WORKFLOW",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "1778074626048"
           },
           "diagram": {
-            "x": 7134,
+            "x": 7065,
             "y": 5650
           },
           "code": "GET_APPLICATION_CONTEXT",
@@ -133,7 +131,7 @@
             "success": "1777966067227"
           },
           "diagram": {
-            "x": 7134,
+            "x": 7065,
             "y": 5872
           },
           "code": "READ_APPLICATION_CONTEXT",
@@ -152,7 +150,7 @@
             "success": "1777966115589"
           },
           "diagram": {
-            "x": 7134,
+            "x": 7065,
             "y": 6094
           },
           "code": "PREPARE_LOOKUP_VALUES",
@@ -169,7 +167,7 @@
             "success": "1777439112427"
           },
           "diagram": {
-            "x": 7134,
+            "x": 7065,
             "y": 6316
           },
           "code": "SAVE_LOOKUP_VALUES",
@@ -206,7 +204,7 @@
             "summary": ""
           },
           "diagram": {
-            "x": 7134,
+            "x": 7065,
             "y": 6538
           },
           "code": "CHOOSE_STARTING_PATH",
@@ -232,7 +230,7 @@
             "success": "1778074724391"
           },
           "diagram": {
-            "x": 6459,
+            "x": 6390,
             "y": 6760
           },
           "code": "IDENTIFY_SELECTED_ACTION",
@@ -251,7 +249,7 @@
             "success": "1777966211400"
           },
           "diagram": {
-            "x": 8038.5,
+            "x": 7965,
             "y": 6760
           },
           "code": "PREPARE_INSIGHT_SEARCH_FILTERS",
@@ -265,13 +263,13 @@
           "metadata": {
             "name": "Read Selected Insight",
             "returnType": "object",
-            "sourceCode": "let rowData = {};\n\ntry {\n  const rawInput = $context.$app.$OraAction || \"\";\n\n  if (rawInput) {\n    let parsedInput = JSON.parse(rawInput);\n\n    // handle double-encoded JSON\n    if (typeof parsedInput === \"string\") {\n      parsedInput = JSON.parse(parsedInput);\n    }\n\n    rowData = parsedInput?.rowData || {};\n  }\n} catch (e) { }\n// return \"300100651439682\";\nreturn rowData.insightRecipientId;"
+            "sourceCode": "const numericOnly = (value) => {\n  const text = value == null ? \"\" : String(value).trim();\n  return /^\\d+$/.test(text) ? text : \"\";\n};\n\nlet rowData = {};\n\ntry {\n  const rawInput = $context.$app.$OraAction || \"\";\n\n  if (rawInput) {\n    let parsedInput = JSON.parse(rawInput);\n\n    // handle double-encoded JSON\n    if (typeof parsedInput === \"string\") {\n      parsedInput = JSON.parse(parsedInput);\n    }\n\n    rowData = parsedInput?.rowData || {};\n  }\n} catch (e) { }\nreturn numericOnly(rowData.insightRecipientId);"
           },
           "outcomes": {
             "success": "1778828611561"
           },
           "diagram": {
-            "x": 6459,
+            "x": 6390,
             "y": 6982
           },
           "code": "READ_SELECTED_INSIGHT",
@@ -282,7 +280,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_FIN_GENERALLED_INSIGHTS_LIST",
+            "businessObjectCode": "ORA_FIN_GL_XX_INSIGHTS_LIST",
             "functionName": "getall_sensorInsightList",
             "name": "Get Controls Compliance Insights"
           },
@@ -290,7 +288,7 @@
             "success": "1777966339717"
           },
           "diagram": {
-            "x": 8029.5,
+            "x": 7965,
             "y": 6982
           },
           "code": "GET_CONTROLS_COMPLIANCE_INSIGHTS",
@@ -316,7 +314,7 @@
             "success": "1778074696661"
           },
           "diagram": {
-            "x": 6453,
+            "x": 6390,
             "y": 7204
           },
           "code": "READ_SELECTED_ACTION_DETAILS",
@@ -335,7 +333,7 @@
             "success": "1778059725717"
           },
           "diagram": {
-            "x": 8053.5,
+            "x": 7965,
             "y": 7204
           },
           "code": "ORGANIZE_INSIGHT_RESULTS",
@@ -356,7 +354,7 @@
             "openInsight": ""
           },
           "diagram": {
-            "x": 6459,
+            "x": 6390,
             "y": 7426
           },
           "code": "CHOOSE_ACTION_PATH",
@@ -374,13 +372,14 @@
         },
         {
           "metadata": {
-            "name": "Find Top Insights"
+            "name": "Find Top Insights",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "1778586618093"
           },
           "diagram": {
-            "x": 8053.5,
+            "x": 7965,
             "y": 7426
           },
           "code": "FIND_TOP_INSIGHTS",
@@ -407,7 +406,7 @@
             "success": "1778074784114"
           },
           "diagram": {
-            "x": 5764.5,
+            "x": 5715,
             "y": 7648
           },
           "code": "PREPARE_SELECTED_INSIGHT_SEARCH",
@@ -426,13 +425,14 @@
             }
           },
           "metadata": {
-            "name": "Show Review Comment Form"
+            "name": "Show Review Comment Form",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "end"
           },
           "diagram": {
-            "x": 7158,
+            "x": 7065,
             "y": 7648
           },
           "code": "SHOW_REVIEW_COMMENT_FORM",
@@ -455,7 +455,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_FIN_GENERALLED_INSIGHT_REVIEW_ACTIONS",
+            "businessObjectCode": "ORA_FIN_GL_XX_INSIGHT_REVIEW_ACTIONS",
             "functionName": "dismissInsight",
             "name": "Dismiss Insight"
           },
@@ -463,7 +463,7 @@
             "success": "1778828626600"
           },
           "diagram": {
-            "x": 6708,
+            "x": 6615,
             "y": 7648
           },
           "code": "DISMISS_INSIGHT",
@@ -481,11 +481,11 @@
         {
           "metadata": {
             "name": "Read Review Comments",
-            "sourceCode": "try {\n\n  const str = $context?.$app?.$OraAction || \"\";\n\n  if (!str || typeof str !== \"string\") {\n\n    return {};\n\n  }\n\n  // Extract JSON content safely\n\n  const jsonMatch = str.match(/<oraFormSubmit[^>]*>([\\s\\S]*?)<\\/oraFormSubmit>/);\n\n  if (!jsonMatch || !jsonMatch[1]) {\n\n    return {};\n\n  }\n\n  const jsonString = jsonMatch[1].trim();\n\n  if (!jsonString) {\n\n    return {};\n\n  }\n\n  const data = JSON.parse(jsonString);\n\n  if (!Array.isArray(data)) {\n\n    return {};\n\n  }\n\n  // Convert array into key-value object\n\n  return data.reduce((result, item) => {\n\n    if (item?.id) {\n\n      result[item.id] = item.value;\n\n    }\n\n    return result;\n\n  }, {});\n\n} catch (error) {\n\n  return {};\n\n}",
+            "sourceCode": "const numericOnly = (value) => {\n  const text = value == null ? \"\" : String(value).trim();\n  return /^\\d+$/.test(text) ? text : \"\";\n};\n\ntry {\n\n  const str = $context?.$app?.$OraAction || \"\";\n\n  if (!str || typeof str !== \"string\") {\n\n    return {};\n\n  }\n\n  // Extract JSON content safely\n\n  const jsonMatch = str.match(/<oraFormSubmit[^>]*>([\\s\\S]*?)<\\/oraFormSubmit>/);\n\n  if (!jsonMatch || !jsonMatch[1]) {\n\n    return {};\n\n  }\n\n  const jsonString = jsonMatch[1].trim();\n\n  if (!jsonString) {\n\n    return {};\n\n  }\n\n  const data = JSON.parse(jsonString);\n\n  if (!Array.isArray(data)) {\n\n    return {};\n\n  }\n\n  // Convert array into key-value object\n\n  return data.reduce((result, item) => {\n\n    if (item?.id) {\n\n      result[item.id] = item.id === \"InsightRecipientId\" ? numericOnly(item.value) : item.value;\n\n    }\n\n    return result;\n\n  }, {});\n\n} catch (error) {\n\n  return {};\n\n}",
             "returnType": "object"
           },
           "diagram": {
-            "x": 6258,
+            "x": 6165,
             "y": 7648
           },
           "outcomes": {
@@ -507,7 +507,7 @@
             "initActions": "1779087365990"
           },
           "diagram": {
-            "x": 8053.5,
+            "x": 7965,
             "y": 7648
           },
           "code": "DETERMINE_DISPLAY",
@@ -525,7 +525,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_FIN_GENERALLED_INSIGHTS_LIST",
+            "businessObjectCode": "ORA_FIN_GL_XX_INSIGHTS_LIST",
             "functionName": "getall_sensorInsightList",
             "name": "Get Selected Insight Details"
           },
@@ -533,7 +533,7 @@
             "success": "1778828759829"
           },
           "diagram": {
-            "x": 5778,
+            "x": 5715,
             "y": 7870
           },
           "code": "GET_SELECTED_INSIGHT_DETAILS",
@@ -560,13 +560,14 @@
             }
           },
           "metadata": {
-            "name": "Show Dismiss Confirmation"
+            "name": "Show Dismiss Confirmation",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "end"
           },
           "diagram": {
-            "x": 6708,
+            "x": 6615,
             "y": 7870
           },
           "code": "SHOW_DISMISS_CONFIRMATION",
@@ -590,11 +591,11 @@
         {
           "metadata": {
             "name": "Mark Insight as Reviewed",
-            "businessObjectCode": "ORA_FIN_GENERALLED_INSIGHT_REVIEW_ACTIONS",
+            "businessObjectCode": "ORA_FIN_GL_XX_INSIGHT_REVIEW_ACTIONS",
             "functionName": "markInsightAsReviewed"
           },
           "diagram": {
-            "x": 6258,
+            "x": 6165,
             "y": 7870
           },
           "outcomes": {
@@ -631,13 +632,14 @@
             }
           },
           "metadata": {
-            "name": "Show Insight List"
+            "name": "Show Insight List",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "end"
           },
           "diagram": {
-            "x": 7603.5,
+            "x": 7515,
             "y": 7870
           },
           "code": "SHOW_INSIGHT_LIST",
@@ -660,13 +662,14 @@
         },
         {
           "metadata": {
-            "name": "Show Insight Summary"
+            "name": "Show Insight Summary",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "end"
           },
           "diagram": {
-            "x": 8053.5,
+            "x": 7965,
             "y": 7870
           },
           "code": "SHOW_INSIGHT_SUMMARY",
@@ -694,13 +697,14 @@
             }
           },
           "metadata": {
-            "name": "Show Priority Insights"
+            "name": "Show Priority Insights",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "end"
           },
           "diagram": {
-            "x": 8503.5,
+            "x": 8415,
             "y": 7870
           },
           "code": "SHOW_PRIORITY_INSIGHTS",
@@ -731,7 +735,7 @@
             "success": "1778074853025"
           },
           "diagram": {
-            "x": 5760,
+            "x": 5715,
             "y": 8092
           },
           "code": "PREPARE_SELECTED_INSIGHT_DETAILS",
@@ -742,13 +746,14 @@
         },
         {
           "metadata": {
-            "name": "Show Review Confirmation"
+            "name": "Show Review Confirmation",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "end"
           },
           "diagram": {
-            "x": 6258,
+            "x": 6165,
             "y": 8092
           },
           "aiAppOutputSpecification": {
@@ -780,7 +785,7 @@
             "success": "1778074882325"
           },
           "diagram": {
-            "x": 5784,
+            "x": 5715,
             "y": 8314
           },
           "code": "READ_INSIGHT_FILTERS",
@@ -799,7 +804,7 @@
             "success": "1778074916341"
           },
           "diagram": {
-            "x": 5773.5,
+            "x": 5715,
             "y": 8536
           },
           "code": "PREPARE_PERIOD_FILTER_REQUEST",
@@ -810,7 +815,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_FIN_GENERALLED_PERIOD_EXPRESSION_RESOLVER",
+            "businessObjectCode": "ORA_FIN_GL_XX_PERIOD_EXPRESSION_RESOLVER",
             "functionName": "resolvePeriodExpression",
             "name": "Resolve Period Filters"
           },
@@ -818,7 +823,7 @@
             "success": "1778229365427"
           },
           "diagram": {
-            "x": 5784,
+            "x": 5715,
             "y": 8758
           },
           "code": "RESOLVE_PERIOD_FILTERS",
@@ -844,7 +849,7 @@
             "success": "1778225239772"
           },
           "diagram": {
-            "x": 5784,
+            "x": 5715,
             "y": 8980
           },
           "code": "IDENTIFY_DETAIL_TYPE",
@@ -862,7 +867,7 @@
             "true": "1779557768877"
           },
           "diagram": {
-            "x": 5784,
+            "x": 5715,
             "y": 9202
           },
           "code": "CHECK_DETAIL_REQUEST_TYPE",
@@ -888,7 +893,7 @@
             "success": "1779572562781"
           },
           "diagram": {
-            "x": 6538,
+            "x": 6430,
             "y": 9424
           },
           "code": "PREPARE_JOURNAL_DETAIL_REQUEST",
@@ -904,7 +909,7 @@
           "diagram": {
             "x": 5000,
             "y": 9424,
-            "width": 1388,
+            "width": 1280,
             "height": 1512
           },
           "outcomes": {
@@ -922,7 +927,7 @@
             "name": "Check Balance Detail Type"
           },
           "diagram": {
-            "x": 5544,
+            "x": 5490,
             "y": 11086
           },
           "outcomes": {
@@ -944,7 +949,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_FIN_GENERALLED_EXECUTE_BOSS_QUERY_HELPER",
+            "businessObjectCode": "ORA_FIN_GL_XX_EXECUTE_BOSS_QUERY_HELPER",
             "functionName": "bossExtract",
             "name": "Get Journal Details"
           },
@@ -952,7 +957,7 @@
             "success": "1779198137998"
           },
           "diagram": {
-            "x": 5928.5,
+            "x": 5847.5,
             "y": 11974
           },
           "code": "GET_JOURNAL_DETAILS",
@@ -976,7 +981,7 @@
             "sourceCode": "let payload = {};\n\npayload.module = 'oraErpCoreAccountingEntries';\npayload.businessObject = 'JournalLine';\npayload.view = 'generalLedgerJournalDetail';\n\npayload.balancesAVRequest = $context.$nodes.PREPARE_BALANCE_DETAIL_REQUEST.$output.result.queries[0];\npayload.balancesAVResponse = $context.$nodes.GET_BALANCE_DETAILS.$output;\npayload.avMetadata  = $context.$nodes.GET_BALANCE_SETUP_DETAILS.$output;\n\npayload.chartOfAccountsMetadata = $context.$nodes.GET_CHART_OF_ACCOUNTS_DETAILS.$output?.result;\n\npayload.ledgerName = $context.$nodes.READ_APPLICATION_CONTEXT.$output.result.ledgerName;\n\npayload.chartOfAccountsId  = $context.$nodes.READ_APPLICATION_CONTEXT.$output.result.chartOfAccountsId;\n\npayload.READ_APPLICATION_CONTEXT = $context.$nodes.READ_APPLICATION_CONTEXT.$output.result;\n\npayload.insightDetails = $context.$nodes.PREPARE_SELECTED_INSIGHT_DETAILS.$output.result;\n\npayload.defaultQueries = [\n  \"(accountedCredit != 0 OR accountedDebit != 0 OR enteredDebit != 0 OR enteredCredit != 0 )\",\n  \"batchStatusCode = 'P'\"\n];\n\npayload.fieldAliases = {\n\"header.batch.description\": \"batchDescription\",\n          \"ledger.ledgerId\": \"ledgerId\",\n          \"header.batch.errorMessage\": \"errorMessage\",\n          \"periodName\": \"periodName\",\n          \"description\": \"lineDescription\",\n          \"header.batch.name\": \"batchName\",\n          \"netEnteredAmount\": \"netEnteredAmount\",\n          \"ledger.name\": \"ledgerName\",\n          \"netAccountedAmount\": \"netAccountedAmount\",\n          \"header.name\": \"journalName\",\n          \"dateCreated\": \"dateCreated\",\n          \"currency.currencyCode\": \"enteredCurrency\",\n          \"account.concatenatedSegments\": \"concatenatedSegments\",\n          \"journalLineNumber\": \"journalLineNumber\",\n          \"currencyConversionDate\": \"currencyConversionDate\",\n          \"accountingDate\": \"accountingDate\",\n          \"updatedBy\": \"updatedBy\",\n          \"accountedCredit\": \"accountedCredit\",\n          \"header.journalSource.userJeSourceName\": \"journalSource\",\n          \"header.description\": \"journalDescription\",\n          \"ledger.currency.currencyCode\": \"ledgerCurrencyCode\",\n          \"header.batch.lookupBatchStatus.meaning\": \"batchStatus\",\n          \"dateUpdated\": \"dateUpdated\",\n          \"createdBy\": \"createdBy\",\n          \"header.batch.lookupBatchStatus.lookupCode\": \"batchStatusCode\",\n          \"accountedDebit\": \"accountedDebit\",\n          \"enteredDebit\": \"enteredDebit\",\n          \"enteredCredit\": \"enteredCredit\",\n          \"currencyConversionRate\": \"currencyConversionRate\",\n          \"header.journalCategory.userJeCategoryName\": \"journalCategory\"\n        }\n\nreturn payload;"
           },
           "diagram": {
-            "x": 5280,
+            "x": 5265,
             "y": 11308
           },
           "outcomes": {
@@ -990,13 +995,14 @@
         },
         {
           "metadata": {
-            "name": "Summarize Explanation Details"
+            "name": "Summarize Explanation Details",
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "1778075107646"
           },
           "diagram": {
-            "x": 5787,
+            "x": 5715,
             "y": 11308
           },
           "code": "SUMMARIZE_EXPLANATION_DETAILS",
@@ -1018,7 +1024,7 @@
             "sourceCode": "let response = $context.$nodes.GET_JOURNAL_DETAILS.$output;\nif(typeof response == 'string')\n  response = JSON.parse(response);\nreturn response;"
           },
           "diagram": {
-            "x": 5928.5,
+            "x": 5847.5,
             "y": 12196
           },
           "outcomes": {
@@ -1033,10 +1039,11 @@
         {
           "metadata": {
             "name": "Build Journal Drilldown Request",
-            "workflowCode": "XX_FIN_GL_LEDGER_INSIGHTS_QUERY_HELPER"
+            "workflowCode": "XX_FIN_GL_LEDGER_INSIGHTS_QUERY_HELPER",
+            "answerInUserLanguage": true
           },
           "diagram": {
-            "x": 5289,
+            "x": 5265,
             "y": 11530
           },
           "outcomes": {
@@ -1082,13 +1089,14 @@
                 "max_completion_tokens": 32000,
                 "reasoning_effort": "low"
               }
-            }
+            },
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "end"
           },
           "diagram": {
-            "x": 5797.5,
+            "x": 5715,
             "y": 11530
           },
           "code": "SHOW_EXPLANATION_DETAILS",
@@ -1110,7 +1118,7 @@
             "returnType": "object"
           },
           "diagram": {
-            "x": 5913.5,
+            "x": 5847.5,
             "y": 11752
           },
           "outcomes": {
@@ -1127,7 +1135,7 @@
             "name": "Save Journal Details"
           },
           "diagram": {
-            "x": 5928.5,
+            "x": 5847.5,
             "y": 12418
           },
           "outcomes": {
@@ -1165,13 +1173,14 @@
                 "max_completion_tokens": 32000,
                 "reasoning_effort": "low"
               }
-            }
+            },
+            "answerInUserLanguage": true
           },
           "outcomes": {
             "success": "1780371172247"
           },
           "diagram": {
-            "x": 5928.5,
+            "x": 5847.5,
             "y": 12640
           },
           "code": "SUMMARIZE_JOURNAL_DETAILS",
@@ -1198,10 +1207,11 @@
           "code": "SHOW_JOURNAL_DETAILS",
           "type": "LLM",
           "metadata": {
-            "name": "Show Journal Details"
+            "name": "Show Journal Details",
+            "answerInUserLanguage": true
           },
           "diagram": {
-            "x": 5928.5,
+            "x": 5847.5,
             "y": 12862
           },
           "outcomes": {
@@ -1248,9 +1258,9 @@
             "name": "Get Account Setup Details"
           },
           "diagram": {
-            "x": 5500,
+            "x": 5470,
             "y": 9665,
-            "width": 868,
+            "width": 790,
             "height": 570
           },
           "outcomes": {
@@ -1265,7 +1275,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_FIN_GENERALLED_EXECUTE_BOSS_QUERY_HELPER",
+            "businessObjectCode": "ORA_FIN_GL_XX_EXECUTE_BOSS_QUERY_HELPER",
             "functionName": "extractAV",
             "name": "Get Balance Details"
           },
@@ -1273,7 +1283,7 @@
             "success": "1778230719020"
           },
           "diagram": {
-            "x": 5035,
+            "x": 5020,
             "y": 10385
           },
           "code": "GET_BALANCE_DETAILS",
@@ -1299,7 +1309,7 @@
             "success": "1779951627965"
           },
           "diagram": {
-            "x": 5035,
+            "x": 5020,
             "y": 10607
           },
           "code": "ORGANIZE_BALANCE_DETAILS",
@@ -1314,7 +1324,7 @@
             "name": "Save Balance Details"
           },
           "diagram": {
-            "x": 5035,
+            "x": 5020,
             "y": 10829
           },
           "outcomes": {
@@ -1341,7 +1351,7 @@
             "success": "1779119108669"
           },
           "diagram": {
-            "x": 5520,
+            "x": 5490,
             "y": 9906
           },
           "code": "PREPARE_BALANCE_SETUP_REQUEST",
@@ -1360,7 +1370,7 @@
             "success": "1779119120175"
           },
           "diagram": {
-            "x": 5991,
+            "x": 5940,
             "y": 9906
           },
           "code": "PREPARE_CHART_OF_ACCOUNTS_REQUEST",
@@ -1371,7 +1381,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_FIN_GENERALLED_EXECUTE_BOSS_QUERY_HELPER",
+            "businessObjectCode": "ORA_FIN_GL_XX_EXECUTE_BOSS_QUERY_HELPER",
             "functionName": "bossExtract",
             "name": "Get Balance Setup Details"
           },
@@ -1379,7 +1389,7 @@
             "success": "1779556723891"
           },
           "diagram": {
-            "x": 5530.5,
+            "x": 5490,
             "y": 10128
           },
           "code": "GET_BALANCE_SETUP_DETAILS",
@@ -1397,7 +1407,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_FIN_GENERALLED_CHART_OF_ACCOUNTS_DETAILS",
+            "businessObjectCode": "ORA_FIN_GL_XX_CHART_OF_ACCOUNTS_DETAILS",
             "functionName": "getChartOfAccountDetails",
             "name": "Get Chart of Accounts Details"
           },
@@ -1405,17 +1415,18 @@
             "success": "1779556723891"
           },
           "diagram": {
-            "x": 6009,
+            "x": 5940,
             "y": 10128
           },
           "code": "GET_CHART_OF_ACCOUNTS_DETAILS",
           "id": "1779119120175",
           "inputs": [
             {
-              "id": "1779047872142_payload",
-              "name": "payload",
-              "value": "{{$context.$nodes.PREPARE_CHART_OF_ACCOUNTS_REQUEST.$output.result}}",
-              "required": true
+              "id": "1779119120175_chartOfAccountsId",
+              "name": "chartOfAccountsId",
+              "value": "{{$context.$nodes.PREPARE_CHART_OF_ACCOUNTS_REQUEST.$output.result.chartOfAccountsId}}",
+              "required": false,
+              "type": "string"
             }
           ],
           "type": "BO_FUNCTION",
@@ -1526,84 +1537,84 @@
           "name": "explain",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{ \\\"actionCode\\\": \\\"openCtrlCmpInsight\\\", \\\"secActionCode\\\": \\\"explain\\\",  \\\"rowData\\\" : { \\\"insightRecipientId\\\" : 300100651934767 } }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
         },
         {
           "id": "750f9b01-d34d-4a12-bae5-6aa06815f098",
           "name": "New run profile 2",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\": {\\\"insightRecipientId\\\":\\\"300100654682559\\\",\\\"ruleName\\\":\\\"Total aggregated entered accounted amount > 100000 GBP for account 60042 for source Manual and Category Miscellaneous\\\",\\\"insightSummary\\\":\\\"Entries from source Manual and category Miscellaneous for account 60042 total net entered 4756768790 GBP and net accounted 5873460459.95 GBP in May-26, driven mainly by Total Vision Foods Companies and Suspense Account.\\\",\\\"rulePriorityCode\\\":\\\"ORA_HIGH\\\",\\\"rulePriorityCodeMeaning\\\":\\\"High\\\",\\\"categoryCode\\\":\\\"ORA_ACCOUNTING_CONTROLS\\\",\\\"categoryCodeMeaning\\\":\\\"Accounting controls\\\",\\\"displayRuleName\\\":\\\"Manual Miscellaneous entries exceed 100,000 GBP for account 60042\\\",\\\"rank\\\":1}, \\\"actionCode\\\": \\\"openCtrlCmpInsight\\\", \\\"secActionCode\\\": \\\"explain\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\":{\\\"insightRecipientId\\\":\\\"MOCK_INSIGHTRECIPIENTID\\\",\\\"ruleName\\\":\\\"MOCK_RULENAME\\\",\\\"insightSummary\\\":\\\"MOCK_INSIGHTSUMMARY\\\",\\\"rulePriorityCode\\\":\\\"MOCK_RULEPRIORITYCODE\\\",\\\"rulePriorityCodeMeaning\\\":\\\"MOCK_RULEPRIORITYCODEMEANING\\\",\\\"categoryCode\\\":\\\"MOCK_CATEGORYCODE\\\",\\\"categoryCodeMeaning\\\":\\\"MOCK_CATEGORYCODEMEANING\\\",\\\"displayRuleName\\\":\\\"MOCK_DISPLAYRULENAME\\\",\\\"rank\\\":0},\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
         },
         {
           "id": "571d2698-3d6e-489b-bac4-945b2f85d176",
           "name": "New run profile 3",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\": {\\\"insightRecipientId\\\":\\\"300100654682559\\\",\\\"ruleName\\\":\\\"Total aggregated entered accounted amount > 100000 GBP for account 60042 for source Manual and Category Miscellaneous\\\",\\\"insightSummary\\\":\\\"Entries from source Manual and category Miscellaneous for account 60042 total net entered 4756768790 GBP and net accounted 5873460459.95 GBP in May-26, driven mainly by Total Vision Foods Companies and Suspense Account.\\\",\\\"rulePriorityCode\\\":\\\"ORA_HIGH\\\",\\\"rulePriorityCodeMeaning\\\":\\\"High\\\",\\\"categoryCode\\\":\\\"ORA_ACCOUNTING_CONTROLS\\\",\\\"categoryCodeMeaning\\\":\\\"Accounting controls\\\",\\\"displayRuleName\\\":\\\"Manual Miscellaneous entries exceed 100,000 GBP for account 60042\\\",\\\"rank\\\":1}, \\\"actionCode\\\": \\\"openCtrlCmpInsight\\\", \\\"secActionCode\\\": \\\"explain\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\":{\\\"insightRecipientId\\\":\\\"MOCK_INSIGHTRECIPIENTID\\\",\\\"ruleName\\\":\\\"MOCK_RULENAME\\\",\\\"insightSummary\\\":\\\"MOCK_INSIGHTSUMMARY\\\",\\\"rulePriorityCode\\\":\\\"MOCK_RULEPRIORITYCODE\\\",\\\"rulePriorityCodeMeaning\\\":\\\"MOCK_RULEPRIORITYCODEMEANING\\\",\\\"categoryCode\\\":\\\"MOCK_CATEGORYCODE\\\",\\\"categoryCodeMeaning\\\":\\\"MOCK_CATEGORYCODEMEANING\\\",\\\"displayRuleName\\\":\\\"MOCK_DISPLAYRULENAME\\\",\\\"rank\\\":0},\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
         },
         {
           "id": "e6eeb233-51b9-4407-ac98-8a480d014a6c",
           "name": "New run profile 4",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{ \\\"actionCode\\\": \\\"openCtrlCmpInsight\\\", \\\"secActionCode\\\": \\\"explain\\\",  \\\"rowData\\\" : { \\\"insightRecipientId\\\" : 300100654736291 } }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
         },
         {
           "id": "c7d5010d-82a9-4a94-8897-639bdef9cb84",
           "name": "error",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\": {\\\"insightRecipientId\\\":\\\"300100654628923\\\",\\\"ruleName\\\":\\\"Manual posted journals without approvals\\\",\\\"insightSummary\\\":\\\"Vision Foods - USA IFRS SecLed posted two spreadsheet adjustment journals totaling 35.16 USD, and the Vision Foods - USA Ledger recorded six journals totaling 5,876,418,769.95 USD, mainly a Manual Miscellaneous posting of 5,873,460,459.95, plus Spreadsheet and AutoCopy entries.\\\",\\\"rulePriorityCode\\\":\\\"ORA_HIGH\\\",\\\"rulePriorityCodeMeaning\\\":\\\"High\\\",\\\"categoryCode\\\":\\\"ORA_ACCOUNTING_CONTROLS\\\",\\\"categoryCodeMeaning\\\":\\\"Accounting controls\\\",\\\"displayRuleName\\\":\\\"Manual journals posted without approvals\\\",\\\"rank\\\":2},\\\"actionCode\\\": \\\"openCtrlCmpInsight\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\":{\\\"insightRecipientId\\\":\\\"MOCK_INSIGHTRECIPIENTID\\\",\\\"ruleName\\\":\\\"MOCK_RULENAME\\\",\\\"insightSummary\\\":\\\"MOCK_INSIGHTSUMMARY\\\",\\\"rulePriorityCode\\\":\\\"MOCK_RULEPRIORITYCODE\\\",\\\"rulePriorityCodeMeaning\\\":\\\"MOCK_RULEPRIORITYCODEMEANING\\\",\\\"categoryCode\\\":\\\"MOCK_CATEGORYCODE\\\",\\\"categoryCodeMeaning\\\":\\\"MOCK_CATEGORYCODEMEANING\\\",\\\"displayRuleName\\\":\\\"MOCK_DISPLAYRULENAME\\\",\\\"rank\\\":0},\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
         },
         {
           "id": "7b88a8c1-5b14-4e97-b35b-6b653f36bf52",
           "name": "explain 2",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{ \\\"actionCode\\\": \\\"openCtrlCmpInsight\\\", \\\"secActionCode\\\": \\\"explain\\\",  \\\"rowData\\\" : { \\\"insightRecipientId\\\" : 300100654780341 } }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
         },
         {
           "id": "30ec0e50-4721-40d8-82f4-38580af211c5",
           "name": "New run profile 7",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{ \\\"actionCode\\\": \\\"openCtrlCmpInsight\\\", \\\"secActionCode\\\": \\\"explain\\\",  \\\"rowData\\\" : { \\\"insightRecipientId\\\" : 300100654786132 } }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
         },
         {
           "id": "44d06a17-686e-4c77-ab42-494b76ee4bae",
           "name": "RCHEEMAK Profile",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\": {\\\"insightRecipientId\\\":\\\"300100654785990\\\",\\\"ruleName\\\":\\\"Manual posted journals without approvals\\\",\\\"insightSummary\\\":\\\"Vision Foods - USA Ledger shows six posted journals totaling 5,876,418,769.95, driven mainly by a Manual Miscellaneous posting of 5,873,460,459.95 GBP; other activity includes Manual Adjustment 1,779,200 USD, Spreadsheet 1,178,310 USD, and AutoCopy 800 USD. Vision Foods - USA IFRS SecLed has two posted Spreadsheet adjustments totaling 35.16 USD.\\\",\\\"rulePriorityCode\\\":\\\"ORA_HIGH\\\",\\\"rulePriorityCodeMeaning\\\":\\\"High\\\",\\\"categoryCode\\\":\\\"ORA_ACCOUNTING_CONTROLS\\\",\\\"categoryCodeMeaning\\\":\\\"Accounting controls\\\",\\\"displayRuleName\\\":\\\"Manual journals posted without approvals total six\\\",\\\"rank\\\":4}, \\\"actionCode\\\": \\\"openCtrlCmpInsight\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\":{\\\"insightRecipientId\\\":\\\"MOCK_INSIGHTRECIPIENTID\\\",\\\"ruleName\\\":\\\"MOCK_RULENAME\\\",\\\"insightSummary\\\":\\\"MOCK_INSIGHTSUMMARY\\\",\\\"rulePriorityCode\\\":\\\"MOCK_RULEPRIORITYCODE\\\",\\\"rulePriorityCodeMeaning\\\":\\\"MOCK_RULEPRIORITYCODEMEANING\\\",\\\"categoryCode\\\":\\\"MOCK_CATEGORYCODE\\\",\\\"categoryCodeMeaning\\\":\\\"MOCK_CATEGORYCODEMEANING\\\",\\\"displayRuleName\\\":\\\"MOCK_DISPLAYRULENAME\\\",\\\"rank\\\":0},\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
         },
         {
           "id": "013085d1-28bd-4cf2-ac2a-af2fe6e88568",
           "name": "Explain: 2nd Item, Manual 99%",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{ \\\"actionCode\\\": \\\"openCtrlCmpInsight\\\", \\\"secActionCode\\\": \\\"explain\\\",  \\\"rowData\\\" : { \\\"insightRecipientId\\\" : 300100654786111 } }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
         },
         {
           "id": "962bb9ce-2b0a-4b6d-b25a-c0043579b8bd",
           "name": "Explain, item 4: More than 30 unapproved Js",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\": {\\\"insightRecipientId\\\":\\\"300100654786023\\\",\\\"ruleName\\\":\\\"Unapproved journals for more than a week\\\",\\\"insightSummary\\\":\\\"33 journals totalling 312,852,304.64 in Vision Foods - USA Ledger (2011-12-02 to 2026-05-11), driven mainly by manual adjustments including a 183,967,590.24 posting and AutoCopy/Spreadsheet entries; plus four journals totalling 123,575.53 for Vision Operations (USA) created on 2026-05-11.\\\",\\\"rulePriorityCode\\\":\\\"ORA_HIGH\\\",\\\"rulePriorityCodeMeaning\\\":\\\"High\\\",\\\"categoryCode\\\":\\\"ORA_ACCOUNTING_CONTROLS\\\",\\\"categoryCodeMeaning\\\":\\\"Accounting controls\\\",\\\"displayRuleName\\\":\\\"More than 30 unapproved journals over one week\\\",\\\"rank\\\":3}, \\\"actionCode\\\": \\\"openCtrlCmpInsight\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\":{\\\"insightRecipientId\\\":\\\"MOCK_INSIGHTRECIPIENTID\\\",\\\"ruleName\\\":\\\"MOCK_RULENAME\\\",\\\"insightSummary\\\":\\\"MOCK_INSIGHTSUMMARY\\\",\\\"rulePriorityCode\\\":\\\"MOCK_RULEPRIORITYCODE\\\",\\\"rulePriorityCodeMeaning\\\":\\\"MOCK_RULEPRIORITYCODEMEANING\\\",\\\"categoryCode\\\":\\\"MOCK_CATEGORYCODE\\\",\\\"categoryCodeMeaning\\\":\\\"MOCK_CATEGORYCODEMEANING\\\",\\\"displayRuleName\\\":\\\"MOCK_DISPLAYRULENAME\\\",\\\"rank\\\":0},\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
         },
         {
           "id": "0349bbfe-7948-4bcb-81f1-8f62efb80cc2",
           "name": "Insight, Manual Miscellaneous postings exceed 4.75B GBP for account 60042",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\": {\\\"insightRecipientId\\\":\\\"300100654860945\\\",\\\"ruleName\\\":\\\"Total aggregated entered accounted amount > 100000 GBP for account 60042 for source Manual and Category Miscellaneous\\\",\\\"insightSummary\\\":\\\"Manual, Miscellaneous postings to Suspense Account 60042 amounted to net entered 4756768790 GBP and net accounted 5873460459.95 GBP in May-26, driven mainly by Total Vision Foods Companies.\\\",\\\"rulePriorityCode\\\":\\\"ORA_HIGH\\\",\\\"rulePriorityCodeMeaning\\\":\\\"High\\\",\\\"categoryCode\\\":\\\"ORA_ACCOUNTING_CONTROLS\\\",\\\"categoryCodeMeaning\\\":\\\"Accounting controls\\\",\\\"displayRuleName\\\":\\\"Manual Miscellaneous postings exceed 4.75B GBP for account 60042\\\",\\\"rank\\\":1}, \\\"actionCode\\\": \\\"openCtrlCmpInsight\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\":{\\\"insightRecipientId\\\":\\\"MOCK_INSIGHTRECIPIENTID\\\",\\\"ruleName\\\":\\\"MOCK_RULENAME\\\",\\\"insightSummary\\\":\\\"MOCK_INSIGHTSUMMARY\\\",\\\"rulePriorityCode\\\":\\\"MOCK_RULEPRIORITYCODE\\\",\\\"rulePriorityCodeMeaning\\\":\\\"MOCK_RULEPRIORITYCODEMEANING\\\",\\\"categoryCode\\\":\\\"MOCK_CATEGORYCODE\\\",\\\"categoryCodeMeaning\\\":\\\"MOCK_CATEGORYCODEMEANING\\\",\\\"displayRuleName\\\":\\\"MOCK_DISPLAYRULENAME\\\",\\\"rank\\\":0},\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
         },
         {
           "id": "28de59ac-c92f-4715-bdbf-336143fe4371",
           "name": "BV",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\": {\\\"insightRecipientId\\\":\\\"300100654920290\\\",\\\"ruleName\\\":\\\"Alert if for account 60042 for source Manual and Category Miscellaneous net entered accounted amount > 100000 GBP\\\",\\\"insightSummary\\\":\\\"Vision Foods - USA Ledger shows net entered amount 4756768790 GBP and accounted amount 5873460459.95 USD for Miscellaneous Manual postings to account 60042 in May-26, driven by Company Vision Foods Marketing - US and JournalName Close.\\\",\\\"rulePriorityCode\\\":\\\"ORA_HIGH\\\",\\\"rulePriorityCodeMeaning\\\":\\\"High\\\",\\\"categoryCode\\\":\\\"ORA_PERIOD_END_CONTROLS\\\",\\\"categoryCodeMeaning\\\":\\\"Period end controls\\\",\\\"displayRuleName\\\":\\\"Net entered and accounted amount > £100,000 for account 60042\\\",\\\"rank\\\":2}, \\\"actionCode\\\": \\\"openCtrlCmpInsight\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\":{\\\"insightRecipientId\\\":\\\"MOCK_INSIGHTRECIPIENTID\\\",\\\"ruleName\\\":\\\"MOCK_RULENAME\\\",\\\"insightSummary\\\":\\\"MOCK_INSIGHTSUMMARY\\\",\\\"rulePriorityCode\\\":\\\"MOCK_RULEPRIORITYCODE\\\",\\\"rulePriorityCodeMeaning\\\":\\\"MOCK_RULEPRIORITYCODEMEANING\\\",\\\"categoryCode\\\":\\\"MOCK_CATEGORYCODE\\\",\\\"categoryCodeMeaning\\\":\\\"MOCK_CATEGORYCODEMEANING\\\",\\\"displayRuleName\\\":\\\"MOCK_DISPLAYRULENAME\\\",\\\"rank\\\":0},\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
           "inputMessage": ""
         },
         {
@@ -1611,21 +1622,21 @@
           "name": "Mark as Read Failed",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"<oraFormSubmit id=\\\"insight_review_record\\\">[{\\\"id\\\":\\\"comments\\\",\\\"value\\\":\\\"hi\\\"},{\\\"id\\\":\\\"InsightRecipientId\\\",\\\"value\\\":300100655378621}]</oraFormSubmit>\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
+          "restConfigJson": "{\n    \"OraAction\": \"MOCK_ORAACTION\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
         },
         {
           "id": "c1df662d-201c-4782-bac0-af164a752a9f",
           "name": "JournalsAV, Explain",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{ \\\"actionCode\\\": \\\"openCtrlCmpInsight\\\", \\\"secActionCode\\\": \\\"explain\\\",  \\\"rowData\\\" : { \\\"insightRecipientId\\\" : 300100655379637 } }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptciabqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
         },
         {
           "id": "2cb1234f-ec78-43b3-82b9-b7dfacb761d8",
           "name": "New run profile 15",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n  \"OraAppContext\": \"\",\n  \"OraMessageHint\": \"\"\n}"
+          "restConfigJson": "{\n    \"OraAppContext\": \"\",\n    \"OraMessageHint\": \"\"\n}"
         },
         {
           "id": "f123ceb7-4529-4417-80d5-0cdeb5cbaeec",
@@ -1638,7 +1649,7 @@
           "name": "BV, Unapproved journals pending over one week",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\": {\\\"insightRecipientId\\\":\\\"300100652308361\\\",\\\"ruleName\\\":\\\"Unapproved journals for more than a week\\\",\\\"insightSummary\\\":\\\"29 journals dated 2010-02-18 to 2015-12-02 include large EUR adjustments totaling 183,967,590.24 and 61,312,448.35, primarily Manual and AutoCopy Adjustment entries.\\\",\\\"rulePriorityCode\\\":\\\"ORA_HIGH\\\",\\\"rulePriorityCodeMeaning\\\":\\\"High\\\",\\\"categoryCode\\\":\\\"ORA_ACCOUNTING_CONTROLS\\\",\\\"categoryCodeMeaning\\\":\\\"Accounting controls\\\",\\\"displayRuleName\\\":\\\"Unapproved journals pending over one week\\\",\\\"rank\\\":1}, \\\"actionCode\\\": \\\"openCtrlCmpInsight\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptcoelqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
+          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\":{\\\"insightRecipientId\\\":\\\"MOCK_INSIGHTRECIPIENTID\\\",\\\"ruleName\\\":\\\"MOCK_RULENAME\\\",\\\"insightSummary\\\":\\\"MOCK_INSIGHTSUMMARY\\\",\\\"rulePriorityCode\\\":\\\"MOCK_RULEPRIORITYCODE\\\",\\\"rulePriorityCodeMeaning\\\":\\\"MOCK_RULEPRIORITYCODEMEANING\\\",\\\"categoryCode\\\":\\\"MOCK_CATEGORYCODE\\\",\\\"categoryCodeMeaning\\\":\\\"MOCK_CATEGORYCODEMEANING\\\",\\\"displayRuleName\\\":\\\"MOCK_DISPLAYRULENAME\\\",\\\"rank\\\":0},\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
           "inputMessage": "Hi"
         },
         {
@@ -1646,7 +1657,7 @@
           "name": "Query, Journals BV - Are high-value journals concentrated on a specific created date, and what date should be reviewed first?",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n  \"OraAppContext\": \"\",\n  \"OraMessageHint\": \"Query\"\n}",
+          "restConfigJson": "{\n    \"OraAppContext\": \"\",\n    \"OraMessageHint\": \"Query\"\n}",
           "inputMessage": "Are high-value journals concentrated on a specific created date, and what date should be reviewed first?"
         },
         {
@@ -1660,7 +1671,7 @@
           "name": "Failing App Context",
           "type": "rest",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAppContext\": \"{\\\"ledgerId\\\":\\\"300100104228985\\\"}\",\n    \"OraMessageHint\": \"Summary\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010026335772\\\",\\\"guId\\\":\\\"D07276AD44A627628E80A4B424BD3C3D\\\",\\\"fullName\\\":\\\"Mary Johnson\\\",\\\"userName\\\":\\\"FINUSER1\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptcoelqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"correlationId\": \"34a090a1-6d1b-473c-bcc2-bc992d3a0f0a\"\n}"
+          "restConfigJson": "{\n    \"OraAppContext\": \"{\\\"ledgerId\\\":\\\"MOCK_LEDGERID\\\"}\",\n    \"OraMessageHint\": \"Summary\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"correlationId\": \"MOCK_CORRELATIONID\"\n}"
         }
       ]
     },
@@ -1701,22 +1712,38 @@
     "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI",
     "deletedTriggerTypes": []
   },
-  "status": "DRAFT",
-  "version": 78302983,
+  "name": "Controls and Compliance",
+  "description": "Surfaces controls and compliance insights for ledger close, prioritizes policy exceptions and audit risks, supports review or dismissal of flagged issues, and provides drilldowns into journals, balances, and supporting details.",
   "family": "FIN",
   "product": "GENERAL_LEDGER",
-  "ownerName": "Mary Johnson",
-  "customFlag": false,
+  "workflowId": "300100651845001",
+  "ownerName": null,
   "seededFlag": false,
-  "isTemplate": false,
   "hiddenFlag": false,
+  "status": "DRAFT",
+  "version": 79337151,
   "useCaseId": "NA",
   "accessModifier": "public",
   "architecture": "data_pipeline",
-  "aiAppsCompatibleFlag": true,
-  "followupEnabledFlag": false,
   "followupPrompt": "Based on the following conversion: $param.system_context.chat_history generate $param.system_context.number_of_follow_up_questions\nfollow up questions only while strictly adhering to the JSON Schema format mentioned below. Remove the ```json markdown from the output.\nHere is the JSON Schema format the output should adhere to:\n[{\"question\": \"<put first question generated here>\"}, {\"question\": \"<put second question generated here>\"}, {\"question\": \"<put third question generated here>\"}",
-  "header": {
-    "ETag": "\"287\""
-  }
+  "firstStarterQuestion": null,
+  "secondStarterQuestion": null,
+  "thirdStarterQuestion": null,
+  "followupEnabledFlag": false,
+  "maxInteractions": null,
+  "customFlag": false,
+  "sourceWorkflowCode": null,
+  "customizationPolicy": null,
+  "emailConfigCode": null,
+  "jobRequestId": null,
+  "aiAppsCompatibleFlag": true,
+  "isTemplate": false,
+  "ownerId": "100010026335772",
+  "$id": "300100651845001",
+  "tags": [],
+  "roles": [],
+  "seededRoles": [],
+  "customizedSpecifications": [],
+  "initialTags": [],
+  "initialRoles": []
 }

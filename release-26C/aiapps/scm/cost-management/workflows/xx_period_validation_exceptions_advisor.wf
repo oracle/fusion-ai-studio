@@ -100,7 +100,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_SCM_COSTMANAGE_VALIDATIONEXCEPTIONSBO",
+            "businessObjectCode": "ORA_SCM_XX_COSTMANAGE_VALIDATIONEXCEPTIONSADVISOR",
             "description": "Retrieves cost accounting period context for the selected cost organization and cost book, including the validation run date used to indicate when validation exceptions were last evaluated.",
             "errorNodeId": "1782382468028",
             "functionName": "getLastRunDate",
@@ -172,7 +172,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_SCM_COSTMANAGE_VALIDATIONEXCEPTIONSBO",
+            "businessObjectCode": "ORA_SCM_XX_COSTMANAGE_VALIDATIONEXCEPTIONSADVISOR",
             "description": "Retrieves validation exception counts for the selected cost book, cost organization, and accounting period.",
             "errorNodeId": "1782382468028",
             "functionName": "getValidationExceptions",
@@ -426,12 +426,12 @@
   "description": "Retrieves cost accounting validation exceptions for the selected cost organization, cost book, and accounting period. It surfaces exception details in the Cost Accounting Review page, helping users identify and prioritize validation issues that may affect cost accounting review or period close.",
   "family": "SCM",
   "product": "COST_MANAGEMENT",
-  "workflowId": "300100666179431",
+  "workflowId": "300100692047385",
   "ownerName": "Patric",
   "seededFlag": false,
   "hiddenFlag": false,
   "status": "DRAFT",
-  "version": 79004888,
+  "version": 79256116,
   "useCaseId": "NA",
   "accessModifier": "public",
   "architecture": "data_pipeline",

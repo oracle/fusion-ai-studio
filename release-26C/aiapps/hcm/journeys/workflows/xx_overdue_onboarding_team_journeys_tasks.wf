@@ -32,7 +32,7 @@
           "type": "BO_FUNCTION",
           "metadata": {
             "name": "Fetch Overdue Team Journeys Enterprise Onboarding and Onboarding Tasks Data",
-            "businessObjectCode": "ORA_HCM_JOURNEYS_JOURNEYSEARCHESANDAGGREGATION",
+            "businessObjectCode": "ORA_HCM_JOURNEYS_XX_JOURNEYSEARCHESANDAGGREGATION",
             "functionName": "get_workerTeamJourneyTasks"
           },
           "diagram": {
@@ -226,7 +226,7 @@
   "seededFlag": false,
   "hiddenFlag": false,
   "status": "DRAFT",
-  "version": 79012005,
+  "version": 79262074,
   "useCaseId": "NA",
   "accessModifier": "public",
   "architecture": "data_pipeline",

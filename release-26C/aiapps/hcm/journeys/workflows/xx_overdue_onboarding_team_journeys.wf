@@ -32,7 +32,7 @@
           "type": "BO_FUNCTION",
           "metadata": {
             "name": "Fetch Team Journeys Enterprise Onboarding and Onboarding data",
-            "businessObjectCode": "ORA_HCM_JOURNEYS_JOURNEYSEARCHESANDAGGREGATION",
+            "businessObjectCode": "ORA_HCM_JOURNEYS_XX_JOURNEYSEARCHESANDAGGREGATION",
             "functionName": "getWorkerTeamJourney"
           },
           "diagram": {
@@ -171,7 +171,7 @@
   "seededFlag": false,
   "hiddenFlag": false,
   "status": "DRAFT",
-  "version": 79012012,
+  "version": 79262082,
   "useCaseId": "NA",
   "accessModifier": "public",
   "architecture": "data_pipeline",

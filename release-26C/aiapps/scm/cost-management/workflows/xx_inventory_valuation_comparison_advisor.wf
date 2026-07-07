@@ -124,7 +124,7 @@
           "metadata": {
             "description": "Retrieves asset inventory value for the current period, cost book, and cost organization.",
             "name": "Get Asset Inventory Value",
-            "businessObjectCode": "ORA_SCM_COSTMANAGE_INVENTORYVALUATIONCOMPARISONACROSSPERIODS",
+            "businessObjectCode": "ORA_SCM_XX_COSTMANAGE_INVENTORYVALUATIONCOMPARISONADVISOR",
             "functionName": "getAssetInventoryValue",
             "errorNodeId": "1782381843533"
           },
@@ -163,7 +163,7 @@
           "metadata": {
             "description": "Retrieves expense inventory value for the current period, cost book, and cost organization.",
             "name": "Get Expense Inventory Value",
-            "businessObjectCode": "ORA_SCM_COSTMANAGE_INVENTORYVALUATIONCOMPARISONACROSSPERIODS",
+            "businessObjectCode": "ORA_SCM_XX_COSTMANAGE_INVENTORYVALUATIONCOMPARISONADVISOR",
             "functionName": "getExpenseInventoryValue",
             "errorNodeId": "1782381843533"
           },
@@ -202,7 +202,7 @@
           "metadata": {
             "description": "Retrieves consigned inventory value for the current period, cost book, and cost organization.",
             "name": "Get Consigned Inventory Value",
-            "businessObjectCode": "ORA_SCM_COSTMANAGE_INVENTORYVALUATIONCOMPARISONACROSSPERIODS",
+            "businessObjectCode": "ORA_SCM_XX_COSTMANAGE_INVENTORYVALUATIONCOMPARISONADVISOR",
             "functionName": "getConsignedInventoryValue",
             "errorNodeId": "1782381843533"
           },
@@ -241,7 +241,7 @@
           "metadata": {
             "description": "Retrieves asset inventory value for the prior period, cost book, and cost organization.",
             "name": "Get Prior Asset Inventory Value",
-            "businessObjectCode": "ORA_SCM_COSTMANAGE_INVENTORYVALUATIONCOMPARISONACROSSPERIODS",
+            "businessObjectCode": "ORA_SCM_XX_COSTMANAGE_INVENTORYVALUATIONCOMPARISONADVISOR",
             "functionName": "getPriorAssetInventoryValue",
             "errorNodeId": "1782381843533"
           },
@@ -280,7 +280,7 @@
           "metadata": {
             "description": "Retrieves expense inventory value for the prior period, cost book, and cost organization.",
             "name": "Get Prior Expense Inventory Value",
-            "businessObjectCode": "ORA_SCM_COSTMANAGE_INVENTORYVALUATIONCOMPARISONACROSSPERIODS",
+            "businessObjectCode": "ORA_SCM_XX_COSTMANAGE_INVENTORYVALUATIONCOMPARISONADVISOR",
             "functionName": "getPriorExpenseInventoryValue",
             "errorNodeId": "1782381843533"
           },
@@ -319,7 +319,7 @@
           "metadata": {
             "description": "Retrieves consigned inventory value for the prior period, cost book, and cost organization.",
             "name": "Get Prior Consigned Inventory Value",
-            "businessObjectCode": "ORA_SCM_COSTMANAGE_INVENTORYVALUATIONCOMPARISONACROSSPERIODS",
+            "businessObjectCode": "ORA_SCM_XX_COSTMANAGE_INVENTORYVALUATIONCOMPARISONADVISOR",
             "functionName": "getPriorConsignedInventoryValue",
             "errorNodeId": "1782381843533"
           },
@@ -455,7 +455,7 @@
           "metadata": {
             "name": "Fetch Cost Book Code",
             "description": "Retrieves the cost book code for the selected cost book identifier.",
-            "businessObjectCode": "ORA_SCM_COSTMANAGE_INVENTORYVALUATIONCOMPARISONACROSSPERIODS",
+            "businessObjectCode": "ORA_SCM_XX_COSTMANAGE_INVENTORYVALUATIONCOMPARISONADVISOR",
             "functionName": "getCostBookCode",
             "errorNodeId": "1782381843533"
           },
@@ -635,7 +635,7 @@
     },
     "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI",
     "dtRunProfiles": {
-      "activeProfileId": "ba99b133-e140-4033-8bdf-1acdbe8cd352",
+      "activeProfileId": "c9b55300-406d-4f9c-9de9-6f2139fc463c",
       "profiles": [
         {
           "id": "c9b55300-406d-4f9c-9de9-6f2139fc463c",
@@ -665,12 +665,12 @@
   "description": "Retrieves inventory valuation records and compares inventory values across reporting periods. It provides comparisons between the current period, the previous period, and the same period in the prior year, along with variance percentages for valuation types such as Asset, Expense, and Consigned inventory.",
   "family": "SCM",
   "product": "COST_MANAGEMENT",
-  "workflowId": "300100666179432",
+  "workflowId": "300100692055321",
   "ownerName": "Patric",
   "seededFlag": false,
   "hiddenFlag": false,
   "status": "DRAFT",
-  "version": 79003942,
+  "version": 79256209,
   "useCaseId": "NA",
   "accessModifier": "public",
   "architecture": "data_pipeline",
@@ -688,7 +688,7 @@
   "aiAppsCompatibleFlag": true,
   "isTemplate": false,
   "ownerId": null,
-  "$id": "300100666179432",
+  "$id": "300100692055321",
   "tags": [],
   "roles": [],
   "seededRoles": [],

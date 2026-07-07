@@ -32,7 +32,7 @@
           "type": "BO_FUNCTION",
           "metadata": {
             "name": "Fetch Team Journey Aggregations",
-            "businessObjectCode": "ORA_HCM_JOURNEYS_JOURNEYSEARCHESANDAGGREGATION",
+            "businessObjectCode": "ORA_HCM_JOURNEYS_XX_JOURNEYSEARCHESANDAGGREGATION",
             "functionName": "getWorkerJourneyAggregations"
           },
           "diagram": {
@@ -162,7 +162,7 @@
   "seededFlag": false,
   "hiddenFlag": false,
   "status": "DRAFT",
-  "version": 79012031,
+  "version": 79262101,
   "useCaseId": "NA",
   "accessModifier": "public",
   "architecture": "data_pipeline",

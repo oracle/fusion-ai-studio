@@ -75,7 +75,7 @@
           "code": "GET_PERSON_DETAILS_BY_LOCATION_ID",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_PERSONSEARCHESGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersByLocationId",
             "processJson": true,
             "name": "Get Workers by Location Id",
@@ -104,7 +104,7 @@
           "code": "GET_PERSON_DETAILS_BY_LOCATION_NAME",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_PERSONSEARCHESGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersByLocationName",
             "processJson": true,
             "name": "Get Workers by Location Name",
@@ -133,7 +133,7 @@
           "code": "GET_PERSON_DETAILS_BY_LOCATION_CODE",
           "type": "BO_FUNCTION",
           "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_PERSONSEARCHESGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersByLocationCode",
             "processJson": true,
             "name": "Get Workers by Location Code",

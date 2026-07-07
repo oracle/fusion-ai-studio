@@ -477,7 +477,7 @@
         }
       ],
       "subTitle": "",
-      "enableFileUpload": true,
+      "enableFileUpload": false,
       "summary": {
         "agentCode": "XX_FIN_GL_LEDGER_CLOSURE_WORKFLOW"
       },
@@ -488,19 +488,11 @@
       "queryAgent": "XX_FIN_GL_LEDGER_SWITCH_WORKFLOW"
     }
   },
-  "createdBy": "FINUSER1",
-  "updatedBy": "FINUSER1",
+  "createdBy": "MOCKUSER",
+  "updatedBy": "MOCKUSER",
   "seededFlag": false,
   "customizationPolicy": null,
   "$id": "300100659469803",
-  "$context": {
-    "etag": "1",
-    "links": {
-      "$self": {
-        "href": "https://cptcoelqy.fusionapps.ocs.oc-test.com/api/boss/data/objects/ora/commonFusionAI/agents/v1/$en/applications/300100659469803"
-      }
-    }
-  },
   "customizedSpecifications": {
     "items": [],
     "hasMore": false

@@ -69,8 +69,8 @@
           "metadata": {
             "name": "Validate Document Record Expiry Inputs",
             "description": "Validates person number and calculated date inputs before fetching expiring document records.",
-            "returnType": "boolean",
-            "sourceCode": "function parseDateOnly(value) {\n  if (value === undefined || value === null) return null;\n  const text = String(value).trim();\n  const match = text.match(/^(\\d{4})-(\\d{2})-(\\d{2})$/);\n  if (!match) return null;\n\n  const year = Number(match[1]);\n  const month = Number(match[2]);\n  const day = Number(match[3]);\n  const date = new Date(year, month - 1, day);\n\n  if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {\n    return null;\n  }\n\n  return date;\n}\n\nfunction validPersonNumber(value) {\n  const text = String(value || \"\").trim();\n  return text.length > 0 && text.length <= 50 && /^[A-Za-z0-9_.@-]+$/.test(text);\n}\n\nconst personNumber = (($context.$nodes.FETCH_PERSON_NUMBER_OF_LOGGEDIN_USER.$output.items || [])[0] || {}).PersonNumber;\nconst dateRange = ($context.$nodes.CALCULATE_DOCUMENT_EXPIRY_DATE_RANGE.$output || {}).result || {};\nconst currentDate = parseDateOnly(dateRange.currentDate);\nconst dateAfter30Days = parseDateOnly(dateRange.dateAfter30Days);\n\nif (!validPersonNumber(personNumber) || !currentDate || !dateAfter30Days) {\n  return false;\n}\n\nreturn currentDate.getTime() <= dateAfter30Days.getTime();"
+            "returnType": "object",
+            "sourceCode": "function parseDateOnly(value) {\n  if (value === undefined || value === null) return null;\n  const text = String(value).trim();\n  const match = text.match(/^(\\d{4})-(\\d{2})-(\\d{2})$/);\n  if (!match) return null;\n\n  const year = Number(match[1]);\n  const month = Number(match[2]);\n  const day = Number(match[3]);\n  const date = new Date(year, month - 1, day);\n\n  if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {\n    return null;\n  }\n\n  return date;\n}\n\nfunction validPersonNumber(value) {\n  const text = String(value || \"\").trim();\n  return text.length > 0 && text.length <= 50 && /^[A-Za-z0-9_.@-]+$/.test(text);\n}\n\nconst output = $context.$nodes.FETCH_PERSON_NUMBER_OF_LOGGEDIN_USER.$output || {};\nconst items = Array.isArray(output.items) ? output.items : [];\nconst context = items[0] || {};\nconst personNumber = String(context.PersonNumber || \"\").trim();\nconst dateRange = ($context.$nodes.CALCULATE_DOCUMENT_EXPIRY_DATE_RANGE.$output || {}).result || {};\nconst currentDate = parseDateOnly(dateRange.currentDate);\nconst dateAfter30Days = parseDateOnly(dateRange.dateAfter30Days);\nconst isValid = validPersonNumber(personNumber) && currentDate !== null && dateAfter30Days !== null && currentDate.getTime() <= dateAfter30Days.getTime();\n\nreturn {\n  isValid: isValid,\n  personNumber: isValid ? personNumber : \"\"\n};"
           },
           "diagram": {
             "x": 5370.5,
@@ -103,7 +103,7 @@
               "id": "1783065300002_condition",
               "name": "condition",
               "type": "string",
-              "value": "{{$context.$nodes.VALIDATE_DOCUMENT_RECORD_EXPIRY_INPUTS.$output.result}}"
+              "value": "{{$context.$nodes.VALIDATE_DOCUMENT_RECORD_EXPIRY_INPUTS.$output.result.isValid === true}}"
             }
           ]
         },
@@ -136,7 +136,7 @@
           "type": "BO_FUNCTION",
           "metadata": {
             "name": "Fetch Expiring Document Records",
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_DOCUMENTRECORDSEXPIRINGLOOKUP",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_DOCUMENTRECORDSEXPIRINGLOOKUP",
             "functionName": "getDocumentRecordsForPersonWithinDateRange"
           },
           "diagram": {
@@ -150,7 +150,7 @@
             {
               "id": "1782288793680_pPersonNumber",
               "name": "pPersonNumber",
-              "value": "{{$context.$nodes.FETCH_PERSON_NUMBER_OF_LOGGEDIN_USER.$output.items[0].PersonNumber}}",
+              "value": "{{$context.$nodes.VALIDATE_DOCUMENT_RECORD_EXPIRY_INPUTS.$output.result.personNumber}}",
               "required": false,
               "type": "string"
             },
@@ -320,7 +320,7 @@
   "seededFlag": false,
   "hiddenFlag": false,
   "status": "DRAFT",
-  "version": 79008447,
+  "version": 79257938,
   "useCaseId": "NA",
   "accessModifier": "public",
   "architecture": "data_pipeline",
