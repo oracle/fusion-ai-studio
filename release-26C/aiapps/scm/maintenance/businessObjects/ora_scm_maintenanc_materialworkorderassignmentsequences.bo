@@ -3,7 +3,7 @@
   "supportedObjectId": "300100679662581",
   "name": "Material Work Order Assignment Sequences",
   "description": "View the material requirements for the operations defined in the selected work order.",
-  "objectCode": "ORA_SCM_MAINTENANC_MATERIALWORKORDERASSIGNMENTSEQUENCES",
+  "objectCode": "ORA_SCM_MAINTENANC_XX_MATERIALWORKORDERASSIGNMENTSEQUENCES",
   "family": "SCM",
   "product": "MAINTENANCE",
   "objectSource": "ADF_BC",

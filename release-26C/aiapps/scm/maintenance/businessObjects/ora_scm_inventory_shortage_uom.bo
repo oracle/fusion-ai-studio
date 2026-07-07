@@ -3,7 +3,7 @@
   "supportedObjectId": "300100678490672",
   "name": "Shortage Units of Measure",
   "description": "Units of measure for shortage-related inventory flows.",
-  "objectCode": "ORA_SCM_INVENTORY_SHORTAGE_UOM",
+  "objectCode": "ORA_SCM_INVENTORY_XX_SHORTAGE_UOM",
   "family": "SCM",
   "product": "INVENTORY_MANAGEMENT",
   "objectSource": "ADF_BC",

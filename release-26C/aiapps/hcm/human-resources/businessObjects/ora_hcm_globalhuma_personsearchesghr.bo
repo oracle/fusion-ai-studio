@@ -1,12 +1,9 @@
 {
   "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "supportedObjectId": "300100648339375",
-  "$context": {
-    "etag": "72"
-  },
   "name": "HCM GHR Worker Search",
   "description": "Provides Global Human Resources Redwood worker search and aggregation functions for worker lists and counts by department, job, grade, business unit, position, location, and custom payload.",
-  "objectCode": "ORA_HCM_GLOBALHUMA_PERSONSEARCHESGHR",
+  "objectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
   "family": "HCM",
   "product": "GLOBAL_HUMAN_RESOURCES",
   "objectSource": "ADF_BC",
@@ -10449,6 +10446,91 @@
               "hasMore": "<has more>",
               "limit": "<limit>",
               "offset": "<offset>"
+            },
+            "sampleType": "response"
+          }
+        ]
+      },
+      {
+        "name": "GetWorkersByManager",
+        "description": "Gets the list of workers who are directs for a line manager",
+        "operationType": "POST",
+        "resourcePath": "/hcmRestApi/redwood/11.13.18.05/workerSearchesV2",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "{\"securityFilters\":{\"type\":\"QuickAction\",\"value\":\"{context}\",\"context\":\"MyTeam\"},\"filters\":[{\"name\":\"Reports\",\"value\":\"DIRECTS\"}],\"displayFields\":[\"DisplayName\",\"BusinessTitle\",\"PersonNumber\",\"PersonId\",\"AssignmentId\"],\"offset\":0}",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "context",
+            "dataType": "string",
+            "description": "security context for filtering the workers by directs of a manager",
+            "id": 794,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Sample response of list of directs of a manager",
+            "query": {
+              "items": [
+                {
+                  "DisplayName": "<DISPLAY_NAME_1>",
+                  "BusinessTitle": "<BUSINESS_TITLE_1>",
+                  "PersonNumber": "<PERSON_NUMBER_1>",
+                  "PersonId": "<PERSON_ID_1>",
+                  "AssignmentId": "<ASSIGNMENT_ID_1>"
+                },
+                {
+                  "DisplayName": "<DISPLAY_NAME_2>",
+                  "BusinessTitle": "<BUSINESS_TITLE_2>",
+                  "PersonNumber": "<PERSON_NUMBER_2>",
+                  "PersonId": "<PERSON_ID_2>",
+                  "AssignmentId": "<ASSIGNMENT_ID_2>"
+                },
+                {
+                  "DisplayName": "<DISPLAY_NAME_3>",
+                  "BusinessTitle": "<BUSINESS_TITLE_3>",
+                  "PersonNumber": "<PERSON_NUMBER_3>",
+                  "PersonId": "<PERSON_ID_3>",
+                  "AssignmentId": "<ASSIGNMENT_ID_3>"
+                },
+                {
+                  "DisplayName": "<DISPLAY_NAME_4>",
+                  "BusinessTitle": "<BUSINESS_TITLE_4>",
+                  "PersonNumber": "<PERSON_NUMBER_4>",
+                  "PersonId": "<PERSON_ID_4>",
+                  "AssignmentId": "<ASSIGNMENT_ID_4>"
+                },
+                {
+                  "DisplayName": "<DISPLAY_NAME_5>",
+                  "BusinessTitle": "<BUSINESS_TITLE_5>",
+                  "PersonNumber": "<PERSON_NUMBER_5>",
+                  "PersonId": "<PERSON_ID_5>",
+                  "AssignmentId": "<ASSIGNMENT_ID_5>"
+                },
+                {
+                  "DisplayName": "<DISPLAY_NAME_6>",
+                  "BusinessTitle": "<BUSINESS_TITLE_6>",
+                  "PersonNumber": "<PERSON_NUMBER_6>",
+                  "PersonId": "<PERSON_ID_6>",
+                  "AssignmentId": "<ASSIGNMENT_ID_6>"
+                },
+                {
+                  "DisplayName": "<DISPLAY_NAME_7>",
+                  "BusinessTitle": "<BUSINESS_TITLE_7>",
+                  "PersonNumber": "<PERSON_NUMBER_7>",
+                  "PersonId": "<PERSON_ID_7>",
+                  "AssignmentId": "<ASSIGNMENT_ID_7>"
+                }
+              ],
+              "count": "<COUNT>",
+              "limit": "<LIMIT>",
+              "offset": "<OFFSET>",
+              "hasMore": "<HAS_MORE>"
             },
             "sampleType": "response"
           }

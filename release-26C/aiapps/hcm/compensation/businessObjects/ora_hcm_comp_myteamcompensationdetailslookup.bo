@@ -3,7 +3,7 @@
   "supportedObjectId": "300100659078988",
   "name": "My Team Compensation Details Lookup",
   "description": "Retrieves compensation details for a selected employee's direct reports using the employee selected through the myTeamDetails findByObject action. It uses the person's ID and assignment ID to return compensation information such as salary basis, current salary, annual salary, currency, range position, compa ratio, quartile, quintile, and salary review dates.",
-  "objectCode": "ORA_HCM_COMP_MYTEAMCOMPENSATIONDETAILSLOOKUP",
+  "objectCode": "ORA_HCM_COMP_XX_MYTEAMCOMPENSATIONDETAILSLOOKUP",
   "family": "HCM",
   "product": "COMPENSATION",
   "objectSource": "ADF_BC",

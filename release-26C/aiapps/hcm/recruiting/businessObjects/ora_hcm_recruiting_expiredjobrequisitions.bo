@@ -1,9 +1,9 @@
 {
   "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
-  "supportedObjectId": "300100680713099",
+  "supportedObjectId": "300100692030694",
   "name": "Expired Job Requisitions",
   "description": "Expired Job Requisitions retrieves open recruiting requisitions whose postings have expired, including requisition details, application counts, ownership, and organizational attributes.",
-  "objectCode": "ORA_HCM_RECRUITING_EXPIREDJOBREQUISITIONS",
+  "objectCode": "ORA_HCM_RECRUITING_XX_EXPIREDJOBREQUISITIONS",
   "family": "HCM",
   "product": "RECRUITING",
   "objectSource": "ADF_BC",

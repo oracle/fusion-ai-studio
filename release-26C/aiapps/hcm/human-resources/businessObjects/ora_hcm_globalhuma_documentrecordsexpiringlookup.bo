@@ -3,7 +3,7 @@
   "supportedObjectId": "300100677697246",
   "name": "Document Records Expiring Lookup",
   "description": "Retrieves document records with DateTo between the supplied current date and date after 30 days. Input: Current date and date after 30 days. Output: Document display name, document type, document name, and end date.",
-  "objectCode": "ORA_HCM_GLOBALHUMA_DOCUMENTRECORDSEXPIRINGLOOKUP",
+  "objectCode": "ORA_HCM_GLOBALHUMA_XX_DOCUMENTRECORDSEXPIRINGLOOKUP",
   "family": "HCM",
   "product": "GLOBAL_HUMAN_RESOURCES",
   "objectSource": "ADF_BC",

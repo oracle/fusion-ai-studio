@@ -3,7 +3,7 @@
   "supportedObjectId": "300100676095179",
   "name": "Maintenance Work Order Searches By Filters",
   "description": "Retrieve maintenance work orders details using the Jersey end point which is based on elastic index.",
-  "objectCode": "ORA_SCM_MAINTENANCE_WO_SEARCHES",
+  "objectCode": "ORA_SCM_MAINTENANC_XX_WO_SEARCHES",
   "family": "SCM",
   "product": "MAINTENANCE",
   "objectSource": "ADF_BC",
