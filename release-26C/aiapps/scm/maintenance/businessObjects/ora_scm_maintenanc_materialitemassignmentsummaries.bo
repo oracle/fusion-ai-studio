@@ -3,7 +3,7 @@
   "supportedObjectId": "300100678528070",
   "name": "Material Item Assignment Summaries",
   "description": "Get the information of the material requirements for various Items.",
-  "objectCode": "ORA_SCM_MAINTENANC_MATERIALITEMASSIGNMENTSUMMARIES",
+  "objectCode": "ORA_SCM_MAINTENANC_XX_MATERIALITEMASSIGNMENTSUMMARIES",
   "family": "SCM",
   "product": "MAINTENANCE",
   "objectSource": "ADF_BC",

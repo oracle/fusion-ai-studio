@@ -3,7 +3,7 @@
   "supportedObjectId": "300100678528149",
   "name": "On Hand Qty by Item",
   "description": "OnHand Qty Details for a given Item",
-  "objectCode": "ORA_SCM_PRODUCTMAN_ONHANDQTYBYITEM",
+  "objectCode": "ORA_SCM_PRODUCTMAN_XX_ONHANDQTYBYITEM",
   "family": "SCM",
   "product": "PRODUCT_MANAGEMENT",
   "objectSource": "ADF_BC",

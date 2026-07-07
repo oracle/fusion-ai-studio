@@ -3,7 +3,7 @@
   "supportedObjectId": "300100731476487",
   "name": "Learning Item Searches Lookup",
   "description": "Retrieves hover-card details for the specified list of learning item IDs and returns the matching learning item search results.",
-  "objectCode": "ORA_HCM_LEARNING_LEARNINGITEMSEARCHESLOOKUP",
+  "objectCode": "ORA_HCM_LEARNING_XX_LEARNINGITEMSEARCHESLOOKUP",
   "family": "HCM",
   "product": "LEARNING",
   "objectSource": "ADF_BC",

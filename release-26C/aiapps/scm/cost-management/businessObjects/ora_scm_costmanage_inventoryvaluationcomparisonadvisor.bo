@@ -1,9 +1,9 @@
 {
   "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
-  "supportedObjectId": "300100668719232",
+  "supportedObjectId": "300100692054283",
   "name": "Inventory Valuation Comparison Advisor",
   "description": "Provides inventory valuation data for asset, expense, and consigned valuation units across current and prior comparison periods.",
-  "objectCode": "ORA_SCM_COSTMANAGE_INVENTORYVALUATIONCOMPARISONADVISOR",
+  "objectCode": "ORA_SCM_XX_COSTMANAGE_INVENTORYVALUATIONCOMPARISONADVISOR",
   "family": "SCM",
   "product": "COST_MANAGEMENT",
   "objectSource": "ADF_BC",

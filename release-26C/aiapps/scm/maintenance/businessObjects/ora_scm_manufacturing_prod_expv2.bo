@@ -3,7 +3,7 @@
   "supportedObjectId": "300100676246006",
   "name": "Open Production Exceptions",
   "description": "Retrieve open production exceptions for manufacturing using the productionExceptionsV2 REST resource.",
-  "objectCode": "ORA_SCM_MANUFACTURING_PROD_EXPV2",
+  "objectCode": "ORA_SCM_MANUFACTURING_XX_PROD_EXPV2",
   "family": "SCM",
   "product": "MANUFACTURING",
   "objectSource": "ADF_BC",

@@ -3,7 +3,7 @@
   "supportedObjectId": "300100731476606",
   "name": "WLF Recommendation Aggregations Lookup",
   "description": "Retrieves learning recommendation summary data for a manager and returns recommendation facets grouped by object title.",
-  "objectCode": "ORA_HCM_LEARNING_WLFRECOMMENDATIONAGGREGATIONSLOOKUP",
+  "objectCode": "ORA_HCM_LEARNING_XX_WLFRECOMMENDATIONAGGREGATIONSLOOKUP",
   "family": "HCM",
   "product": "LEARNING",
   "objectSource": "ADF_BC",

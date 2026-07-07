@@ -3,7 +3,7 @@
   "supportedObjectId": "300100657363478",
   "name": "Learning Searches",
   "description": "The Learning Searches Business Object enables advanced searching and aggregation of learning records within the LEARNING product. It supports retrieving summarized data by learner, learning item, and enrollment status, as well as detailed searches of learning item records. With its focus on aggregation and search operations, it facilitates comprehensive insights into learning activities and related enrollment data.",
-  "objectCode": "ORA_HCM_LEARNING_LEARNINGSEARCHES",
+  "objectCode": "ORA_HCM_LEARNING_XX_LEARNINGSEARCHES",
   "family": "HCM",
   "product": "LEARNING",
   "objectSource": "ADF_BC",

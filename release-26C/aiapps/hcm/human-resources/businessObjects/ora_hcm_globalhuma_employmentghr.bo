@@ -6,7 +6,7 @@
   },
   "name": "HCM GHR Employment",
   "description": "Provides Global Human Resources employment functions for assignment history, manager hierarchy, worker connections, seniority, compensation, performance, representatives, profiles, notes, and reporting counts.",
-  "objectCode": "ORA_HCM_GLOBALHUMA_EMPLOYMENTGHR",
+  "objectCode": "ORA_HCM_GLOBALHUMA_XX_EMPLOYMENTGHR",
   "family": "HCM",
   "product": "GLOBAL_HUMAN_RESOURCES",
   "objectSource": "ADF_BC",

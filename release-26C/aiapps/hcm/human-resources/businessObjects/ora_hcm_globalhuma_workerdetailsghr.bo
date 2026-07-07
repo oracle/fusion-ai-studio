@@ -6,7 +6,7 @@
   },
   "name": "HCM GHR Worker Contact Details",
   "description": "Provides Global Human Resources worker contact and public worker detail functions by person identifier or person number, including email, phone, address, and profile fields.",
-  "objectCode": "ORA_HCM_GLOBALHUMA_WORKERDETAILSGHR",
+  "objectCode": "ORA_HCM_GLOBALHUMA_XX_WORKERDETAILSGHR",
   "family": "HCM",
   "product": "GLOBAL_HUMAN_RESOURCES",
   "objectSource": "ADF_BC",

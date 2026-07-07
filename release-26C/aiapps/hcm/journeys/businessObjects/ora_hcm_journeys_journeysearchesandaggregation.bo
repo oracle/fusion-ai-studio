@@ -1,12 +1,9 @@
 {
   "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
-  "supportedObjectId": "300100657253003",
-  "$context": {
-    "etag": "7"
-  },
+  "supportedObjectId": "300100692517501",
   "name": "Journey Searches and Aggregation",
   "description": "Journey Searches and Aggregation enables efficient retrieval and aggregation of worker journey and team task information within the HCM Journeys product. It supports searching and summarizing journey-related records through multiple POST operations, facilitating insights into worker journeys and associated team tasks.",
-  "objectCode": "ORA_HCM_JOURNEYS_JOURNEYSEARCHESANDAGGREGATION",
+  "objectCode": "ORA_HCM_JOURNEYS_XX_JOURNEYSEARCHESANDAGGREGATION",
   "family": "HCM",
   "product": "JOURNEYS",
   "objectSource": "HCM_SEARCH",
