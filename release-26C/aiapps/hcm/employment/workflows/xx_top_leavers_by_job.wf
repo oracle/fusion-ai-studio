@@ -1265,7 +1265,7 @@
           "name": "New run profile 2",
           "type": "agentic-app",
           "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraMessageHint\": \"InitDisplay\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100000008153756\\\",\\\"guId\\\":\\\"0306B72D1BE8CF445382B28E9BC1E43E\\\",\\\"fullName\\\":\\\"Meg Fitzimmons\\\",\\\"userName\\\":\\\"TM-MFITZIMMONS\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cpdcfqdqy.fusionappspreprod.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\",\n    \"correlationId\": \"db07767f-4690-4f8b-bc7f-a52b930ef97e\"\n}",
+          "restConfigJson": "{\n    \"OraMessageHint\": \"InitDisplay\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\",\n    \"correlationId\": \"MOCK_CORRELATIONID\"\n}",
           "agenticAppUserContext": ""
         }
       ]

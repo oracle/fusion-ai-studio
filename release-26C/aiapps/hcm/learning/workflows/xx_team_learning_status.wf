@@ -230,14 +230,6 @@
   "isTemplate": false,
   "ownerId": null,
   "$id": "300100657526580",
-  "$context": {
-    "etag": "22",
-    "links": {
-      "$self": {
-        "href": "https://cptcqjxqy.fusionapps.ocs.oc-test.com/api/boss/data/objects/ora/commonFusionAI/agents/v1/$en/workflows/300100657526580"
-      }
-    }
-  },
   "tags": [],
   "roles": [],
   "seededRoles": [],
