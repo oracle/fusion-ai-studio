@@ -28,7 +28,7 @@
           {
             "name": "pGradeCode",
             "dataType": "string",
-            "description": "Grade Code",
+            "description": "Stores the Grade Code",
             "id": 2,
             "isToken": true,
             "location": "query",
@@ -79,7 +79,7 @@
           {
             "name": "pJobCode",
             "dataType": "string",
-            "description": "Job Code",
+            "description": "Stores the Job Code",
             "id": 6,
             "isToken": true,
             "location": "query",

@@ -279,18 +279,6 @@
     "modelConfiguration": null,
     "humanApprovalFlag": false,
     "waitFlag": false,
-    "triggers": [
-      {
-        "type": "REST",
-        "inputs": [
-          {
-            "id": "1783336662481",
-            "name": "er",
-            "type": "string"
-          }
-        ]
-      }
-    ],
     "deletedTriggerTypes": [],
     "answerInUserLanguage": false,
     "userLanguagePrompt": "",

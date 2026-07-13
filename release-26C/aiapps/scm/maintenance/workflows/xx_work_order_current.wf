@@ -4,13 +4,9 @@
   "specification": {
     "jsonSchemaName": "Workflow.spec",
     "jsonSchemaVersion": "1",
-    "inputs": [
-
-    ],
+    "inputs": [],
     "outputSpecification": " ",
-    "agentsValueMappings": [
-
-    ],
+    "agentsValueMappings": [],
     "dataPipeline": {
       "pipelineNodes": [
         {
@@ -23,12 +19,10 @@
           },
           "code": "START",
           "id": "start",
-          "inputs": [
-
-          ],
+          "inputs": [],
           "type": "START",
           "diagram": {
-            "x": 5611,
+            "x": 5588.5,
             "y": 5000
           }
         },
@@ -70,7 +64,7 @@
           ],
           "type": "SET_FIELDS",
           "diagram": {
-            "x": 5489,
+            "x": 5466.5,
             "y": 5428
           }
         },
@@ -85,13 +79,11 @@
           },
           "code": "CALCULATE_DATE_RANGE",
           "id": "1767815766370",
-          "inputs": [
-
-          ],
+          "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "type": "CODE",
           "diagram": {
-            "x": 5489,
+            "x": 5466.5,
             "y": 5206
           }
         },
@@ -116,22 +108,20 @@
           ],
           "type": "CONDITION",
           "diagram": {
-            "x": 5489,
+            "x": 5466.5,
             "y": 5650
           }
         },
         {
           "aiAppOutputSpecification": {
             "dataDisplay": {
-              "layouts": [
-
-              ],
+              "layouts": [],
               "enableActions": false,
               "enableCommunications": false
             }
           },
           "metadata": {
-            "name": "Organization Not Available"
+            "name": "Display Organization Not Available"
           },
           "outcomes": {
             "success": "end"
@@ -150,7 +140,7 @@
           "outputSpecification": "",
           "type": "LLM",
           "diagram": {
-            "x": 5978,
+            "x": 5933,
             "y": 5872
           }
         },
@@ -165,13 +155,11 @@
           },
           "code": "PREPARE_CURRENT_WORK_ORDER_FILTERS",
           "id": "1772000000001",
-          "inputs": [
-
-          ],
+          "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "type": "CODE",
           "diagram": {
-            "x": 5231,
+            "x": 5208.5,
             "y": 5872
           }
         },
@@ -221,7 +209,7 @@
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"WorkOrderNumber\": {\n            \"type\": \"string\"\n          },\n          \"PlannedStartDate\": {\n            \"type\": \"string\",\n            \"format\": \"date-time\"\n          },\n          \"PlannedCompletionDate\": {\n            \"type\": \"string\",\n            \"format\": \"date-time\"\n          },\n          \"WorkOrderStatusInformation.WorkStatusName\":{\n          \"type\": \"string\"\n           },\n          \"WorkOrderType\": {\n            \"type\": \"string\"\n          },\n          \"WorkOrderDescription\":{\n            \"type\": \"string\"\n          },\n          \"ResourceAssignCode\":{\n            \"type\": \"string\"\n          },\n          \"WoaInformation.AssetInformation.AssetNumber\":{\n          \"type\": \"string\"\n           }\n        }\n      }\n    }\n  }\n}",
           "type": "BO_FUNCTION",
           "diagram": {
-            "x": 5264,
+            "x": 5241.5,
             "y": 6094
           }
         },
@@ -249,7 +237,7 @@
           ],
           "type": "SET_FIELDS",
           "diagram": {
-            "x": 5264,
+            "x": 5241.5,
             "y": 6538
           }
         },
@@ -273,7 +261,7 @@
           ],
           "type": "CONDITION",
           "diagram": {
-            "x": 5264,
+            "x": 5241.5,
             "y": 6760
           },
           "convergenceTargetId": "end"
@@ -304,7 +292,7 @@
           "type": "LLM",
           "outputSpecification": "",
           "diagram": {
-            "x": 5498,
+            "x": 5000,
             "y": 6982
           }
         },
@@ -343,8 +331,8 @@
           "type": "LLM",
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"patternId\": {\n      \"type\": \"string\",\n      \"enum\": [\n        \"messageListWidget\"\n      ]\n    },\n    \"description\": {\n      \"type\": \"string\"\n    },\n    \"properties\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"items\": {\n          \"type\": \"array\",\n          \"maxItems\": 10,\n          \"items\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"title\": {\n                \"type\": \"string\"\n              },\n              \"subtitle\": {\n                \"type\": \"string\"\n              },\n              \"summary\": {\n                \"type\": \"string\"\n              },\n              \"badgeText\": {\n                \"type\": \"string\",\n                \"enum\": [\n                  \"Released\",\n                  \"Unreleased\"\n                ]\n              },\n              \"priority\": {\n                \"type\": \"string\",\n                \"enum\": [\n                  \"success\",\n                  \"warning\"\n                ]\n              },\n              \"timestamp\": {\n                \"type\": \"string\"\n              }\n            },\n            \"required\": [\n              \"title\",\n              \"subtitle\",\n              \"summary\",\n              \"badgeText\",\n              \"priority\",\n              \"timestamp\"\n            ],\n            \"additionalProperties\": false\n          }\n        }\n      },\n      \"required\": [\n        \"items\"\n      ],\n      \"additionalProperties\": false\n    }\n  },\n  \"required\": [\n    \"patternId\",\n    \"description\",\n    \"properties\"\n  ],\n  \"additionalProperties\": false\n}",
           "diagram": {
-            "x": 5022.5,
-            "y": 7204
+            "x": 5480,
+            "y": 6982
           }
         },
         {
@@ -358,13 +346,11 @@
           },
           "code": "PREPARE_CURRENT_WORK_ORDERS",
           "id": "1771594150914",
-          "inputs": [
-
-          ],
+          "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "type": "CODE",
           "diagram": {
-            "x": 5262.5,
+            "x": 5240,
             "y": 6316
           }
         },
@@ -373,13 +359,10 @@
             "description": "End of data pipeline",
             "name": "End"
           },
-          "outcomes": {
-          },
+          "outcomes": {},
           "code": "END",
           "id": "end",
-          "inputs": [
-
-          ],
+          "inputs": [],
           "type": "END"
         }
       ],
@@ -464,26 +447,8 @@
         "type": "REST",
         "inputs": [
           {
-            "id": "1770890455438",
-            "name": "InvokeAction",
-            "scope": "JOB",
-            "type": "string"
-          },
-          {
             "id": "1770890444190",
             "name": "OraAppContext",
-            "scope": "JOB",
-            "type": "string"
-          },
-          {
-            "id": "1770890422789",
-            "name": "OraAction",
-            "scope": "JOB",
-            "type": "string"
-          },
-          {
-            "id": "1767760052007",
-            "name": "OraMessageHint",
             "scope": "JOB",
             "type": "string"
           }
@@ -493,9 +458,7 @@
     "costSavings": 0,
     "timeSavings": 10,
     "chatExpTPFileUploadEnabledFlag": false,
-    "chatExpThirdPartyDetails": [
-
-    ],
+    "chatExpThirdPartyDetails": [],
     "dtRunProfiles": {
       "activeProfileId": "7f3afaab-a671-40b4-ad8f-7fac6cbc0fe4",
       "profiles": [
@@ -512,9 +475,7 @@
     "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI",
     "diagram": {
       "orientation": "vertical",
-      "commentNodes": [
-
-      ]
+      "commentNodes": []
     }
   },
   "name": "Current Work Orders",
@@ -545,22 +506,10 @@
   "isTemplate": false,
   "ownerId": null,
   "$id": "300100676086933",
-  "tags": [
-
-  ],
-  "roles": [
-
-  ],
-  "seededRoles": [
-
-  ],
-  "customizedSpecifications": [
-
-  ],
-  "initialTags": [
-
-  ],
-  "initialRoles": [
-
-  ]
+  "tags": [],
+  "roles": [],
+  "seededRoles": [],
+  "customizedSpecifications": [],
+  "initialTags": [],
+  "initialRoles": []
 }

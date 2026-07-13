@@ -221,7 +221,7 @@
     "deletedTriggerTypes": []
   },
   "name": "Ledger Insights Query Helper",
-  "description": "Takes Balances AV request, response and Journals AV request and response and converts them into journals BV payload",
+  "description": "Builds a Journals BV journal-line drilldown query payload from an analytic-view request using chart-of-accounts metadata, ledger information, and configured field aliases.",
   "family": "FIN",
   "product": "GENERAL_LEDGER",
   "workflowId": "300100659472978",

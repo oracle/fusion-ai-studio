@@ -202,7 +202,7 @@
           "code": "RETURN_COMPENSATION_DETAILS",
           "id": "1777044119878",
           "inputs": [],
-          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"required\": [\n    \"output\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "type": "CODE",
           "diagram": {
             "x": 5000,
@@ -418,7 +418,7 @@
   "customizationPolicy": null,
   "emailConfigCode": null,
   "jobRequestId": null,
-  "aiAppsCompatibleFlag": true,
+  "aiAppsCompatibleFlag": false,
   "isTemplate": false,
   "ownerId": null,
   "$id": "300100691874014",

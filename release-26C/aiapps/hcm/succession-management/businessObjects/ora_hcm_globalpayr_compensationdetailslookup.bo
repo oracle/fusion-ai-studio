@@ -140,7 +140,7 @@
           {
             "name": "employees",
             "dataType": "string",
-            "description": "list of assignmentIds of employees",
+            "description": "List of assignmentIds of employees",
             "id": 7,
             "isToken": true,
             "location": "query",

@@ -2,7 +2,7 @@
   "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "supportedObjectId": "300100678490672",
   "name": "Shortage Units of Measure",
-  "description": "Units of measure for shortage-related inventory flows.",
+  "description": "The Shortage Units of Measure Business Object provides access to units of measure specifically used for shortage-related inventory processes.",
   "objectCode": "ORA_SCM_INVENTORY_XX_SHORTAGE_UOM",
   "family": "SCM",
   "product": "INVENTORY_MANAGEMENT",
@@ -17,7 +17,7 @@
     "tools": [
       {
         "name": "get_unitsOfMeasure",
-        "description": "Get units of measure.",
+        "description": "Retrieves specific units of measure. This function accesses the Shortage Units of Measure resource to filter and return relevant unit details based on provided criteria.",
         "operationId": "get_unitsOfMeasure",
         "operationType": "GET",
         "resourcePath": "/fscmRestApi/resources/11.13.18.05/unitsOfMeasure?fields={fields}&onlyData={onlyData}&limit={limit}&offset={offset}&q=UOMCode%20in%20({uomCodeList})",
@@ -68,7 +68,7 @@
           {
             "name": "uomCodeList",
             "dataType": "string",
-            "description": "Comma-separated, single-quoted UOMCode values for the fixed UOMCode in (...) query filter.",
+            "description": "Specifies a comma-separated list of single-quoted unit of measure codes (UOMCode) used to filter and retrieve only the relevant shortage units of measure. This parameter is required to identify which units to include in the inventory shortage query.",
             "id": 6,
             "isToken": true,
             "location": "query",

@@ -178,7 +178,7 @@
           {
             "name": "ledgerId",
             "dataType": "string",
-            "description": "ledger ID",
+            "description": "Ledger Id",
             "id": 16,
             "isToken": true,
             "location": "body",

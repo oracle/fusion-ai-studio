@@ -567,7 +567,7 @@
           {
             "name": "assigmentId",
             "dataType": "string",
-            "description": "assign id",
+            "description": "Assignment ID for a manager's direct report.",
             "id": 6,
             "isToken": true,
             "location": "path",
@@ -577,7 +577,7 @@
           {
             "name": "pPersonId",
             "dataType": "string",
-            "description": "person Id",
+            "description": "Person ID for a manager's direct report.",
             "id": 7,
             "isToken": true,
             "location": "query",

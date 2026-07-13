@@ -153,7 +153,7 @@
   "status": "DRAFT",
   "version": 73390516,
   "customFlag": false,
-  "aiAppsCompatibleFlag": true,
+  "aiAppsCompatibleFlag": false,
   "firstStarterQuestion": null,
   "secondStarterQuestion": null,
   "thirdStarterQuestion": null,

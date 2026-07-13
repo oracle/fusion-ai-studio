@@ -346,7 +346,7 @@
     "deletedTriggerTypes": []
   },
   "name": "Period Status",
-  "description": "Retrieves and renders period close status for the selected ledger and period across General Ledger and source systems, including close readiness, category-level status, days remaining, and period-status actions.",
+  "description": "Retrieves and displays period status for General Ledger and the Payables and Receivables subledgers for the selected ledger and accounting period.",
   "family": "FIN",
   "product": "GENERAL_LEDGER",
   "workflowId": "300100659463548",

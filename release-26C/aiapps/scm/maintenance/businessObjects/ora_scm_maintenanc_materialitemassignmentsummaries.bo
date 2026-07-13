@@ -2,7 +2,7 @@
   "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "supportedObjectId": "300100678528070",
   "name": "Material Item Assignment Summaries",
-  "description": "Get the information of the material requirements for various Items.",
+  "description": "Material Item Assignment Summaries provides an overview of material requirements and shortage summaries for items within an organization. It supports retrieval of key information to help manage and monitor material assignments in maintenance operations.",
   "objectCode": "ORA_SCM_MAINTENANC_XX_MATERIALITEMASSIGNMENTSUMMARIES",
   "family": "SCM",
   "product": "MAINTENANCE",
@@ -17,7 +17,7 @@
     "tools": [
       {
         "name": "oraScmMnt_materialAssignmentSummary_byOrganization",
-        "description": "Get material shortage summaries",
+        "description": "Retrieves a summary of material shortages for items within a specified organization, providing key information to support management and monitoring of material assignments in maintenance operations.",
         "operationType": "GET",
         "resourcePath": "/fscmRestApi/resources/11.13.18.05/materialAssignmentSummaries?orderBy=ShortageQuantity:desc&q=OrganizationId%20%3D%20{OrganizationId}",
         "resourceType": "ADF_BC_FIXED_QUERY",
