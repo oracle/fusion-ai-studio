@@ -176,14 +176,14 @@ The ZIP file must be extracted to get the `aistudio` folder with files inside it
 5. Choose an easy-to-find destination, such as Downloads or a project setup folder.
 6. Open the extracted folder.
 7. Confirm that it contains a file named `SKILL.md` and three folders
-8. Create a new folder named `.agents` inside the *fusion-ai-apps-main* folder
+8. Create a new folder named `.agents` inside the *fusion-ai-studio-main* folder
 9. Open the `.agents` folder and create a new folder named `skills`
 10. Open the skills folder and copy the extracted `aistudio` folder inside the skills folder
 
 **Result before continuing:** You have created the required folders inside the workspace folder and copied the skill related files to it. The folder structure should look similar to:
 
 ```text
-fusion-ai-apps-main/
+fusion-ai-studio-main/
 └── .agents/
     └── skills/
         └── aistudio/
@@ -196,9 +196,13 @@ fusion-ai-apps-main/
 
 ### Extract Fusion AI App Skills ZIP
 
-The `aistudio-app-skills.zip` file will be made available in the shared folder.
+The Fusion AI App Skills are available as a ZIP file `aistudio-apps-skills.zip` under the `fusion-ai-studio/<release>/aistudio/aistudio-apps-skills` folder:
 
-The ZIP file must be extracted to get the `aistudio-app-skills` folder with folders inside it.
+```text
+https://github.com/oracle-samples/fusion-ai-studio/blob/main/release-26C/aistudio/aistudio-apps-skills/aistudio-apps-skills.zip
+```
+
+The ZIP file must be extracted to get the `aistudio-apps-skills` folder with folders inside it.
 
 1. Extract the zip file.
 2. On Windows, select **Extract All...**.
@@ -211,7 +215,7 @@ The ZIP file must be extracted to get the `aistudio-app-skills` folder with fold
 **Result before continuing:** You have copied the skill related files. The folder structure should look similar to:
 
 ```text
-fusion-ai-apps-main/
+fusion-ai-studio-main/
 └── .agents/
     └── skills/
         └── aistudio-apps-succession-management/

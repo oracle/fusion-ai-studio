@@ -102,7 +102,7 @@
           "type": "BO_FUNCTION",
           "metadata": {
             "name": "Fetch Direct Reports",
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_PERSONSEARCHESGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersByManager",
             "errorNodeId": "1785000001800"
           },

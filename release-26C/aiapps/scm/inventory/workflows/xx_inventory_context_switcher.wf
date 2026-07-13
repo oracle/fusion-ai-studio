@@ -155,7 +155,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_SCM_INVENTORYM_FETCHESDEFAULTORGANIZATION",
+            "businessObjectCode": "ORA_SCM_INVENTORYM_XX_FETCHESDEFAULTO",
             "functionName": "get_default_organization",
             "name": "Default Organization"
           },
