@@ -28,7 +28,7 @@
           {
             "name": "pPersonId",
             "dataType": "string",
-            "description": "personId for a given person.",
+            "description": "Person Id for the given person.",
             "id": 2,
             "isToken": true,
             "location": "path",
@@ -38,7 +38,7 @@
           {
             "name": "pAssignmentId",
             "dataType": "string",
-            "description": "Assignment Id for the given person.",
+            "description": "Assignment Id for a given person.",
             "id": 3,
             "isToken": true,
             "location": "path",
@@ -115,7 +115,7 @@
           {
             "name": "pPersonId",
             "dataType": "string",
-            "description": "PersonId of the employee",
+            "description": "Person Id for a given employee",
             "id": 7,
             "isToken": true,
             "location": "path",

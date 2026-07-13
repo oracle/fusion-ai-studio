@@ -4,13 +4,9 @@
   "specification": {
     "jsonSchemaName": "Workflow.spec",
     "jsonSchemaVersion": "1",
-    "inputs": [
-
-    ],
+    "inputs": [],
     "outputSpecification": " ",
-    "agentsValueMappings": [
-
-    ],
+    "agentsValueMappings": [],
     "dataPipeline": {
       "pipelineNodes": [
         {
@@ -23,12 +19,10 @@
           },
           "code": "START",
           "id": "start",
-          "inputs": [
-
-          ],
+          "inputs": [],
           "type": "START",
           "diagram": {
-            "x": 6151,
+            "x": 6113.5,
             "y": 5000
           }
         },
@@ -66,7 +60,7 @@
           ],
           "type": "SET_FIELDS",
           "diagram": {
-            "x": 6029,
+            "x": 5991.5,
             "y": 5428
           }
         },
@@ -81,13 +75,11 @@
           },
           "code": "GET_CONTEXT_DATA",
           "id": "1769778260670",
-          "inputs": [
-
-          ],
+          "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "type": "CODE",
           "diagram": {
-            "x": 6029,
+            "x": 5991.5,
             "y": 5206
           }
         },
@@ -112,7 +104,7 @@
           ],
           "type": "CONDITION",
           "diagram": {
-            "x": 6027.5,
+            "x": 5990,
             "y": 5650
           }
         },
@@ -139,7 +131,7 @@
           "outputSpecification": "{}",
           "type": "BO_FUNCTION",
           "diagram": {
-            "x": 6029,
+            "x": 5991.5,
             "y": 6094
           }
         },
@@ -177,8 +169,8 @@
           ],
           "type": "LLM",
           "diagram": {
-            "x": 5804,
-            "y": 7702
+            "x": 5766.5,
+            "y": 7480
           }
         },
         {
@@ -197,7 +189,7 @@
                   "code": "START_1771497094468",
                   "type": "START",
                   "diagram": {
-                    "x": 6178.5,
+                    "x": 6141,
                     "y": 6406
                   }
                 },
@@ -212,13 +204,11 @@
                   },
                   "code": "VALIDATE_ON_HAND_ITEM_ID",
                   "id": "1783100000001",
-                  "inputs": [
-
-                  ],
+                  "inputs": [],
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
                   "type": "CODE",
                   "diagram": {
-                    "x": 6029,
+                    "x": 5991.5,
                     "y": 6557
                   }
                 },
@@ -245,7 +235,7 @@
                   "outputSpecification": "{}",
                   "type": "BO_FUNCTION",
                   "diagram": {
-                    "x": 6029,
+                    "x": 5991.5,
                     "y": 6779
                   }
                 },
@@ -260,13 +250,11 @@
                   },
                   "code": "APPEND_ADDITIONAL_INFORMATION",
                   "id": "1771497761860",
-                  "inputs": [
-
-                  ],
+                  "inputs": [],
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
                   "type": "CODE",
                   "diagram": {
-                    "x": 6018.5,
+                    "x": 5981,
                     "y": 7001
                   }
                 },
@@ -300,7 +288,7 @@
           ],
           "type": "LOOP",
           "diagram": {
-            "x": 5879,
+            "x": 5841.5,
             "y": 6316,
             "width": 600,
             "height": 792
@@ -311,10 +299,10 @@
           "code": "ORGANIZATION_NOT_AVAILABLE",
           "type": "LLM",
           "metadata": {
-            "name": "Organization Not Available"
+            "name": "Display Organization Not Available"
           },
           "diagram": {
-            "x": 6741.5,
+            "x": 6666.5,
             "y": 5872
           },
           "outcomes": {
@@ -338,7 +326,7 @@
             "name": "Verify Item Shortages"
           },
           "diagram": {
-            "x": 6029,
+            "x": 5991.5,
             "y": 7258
           },
           "outcomes": {
@@ -362,7 +350,7 @@
             "name": "Display No Item Shortage"
           },
           "diagram": {
-            "x": 6291.5,
+            "x": 6216.5,
             "y": 7480
           },
           "outcomes": {
@@ -392,7 +380,7 @@
             "name": "Command Type"
           },
           "diagram": {
-            "x": 5804,
+            "x": 5766.5,
             "y": 5872
           },
           "outcomes": {
@@ -422,9 +410,7 @@
           },
           "code": "GET_INVOKE_ACTION_PAYLOAD",
           "id": "1782800000001",
-          "inputs": [
-
-          ],
+          "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "type": "CODE",
           "diagram": {
@@ -496,9 +482,7 @@
           "outcomes": {
             "success": "1782800000015"
           },
-          "inputs": [
-
-          ],
+          "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
             "x": 5316.5,
@@ -542,9 +526,7 @@
           "outcomes": {
             "success": "1782811825567"
           },
-          "inputs": [
-
-          ],
+          "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
             "x": 5316.5,
@@ -584,7 +566,7 @@
             "name": "Display No Item Available"
           },
           "diagram": {
-            "x": 5633,
+            "x": 5000,
             "y": 9256
           },
           "outcomes": {
@@ -613,8 +595,8 @@
             "name": "Display Item Availablity at Other Organizations"
           },
           "diagram": {
-            "x": 5000,
-            "y": 9478
+            "x": 5450,
+            "y": 9256
           },
           "outcomes": {
             "success": "end"
@@ -707,9 +689,7 @@
           "outcomes": {
             "success": "1782811825569"
           },
-          "inputs": [
-
-          ],
+          "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
             "x": 5292.5,
@@ -729,9 +709,7 @@
           "outcomes": {
             "success": "1782811825570"
           },
-          "inputs": [
-
-          ],
+          "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
             "x": 5316.5,
@@ -767,13 +745,10 @@
             "description": "End of data pipeline",
             "name": "End"
           },
-          "outcomes": {
-          },
+          "outcomes": {},
           "code": "END",
           "id": "end",
-          "inputs": [
-
-          ],
+          "inputs": [],
           "type": "END"
         }
       ],
@@ -846,12 +821,6 @@
         "type": "REST",
         "inputs": [
           {
-            "id": "1770309168111",
-            "name": "InvokeAction",
-            "scope": "JOB",
-            "type": "string"
-          },
-          {
             "id": "1770309158172",
             "name": "OraAppContext",
             "scope": "JOB",
@@ -875,14 +844,10 @@
     "costSavings": 0,
     "timeSavings": 10,
     "chatExpTPFileUploadEnabledFlag": false,
-    "chatExpThirdPartyDetails": [
-
-    ],
+    "chatExpThirdPartyDetails": [],
     "diagram": {
       "orientation": "vertical",
-      "commentNodes": [
-
-      ]
+      "commentNodes": []
     },
     "dtRunProfiles": {
       "activeProfileId": "c957255f-0445-44d5-a21c-bf31afc5ff9a",
@@ -900,7 +865,7 @@
     "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI"
   },
   "name": "Maintenance Material Shortage",
-  "description": "Identify maintenance material shortages for the selected organization and surface item shortage details for init display.",
+  "description": "Analyze material shortages for selected maintenance work orders by showing required items, shortage quantities, and availability details needed to support timely work order execution.",
   "family": "SCM",
   "product": "MAINTENANCE",
   "workflowId": "300100677880357",
@@ -927,22 +892,10 @@
   "isTemplate": false,
   "ownerId": null,
   "$id": "300100677880357",
-  "tags": [
-
-  ],
-  "roles": [
-
-  ],
-  "seededRoles": [
-
-  ],
-  "customizedSpecifications": [
-
-  ],
-  "initialTags": [
-
-  ],
-  "initialRoles": [
-
-  ]
+  "tags": [],
+  "roles": [],
+  "seededRoles": [],
+  "customizedSpecifications": [],
+  "initialTags": [],
+  "initialRoles": []
 }

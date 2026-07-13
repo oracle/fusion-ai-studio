@@ -169,17 +169,7 @@
       "orientation": "vertical",
       "commentNodes": []
     },
-    "dtRunProfiles": {
-      "activeProfileId": "19c8d3ac-6a05-4e13-9dfe-c469827606bc",
-      "profiles": [
-        {
-          "id": "19c8d3ac-6a05-4e13-9dfe-c469827606bc",
-          "name": "New run profile 1",
-          "type": "agentic-app",
-          "agenticAppMode": "initDisplay"
-        }
-      ]
-    }
+    "dtRunProfiles": {}
   },
   "name": "Benefits Person Life Events",
   "description": "This workflow displays the count of unique people by life event status, with each person counted only once.",

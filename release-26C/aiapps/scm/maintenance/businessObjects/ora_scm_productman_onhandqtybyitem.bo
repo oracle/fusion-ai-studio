@@ -2,7 +2,7 @@
   "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "supportedObjectId": "300100678528149",
   "name": "On Hand Qty by Item",
-  "description": "OnHand Qty Details for a given Item",
+  "description": "The On Hand Qty by Item Business Object provides detailed retrieval of current inventory quantities for specified items within an organization, including measurements in primary and secondary units. It supports read-only access to on-hand quantity data, enabling visibility into available stock levels for effective product and supply chain management.",
   "objectCode": "ORA_SCM_PRODUCTMAN_XX_ONHANDQTYBYITEM",
   "family": "SCM",
   "product": "PRODUCT_MANAGEMENT",
@@ -17,7 +17,7 @@
     "tools": [
       {
         "name": "getall_onhandQuantityDetails",
-        "description": "Get onhand quantity details for a item number and organization code",
+        "description": "Retrieves detailed on-hand quantity information for a specified item number within an organization, including primary and secondary unit of measure data. This function accesses inventory details through the onhandQuantityDetails resource.",
         "operationType": "GET",
         "resourcePath": "/fscmRestApi/resources/11.13.18.05/onhandQuantityDetails?q=InventoryItemId%3D'{ItemId}'",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -27,7 +27,7 @@
           {
             "name": "ItemId",
             "dataType": "string",
-            "description": "This is Unique identifier for Product or Item ",
+            "description": "Specifies the unique identifier of the product or item for which on-hand quantity details are retrieved. This required parameter is used as an input token to filter inventory information for the specified item.",
             "id": 2,
             "isToken": true,
             "location": "query",

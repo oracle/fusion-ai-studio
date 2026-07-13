@@ -4,13 +4,9 @@
   "specification": {
     "jsonSchemaName": "Workflow.spec",
     "jsonSchemaVersion": "1",
-    "inputs": [
-
-    ],
+    "inputs": [],
     "outputSpecification": " ",
-    "agentsValueMappings": [
-
-    ],
+    "agentsValueMappings": [],
     "dataPipeline": {
       "pipelineNodes": [
         {
@@ -23,9 +19,7 @@
           },
           "code": "START",
           "id": "start",
-          "inputs": [
-
-          ],
+          "inputs": [],
           "type": "START",
           "diagram": {
             "x": 6161.5,
@@ -81,9 +75,7 @@
           },
           "code": "GET_CONTEXT_DATA",
           "id": "1769778260670",
-          "inputs": [
-
-          ],
+          "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "type": "CODE",
           "diagram": {
@@ -156,9 +148,7 @@
           },
           "code": "GET_INVOKE_ACTION_PAYLOAD",
           "id": "1782900000001",
-          "inputs": [
-
-          ],
+          "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "type": "CODE",
           "diagram": {
@@ -256,9 +246,7 @@
           "code": "MATERIAL_SHORTAGE_DATA_FOR_DATE_RANGE",
           "convergenceTargetId": "1771392353705",
           "id": "1771390021831",
-          "inputs": [
-
-          ],
+          "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "type": "CODE",
           "diagram": {
@@ -329,7 +317,7 @@
           "code": "ORGANIZATION_NOT_AVAILABLE",
           "type": "LLM",
           "metadata": {
-            "name": "Organization Not Available"
+            "name": "Display Organization Not Available"
           },
           "diagram": {
             "x": 7074.5,
@@ -469,7 +457,7 @@
           "code": "RETURN_NO_SHORTAGE_ITEMS",
           "type": "LLM",
           "metadata": {
-            "name": "Return No Shortage Items"
+            "name": "Display No Shortage Items"
           },
           "diagram": {
             "x": 5606,
@@ -550,13 +538,10 @@
             "description": "End of data pipeline",
             "name": "End"
           },
-          "outcomes": {
-          },
+          "outcomes": {},
           "code": "END",
           "id": "end",
-          "inputs": [
-
-          ],
+          "inputs": [],
           "type": "END"
         }
       ],
@@ -641,12 +626,6 @@
         "type": "REST",
         "inputs": [
           {
-            "id": "1770309168111",
-            "name": "InvokeAction",
-            "scope": "JOB",
-            "type": "string"
-          },
-          {
             "id": "1770309158172",
             "name": "OraAppContext",
             "scope": "JOB",
@@ -670,19 +649,15 @@
     "costSavings": 0,
     "timeSavings": 10,
     "chatExpTPFileUploadEnabledFlag": false,
-    "chatExpThirdPartyDetails": [
-
-    ],
+    "chatExpThirdPartyDetails": [],
     "diagram": {
       "orientation": "vertical",
-      "commentNodes": [
-
-      ]
+      "commentNodes": []
     },
     "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI"
   },
   "name": "Maintenance Material Readiness",
-  "description": "Identify material shortages across the organization and affected work orders in a unified workspace.",
+  "description": "Review organization-wide material readiness by identifying item shortages, available quantities, and the affected maintenance work orders that may be delayed due to insufficient materials.",
   "family": "SCM",
   "product": "MAINTENANCE",
   "workflowId": "300100678540710",
@@ -709,22 +684,10 @@
   "isTemplate": false,
   "ownerId": null,
   "$id": "300100678540710",
-  "tags": [
-
-  ],
-  "roles": [
-
-  ],
-  "seededRoles": [
-
-  ],
-  "customizedSpecifications": [
-
-  ],
-  "initialTags": [
-
-  ],
-  "initialRoles": [
-
-  ]
+  "tags": [],
+  "roles": [],
+  "seededRoles": [],
+  "customizedSpecifications": [],
+  "initialTags": [],
+  "initialRoles": []
 }

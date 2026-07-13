@@ -56,7 +56,7 @@
           {
             "name": "ledgerId",
             "dataType": "string",
-            "description": "ledger Id",
+            "description": "Ledger Id",
             "id": 4,
             "isToken": true,
             "location": "body",
@@ -103,7 +103,7 @@
           {
             "name": "ledgerId",
             "dataType": "string",
-            "description": "ledger Id",
+            "description": "Ledger Id",
             "id": 8,
             "isToken": true,
             "location": "body",

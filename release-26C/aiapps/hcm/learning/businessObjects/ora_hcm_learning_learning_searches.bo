@@ -283,7 +283,7 @@
           {
             "name": "learningItemId",
             "dataType": "string",
-            "description": "Primary key identifier for the learning item id to search the records for a learning item",
+            "description": "Primary key identifier for the learning item id to search the learning records for a learning item",
             "id": 8,
             "isToken": true,
             "location": "body",

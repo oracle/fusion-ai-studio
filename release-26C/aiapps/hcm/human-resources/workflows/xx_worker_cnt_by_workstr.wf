@@ -21,7 +21,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5102,
+            "x": 5146,
             "y": 5000
           }
         },
@@ -39,8 +39,8 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5000,
-            "y": 5246
+            "x": 5024,
+            "y": 5206
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -65,8 +65,8 @@
             }
           ],
           "diagram": {
-            "x": 5000,
-            "y": 5468
+            "x": 5024,
+            "y": 5428
           },
           "outputSpecification": "{}"
         },
@@ -80,27 +80,33 @@
             "sourceCode": "let res = $context.$nodes.GET_WORKER_DETAILS.$output;\n\nlet count = 0;\n\nconst values = res?.facets?.[0]?.values;\n\nif (Array.isArray(values) && values.length > 0) {\n  count = Number(values[0]?.count) || 0;\n}\n\nreturn count;"
           },
           "outcomes": {
-            "success": "1778157956424"
+            "success": "1783681824179"
           },
           "inputs": [],
-          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"required\": [\n    \"output\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "diagram": {
+            "x": 5000,
+            "y": 5650
+          }
         },
         {
-          "id": "1778157956424",
+          "id": "1783681824179",
           "code": "RESULT",
-          "type": "LLM",
+          "type": "RETURN",
           "metadata": {
             "name": "Result"
           },
-          "outcomes": {
-            "success": "end"
+          "diagram": {
+            "x": 4883.24776679057,
+            "y": 5870.76416438728
           },
+          "outcomes": {},
           "inputs": [
             {
-              "id": "1778157956427_1",
-              "name": "prompt",
+              "id": "1783681824179_returnValue",
+              "name": "returnValue",
               "type": "string",
-              "value": "Display the following - \"The count after applying all the filters is {{$context.$nodes.FIRST_RESULT.$output.result}}\""
+              "value": "{{$context.$nodes.FIRST_RESULT.$output.result}}"
             }
           ]
         },
@@ -281,7 +287,7 @@
   "status": "DRAFT",
   "version": 74080317,
   "customFlag": false,
-  "aiAppsCompatibleFlag": true,
+  "aiAppsCompatibleFlag": false,
   "firstStarterQuestion": null,
   "secondStarterQuestion": null,
   "thirdStarterQuestion": null,

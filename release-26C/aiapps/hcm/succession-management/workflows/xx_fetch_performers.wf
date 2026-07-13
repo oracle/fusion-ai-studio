@@ -421,7 +421,7 @@
   "customizationPolicy": null,
   "emailConfigCode": null,
   "jobRequestId": null,
-  "aiAppsCompatibleFlag": true,
+  "aiAppsCompatibleFlag": false,
   "isTemplate": false,
   "ownerId": null,
   "$id": "300100692446997",

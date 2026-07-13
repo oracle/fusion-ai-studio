@@ -221,7 +221,7 @@
           "metadata": {
             "name": "Prepare Insight Search Filters",
             "returnType": "string",
-            "sourceCode": "let buildOrLikeFilter = (field, values) => {\n  if (!values.length) return \"\";\n\n  return `(${values\n    .map(value => `${field} ~like '%${value}%'`)\n    .join(\" OR \")})`;\n};\n\nlet buildQuery = ({\n  categories = [],\n  ruleNames = []\n} = {}) => {\n  const categoryFilter = buildOrLikeFilter(\n    \"sensorSignal.policy.categoryCode\",\n    categories\n  );\n\n  const ruleNameFilter = buildOrLikeFilter(\n    \"sensorSignal.policy.ruleName\",\n    ruleNames\n  );\n\n  const statusFilter = \"status.lookupCode='ORA_OPEN'\";\n\n  const ledgerId = $context.$nodes.READ_APPLICATION_CONTEXT.$output.result.ledgerId;\n  const ledgerFilter = `sensorSignal.sensorInsightDetails[dataAccessSetAssignment.ledgerId=${ledgerId}]`\n\n\n  const filters = [\n    categoryFilter,\n    ledgerFilter,\n    \"sensorSignal.policy.activeFlag=true\",\n    ruleNameFilter\n      ? `(${statusFilter} AND ${ruleNameFilter})`\n      : `(${statusFilter})`\n  ].filter(Boolean);\n\n  return [\n    `$filter=${filters.join(\" AND \")}`,\n    `$sortBy=sensorSignal.policy.rulePriority.lookupCode:asc,timeCreated:desc`,\n    `sensorCode=LedgerInsights`\n  ].join(\"&\");\n};\n\nlet q = buildQuery({\n  categories: [\"ORA_RECONCILIATION\"]\n});\n\nreturn q;",
+            "sourceCode": "let buildOrLikeFilter = (field, values) => {\n  if (!values.length) return \"\";\n\n  return `(${values\n    .map(value => `${field} ~like '%${value}%'`)\n    .join(\" OR \")})`;\n};\n\nlet buildQuery = ({\n  categories = [],\n  ruleNames = []\n} = {}) => {\n  const categoryFilter = buildOrLikeFilter(\n    \"sensorSignal.policy.categoryCode\",\n    categories\n  );\n\n  const ruleNameFilter = buildOrLikeFilter(\n    \"sensorSignal.policy.ruleName\",\n    ruleNames\n  );\n\n  const statusFilter = \"status.lookupCode='ORA_OPEN'\";\n\n  const ledgerId = $context.$nodes.READ_APPLICATION_CONTEXT.$output.result.ledgerId;\n  const ledgerFilter = `sensorSignal.sensorInsightDetails[dataAccessSetAssignment.ledgerId=${ledgerId}]`\n\n\n  const filters = [\n    categoryFilter,\n    ledgerFilter,\n    \"sensorSignal.policy.activeFlag=true\",\n    ruleNameFilter\n      ? `(${statusFilter} AND ${ruleNameFilter})`\n      : `(${statusFilter})`\n  ].filter(Boolean);\n\n  return [\n    `$filter=${filters.join(\" AND \")}`,\n    `$sortBy=sensorSignal.policy.rulePriority.lookupCode:asc,timeCreated:desc`,\n    `sensorCode=LedgerInsights`\n  ].join(\"&\");\n};\n\nlet q = buildQuery({\n  categories: [\"ORA_RECONCILIATION\", \"ORA_CLEARING_AND_ACCRUAL\"]\n});\n\nreturn q;",
             "sourceType": "code"
           },
           "outcomes": {
@@ -1925,7 +1925,7 @@
     "allowAllEmployeeAccess": true
   },
   "name": "Clearing Account Balances",
-  "description": "Monitors clearing account insights for the selected ledger and period, highlights unreconciled or unusual clearing balances, and lets users drill into balances, journals, and supporting transactions to understand and resolve close risks.",
+  "description": "Monitors clearing account insights for the selected ledger, highlights unreconciled or unusual clearing balances, and lets users drill into balances, journals, and supporting transactions to understand and resolve close risks.",
   "family": "FIN",
   "product": "GENERAL_LEDGER",
   "workflowId": "300100651845004",

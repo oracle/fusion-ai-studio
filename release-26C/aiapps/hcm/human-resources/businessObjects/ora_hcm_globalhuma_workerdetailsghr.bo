@@ -1,11 +1,7 @@
 {
   "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
-  "supportedObjectId": "300100657022870",
-  "$context": {
-    "etag": "4"
-  },
   "name": "HCM GHR Worker Contact Details",
-  "description": "Provides Global Human Resources worker contact and public worker detail functions by person identifier or person number, including email, phone, address, and profile fields.",
+  "description": "Provides Global Human Resources public worker and contact information by person identifier or person number, including worker profile, email, phone, address, and other communication account details.",
   "objectCode": "ORA_HCM_GLOBALHUMA_XX_WORKERDETAILSGHR",
   "family": "HCM",
   "product": "GLOBAL_HUMAN_RESOURCES",
@@ -1313,6 +1309,77 @@
                   "href": "<href>",
                   "name": "<name>",
                   "kind": "<kind>"
+                }
+              ]
+            },
+            "sampleType": "response"
+          }
+        ]
+      },
+      {
+        "name": "GetWorkerOtherCommunicationAccountsByPersonId",
+        "description": "Returns a worker's other communication account details for the supplied person identifier.",
+        "operationType": "GET",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/workers?q=PersonId={personId}&fields=otherCommunicationAccounts&onlyData=true",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "personId",
+            "dataType": "string",
+            "description": "Person identifier used to retrieve the worker's other communication account details.",
+            "id": 114,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Sample response for worker other communication account details",
+            "query": {
+              "items": [
+                {
+                  "otherCommunicationAccounts": [
+                    {
+                      "DeliveryMethodId": "<delivery method id 1>",
+                      "Provider": "<provider code 1>",
+                      "ProviderMeaning": "<provider name 1>",
+                      "AccountName": "<account name 1>",
+                      "StartDate": "<start date 1>",
+                      "EndDate": "<end date 1>",
+                      "CreatedBy": "<created by>",
+                      "CreationDate": "<creation date 1>",
+                      "LastUpdatedBy": "<last updated by>",
+                      "LastUpdateDate": "<last update date 1>"
+                    },
+                    {
+                      "DeliveryMethodId": "<delivery method id 2>",
+                      "Provider": "<provider code 2>",
+                      "ProviderMeaning": "<provider name 2>",
+                      "AccountName": "<account name 2>",
+                      "StartDate": "<start date 2>",
+                      "EndDate": "<end date 2>",
+                      "CreatedBy": "<created by>",
+                      "CreationDate": "<creation date 2>",
+                      "LastUpdatedBy": "<last updated by>",
+                      "LastUpdateDate": "<last update date 2>"
+                    }
+                  ]
+                }
+              ],
+              "count": "<count>",
+              "hasMore": "<has more>",
+              "limit": "<limit>",
+              "offset": "<offset>",
+              "links": [
+                {
+                  "rel": "<link relation>",
+                  "href": "<resource URL>",
+                  "name": "<resource name>",
+                  "kind": "<link kind>"
                 }
               ]
             },

@@ -28,7 +28,7 @@
           {
             "name": "personIds",
             "dataType": "string",
-            "description": "list of Person Ids, comma seperated",
+            "description": "List of Person Ids",
             "id": 2,
             "isToken": true,
             "location": "query",

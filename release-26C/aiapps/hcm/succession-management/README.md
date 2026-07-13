@@ -417,3 +417,133 @@ The Compensation History drill-down shows annual salary progression over time fo
 | Top Talent Advisor | Workflow | Parent-panel workflow for the Top Performers panel. |
 
 Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at https://oss.oracle.com/licenses/upl/
+
+<!-- BEGIN GENERATED WORKFLOWS -->
+## Workflows
+
+#### Workflow : Bottom Talent Advisor
+
+| Workflow Name | Bottom Talent Advisor |
+|---------------|---------------|
+| **Code** | XX_BOTTOM_TALENT_ADVISOR |
+| **Description** | Represents employees who need assistance, coaching, or development support to improve readiness and succession potential. |
+| **Input Parameters** | inputMessage (string, scope: JOB)<br>OraMessageHint (string, scope: JOB) |
+| **Output Parameters** | None specified |
+
+#### Workflow : Compensation Advisor
+
+| Workflow Name | Compensation Advisor |
+|---------------|---------------|
+| **Code** | XX_COMPENSATION_ADVISOR |
+| **Description** | Shows compensation position for direct reports so managers can review salary, quartile, and quintile context. |
+| **Input Parameters** | None specified |
+| **Output Parameters** | None specified |
+
+#### Workflow : Compensation Analysis
+
+| Workflow Name | Compensation Analysis |
+|---------------|---------------|
+| **Code** | XX_COMPENSATION_ANALYSIS |
+| **Description** | Shows salary history for the selected worker assignment. |
+| **Input Parameters** | None specified |
+| **Output Parameters** | None specified |
+
+#### Workflow : Fetch Compensation Details
+
+| Workflow Name | Fetch Compensation Details |
+|---------------|---------------|
+| **Code** | XX_FETCH_COMPENSATION_DETAILS |
+| **Description** | Fetches compensation details for the manager's direct reports as of the requested date. |
+| **Input Parameters** | None specified |
+| **Output Parameters** | None specified |
+
+#### Workflow : Fetch Performers
+
+| Workflow Name | Fetch Performers |
+|---------------|---------------|
+| **Code** | XX_FETCH_PERFORMERS |
+| **Description** | Fetches direct-report talent ratings so workflows can identify both top performers and employees needing assistance. |
+| **Input Parameters** | None specified |
+| **Output Parameters** | None specified |
+
+#### Workflow : Impact of Loss Advisor
+
+| Workflow Name | Impact of Loss Advisor |
+|---------------|---------------|
+| **Code** | XX_IMPACT_OF_LOSS_ADVISOR |
+| **Description** | Retrieves impact of loss details of direct reports, so that managers can assess the business impact if the employee were lost, highlighting criticality, coverage gaps, and potential disruption. |
+| **Input Parameters** | None specified |
+| **Output Parameters** | None specified |
+
+#### Workflow : Impact of Loss Analysis
+
+| Workflow Name | Impact of Loss Analysis |
+|---------------|---------------|
+| **Code** | XX_IMPACT_OF_LOSS_ANALYSIS |
+| **Description** | Displays the impact assessment if the worker were lost, highlighting business criticality and coverage gaps. |
+| **Input Parameters** | None specified |
+| **Output Parameters** | None specified |
+
+#### Workflow : Potential Succession Candidates
+
+| Workflow Name | Potential Succession Candidates |
+|---------------|---------------|
+| **Code** | XX_POTENTIAL_SUCCESSION_CANDIDATES |
+| **Description** | Finds potential successor candidates for a selected employee by comparing role requirements and candidate context. |
+| **Input Parameters** | pId (string, scope: JOB)<br>aId (string, scope: JOB) |
+| **Output Parameters** | None specified |
+
+#### Workflow : Risk Of Loss Advisor
+
+| Workflow Name | Risk Of Loss Advisor |
+|---------------|---------------|
+| **Code** | XX_RISK_OF_LOSS_ADVISOR |
+| **Description** | Assesses the likelihood that the employee may leave or become unavailable, helping identify retention risk and succession exposure. |
+| **Input Parameters** | None specified |
+| **Output Parameters** | None specified |
+
+#### Workflow : Risk of Loss Analysis
+
+| Workflow Name | Risk of Loss Analysis |
+|---------------|---------------|
+| **Code** | XX_RISK_OF_LOSS_ANALYSIS |
+| **Description** | Shows the risk-of-loss assessment for the worker, helping identify how likely it is that this person could leave or become unavailable. |
+| **Input Parameters** | None specified |
+| **Output Parameters** | None specified |
+
+#### Workflow : Succession Analysis
+
+| Workflow Name | Succession Analysis |
+|---------------|---------------|
+| **Code** | XX_SUCCESSION_ANALYSIS |
+| **Description** | Shows a selected worker's succession readiness, plan coverage, candidate count, and supporting talent context. |
+| **Input Parameters** | None specified |
+| **Output Parameters** | None specified |
+
+#### Workflow : Succession Overview Advisor
+
+| Workflow Name | Succession Overview Advisor |
+|---------------|---------------|
+| **Code** | XX_SUCCESSION_OVERVIEW_ADVISOR |
+| **Description** | Provides the main succession planning summary for an employee, combining readiness, risk, impact, and successor information into one overview. |
+| **Input Parameters** | oraMessageHint (string) |
+| **Output Parameters** | None specified |
+
+#### Workflow : Succession Overview Agent Team
+
+| Workflow Name | Succession Overview Agent Team |
+|---------------|---------------|
+| **Code** | XX_SUCCESSION_OVERVIEW_AGENT_TEAM |
+| **Description** | Fetches manager-scoped succession, readiness, risk-of-loss, and impact-of-loss data for direct reports. |
+| **Input Parameters** | None specified |
+| **Output Parameters** | None specified |
+
+#### Workflow : Top Talent Advisor
+
+| Workflow Name | Top Talent Advisor |
+|---------------|---------------|
+| **Code** | XX_TOP_TALENT_ADVISOR |
+| **Description** | Represents employees who are performing strongly and are well-positioned for succession planning or future advancement. |
+| **Input Parameters** | OraMessageHint (string, scope: JOB) |
+| **Output Parameters** | None specified |
+<!-- END GENERATED WORKFLOWS -->

@@ -382,17 +382,7 @@
       "orientation": "vertical",
       "commentNodes": []
     },
-    "dtRunProfiles": {
-      "activeProfileId": "5d3532a4-183f-4d1c-8f43-17a50841fbb3",
-      "profiles": [
-        {
-          "id": "5d3532a4-183f-4d1c-8f43-17a50841fbb3",
-          "name": "New run profile 1",
-          "type": "agentic-app",
-          "agenticAppMode": "initDisplay"
-        }
-      ]
-    },
+    "dtRunProfiles": {},
     "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI"
   },
   "name": "Team Overdue Learning Items",

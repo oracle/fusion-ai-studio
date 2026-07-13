@@ -82,7 +82,7 @@
           {
             "name": "pSectionId",
             "dataType": "string",
-            "description": "section id (9901)",
+            "description": "Section id (Fixed to 9901)",
             "id": 7,
             "isToken": true,
             "location": "query",
