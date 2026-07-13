@@ -59,7 +59,7 @@ Oracle provides files necessary for development of Agentic Apps and Workflows as
 
 
 ```text
-https://github.com/oracle-samples/fusion-ai-studio
+https://github.com/oracle/fusion-ai-studio
 ```
 
 To make use of this, we need to either download it as ZIP and extract it or clone the repository.
@@ -83,12 +83,12 @@ In order to clone the repository, you need to have git installed in your system.
 
 1. Open the GitHub link in your browser and click on Code
 
-2. Copy the link similar to https://github.com/oracle-samples/fusion-ai-studio.git (mentioned above '*Clone using the web URL*')
+2. Copy the link similar to https://github.com/oracle/fusion-ai-studio.git (mentioned above '*Clone using the web URL*')
 
 3. Open terminal and enter the command
    
    ```bash
-   git clone https://github.com/oracle-samples/fusion-ai-studio.git
+   git clone https://github.com/oracle/fusion-ai-studio.git
    ```
 
 4. The repository will be cloned in your system
@@ -98,7 +98,7 @@ In order to clone the repository, you need to have git installed in your system.
 The Fusion AI Studio Extension is available as a ZIP file `aistudio-extension.zip` under `fusion-ai-studio/<release>/aistudio/bin` folder:
 
 ```text
-https://github.com/oracle-samples/fusion-ai-studio/blob/main/release-26C/aistudio/bin/aistudio-extension.zip
+https://github.com/oracle/fusion-ai-studio/blob/main/release-26C/aistudio/bin/aistudio-extension.zip
 ```
 
 Open the downloaded or cloned repository folder. The extension ZIP will also be made available in the cloned / downloaded GitHub repository.
@@ -164,7 +164,7 @@ The Fusion AI Studio Skill is available as a ZIP file `aistudio-skill.zip` under
 
 
 ```text
-https://github.com/oracle-samples/fusion-ai-studio/blob/main/release-26C/aistudio/bin/aistudio-skill.zip
+https://github.com/oracle/fusion-ai-studio/blob/main/release-26C/aistudio/bin/aistudio-skill.zip
 ```
 
 The ZIP file must be extracted to get the `aistudio` folder with files inside it.
