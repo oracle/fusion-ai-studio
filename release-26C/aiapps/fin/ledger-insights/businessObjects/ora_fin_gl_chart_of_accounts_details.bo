@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "supportedObjectId": "300100663913481",
   "name": "Chart of Accounts Details",
   "description": "The Chart of Accounts Metadata Business Object provides access to detailed information about the chart of accounts structure within the general ledger. It supports retrieving metadata records and related child resources to help configure and understand account hierarchies and classifications. This object currently enables metadata retrieval through a dedicated operation, facilitating integration and reporting needs.",

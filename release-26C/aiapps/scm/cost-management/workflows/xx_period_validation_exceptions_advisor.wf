@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_PERIOD_VALIDATION_EXCEPTIONS_ADVISOR",
   "specification": {
     "allowAllEmployeeAccess": true,
@@ -397,25 +397,7 @@
     "chatExpTPFileUploadEnabledFlag": false,
     "chatExpThirdPartyDetails": [],
     "policyIds": [],
-    "dtRunProfiles": {
-      "activeProfileId": "c3193c9f-58ee-4332-a790-c3c8c75377db",
-      "profiles": [
-        {
-          "id": "9e2e061d-f2ee-4c22-b611-7bb768df96ed",
-          "name": "New run profile 1",
-          "type": "agentic-app",
-          "agenticAppMode": "initDisplay",
-          "agenticAppAppContext": "100000012270096:100000010001016:Jun-26"
-        },
-        {
-          "id": "c3193c9f-58ee-4332-a790-c3c8c75377db",
-          "name": "New run profile 2",
-          "type": "agentic-app",
-          "agenticAppMode": "initDisplay",
-          "agenticAppAppContext": "100000012270096:100000010001016:Jun-26"
-        }
-      ]
-    },
+    "dtRunProfiles": {},
     "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI",
     "diagram": {
       "orientation": "vertical",

@@ -1,7 +1,7 @@
 # Compensation Workflows
 
 <!-- BEGIN GENERATED WORKFLOWS -->
-## Workflows
+<br/>
 
 #### Workflow : Direct Reports Below Compa Ratio
 
@@ -20,6 +20,6 @@
 | **Code** | XX_TEAM_OVERDUE_SALARY_REVIEWS |
 | **Description** | Displays the direct reports, whose next salary review date has passed, helping compensation teams prioritize overdue review follow-up and maintain timely pay governance. |
 | **Exposed to Agentic Apps** | Yes |
-| **Input Parameters** | None specified |
+| **Input Parameters** | No input parameters required |
 | **Output Parameters** | This workflow retrieves the logged-in person's personId and assignmentId using `LoggedIn Employee Context` business object and then retrieves the list of compensation details of the team using `My Team Compensation Details Lookup` business object and filters the records whose compensation review date is already passed and displays the result using Messages List widget. <br> Fields displayed : Person Image, Person Name, Business Title, Current Salary and Badge showing days since review is due. |
 <!-- END GENERATED WORKFLOWS -->

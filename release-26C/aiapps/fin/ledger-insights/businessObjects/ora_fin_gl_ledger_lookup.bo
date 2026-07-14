@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "supportedObjectId": "300100663913501",
   "name": "Ledger Lookup",
   "description": "Ledger Search provides comprehensive retrieval capabilities for ledger records within the General Ledger product, supporting pattern-based and full-list searches for both primary and all ledgers. It enables efficient querying of ledger data through multiple search functions, covering related ledger subsets to facilitate detailed financial data exploration.",

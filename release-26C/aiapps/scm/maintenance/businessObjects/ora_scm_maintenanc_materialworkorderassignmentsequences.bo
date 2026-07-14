@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "supportedObjectId": "300100679662581",
   "name": "Material Work Order Assignment Sequences",
   "description": "Material Work Order Assignment Sequences provides visibility into material requirements and shortages for maintenance work orders, enabling retrieval of material availability and shortage information within specified timeframes or for specific work orders. It supports efficient planning and management of materials needed to complete assigned operations in maintenance processes.",

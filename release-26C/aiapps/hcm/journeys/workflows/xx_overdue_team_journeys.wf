@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_OVERDUE_TEAM_JOURNEYS",
   "specification": {
     "jsonSchemaName": "Workflow.spec",
@@ -180,17 +180,7 @@
       "orientation": "vertical",
       "commentNodes": []
     },
-    "dtRunProfiles": {
-      "activeProfileId": "e3d097aa-fc4a-4d28-b45d-80fbf526e61e",
-      "profiles": [
-        {
-          "id": "e3d097aa-fc4a-4d28-b45d-80fbf526e61e",
-          "name": "New run profile 1",
-          "type": "agentic-app",
-          "agenticAppMode": "initDisplay"
-        }
-      ]
-    }
+    "dtRunProfiles": {}
   },
   "name": "Overdue Team Journeys",
   "description": "Fetches overdue team journeys, renders the top journey records as a message list with person image, person name, journey name, person number, and an alert badge for overdue task count, and provides navigation to the Team Journeys page for viewing more journeys for review by manager.",

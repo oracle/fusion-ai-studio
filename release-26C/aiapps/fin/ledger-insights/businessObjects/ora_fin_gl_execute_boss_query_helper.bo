@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "supportedObjectId": "300100663913469",
   "name": "Execute BOSS Query Helper",
   "description": "Insights - Execute BOSS Query Helper enables the execution of specialized BOSS queries within the General Ledger domain, supporting data extraction for various financial aggregates. It facilitates creating and managing query requests through multiple POST operations, including handling related child resources for detailed extraction processes. This Business Object streamlines access to aggregated financial insights by coordinating core and supporting query functions.",

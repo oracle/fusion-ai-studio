@@ -1,4 +1,6 @@
 # Business Objects
+<br>
+
 
 
 ## Business Object : Journey Searches and Aggregation
@@ -12,7 +14,7 @@
 ### Functions
 
 #### Function : get_workerTeamJourneyTasks
-#### Description : Retrieves detailed information about worker team journey tasks based on specified status, categories, and task name filters. This function supports searching and aggregating journey-related team tasks within the HCM Journeys product to provide insights into task progress and assignment. It performs a POST operation on the workerJourneyTaskSearches resource to deliver relevant task data.
+Description : Retrieves detailed information about worker team journey tasks based on specified status, categories, and task name filters. This function supports searching and aggregating journey-related team tasks within the HCM Journeys product to provide insights into task progress and assignment. It performs a POST operation on the workerJourneyTaskSearches resource to deliver relevant task data.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -21,7 +23,7 @@
 | pTaskName | Name of the tasks to be searched. |
 
 #### Function : getWorkerTeamJourney
-#### Description : Retrieves detailed information about Worker Team Journey Tasks by searching for team journeys based on specified journey status and categories. This function supports filtering and aggregation of journey-related tasks for direct reports within the HCM Journeys product.
+Description : Retrieves detailed information about Worker Team Journey Tasks by searching for team journeys based on specified journey status and categories. This function supports filtering and aggregation of journey-related tasks for direct reports within the HCM Journeys product.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -29,8 +31,7 @@
 | Categories | Categories of the journey to search for. |
 
 #### Function : getWorkerJourneyAggregations
-#### Description : Retrieves aggregated data on worker journeys by searching and summarizing journey records within a team or organization. This function supports filtering and grouping journey information to provide insights into worker activities and associated tasks. It represents a POST operation on the workerJourneyAggregations resource in the Journey Searches and Aggregation business object.
+Description : Retrieves aggregated data on worker journeys by searching and summarizing journey records within a team or organization. This function supports filtering and grouping journey information to provide insights into worker activities and associated tasks. It represents a POST operation on the workerJourneyAggregations resource in the Journey Searches and Aggregation business object.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
-| No parameters required |  |

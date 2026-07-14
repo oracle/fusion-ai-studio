@@ -1,7 +1,7 @@
 # Ledger Insights Workflows
 
 <!-- BEGIN GENERATED WORKFLOWS -->
-## Workflows
+<br/>
 
 #### Workflow : Accounting Exceptions
 

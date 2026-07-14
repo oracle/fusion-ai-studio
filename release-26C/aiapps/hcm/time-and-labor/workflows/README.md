@@ -1,7 +1,7 @@
 # Time and Labor Workflows
 
 <!-- BEGIN GENERATED WORKFLOWS -->
-## Workflows
+<br/>
 
 #### Workflow : Team Under Reported Time Cards
 
@@ -21,7 +21,7 @@
 | **Code** | XX_TIME_CARD_EXCEPTION_SUMMARY |
 | **Description** | Shows time card exception types, counts, aggregate scheduled hours, reported hours, and absence hours with row actions for detail drilldown. |
 | **Exposed to Agentic Apps** | Yes |
-| **Input Parameters** | `OraMessageHint` controls branch routing. `OraAction` carries the clicked row action payload when an action is invoked. |
+| **Input Parameters** | No input parameters required |
 | **Output Parameters** | This workflow supports InitDisplay and InvokeAction. <br> <br> `InitDisplay` - Calculates the last 30-day time card date range, retrieves exception aggregations using `Time Card Exception Aggregations Lookup`, retrieves matching exception time cards using `Time Card Exception Searches Lookup`, and displays exception summary rows using the `multiRecordWidget` in `oraInfoDisplay`. Fields displayed include exception, count, total scheduled hours, total reported hours, and total absence hours. Action name: `viewExceptionTimeCards`. Trigger: clicking the Exception cell in a summary row; the app sends `OraMessageHint = InvokeAction`. Payload passed:  `exceptionCode`, `exceptionName`, and `timeCards` for the selected exception. <br> <br> `InvokeAction` - Parses `OraAction`, filters the selected exception payload, and displays the detailed time cards for that exception using the `multiRecordWidget` in `oraInfoDisplay`. Fields displayed include person name, time period dates, status, exception, scheduled hours, absence hours, reported hours, and total hours. |
 
 

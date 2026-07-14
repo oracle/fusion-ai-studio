@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "supportedObjectId": "300100680762372",
   "name": "Time Card Searches Lookup",
   "description": "Searches time cards where reported hours are less than scheduled hours over the date range from 30 days before the current date through the current date, and returns the person name, time period dates, status, scheduled hours, and reported hours.",

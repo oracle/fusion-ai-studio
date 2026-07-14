@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "name": "Talent Person Profiles",
   "description": "This business object gives talent profile information for a person. It can be used to retrieve about me, expertise, interests, tags, and skills based on the input person id.",
   "objectCode": "ORA_HCM_GLOBALHUMA_XX_TALENTPERSONPROFILES",

@@ -1,7 +1,7 @@
 # Cost Management Workflows
 
 <!-- BEGIN GENERATED WORKFLOWS -->
-## Workflows
+<br/>
 
 #### Workflow : Inventory Valuation Comparison Advisor
 

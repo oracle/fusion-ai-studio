@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "supportedObjectId": "300100663913503",
   "name": "Period Status",
   "description": "Period Status By Source provides access to period status information within the General Ledger, including detailed data by source and fixed asset periods. It supports retrieval operations through extraction queries, enabling users to obtain current period statuses and related sub-resource details efficiently. This Business Object facilitates comprehensive period status reporting and analysis across multiple ledger sources.",

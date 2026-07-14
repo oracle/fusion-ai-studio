@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "supportedObjectId": "300100663913480",
   "name": "Insight Review Actions",
   "description": "Insight Actions is a Business Object designed to manage and update insight records within the General Ledger domain, enabling users to perform key actions such as dismissing, marking as reviewed, or reopening insights. It supports straightforward lifecycle operations focused on modifying the status of insights to facilitate financial analysis and decision-making.",

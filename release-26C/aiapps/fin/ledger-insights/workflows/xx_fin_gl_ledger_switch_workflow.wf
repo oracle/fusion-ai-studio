@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_FIN_GL_LEDGER_SWITCH_WORKFLOW",
   "specification": {
     "jsonSchemaName": "Workflow.spec",
@@ -488,56 +488,7 @@
     "chatExpTPFileUploadEnabledFlag": false,
     "chatExpThirdPartyDetails": [],
     "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI",
-    "dtRunProfiles": {
-      "activeProfileId": "e44d653e-36f7-4254-84e5-4938d1280fc3",
-      "profiles": [
-        {
-          "id": "2d5ac8de-c319-4a9e-8840-b196c4a3c9b4",
-          "name": "New run profile 1",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraMessageHint\": \"Query\",\n    \"triggerType\": \"REST\",\n    \"inputMessage\": \"MOCK_INPUTMESSAGE\"\n}"
-        },
-        {
-          "id": "b63937ff-1aa5-44b5-b301-7af3aa1a3604",
-          "name": "New run profile 2",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"QueryMode\": false,\n    \"OraMessageHint\": \"\"\n}"
-        },
-        {
-          "id": "1a330105-8f2b-4606-9bfc-7084ae1a7746",
-          "name": "New run profile 3",
-          "type": "agentic-app",
-          "agenticAppMode": "query",
-          "agenticAppInitialMessage": "Break down journals by source"
-        },
-        {
-          "id": "b5a7e395-5d97-4c56-a984-31676305fd1b",
-          "name": "New run profile 4",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAgentList\": \"[{\\\"includeInSummary\\\":false,\\\"includeInActions\\\":false,\\\"includeInCommunications\\\":false,\\\"agent\\\":\\\"MOCK_AGENT\\\",\\\"name\\\":\\\"MOCK_NAME\\\",\\\"description\\\":\\\"MOCK_DESCRIPTION\\\",\\\"agentType\\\":\\\"MOCK_AGENTTYPE\\\"}]\",\n    \"OraMessageHint\": \"Query\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"OraUiContext\": \"{\\\"panels\\\":[{\\\"containerId\\\":\\\"MOCK_CONTAINERID\\\",\\\"agentCode\\\":\\\"MOCK_AGENTCODE\\\",\\\"panelName\\\":\\\"MOCK_PANELNAME\\\",\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"widgets\\\":[{\\\"type\\\":\\\"messageListWidget\\\",\\\"config\\\":{\\\"items\\\":[{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"subtitle\\\":\\\"MOCK_SUBTITLE\\\",\\\"summary\\\":\\\"MOCK_SUMMARY\\\",\\\"status\\\":\\\"MOCK_STATUS\\\",\\\"timestamp\\\":\\\"MOCK_TIMESTAMP\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"subtitle\\\":\\\"MOCK_SUBTITLE\\\",\\\"summary\\\":\\\"MOCK_SUMMARY\\\",\\\"status\\\":\\\"MOCK_STATUS\\\",\\\"timestamp\\\":\\\"MOCK_TIMESTAMP\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"subtitle\\\":\\\"MOCK_SUBTITLE\\\",\\\"summary\\\":\\\"MOCK_SUMMARY\\\",\\\"status\\\":\\\"MOCK_STATUS\\\",\\\"timestamp\\\":\\\"MOCK_TIMESTAMP\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"subtitle\\\":\\\"MOCK_SUBTITLE\\\",\\\"summary\\\":\\\"MOCK_SUMMARY\\\",\\\"status\\\":\\\"MOCK_STATUS\\\",\\\"timestamp\\\":\\\"MOCK_TIMESTAMP\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"subtitle\\\":\\\"MOCK_SUBTITLE\\\",\\\"summary\\\":\\\"MOCK_SUMMARY\\\",\\\"status\\\":\\\"MOCK_STATUS\\\",\\\"timestamp\\\":\\\"MOCK_TIMESTAMP\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"subtitle\\\":\\\"MOCK_SUBTITLE\\\",\\\"summary\\\":\\\"MOCK_SUMMARY\\\",\\\"status\\\":\\\"MOCK_STATUS\\\",\\\"timestamp\\\":\\\"MOCK_TIMESTAMP\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"summary\\\":\\\"MOCK_SUMMARY\\\",\\\"status\\\":\\\"MOCK_STATUS\\\",\\\"timestamp\\\":\\\"MOCK_TIMESTAMP\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"}]}}],\\\"communications\\\":[]},{\\\"containerId\\\":\\\"MOCK_CONTAINERID\\\",\\\"agentCode\\\":\\\"MOCK_AGENTCODE\\\",\\\"panelName\\\":\\\"MOCK_PANELNAME\\\",\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"widgets\\\":[{\\\"type\\\":\\\"messageListWidget\\\",\\\"config\\\":{\\\"items\\\":[{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"}]}}],\\\"communications\\\":[]}]}\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
-        },
-        {
-          "id": "e4850579-42c0-4ebe-b20f-63b5b5ef4772",
-          "name": "New run profile 5",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAgentList\": \"[{\\\"includeInSummary\\\":false,\\\"includeInActions\\\":false,\\\"includeInCommunications\\\":false,\\\"agent\\\":\\\"MOCK_AGENT\\\",\\\"name\\\":\\\"MOCK_NAME\\\",\\\"description\\\":\\\"MOCK_DESCRIPTION\\\",\\\"agentType\\\":\\\"MOCK_AGENTTYPE\\\"}]\",\n    \"OraMessageHint\": \"Query\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"OraUiContext\": \"{\\\"panels\\\":[{\\\"containerId\\\":\\\"MOCK_CONTAINERID\\\",\\\"agentCode\\\":\\\"MOCK_AGENTCODE\\\",\\\"panelName\\\":\\\"MOCK_PANELNAME\\\",\\\"title\\\":\\\"MOCK_TITLE\\\"},{\\\"containerId\\\":\\\"MOCK_CONTAINERID\\\",\\\"agentCode\\\":\\\"MOCK_AGENTCODE\\\",\\\"panelName\\\":\\\"MOCK_PANELNAME\\\",\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"widgets\\\":[{\\\"type\\\":\\\"messageListWidget\\\",\\\"config\\\":{\\\"items\\\":[{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"}]}}]}]}\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
-          "inputMessage": "show open insights"
-        },
-        {
-          "id": "e44d653e-36f7-4254-84e5-4938d1280fc3",
-          "name": "New run profile 6",
-          "type": "agentic-app",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAgentList\": \"[{\\\"includeInSummary\\\":false,\\\"includeInActions\\\":false,\\\"includeInCommunications\\\":false,\\\"agent\\\":\\\"MOCK_AGENT\\\",\\\"name\\\":\\\"MOCK_NAME\\\",\\\"description\\\":\\\"MOCK_DESCRIPTION\\\",\\\"agentType\\\":\\\"MOCK_AGENTTYPE\\\"},{\\\"includeInSummary\\\":false,\\\"includeInActions\\\":false,\\\"includeInCommunications\\\":false,\\\"agent\\\":\\\"MOCK_AGENT\\\",\\\"name\\\":\\\"MOCK_NAME\\\",\\\"description\\\":\\\"\\\",\\\"agentType\\\":\\\"MOCK_AGENTTYPE\\\"}]\",\n    \"OraMessageHint\": \"Query\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"OraUiContext\": \"{\\\"panels\\\":[{\\\"containerId\\\":\\\"MOCK_CONTAINERID\\\",\\\"agentCode\\\":\\\"MOCK_AGENTCODE\\\",\\\"panelName\\\":\\\"MOCK_PANELNAME\\\",\\\"title\\\":\\\"MOCK_TITLE\\\"},{\\\"containerId\\\":\\\"MOCK_CONTAINERID\\\",\\\"agentCode\\\":\\\"MOCK_AGENTCODE\\\",\\\"panelName\\\":\\\"MOCK_PANELNAME\\\",\\\"title\\\":\\\"MOCK_TITLE\\\"}]}\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
-          "inputMessage": "set period to May",
-          "agenticAppInitialMessage": "alert when variance is > 15% in this period"
-        }
-      ]
-    },
+    "dtRunProfiles": {},
     "diagram": {
       "orientation": "vertical",
       "commentNodes": []

@@ -1,7 +1,7 @@
 # Absences Workflows
 
 <!-- BEGIN GENERATED WORKFLOWS -->
-## Workflows
+<br/>
 
 #### Workflow : My Upcoming Absences
 

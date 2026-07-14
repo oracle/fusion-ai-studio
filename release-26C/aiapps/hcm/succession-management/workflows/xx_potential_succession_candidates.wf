@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_POTENTIAL_SUCCESSION_CANDIDATES",
   "specification": {
     "jsonSchemaName": "Workflow.spec",
@@ -964,18 +964,7 @@
       "orientation": "vertical",
       "commentNodes": []
     },
-    "dtRunProfiles": {
-      "activeProfileId": "2764ce07-65d9-449c-b638-7436403bc214",
-      "profiles": [
-        {
-          "id": "2764ce07-65d9-449c-b638-7436403bc214",
-          "name": "New run profile 1",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n  \"pId\": \"100000008153812\",\n  \"aId\": \"100000008154116\"\n}"
-        }
-      ]
-    }
+    "dtRunProfiles": {}
   },
   "name": "Potential Succession Candidates",
   "description": "Finds potential successor candidates for a selected employee by comparing role requirements and candidate context.",

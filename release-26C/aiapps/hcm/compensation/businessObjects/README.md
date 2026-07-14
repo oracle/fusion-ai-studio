@@ -1,4 +1,6 @@
 # Business Objects
+<br>
+
 
 ## My Team Compensation Details Lookup
 
@@ -9,7 +11,7 @@
 
 
 ### Function : findMyTeamCompensationDetails
-#### Description : Retrieves compensation details for direct reports using the `myTeamDetails` `findByObject` action, based on the person's ID and assignment ID. It returns compensation details for those direct reports.
+Description : Retrieves compensation details for direct reports using the `myTeamDetails` `findByObject` action, based on the person's ID and assignment ID. It returns compensation details for those direct reports.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|

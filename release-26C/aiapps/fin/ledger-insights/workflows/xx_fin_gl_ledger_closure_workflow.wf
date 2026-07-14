@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_FIN_GL_LEDGER_CLOSURE_WORKFLOW",
   "specification": {
     "dataPipeline": {
@@ -454,17 +454,7 @@
     "chatExpTPFileUploadEnabledFlag": false,
     "chatExpThirdPartyDetails": [],
     "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI",
-    "dtRunProfiles": {
-      "activeProfileId": "ee3f0a31-a58b-469d-9b2c-f8b8970dcff6",
-      "profiles": [
-        {
-          "id": "ee3f0a31-a58b-469d-9b2c-f8b8970dcff6",
-          "name": "New run profile 1",
-          "type": "agentic-app",
-          "agenticAppMode": "summary"
-        }
-      ]
-    },
+    "dtRunProfiles": {},
     "diagram": {
       "orientation": "vertical",
       "commentNodes": []

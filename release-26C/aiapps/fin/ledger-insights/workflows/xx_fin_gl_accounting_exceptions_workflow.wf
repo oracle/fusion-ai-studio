@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_FIN_GL_ACCOUNTING_EXCEPTIONS_WORKFLOW",
   "specification": {
     "dataPipeline": {
@@ -1032,76 +1032,7 @@
       "orientation": "vertical",
       "commentNodes": []
     },
-    "dtRunProfiles": {
-      "activeProfileId": "938ce787-9c2f-4f48-b907-b6fc54444d5f",
-      "profiles": [
-        {
-          "id": "498c9418-c170-409b-99ec-36fe9c38d881",
-          "name": "App, Init Display",
-          "type": "agentic-app",
-          "agenticAppMode": "initDisplay"
-        },
-        {
-          "id": "c0c874e4-4ef2-4af2-85d1-2df5ba964f5e",
-          "name": "Drill Down",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"command\\\":\\\"MOCK_COMMAND\\\",\\\"showMore\\\":\\\"MOCK_SHOWMORE\\\",\\\"data\\\":{\\\"category\\\":\\\"MOCK_CATEGORY\\\",\\\"code\\\":\\\"MOCK_CODE\\\",\\\"metrics\\\":{\\\"exceptionCount\\\":0,\\\"totalAmount\\\":0}}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
-          "inputMessage": "Hi"
-        },
-        {
-          "id": "b2e0eb0c-e53b-4748-88c6-51e6e81cfa4d",
-          "name": "Drill Down, Txns 6",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"command\\\":\\\"MOCK_COMMAND\\\",\\\"showMore\\\":\\\"MOCK_SHOWMORE\\\",\\\"data\\\":{\\\"category\\\":\\\"MOCK_CATEGORY\\\",\\\"code\\\":\\\"MOCK_CODE\\\",\\\"metrics\\\":{\\\"exceptionCount\\\":0,\\\"totalAmount\\\":0}}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
-          "inputMessage": "Hi"
-        },
-        {
-          "id": "4b5e4452-bbc5-46dc-8c5c-a8f3ba9f0573",
-          "name": "Drill Down, Txns 6, Show More",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"command\\\":\\\"MOCK_COMMAND\\\",\\\"showMore\\\":\\\"MOCK_SHOWMORE\\\",\\\"data\\\":\\\"{\\\\\\\"category\\\\\\\":\\\\\\\"MOCK_CATEGORY\\\\\\\",\\\\\\\"code\\\\\\\":\\\\\\\"MOCK_CODE\\\\\\\",\\\\\\\"metrics\\\\\\\":{\\\\\\\"exceptionCount\\\\\\\":0,\\\\\\\"totalAmount\\\\\\\":0}}\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
-        },
-        {
-          "id": "876aaf87-39b2-413d-903c-9220faf2015c",
-          "name": "New run profile 5",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraMessageHint\": \"InitActions\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"actions\\\"]\"\n}"
-        },
-        {
-          "id": "cee45d42-937e-4748-b78b-1a7c3b4399ee",
-          "name": "Drill Down, 12 txns, but shows 1",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"command\\\":\\\"MOCK_COMMAND\\\",\\\"showMore\\\":\\\"MOCK_SHOWMORE\\\",\\\"data\\\":{\\\"category\\\":\\\"MOCK_CATEGORY\\\",\\\"code\\\":\\\"MOCK_CODE\\\",\\\"metrics\\\":{\\\"exceptionCount\\\":0,\\\"totalAmount\\\":0}}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
-          "inputMessage": "hi"
-        },
-        {
-          "id": "cc768f14-76b7-4d80-a280-a77417cdb95f",
-          "name": "Drill Down, Account Status",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"command\\\":\\\"MOCK_COMMAND\\\",\\\"showMore\\\":\\\"MOCK_SHOWMORE\\\",\\\"data\\\":{\\\"category\\\":\\\"MOCK_CATEGORY\\\",\\\"code\\\":\\\"MOCK_CODE\\\",\\\"metrics\\\":{\\\"exceptionCount\\\":0,\\\"totalAmount\\\":0}}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\",\n    \"correlationId\": \"MOCK_CORRELATIONID\"\n}"
-        },
-        {
-          "id": "38441454-4777-4010-a605-c0dc43d2e4bf",
-          "name": "Failed, avMaetadata",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAppContext\": \"{\\\"ledgerId\\\":\\\"MOCK_LEDGERID\\\"}\",\n    \"OraMessageHint\": \"InitDisplay\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\",\n    \"correlationId\": \"MOCK_CORRELATIONID\"\n}"
-        },
-        {
-          "id": "938ce787-9c2f-4f48-b907-b6fc54444d5f",
-          "name": "Show More, not displayed",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"command\\\":\\\"MOCK_COMMAND\\\",\\\"showMore\\\":\\\"MOCK_SHOWMORE\\\",\\\"data\\\":{\\\"category\\\":\\\"MOCK_CATEGORY\\\",\\\"code\\\":\\\"MOCK_CODE\\\",\\\"metrics\\\":{\\\"exceptionCount\\\":0,\\\"totalAmount\\\":0}}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\",\n    \"correlationId\": \"MOCK_CORRELATIONID\"\n}"
-        }
-      ]
-    },
+    "dtRunProfiles": {},
     "jsonSchemaName": "Workflow.spec",
     "jsonSchemaVersion": "1",
     "inputs": [],

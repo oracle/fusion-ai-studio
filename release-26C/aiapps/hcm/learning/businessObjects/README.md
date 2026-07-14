@@ -1,4 +1,6 @@
 # Business Objects
+<br>
+
 
 ## Learning Searches
 
@@ -9,28 +11,25 @@
 
 
 ### Function : learner_aggregations
-#### Description : This business object function gives learning aggregations by learner.
+Description : This business object function gives learning aggregations by learner.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
-| No parameters |
 
 ### Function : learning_item_aggregations
-#### Description : This business object function gives learning aggregations by learning item.
+Description : This business object function gives learning aggregations by learning item.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
-| No parameters |
 
 ### Function : enrollment_status
-#### Description : This business object function give aggregation of status of all enrollments in my team.
+Description : This business object function give aggregation of status of all enrollments in my team.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
-| No parameters |
 
 ### Function : learning_record_searches
-#### Description : This business object fucntion searches learning item records by learning item id.
+Description : This business object fucntion searches learning item records by learning item id.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|

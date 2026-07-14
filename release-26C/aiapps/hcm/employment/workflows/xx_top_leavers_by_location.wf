@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_TOP_LEAVERS_BY_LOCATION",
   "specification": {
     "dataPipeline": {
@@ -1224,25 +1224,7 @@
     "chatExpThirdPartyDetails": [],
     "policyIds": [],
     "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI",
-    "dtRunProfiles": {
-      "activeProfileId": "957feed0-a727-46e5-9045-95fc653fcd07",
-      "profiles": [
-        {
-          "id": "44b38117-b44e-4748-8839-84fbeeb3a2d3",
-          "name": "New run profile 1",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"command\\\":\\\"displayEmp\\\",\\\"data\\\":{\\\"location\\\":\\\"Austin_TX\\\",\\\"count\\\":6,\\\"managerPersonId\\\":300100649002209,\\\"managerAssignmentId\\\":300100649002219,\\\"managerName\\\":\\\"Michael Johnson\\\",\\\"managerDepartmentName\\\":\\\"Sales\\\",\\\"managerCount\\\":2}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100000008153756\\\",\\\"guId\\\":\\\"0306B72D1BE8CF445382B28E9BC1E43E\\\",\\\"fullName\\\":\\\"Meg Fitzimmons\\\",\\\"userName\\\":\\\"TM-MFITZIMMONS\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cpdcfqdqy.fusionappspreprod.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\",\n    \"correlationId\": \"16d46fe2-a5f4-484e-b55c-636d0a4ffd3d\"\n}"
-        },
-        {
-          "id": "957feed0-a727-46e5-9045-95fc653fcd07",
-          "name": "New run profile 2",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"command\\\":\\\"displayEmp\\\",\\\"data\\\":{\\\"location\\\":\\\"Austin_TX\\\",\\\"count\\\":6,\\\"managerPersonId\\\":300100649002209,\\\"managerAssignmentId\\\":300100649002219,\\\"managerName\\\":\\\"Michael Johnson\\\",\\\"managerDepartmentName\\\":\\\"Sales\\\",\\\"managerCount\\\":2}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100000008153756\\\",\\\"guId\\\":\\\"0306B72D1BE8CF445382B28E9BC1E43E\\\",\\\"fullName\\\":\\\"Meg Fitzimmons\\\",\\\"userName\\\":\\\"TM-MFITZIMMONS\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cpdcfqdqy.fusionappspreprod.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\",\n    \"correlationId\": \"bd13d05e-215e-4f53-9ab6-dfff69ad0d1a\"\n}"
-        }
-      ]
-    },
+    "dtRunProfiles": {},
     "diagram": {
       "orientation": "vertical",
       "commentNodes": []

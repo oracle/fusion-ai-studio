@@ -1,4 +1,6 @@
 # Business Objects
+<br>
+
 
 ## Benefits Person Life Event Status Aggregations
 
@@ -9,8 +11,7 @@
 
 
 ### Function : get_aggregations_for_benefits_person_facet
-#### Description : Retrieves aggregated counts of unique people for a benefits life event facet, such as LifeEventStatus, enabling status-level review of benefits life events.
+Description : Retrieves aggregated counts of unique people for a benefits life event facet, such as LifeEventStatus, enabling status-level review of benefits life events.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
-| No parameters |

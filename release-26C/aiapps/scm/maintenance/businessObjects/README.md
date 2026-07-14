@@ -1,4 +1,6 @@
 # Business Objects
+<br>
+
 
 
 ## Business Object : Shortage Units of Measure
@@ -12,7 +14,7 @@
 ### Functions
 
 #### Function : get_unitsOfMeasure
-#### Description : Retrieves specific units of measure. This function accesses the Shortage Units of Measure resource to filter and return relevant unit details based on provided criteria.
+Description : Retrieves specific units of measure. This function accesses the Shortage Units of Measure resource to filter and return relevant unit details based on provided criteria.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -33,7 +35,7 @@
 ### Functions
 
 #### Function : oraScmMnt_materialAssignmentSummary_byOrganization
-#### Description : Retrieves a summary of material shortages for items within a specified organization, providing key information to support management and monitoring of material assignments in maintenance operations.
+Description : Retrieves a summary of material shortages for items within a specified organization, providing key information to support management and monitoring of material assignments in maintenance operations.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -50,7 +52,7 @@
 ### Functions
 
 #### Function : oraScmMnt_materialAssignments_shortageForDateRange
-#### Description : Get material shortage for a specific Org in an given time period
+Description : Get material shortage for a specific Org in an given time period
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -61,7 +63,7 @@
 | pOffset | Specifies the starting position for retrieving material assignment records within the selected organization and date range. |
 
 #### Function : oraScmMnt_materialAssignments_materialShortageForWo
-#### Description : Get material shortage of work order along with specific item shortage quantities
+Description : Get material shortage of work order along with specific item shortage quantities
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -80,7 +82,7 @@
 ### Functions
 
 #### Function : oraScmMnt_searchWorkOrders_filters_query
-#### Description : Retrieve work orders based on filters and query
+Description : Retrieve work orders based on filters and query
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -90,7 +92,7 @@
 | pOffset | Specifies the starting position for retrieving maintenance work order results, enabling pagination of the search output. This required input parameter should be provided to control which subset of records is returned in the response. |
 
 #### Function : oraScmMnt_searchWorkOrders_dates_and_org
-#### Description : Retrieve work orders based on dates provided for range start and range end, along with organizationId
+Description : Retrieve work orders based on dates provided for range start and range end, along with organizationId
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -111,7 +113,7 @@
 ### Functions
 
 #### Function : get_openProductionExceptions
-#### Description : Get open production exceptions using filters, sort order, pagination, and selected fields.
+Description : Get open production exceptions using filters, sort order, pagination, and selected fields.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -132,7 +134,7 @@
 ### Functions
 
 #### Function : getall_onhandQuantityDetails
-#### Description : Retrieves detailed on-hand quantity information for a specified item number within an organization, including primary and secondary unit of measure data. This function accesses inventory details through the onhandQuantityDetails resource.
+Description : Retrieves detailed on-hand quantity information for a specified item number within an organization, including primary and secondary unit of measure data. This function accesses inventory details through the onhandQuantityDetails resource.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|

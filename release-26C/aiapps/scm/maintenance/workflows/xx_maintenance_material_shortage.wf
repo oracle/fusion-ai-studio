@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_MAINTENANCE_MATERIAL_SHORTAGE",
   "specification": {
     "jsonSchemaName": "Workflow.spec",
@@ -849,19 +849,7 @@
       "orientation": "vertical",
       "commentNodes": []
     },
-    "dtRunProfiles": {
-      "activeProfileId": "c957255f-0445-44d5-a21c-bf31afc5ff9a",
-      "profiles": [
-        {
-          "id": "c957255f-0445-44d5-a21c-bf31afc5ff9a",
-          "name": "New run profile 1",
-          "type": "agentic-app",
-          "agenticAppMode": "initDisplay",
-          "restConfigJson": "{\n  \"InvokeAction\": \"\",\n  \"OraAppContext\": \"\",\n  \"OraAction\": \"\",\n  \"OraMessageHint\": \"\"\n}",
-          "agenticAppAppContext": "207"
-        }
-      ]
-    },
+    "dtRunProfiles": {},
     "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI"
   },
   "name": "Maintenance Material Shortage",

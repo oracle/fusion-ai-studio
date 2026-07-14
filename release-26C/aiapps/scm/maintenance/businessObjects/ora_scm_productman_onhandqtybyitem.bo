@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "supportedObjectId": "300100678528149",
   "name": "On Hand Qty by Item",
   "description": "The On Hand Qty by Item Business Object provides detailed retrieval of current inventory quantities for specified items within an organization, including measurements in primary and secondary units. It supports read-only access to on-hand quantity data, enabling visibility into available stock levels for effective product and supply chain management.",

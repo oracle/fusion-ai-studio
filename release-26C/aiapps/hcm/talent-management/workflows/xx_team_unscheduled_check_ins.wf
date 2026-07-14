@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_TEAM_UNSCHEDULED_CHECK_INS",
   "specification": {
     "jsonSchemaName": "Workflow.spec",
@@ -264,18 +264,7 @@
       "orientation": "vertical",
       "commentNodes": []
     },
-    "dtRunProfiles": {
-      "activeProfileId": "48d8749c-f68c-4090-a5af-eddbb5b3750c",
-      "profiles": [
-        {
-          "id": "48d8749c-f68c-4090-a5af-eddbb5b3750c",
-          "name": "New run profile 1",
-          "type": "agentic-app",
-          "agenticAppMode": "initDisplay",
-          "agenticAppAppContext": ""
-        }
-      ]
-    }
+    "dtRunProfiles": {}
   },
   "name": "Team Unscheduled Check-Ins",
   "description": "Identifies team members for a logged-in user with last checkin date more that 30 days ago and displays recent check-in status of employees , performance, and potential to help prioritize unscheduled check-ins.",

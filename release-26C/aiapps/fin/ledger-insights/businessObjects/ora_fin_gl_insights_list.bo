@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "supportedObjectId": "300100663913947",
   "name": "Insights List",
   "description": "The Sensor Insights List Business Object provides access to a comprehensive list of sensor-generated insights within the General Ledger domain. It supports retrieval of these insights and includes related child resources, enabling users to efficiently fetch and manage associated sensor insight records.",

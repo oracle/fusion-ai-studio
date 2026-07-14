@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_FIN_GL_VARIANCE_ANALYSIS_WORKFLOW",
   "specification": {
     "dataPipeline": {
@@ -1103,126 +1103,7 @@
         }
       ]
     },
-    "dtRunProfiles": {
-      "activeProfileId": "852b8c9c-9b1e-4432-b5ef-4bb71dbfd9ea",
-      "profiles": [
-        {
-          "id": "8f81c238-e176-4652-be62-aa8191bdf458",
-          "name": "New run profile 1",
-          "type": "rest",
-          "agenticAppMode": "initDisplay",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
-        },
-        {
-          "id": "6fff7d7f-6411-41d3-8e9c-f39c34caa22b",
-          "name": "New run profile 2",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"workflow\\\":\\\"MOCK_WORKFLOW\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
-        },
-        {
-          "id": "d77b2b7f-6f23-42e5-b336-ee328ed43499",
-          "name": "Compare period activity of account Accounts Payable for Vision Foods Napa in Apr-26 and May-26 > 30%",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
-          "inputMessage": "Compare period activity of account Accounts Payable for Vision Foods Napa in Apr-26 and May-26 > 30%"
-        },
-        {
-          "id": "ec261021-7457-4b8e-8c1e-7bd616e8acc6",
-          "name": "Alert if for company 1000 and account 10000 the period activity > 15% current period over previous period",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
-          "inputMessage": "Alert if for company 1000 and account 10000 the period activity > 15% current period over previous period"
-        },
-        {
-          "id": "2d22635b-c975-4788-89e8-3b99747cc671",
-          "name": "Alert when period activity of account Accounts Receivable for Company 1000 in Period_X over current month > 10%",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
-          "inputMessage": "Alert when period activity of account Accounts Receivable for Company 1000 in Period_X over current month > 10%"
-        },
-        {
-          "id": "c2a885df-c198-420a-aa90-b7f4cb89e1a6",
-          "name": "Alert if period activity for Computers Depreciation account and for company 1000 - US > 10% Period_X over Period_Y",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
-          "inputMessage": "Alert if period activity for Computers Depreciation account and for company 1000 - US > 10% Period_X over Period_Y"
-        },
-        {
-          "id": "d9998668-752b-41d4-9a36-513b62d67b12",
-          "name": "Compare period activity of account Total Trade Pavables for Company 1000 in Period_X and Period_Y > 10%",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
-          "inputMessage": "Compare period activity of account Total Trade Pavables for Company 1000 in Period_X and Period_Y > 10%"
-        },
-        {
-          "id": "ff15170b-f0c1-47b1-acbc-8bcb16469714",
-          "name": "agentic app, payables",
-          "type": "agentic-app",
-          "agenticAppMode": "invokeAction",
-          "invokeActionPayload": "{ \"actionCode\": \"openVarInsight\", \"secActionCode\": \"explain\",  \"rowData\" : { \"insightRecipientId\" : 0 } }"
-        },
-        {
-          "id": "595b1a9e-c5cb-4e33-b694-2d235e98a62f",
-          "name": "APP, Init Display",
-          "type": "agentic-app",
-          "agenticAppMode": "initDisplay"
-        },
-        {
-          "id": "2a8a261b-9689-4a17-b7a6-434343a4f3e3",
-          "name": "Insight Click",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\":{\\\"insightRecipientId\\\":\\\"MOCK_INSIGHTRECIPIENTID\\\",\\\"ruleName\\\":\\\"MOCK_RULENAME\\\",\\\"insightSummary\\\":\\\"MOCK_INSIGHTSUMMARY\\\",\\\"rulePriorityCode\\\":\\\"MOCK_RULEPRIORITYCODE\\\",\\\"rulePriorityCodeMeaning\\\":\\\"MOCK_RULEPRIORITYCODEMEANING\\\",\\\"categoryCode\\\":\\\"MOCK_CATEGORYCODE\\\",\\\"categoryCodeMeaning\\\":\\\"MOCK_CATEGORYCODEMEANING\\\",\\\"displayRuleName\\\":\\\"MOCK_DISPLAYRULENAME\\\",\\\"rank\\\":0},\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
-          "inputMessage": "Hi"
-        },
-        {
-          "id": "852d20d6-0eb9-4794-bc51-5df7d30e0195",
-          "name": "Explain, Accounts Payable variance exceeds 20% MoM for Company 1000",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"workflow\\\":\\\"MOCK_WORKFLOW\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
-          "inputMessage": "Explain"
-        },
-        {
-          "id": "687d8560-252d-494c-aca5-84fcc1da1b67",
-          "name": "Explain, Accounts Receivable drop exceeds 25% MoM for Company 1000",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"workflow\\\":\\\"MOCK_WORKFLOW\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
-          "inputMessage": "Hi"
-        },
-        {
-          "id": "22a6f90c-7586-4a19-aa75-d7c016351839",
-          "name": "Query, QA",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraMessageHint\": \"Query\",\n    \"OraChatHistory\": \"MOCK_ORACHATHISTORY\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"OraUiContext\": \"{\\\"panels\\\":[{\\\"containerId\\\":\\\"MOCK_CONTAINERID\\\",\\\"agentCode\\\":\\\"MOCK_AGENTCODE\\\",\\\"panelName\\\":\\\"MOCK_PANELNAME\\\",\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"widgets\\\":[{\\\"type\\\":\\\"messageListWidget\\\",\\\"config\\\":{\\\"items\\\":[{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"summary\\\":\\\"MOCK_SUMMARY\\\",\\\"timestamp\\\":null,\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"summary\\\":\\\"MOCK_SUMMARY\\\",\\\"timestamp\\\":null,\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"summary\\\":\\\"MOCK_SUMMARY\\\",\\\"timestamp\\\":null,\\\"action\\\":\\\"MOCK_ACTION\\\"}]}}]},{\\\"containerId\\\":\\\"MOCK_CONTAINERID\\\",\\\"agentCode\\\":\\\"MOCK_AGENTCODE\\\",\\\"panelName\\\":\\\"MOCK_PANELNAME\\\",\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"widgets\\\":[{\\\"type\\\":\\\"messageListWidget\\\",\\\"config\\\":{\\\"items\\\":[{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"timestamp\\\":null,\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"timestamp\\\":null,\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"timestamp\\\":null,\\\"action\\\":\\\"MOCK_ACTION\\\"}]}}]},{\\\"containerId\\\":\\\"MOCK_CONTAINERID\\\",\\\"agentCode\\\":\\\"MOCK_AGENTCODE\\\",\\\"panelName\\\":\\\"MOCK_PANELNAME\\\",\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"widgets\\\":[{\\\"type\\\":\\\"messageListWidget\\\",\\\"config\\\":{\\\"items\\\":[{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"subtitle\\\":\\\"MOCK_SUBTITLE\\\",\\\"status\\\":\\\"MOCK_STATUS\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"subtitle\\\":\\\"MOCK_SUBTITLE\\\",\\\"status\\\":\\\"MOCK_STATUS\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"subtitle\\\":\\\"MOCK_SUBTITLE\\\",\\\"status\\\":\\\"MOCK_STATUS\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"}]}}]},{\\\"containerId\\\":\\\"MOCK_CONTAINERID\\\",\\\"agentCode\\\":\\\"MOCK_AGENTCODE\\\",\\\"panelName\\\":\\\"MOCK_PANELNAME\\\",\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"widgets\\\":[{\\\"type\\\":\\\"messageListWidget\\\",\\\"config\\\":{\\\"items\\\":[{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"}]}}]},{\\\"containerId\\\":\\\"MOCK_CONTAINERID\\\",\\\"agentCode\\\":\\\"MOCK_AGENTCODE\\\",\\\"panelName\\\":\\\"MOCK_PANELNAME\\\",\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"widgets\\\":[{\\\"type\\\":\\\"messageListWidget\\\",\\\"config\\\":{\\\"items\\\":[{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"subtitle\\\":\\\"MOCK_SUBTITLE\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"subtitle\\\":\\\"MOCK_SUBTITLE\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"},{\\\"title\\\":\\\"MOCK_TITLE\\\",\\\"action\\\":\\\"MOCK_ACTION\\\"}]}}]}]}\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\",\n    \"OraAgenticAppsParentConversationId\": \"MOCK_ORAAGENTICAPPSPARENTCONVERSATIONID\"\n}",
-          "inputMessage": "Why did the Payables journal source worsen from April to May, and which suppliers contributed most to that change?"
-        },
-        {
-          "id": "4ff036d3-a6cb-4ada-bb3f-c288c6d2d08e",
-          "name": "Explain, Payables",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\",\\\"secActionCode\\\":\\\"MOCK_SECACTIONCODE\\\",\\\"workflow\\\":\\\"MOCK_WORKFLOW\\\",\\\"rowData\\\":{\\\"insightRecipientId\\\":0}}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
-          "inputMessage": "Hi"
-        },
-        {
-          "id": "852b8c9c-9b1e-4432-b5ef-4bb71dbfd9ea",
-          "name": "Run",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraAction\": \"{\\\"rowData\\\":{\\\"insightRecipientId\\\":\\\"MOCK_INSIGHTRECIPIENTID\\\",\\\"ruleName\\\":\\\"MOCK_RULENAME\\\",\\\"insightSummary\\\":\\\"MOCK_INSIGHTSUMMARY\\\",\\\"rulePriorityCode\\\":\\\"MOCK_RULEPRIORITYCODE\\\",\\\"rulePriorityCodeMeaning\\\":\\\"MOCK_RULEPRIORITYCODEMEANING\\\",\\\"categoryCode\\\":\\\"MOCK_CATEGORYCODE\\\",\\\"categoryCodeMeaning\\\":\\\"MOCK_CATEGORYCODEMEANING\\\",\\\"displayRuleName\\\":\\\"MOCK_DISPLAYRULENAME\\\",\\\"rank\\\":0},\\\"actionCode\\\":\\\"MOCK_ACTIONCODE\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\",\n    \"correlationId\": \"MOCK_CORRELATIONID\"\n}",
-          "inputMessage": ""
-        }
-      ]
-    },
+    "dtRunProfiles": {},
     "diagram": {
       "orientation": "vertical",
       "commentNodes": []

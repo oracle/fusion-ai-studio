@@ -22,10 +22,10 @@ By following this guide, you should be able to:
 
 ## Contents
 
-1. [Prerequisites and Setup](#prerequisites-and-setup)
-2. [VS Code Extension for Fusion AI Studio](#vs-code-extension-workflows)
+1. [Prerequisites and Setup](#prerequisites-and-setup)  
+2. [Install Fusion AI Studio VS Code Extension](#install-fusion-ai-studio-vs-code-extension)
 3. [Building AI Studio Apps and Workflows](#building-ai-studio-apps-and-workflows)
-4. [Creating an Agentic Ap using codex](#creating-an-agentic-app-using-codex)
+4. [Creating an Agentic App using codex](#creating-an-agentic-app-using-codex)
 
 
 ## Prerequisites and Setup
@@ -57,7 +57,6 @@ For a broader introduction to the editor, use the official Visual Studio Code ge
 
 Oracle provides files necessary for development of Agentic Apps and Workflows as well as delivers the tools needed to create, edit, and run the files through the public GitHub repository:
 
-
 ```text
 https://github.com/oracle/fusion-ai-studio
 ```
@@ -69,12 +68,11 @@ To download the repository as a ZIP file:
 
 1. Open the GitHub link in your browser and click on Code
 2. Click on download ZIP
-4. Extract the downloaded ZIP file.
-5. On Windows, select **Extract All...**.
-6. On macOS, select **Open With > Archive Utility** or double-click the ZIP file.
-7. Choose an easy-to-find destination, such as a project setup folder.
-8. Confirm that it now contains a folder named similar to: `fusion-ai-studio-main`
-9. Open the extracted folder.
+3. Extract the downloaded ZIP file to a folder `fusion-ai-repo` in an easy-to-find location.
+4. On Windows, select **Extract All...**.
+5. On macOS, select **Open With > Archive Utility** or double-click the ZIP file.
+6. Confirm that it now contains a folder named similar to: `fusion-ai-studio-main`
+7. Open the extracted folder.
 
 #### Clone Github Repository 
 If you wish to clone the repository instead of downloading it as zip, follow the steps below.
@@ -82,36 +80,42 @@ If you wish to clone the repository instead of downloading it as zip, follow the
 In order to clone the repository, you need to have git installed in your system. Refer to this [guide](https://github.com/git-guides/install-git) for installation instructions. Once git is installed, the repository can be cloned using the following steps
 
 1. Open the GitHub link in your browser and click on Code
-
 2. Copy the link similar to https://github.com/oracle/fusion-ai-studio.git (mentioned above '*Clone using the web URL*')
-
-3. Open terminal and enter the command
+3. Create a folder `fusion-ai-repo` in an an easy-to-find location.
+4. Open terminal and enter the following command inside `fusion-ai-repo` folder.
    
    ```bash
    git clone https://github.com/oracle/fusion-ai-studio.git
    ```
 
-4. The repository will be cloned in your system
+5. The repository will be cloned in your current folder `fusion-ai-repo`
+6. Confirm that it now contains a folder named: `fusion-ai-studio`
+
+### Create a workspace folder
+
+Create a dedicated workspace folder named `fusion-ai-workspace`. This folder will serve as the root directory for your project and related resources, helping you keep your development environment organized.
+
+   (e.g. `/Users/<replace-with-your-user-name>/fusion-ai-workspace`)
 
 ### Extract the Fusion AI Studio Extension ZIP
 
-The Fusion AI Studio Extension is available as a ZIP file `aistudio-extension.zip` under `fusion-ai-studio/<release>/aistudio/bin` folder:
+The Fusion AI Studio Extension is available as a ZIP file `aistudio-extension.zip` under `<release>/aistudio/bin` folder in the cloned folder or the downloded folder:
 
+The same is avalailable in the following GitHub location as well
 ```text
-https://github.com/oracle/fusion-ai-studio/blob/main/release-26C/aistudio/bin/aistudio-extension.zip
+https://github.com/oracle/fusion-ai-studio/blob/main/<release>/aistudio/bin/aistudio-extension.zip
 ```
 
-Open the downloaded or cloned repository folder. The extension ZIP will also be made available in the cloned / downloaded GitHub repository.
+Open the downloaded or cloned repository folder. The extension ZIP `aistudio-extension.zip` will be available in `fusion-ai-repo\fusion-ai-studio\<release>\aistudio\bin\` in the cloned folder and in `fusion-ai-repo\fusion-ai-studio-main\<release>\aistudio\bin\` for the downloaded GitHub repository.
 
 The ZIP file `aistudio-extension.zip`, must be extracted to get the `.vsix` file inside it.
 
 1. Open the folder that contains `aistudio-extension.zip`.
-2. Extract the ZIP file.
+2. Extract the ZIP file to the same folder.
 3. On Windows, select **Extract All...**.
 4. On macOS, select **Open With > Archive Utility** or double-click the ZIP file.
-5. Choose an easy-to-find destination, such as Downloads or a project setup folder.
-6. Open the extracted folder.
-7. Confirm that it contains a file named similar to:
+5. Open the extracted folder.
+6. Confirm that it contains a file named similar to:
 
 ```text
 aistudio-extension.vsix
@@ -121,7 +125,7 @@ If you do not see the `.vsix` file, open any folder created by the extraction pr
 
 **Result before continuing:** You have found the extracted `.vsix` file.
 
-### Install the Fusion AI Studio VS Code Extension
+## Install Fusion AI Studio VS Code Extension
 
 The extension adds Fusion AI Studio commands and views to VS Code.
 
@@ -135,14 +139,6 @@ The extension adds Fusion AI Studio commands and views to VS Code.
 8. Confirm the installation if VS Code asks for confirmation.
 9. If VS Code asks you to reload or restart the window, select the reload option.
 10. Click Extensions icon and you should now see the extension installed - `Fusion AI Studio`. 
-11. Click on the gear icon on the extension and click settings, a new Settings window will open
-12. Look for **Aistudio: Workspace Directory**
-13. Copy the file path of main directory in the input box *(e.g. `/Users/<replace-with-your-user-name>/Documents/fusion-ai-studio-main`)*
-14. Set **Aistudio:Server URL**  
-15. Set **Aistudio:Username** 
-16. Click the close button and the setting should autosave.
-
-**Result before continuing:** VS Code shows that the `Fusion AI Studio` extension was installed and you have added the folder path in the extension setting (*Aistudio: Workspace Directory*).
 
 ### Confirm the Extension Is Installed
 
@@ -158,32 +154,31 @@ If no Fusion AI Studio commands appear, reload VS Code and repeat the check. If 
 
 **Result before continuing:** Fusion AI Studio commands appear in the Command Palette.
 
+
 ### Extract the Fusion AI Studio Skill ZIP
 
-The Fusion AI Studio Skill is available as a ZIP file `aistudio-skill.zip` under `fusion-ai-studio/<release>/aistudio/bin` folder:
+The Fusion AI Studio Skill need to be copied from the `fusion-ai-repo` folder to the workspace folder `fusion-ai-workspace`.
 
+The Fusion AI Studio Skill is available as a ZIP file `aistudio-skill.zip` under `fusion-ai-repo/fusion-ai-studio/<release>/aistudio/bin` folder in case you have created `fusion-ai-repo` folder by cloning the repository.
 
-```text
-https://github.com/oracle/fusion-ai-studio/blob/main/release-26C/aistudio/bin/aistudio-skill.zip
-```
+The Fusion AI Studio Skill is available as a ZIP file `aistudio-skill.zip` under `fusion-ai-repo/fusion-ai-studio-main/<release>/aistudio/bin` folder in case you have created `fusion-ai-repo` folder by extracting the downloaded zip file.
 
 The ZIP file must be extracted to get the `aistudio` folder with files inside it.
 
 1. Open the folder that contains `aistudio-skill.zip`.
-2. Right-click the ZIP file.
+2. Right-click the ZIP file and extract to the same folder location.
 3. On Windows, select **Extract All...**.
 4. On macOS, select **Open With > Archive Utility** or double-click the ZIP file.
-5. Choose an easy-to-find destination, such as Downloads or a project setup folder.
 6. Open the extracted folder.
 7. Confirm that it contains a file named `SKILL.md` and three folders
-8. Create a new folder named `.agents` inside the *fusion-ai-apps-main* folder
+8. Create a new folder named `.agents` inside the workspace folder `fusion-ai-workspace`
 9. Open the `.agents` folder and create a new folder named `skills`
-10. Open the skills folder and copy the extracted `aistudio` folder inside the skills folder
+10. Open the skills folder and copy the extracted `aistudio` folder in the prior step inside the skills folder
 
 **Result before continuing:** You have created the required folders inside the workspace folder and copied the skill related files to it. The folder structure should look similar to:
 
 ```text
-fusion-ai-apps-main/
+fusion-ai-workspace/
 └── .agents/
     └── skills/
         └── aistudio/
@@ -196,27 +191,48 @@ fusion-ai-apps-main/
 
 ### Extract Fusion AI App Skills ZIP
 
-The `aistudio-app-skills.zip` file will be made available in the shared folder.
+The Fusion AI App Skill need to be copied from the `fusion-ai-repo` folder to the workspace folder `fusion-ai-workspace`.
 
-The ZIP file must be extracted to get the `aistudio-app-skills` folder with folders inside it.
+The Fusion AI App Skill is available as a ZIP file `aistudio-apps-skills.zip` under `fusion-ai-repo/fusion-ai-studio/<release>/aistudio/ai-studio-apps-skills` folder in case you have created `fusion-ai-repo` folder by cloning the repository.
 
-1. Extract the zip file.
+The Fusion AI Studio Skill is available as a ZIP file `aistudio-apps-skills.zip` under `fusion-ai-repo/fusion-ai-studio-main/<release>/aistudio/ai-studio-apps-skills` folder in case you have created `fusion-ai-repo` folder by extracting the downloaded zip file.
+
+The ZIP file must be extracted to get the `aistudio-apps-skills` folder with folders inside it.
+
+1. Extract the zip file to the same folder.
 2. On Windows, select **Extract All...**.
 3. On macOS, select **Open With > Archive Utility** or double-click the ZIP file.
-4. Choose an easy-to-find destination, such as Downloads or a project setup folder.
-5. Open the extracted folder.
-6. Open the `.agents` folder and open `skills` folder
-7. Copy all the extracted folders inside the skills folder
+4. Open the extracted folder.
+5. Confirm that it contains one or more app folders like `aistudio-apps-succession-management`
+6. Copy ALL the extracted folders to the `skills` folder in the workspace folder `fusion-ai-workspace\.agents\`.
 
 **Result before continuing:** You have copied the skill related files. The folder structure should look similar to:
 
 ```text
-fusion-ai-apps-main/
+fusion-ai-workspace/
 └── .agents/
     └── skills/
         └── aistudio-apps-succession-management/
         └── aistudio/
 ```
+
+### Copy sample apps and workflows to the workspace
+
+Sample apps and workflows in folder `aiapps` need to be copied from the `fusion-ai-repo\<release>\` folder to the workspace folder `fusion-ai-workspace`.
+
+Copy the folder `fusion-ai-repo\<release>\aiapps` to workspace folder `fusion-ai-workspace`. 
+
+**Result before continuing:** You have copied the sample related files. The folder structure should look similar to:
+
+```text
+fusion-ai-workspace/
+└── aiapps/
+└── .agents/
+    └── skills/
+        └── aistudio-apps-succession-management/
+        └── aistudio/
+```
+
 
 ### Open the Workspace Folder in VS Code
 
@@ -224,7 +240,7 @@ Opening the correct folder matters because the extension initializes and manages
 
 1. Open VS Code.
 2. Select **File > Open Folder...**.
-3. Browse to the workspace folder you created `fusion-ai-studio-main` (downloaded/cloned).
+3. Browse to the workspace folder you created `fusion-ai-workspace`.
 4. Select the folder.
 5. Select **Open**.
 6. VS Code may ask whether you trust the authors of the files in the folder, confirm it.
@@ -241,19 +257,12 @@ Authentication connects VS Code to your Fusion AI Studio environment.
 3. Select `Fusion AI Studio: Configure Authentication`.
 
 4. Select Basic Authentication. 
-   
-   > **Note:** If you don't see this option but instead see an error message on the bottom right:
-   > *Fusion AI Studio: Set a workspace folder before configuring authentication.*
-   > Click on *Set Workspace Folder*
-   > Provide the path to the folder under *Aistudio: Workspace Directory*
-   > *e.g. /Users/< replace-with-your-user-name >/Documents/fusion-ai-studio-main* 
-   > Re-run the command `Fusion AI Studio: Configure Authentication` again to continue
 
 5. Enter the server URL or environment details provided by your administrator _(note that the url should end with .com and should not have extra resource path)_.
 
-1. Add the Username 
+6. Add the Username 
 
-2. Provide password 
+7. Provide password 
 
 The workspace will be connected to the environment.
 
@@ -295,16 +304,7 @@ The VS Code extension lets you create, open, inspect, and fetch artifacts withou
 
 Fusion AI Studio provides more than one way to create and update AI-powered Agentic apps and workflows. You can work directly in the Fusion AI Studio VS Code extension when you want a guided, visual way to create and edit artifacts, or you can use Codex when you want AI assistance to make coordinated changes across multiple files. This section explains both approaches so users can choose the method that best fits the task, their comfort level, and the amount of control they need.
 
-### Building AI Studio Apps and Workflows using Visual Builder
 
-Use this pattern when you are creating or changing files through the VS Code extension rather than asking Codex to make changes for you.
-
-1. Open your workspace folder in VS Code.
-2. Use a `Create New...` command
-3. Open the file.
-4. Make changes in the visual designer.
-5. You can also use the Brain Agent button in the visual designer to describe what you want to build in natural language.
-6. Test the file by clicking on the Play icon.
 
 
 ### Building AI Studio Apps and Workflows using Codex with Fusion AI Studio
@@ -315,7 +315,7 @@ Codex can help you create and change artifacts. You describe the business outcom
 
 1. Install Codex (App, CLI, etc.) by following the official OpenAI guide on: `https://developers.openai.com/codex/quickstart?setup=app`
 
-2. Open a terminal. In VS Code, you can run `Fusion AI Studio: Open Terminal` from the Command Palette.
+2. Open a terminal. In VS Code, you can click `Terminal` menu and select `New Terminal`.
 
 3. Confirm that Codex is installed by opening the app or running `codex --version` on the terminal:
 
@@ -339,7 +339,20 @@ An app can contain sections, panels, configured agents, actions, and communicati
 
 You can now use codex to build a new agentic app that would reuse the business objects and workflows. To begin, open Codex (ensure that it is opened in the same project directory) and provide the appropriate prompts.
 
-Codex will guide you through each step required to build the app.
+Sample prompt for buidling a succession plannning app for a line manager
+
+````
+Design and build a Succession Planning Agentic App for people managers
+responsible for succession planning for their direct reports.
+
+The app should enable managers to proactively identify succession risks,
+assess succession readiness, and highlight key performers who do not 
+have identified successors. It should also recommend actionable
+next steps, such as identifying potential successors,evaluating 
+readiness levels, and creating or updating succession plans.
+````
+
+Codex will then guide you through each step required to build the app.
 
 
 ## Disclaimer

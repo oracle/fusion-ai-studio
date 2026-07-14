@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_EXPIRED_JOB_REQUISITION_ASSISTANT",
   "specification": {
     "jsonSchemaName": "Workflow.spec",
@@ -160,17 +160,7 @@
       "orientation": "vertical",
       "commentNodes": []
     },
-    "dtRunProfiles": {
-      "activeProfileId": "f13c9537-f91e-40e2-9135-cb1d731f77b1",
-      "profiles": [
-        {
-          "id": "f13c9537-f91e-40e2-9135-cb1d731f77b1",
-          "name": "New run profile 1",
-          "type": "agentic-app",
-          "agenticAppMode": "initDisplay"
-        }
-      ]
-    }
+    "dtRunProfiles": {}
   },
   "name": "Expired Job Requisition Assistant",
   "description": "It helps monitor open phase requisitions whose postings have expired and guides recruiters to take immediate action.",
