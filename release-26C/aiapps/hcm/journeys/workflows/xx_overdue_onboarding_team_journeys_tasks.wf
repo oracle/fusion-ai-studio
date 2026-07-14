@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_OVERDUE_ONBOARDING_TEAM_JOURNEYS_TASKS",
   "specification": {
     "jsonSchemaName": "Workflow.spec",
@@ -205,17 +205,7 @@
       "orientation": "vertical",
       "commentNodes": []
     },
-    "dtRunProfiles": {
-      "activeProfileId": "3dacf370-8574-40c8-974f-9a706cc6f025",
-      "profiles": [
-        {
-          "id": "3dacf370-8574-40c8-974f-9a706cc6f025",
-          "name": "New run profile 1",
-          "type": "agentic-app",
-          "agenticAppMode": "initDisplay"
-        }
-      ]
-    }
+    "dtRunProfiles": {}
   },
   "name": "Overdue Onboarding Team Journeys Tasks",
   "description": "Fetches overdue Enterprise Onboarding and Onboarding team journey tasks, filters them to the top five tasks, enriches each task with due-date timing details, and renders them as a message list with task name, journey name, owner details, and overdue status for review by manager.",

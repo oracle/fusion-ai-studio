@@ -416,7 +416,7 @@ The Compensation History drill-down shows annual salary progression over time fo
 | Succession Overview Agent Team | Workflow | Shared workflow used by parent-panel advisors to return succession details, risk of loss, and impact of loss records for direct reports. |
 | Top Talent Advisor | Workflow | Parent-panel workflow for the Top Performers panel. |
 
-Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at https://oss.oracle.com/licenses/upl/
+Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at https://oss.oracle.com/licenses/upl/
 
 <!-- BEGIN GENERATED WORKFLOWS -->
 ## Workflows

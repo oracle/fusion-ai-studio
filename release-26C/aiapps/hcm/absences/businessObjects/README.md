@@ -1,4 +1,5 @@
 # Business Objects
+<br>
 
 ## Absence Details
 
@@ -9,7 +10,7 @@
 
 
 ### Function : get_existing_absences
-#### Description : This business object function fetches the existing balances of a person
+Description : This business object function fetches the existing balances of a person
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|

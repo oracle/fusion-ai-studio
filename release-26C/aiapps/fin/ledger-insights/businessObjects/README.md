@@ -1,5 +1,5 @@
 # Business Objects
-
+<br>
 
 ## Business Object Name : Accounting Exceptions Lookup
 
@@ -11,7 +11,7 @@
 ## Functions
 
 #### Function : getTransactionCategorySummaryforErrorCategory
-#### Description : Gets accounting exception counts grouped by transaction category for a selected issue category.
+Description : Gets accounting exception counts grouped by transaction category for a selected issue category.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -23,7 +23,7 @@
 
 
 #### Function : getTransactionsforErrorCategory
-#### Description : Gets transaction-level accounting exception details for a selected issue category, sorted by total amount.
+Description : Gets transaction-level accounting exception details for a selected issue category, sorted by total amount.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -35,7 +35,7 @@
 
 
 #### Function : getAccountingExceptions
-#### Description : Gets accounting exception totals grouped by issue category for a selected ledger and accounting period.
+Description : Gets accounting exception totals grouped by issue category for a selected ledger and accounting period.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -54,7 +54,7 @@
 ## Functions
 
 #### Function : submitEssJob
-#### Description : Submits an ESS job request within the Accounting Exceptions ESS Jobs Business Object to initiate automated processing of accounting exceptions in the General Ledger. This function posts the job details to the ERP integrations resource for execution and monitoring.
+Description : Submits an ESS job request within the Accounting Exceptions ESS Jobs Business Object to initiate automated processing of accounting exceptions in the General Ledger. This function posts the job details to the ERP integrations resource for execution and monitoring.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -64,7 +64,7 @@
 
 
 #### Function : getEssJobStatus
-#### Description : Retrieves the current status of an ESS job request related to accounting exceptions by using the provided request ID. This function enables monitoring of automated job processes within the General Ledger.
+Description : Retrieves the current status of an ESS job request related to accounting exceptions by using the provided request ID. This function enables monitoring of automated job processes within the General Ledger.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -81,7 +81,7 @@
 ## Functions
 
 #### Function : getChartOfAccountDetails
-#### Description : Retrieves detailed metadata about the chart of accounts structure within the general ledger, including key account segments and their classifications. This function supports accessing account hierarchy information to aid in configuration, integration, and reporting.
+Description : Retrieves detailed metadata about the chart of accounts structure within the general ledger, including key account segments and their classifications. This function supports accessing account hierarchy information to aid in configuration, integration, and reporting.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -98,7 +98,7 @@
 ## Functions
 
 #### Function : bossExtract
-#### Description : Executes a specialized BOSS query to extract financial data within the General Ledger domain. This function submits a payload to initiate the extraction process, enabling access to aggregated financial insights through the Insights - Execute BOSS Query Helper.
+Description : Executes a specialized BOSS query to extract financial data within the General Ledger domain. This function submits a payload to initiate the extraction process, enabling access to aggregated financial insights through the Insights - Execute BOSS Query Helper.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -106,7 +106,7 @@
 
 
 #### Function : extractAV
-#### Description : Executes a specialized BOSS query to extract aggregated AV data within the General Ledger domain, enabling detailed financial insights through a secure POST operation.
+Description : Executes a specialized BOSS query to extract aggregated AV data within the General Ledger domain, enabling detailed financial insights through a secure POST operation.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -123,7 +123,7 @@
 ## Functions
 
 #### Function : getAccountingPeriods
-#### Description : Retrieves accounting period records from the Accounting Periods Business Object based on a specified period set name and date, enabling users to access financial reporting periods relevant to their query.
+Description : Retrieves accounting period records from the Accounting Periods Business Object based on a specified period set name and date, enabling users to access financial reporting periods relevant to their query.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -141,7 +141,7 @@
 ## Functions
 
 #### Function : getall_standardLookupsLOV
-#### Description : Retrieves all standard lookup values for a specified lookup type from the Standard Lookups Business Object, enabling consistent selection and validation of predefined data within the General Ledger product.
+Description : Retrieves all standard lookup values for a specified lookup type from the Standard Lookups Business Object, enabling consistent selection and validation of predefined data within the General Ledger product.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -158,7 +158,7 @@
 ## Functions
 
 #### Function : reopen
-#### Description : The reopen function updates the status of specified insights to open and adds user comments, enabling users to reactivate and provide context for insights within the Insight Actions business object in the General Ledger domain.
+Description : The reopen function updates the status of specified insights to open and adds user comments, enabling users to reactivate and provide context for insights within the Insight Actions business object in the General Ledger domain.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -167,7 +167,7 @@
 
 
 #### Function : dismissInsight
-#### Description : The dismissInsight function allows users to mark selected insights as dismissed within the General Ledger domain. It updates the status of specified insight records to reflect their dismissal, supporting effective management of financial insights.
+Description : The dismissInsight function allows users to mark selected insights as dismissed within the General Ledger domain. It updates the status of specified insight records to reflect their dismissal, supporting effective management of financial insights.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -175,7 +175,7 @@
 
 
 #### Function : markInsightAsReviewed
-#### Description : Marks specified insights as reviewed by updating their status and adding comments, enabling users to track the review progress within the Insight Actions business object for General Ledger insights.
+Description : Marks specified insights as reviewed by updating their status and adding comments, enabling users to track the review progress within the Insight Actions business object for General Ledger insights.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -193,7 +193,7 @@
 ## Functions
 
 #### Function : getall_sensorInsightList
-#### Description : Retrieves a comprehensive list of sensor-generated insights within the General Ledger domain, allowing filtering by categories such as Accounting Controls, Account Analysis, Intercompany, and others. This function enables users to efficiently access detailed financial insight records to support ledger performance monitoring and analysis.
+Description : Retrieves a comprehensive list of sensor-generated insights within the General Ledger domain, allowing filtering by categories such as Accounting Controls, Account Analysis, Intercompany, and others. This function enables users to efficiently access detailed financial insight records to support ledger performance monitoring and analysis.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -210,7 +210,7 @@
 ## Functions
 
 #### Function : getAllLedgersMatchByPattern
-#### Description : Retrieves a list of ledgers that match a specified name pattern, providing key details such as ledger ID, category, and currency. This function supports efficient pattern-based searching within the Ledger Search business object for the General Ledger product.
+Description : Retrieves a list of ledgers that match a specified name pattern, providing key details such as ledger ID, category, and currency. This function supports efficient pattern-based searching within the Ledger Search business object for the General Ledger product.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -218,7 +218,7 @@
 
 
 #### Function : getAllLedgersByPayload
-#### Description : Retrieves a comprehensive list of ledger records based on the provided payload, enabling detailed extraction of ledger data within the General Ledger product. This function supports targeted searches by submitting specific criteria to the ledger extraction API.
+Description : Retrieves a comprehensive list of ledger records based on the provided payload, enabling detailed extraction of ledger data within the General Ledger product. This function supports targeted searches by submitting specific criteria to the ledger extraction API.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -226,7 +226,7 @@
 
 
 #### Function : getPrimaryLedgersMatchByPattern
-#### Description : Retrieves a list of primary ledgers that match a specified name pattern, enabling targeted searches within the General Ledger. This function supports efficient querying of key ledger details through pattern-based filtering via the ledger search extraction API.
+Description : Retrieves a list of primary ledgers that match a specified name pattern, enabling targeted searches within the General Ledger. This function supports efficient querying of key ledger details through pattern-based filtering via the ledger search extraction API.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -234,14 +234,13 @@
 
 
 #### Function : getAllPrimaryLedgers
-#### Description : Retrieves a list of all primary ledgers accessible within the General Ledger system, providing key details such as ledger ID, name, category, currency, and related accounting information. This function supports comprehensive ledger data extraction through the Ledger Search business object.
+Description : Retrieves a list of all primary ledgers accessible within the General Ledger system, providing key details such as ledger ID, name, category, currency, and related accounting information. This function supports comprehensive ledger data extraction through the Ledger Search business object.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
-| Not Applicable | Not Applicable |
 
 #### Function : getLedgersMatchByPattern
-#### Description : Retrieves a list of ledger records from the General Ledger based on a partial ledger name using pattern matching. This function enables efficient searching of ledgers accessible within the user's data access sets, returning key ledger details to support financial data exploration.
+Description : Retrieves a list of ledger records from the General Ledger based on a partial ledger name using pattern matching. This function enables efficient searching of ledgers accessible within the user's data access sets, returning key ledger details to support financial data exploration.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -249,11 +248,10 @@
 
 
 #### Function : getAllLedgers
-#### Description : Retrieves a comprehensive list of ledgers accessible within the General Ledger system, including key details such as ledger ID, name, category, and associated accounting structures. This function supports efficient exploration of ledger records through the Ledger Search business object.
+Description : Retrieves a comprehensive list of ledgers accessible within the General Ledger system, including key details such as ledger ID, name, category, and associated accounting structures. This function supports efficient exploration of ledger records through the Ledger Search business object.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
-| Not Applicable | Not Applicable |
 
 ## Business Object Name : Ledger Open Periods
 
@@ -265,14 +263,14 @@
 ## Functions
 
 #### Function : openPeriodsListAll
-#### Description : Retrieves a complete list of all open accounting periods across general ledgers, enabling users to view current financial periods for reporting and management purposes. This function performs an extraction operation on the Open Periods By Ledger Business Object.
+Description : Retrieves a complete list of all open accounting periods across general ledgers, enabling users to view current financial periods for reporting and management purposes. This function performs an extraction operation on the Open Periods By Ledger Business Object.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
 
 
 #### Function : openPeriodsListAllunderLedger
-#### Description : Lists all Open Periods for GLs for given ledger Id
+Description : Lists all Open Periods for GLs for given ledger Id
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -280,7 +278,7 @@
 
 
 #### Function : openPeriodsList
-#### Description : Lists Open Periods for GLs for given ledgerId and periodName
+Description : Lists Open Periods for GLs for given ledgerId and periodName
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -298,7 +296,7 @@
 ## Functions
 
 #### Function : getPreference
-#### Description : Retrieves a specific user or system preference within the General Ledger domain by its code. This function accesses configuration settings that influence financial processes through a read-only operation.
+Description : Retrieves a specific user or system preference within the General Ledger domain by its code. This function accesses configuration settings that influence financial processes through a read-only operation.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -315,7 +313,7 @@
 ## Functions
 
 #### Function : resolvePeriodExpression
-#### Description : The resolvePeriodExpression function processes relative period expressions to generate specific accounting period values, supporting accurate Insights rule execution within the General Ledger domain. It enables precise financial analysis by converting period queries into concrete data through a dedicated API operation.
+Description : The resolvePeriodExpression function processes relative period expressions to generate specific accounting period values, supporting accurate Insights rule execution within the General Ledger domain. It enables precise financial analysis by converting period queries into concrete data through a dedicated API operation.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
@@ -332,7 +330,7 @@
 ## Functions
 
 #### Function : getPeriodWithSource
-#### Description : Retrieves the status of accounting periods for a specified ledger and period, including detailed information by source such as subledgers within the General Ledger. This function enables users to obtain current period statuses and related ledger details through extraction queries.
+Description : Retrieves the status of accounting periods for a specified ledger and period, including detailed information by source such as subledgers within the General Ledger. This function enables users to obtain current period statuses and related ledger details through extraction queries.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|

@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_WORK_EXECUTION_EXCEPTIONS",
   "specification": {
     "jsonSchemaName": "Workflow.spec",
@@ -418,19 +418,7 @@
     "timeSavings": 10,
     "chatExpTPFileUploadEnabledFlag": false,
     "chatExpThirdPartyDetails": [],
-    "dtRunProfiles": {
-      "activeProfileId": "7f3afaab-a671-40b4-ad8f-7fac6cbc0fe4",
-      "profiles": [
-        {
-          "id": "7f3afaab-a671-40b4-ad8f-7fac6cbc0fe4",
-          "name": "New run profile 1",
-          "type": "agentic-app",
-          "agenticAppMode": "initDisplay",
-          "restConfigJson": "{\n  \"InvokeAction\": \"\",\n  \"OraAppContext\": \"300100113363336\",\n  \"OraAction\": \"\",\n  \"OraMessageHint\": \"\"\n}",
-          "agenticAppAppContext": "300100113363336"
-        }
-      ]
-    },
+    "dtRunProfiles": {},
     "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI",
     "diagram": {
       "orientation": "vertical",

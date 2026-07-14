@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_SUCCESSION_OVERVIEW_ADVISOR",
   "specification": {
     "jsonSchemaName": "Workflow.spec",
@@ -1968,17 +1968,7 @@
     "chatExpTPFileUploadEnabledFlag": false,
     "chatExpThirdPartyDetails": [],
     "policyIds": [],
-    "dtRunProfiles": {
-      "activeProfileId": "cc029f2f-c042-4d45-a596-e6753d0e52d1",
-      "profiles": [
-        {
-          "id": "cc029f2f-c042-4d45-a596-e6753d0e52d1",
-          "name": "New run profile 1",
-          "type": "agentic-app",
-          "agenticAppMode": "initDisplay"
-        }
-      ]
-    },
+    "dtRunProfiles": {},
     "diagram": {
       "orientation": "vertical",
       "commentNodes": []

@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_WORKER_WRK_LOC_WEATHER",
   "name": "Worker Location Weather",
   "description": "Agentic App compatible workflow that retrieves the work location for the person in the app context, or for the current logged-in user when no person is selected. It shows the worker's location, current weather, timezone, and local time, with helpful weather and day-or-night icons when available.",

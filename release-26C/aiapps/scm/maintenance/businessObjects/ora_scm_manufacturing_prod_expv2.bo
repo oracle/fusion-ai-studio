@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "supportedObjectId": "300100676246006",
   "name": "Open Production Exceptions",
   "description": "The Open Production Exceptions Business Object provides access to current unresolved production issues within manufacturing operations. It supports retrieving detailed records of open exceptions using filtering, sorting, and pagination to help monitor and manage production disruptions effectively.",

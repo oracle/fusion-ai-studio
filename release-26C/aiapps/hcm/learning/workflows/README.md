@@ -1,7 +1,7 @@
 # Learning Workflows
 
 <!-- BEGIN GENERATED WORKFLOWS -->
-## Workflows
+<br/>
 
 #### Workflow : Team Learning Item Recommendations
 

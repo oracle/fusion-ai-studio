@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_TOP_LEAVERS_BY_JOB",
   "specification": {
     "jsonSchemaName": "Workflow.spec",
@@ -1250,26 +1250,7 @@
       "commentNodes": []
     },
     "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI",
-    "dtRunProfiles": {
-      "activeProfileId": "d814c610-1ee1-42cd-b446-403232f45e6a",
-      "profiles": [
-        {
-          "id": "af3dce47-f712-46f7-9585-f66959c7ddee",
-          "name": "New run profile 1",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n  \"JobName\": \"Associate\"\n}"
-        },
-        {
-          "id": "d814c610-1ee1-42cd-b446-403232f45e6a",
-          "name": "New run profile 2",
-          "type": "agentic-app",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraMessageHint\": \"InitDisplay\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100000008153756\\\",\\\"guId\\\":\\\"0306B72D1BE8CF445382B28E9BC1E43E\\\",\\\"fullName\\\":\\\"Meg Fitzimmons\\\",\\\"userName\\\":\\\"TM-MFITZIMMONS\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cpdcfqdqy.fusionappspreprod.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\",\n    \"correlationId\": \"db07767f-4690-4f8b-bc7f-a52b930ef97e\"\n}",
-          "agenticAppUserContext": ""
-        }
-      ]
-    }
+    "dtRunProfiles": {}
   },
   "name": "Top Leavers by Job",
   "description": "Shows attrition across the organization by grouping leavers by job role, enabling job and manager-level drilldown, suggesting active employees with similar attrition risk patterns, and surfacing corrective actions alongside those suggestions.",

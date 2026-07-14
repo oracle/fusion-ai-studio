@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_RISK_OF_LOSS_ANALYSIS",
   "specification": {
     "jsonSchemaName": "Workflow.spec",
@@ -419,17 +419,7 @@
       "orientation": "vertical",
       "commentNodes": []
     },
-    "dtRunProfiles": {
-      "activeProfileId": "b96c3dc7-7a59-4fc6-850f-b7263403dc07",
-      "profiles": [
-        {
-          "id": "b96c3dc7-7a59-4fc6-850f-b7263403dc07",
-          "name": "New run profile 1",
-          "type": "agentic-app",
-          "agenticAppMode": "initDisplay"
-        }
-      ]
-    }
+    "dtRunProfiles": {}
   },
   "name": "Risk of Loss Analysis",
   "description": "Shows the risk-of-loss assessment for the worker, helping identify how likely it is that this person could leave or become unavailable.",

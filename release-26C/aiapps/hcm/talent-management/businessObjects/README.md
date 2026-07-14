@@ -1,4 +1,6 @@
 # Business Objects
+<br>
+
 
 
 ## Business Object : Team Unscheduled Check-In
@@ -12,7 +14,7 @@
 ### Functions
 
 #### Function : getCheckIns
-#### Description : Returns team member check-in details for the given person ID and assignment ID, limited to direct line-manager reports and including display name, assignment name, last check-in date, performance, and potential.
+Description : Returns team member check-in details for the given person ID and assignment ID, limited to direct line-manager reports and including display name, assignment name, last check-in date, performance, and potential.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|

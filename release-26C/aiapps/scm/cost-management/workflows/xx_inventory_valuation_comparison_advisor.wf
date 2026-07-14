@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_INVENTORY_VALUATION_COMPARISON_ADVISOR",
   "specification": {
     "jsonSchemaName": "Workflow.spec",
@@ -634,32 +634,7 @@
       "commentNodes": []
     },
     "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI",
-    "dtRunProfiles": {
-      "activeProfileId": "c9b55300-406d-4f9c-9de9-6f2139fc463c",
-      "profiles": [
-        {
-          "id": "c9b55300-406d-4f9c-9de9-6f2139fc463c",
-          "name": "New run profile 1",
-          "type": "agentic-app",
-          "agenticAppMode": "initDisplay",
-          "agenticAppAppContext": "100000012270096:100000010001016:Jun-26"
-        },
-        {
-          "id": "ba99b133-e140-4033-8bdf-1acdbe8cd352",
-          "name": "New run profile 2",
-          "type": "agentic-app",
-          "agenticAppMode": "initDisplay",
-          "agenticAppAppContext": "100000012270096:100000010001016:Jun-26"
-        },
-        {
-          "id": "9b7d40ba-77e7-4e11-b9bf-f09a49b9705c",
-          "name": "New run profile 3",
-          "type": "agentic-app",
-          "agenticAppMode": "initDisplay",
-          "agenticAppAppContext": "10000001227009b6:100000010001016:Jun-26"
-        }
-      ]
-    }
+    "dtRunProfiles": {}
   },
   "name": "Inventory Valuation Comparison Advisor",
   "description": "Retrieves inventory valuation records and compares inventory values across reporting periods. It provides comparisons between the current period, the previous period, and the same period in the prior year, along with variance percentages for valuation types such as Asset, Expense, and Consigned inventory.",

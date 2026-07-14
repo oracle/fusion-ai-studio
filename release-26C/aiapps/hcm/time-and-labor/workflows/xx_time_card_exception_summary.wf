@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_TIME_CARD_EXCEPTION_SUMMARY",
   "specification": {
     "jsonSchemaName": "Workflow.spec",
@@ -483,10 +483,7 @@
       "commentNodes": []
     },
     "waitFlag": false,
-    "dtRunProfiles": {
-      "activeProfileId": null,
-      "profiles": []
-    }
+    "dtRunProfiles": {}
   },
   "name": "Time Card Exception Summary",
   "description": "Shows time card exception types, counts, aggregate scheduled hours, reported hours, and absence hours with row actions for detail drilldown.",

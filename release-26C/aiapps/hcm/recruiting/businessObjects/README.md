@@ -1,4 +1,6 @@
 # Business Objects
+<br>
+
 
 
 ## Business Object : Expired Job Requisitions
@@ -12,8 +14,7 @@
 ### Functions
 
 #### Function : get_job_requisitions
-#### Description : Retrieves open job requisition records whose postings have expired. This function returns requisition numbers, titles, hiring managers, recruiters, application counts, and organizational attributes for expired requisition review.
+Description : Retrieves open job requisition records whose postings have expired. This function returns requisition numbers, titles, hiring managers, recruiters, application counts, and organizational attributes for expired requisition review.
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
-| No parameters required |  |

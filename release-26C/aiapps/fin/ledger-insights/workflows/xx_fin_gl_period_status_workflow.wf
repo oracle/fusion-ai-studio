@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_FIN_GL_PERIOD_STATUS_WORKFLOW",
   "specification": {
     "dataPipeline": {
@@ -294,24 +294,7 @@
       "orientation": "vertical",
       "commentNodes": []
     },
-    "dtRunProfiles": {
-      "activeProfileId": "2a1e5103-668a-4bfa-824f-7a5648a007ff",
-      "profiles": [
-        {
-          "id": "98025f6f-c874-4716-bbad-017537132300",
-          "name": "Initial Display",
-          "type": "agentic-app",
-          "agenticAppMode": "initDisplay"
-        },
-        {
-          "id": "2a1e5103-668a-4bfa-824f-7a5648a007ff",
-          "name": "New run profile 2",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n    \"OraMessageHint\": \"InitDisplay\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"MOCK_USERID\\\",\\\"guId\\\":\\\"MOCK_GUID\\\",\\\"fullName\\\":\\\"MOCK_FULLNAME\\\",\\\"userName\\\":\\\"MOCK_USERNAME\\\",\\\"isAuthenticated\\\":false,\\\"isAdmin\\\":false,\\\"idcsTimeOut\\\":0,\\\"locale\\\":\\\"MOCK_LOCALE\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
-        }
-      ]
-    },
+    "dtRunProfiles": {},
     "jsonSchemaName": "Workflow.spec",
     "jsonSchemaVersion": "1",
     "inputs": [],

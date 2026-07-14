@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "supportedObjectId": "300100648339375",
   "name": "HCM GHR Worker Search",
   "description": "Provides Global Human Resources Redwood worker search and aggregation functions for worker lists and counts by department, job, grade, business unit, position, location, and custom payload.",

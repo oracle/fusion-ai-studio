@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_TEAM_JOURNEY_AGGREGATION_CHART",
   "specification": {
     "jsonSchemaName": "Workflow.spec",
@@ -141,17 +141,7 @@
       "orientation": "vertical",
       "commentNodes": []
     },
-    "dtRunProfiles": {
-      "activeProfileId": "ab84c5bc-4168-450d-a64e-341143d1601d",
-      "profiles": [
-        {
-          "id": "ab84c5bc-4168-450d-a64e-341143d1601d",
-          "name": "New run profile 1",
-          "type": "agentic-app",
-          "agenticAppMode": "initDisplay"
-        }
-      ]
-    }
+    "dtRunProfiles": {}
   },
   "name": "Team Journey Aggregation Chart",
   "description": "Displays team journey category distribution as a pie chart using aggregation data from the Worker Journey business object, with absolute category counts shown below the chart for easy comparison for review by manager.",

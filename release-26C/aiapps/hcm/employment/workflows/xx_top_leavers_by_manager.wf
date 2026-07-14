@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_TOP_LEAVERS_BY_MANAGER",
   "specification": {
     "dataPipeline": {
@@ -891,18 +891,7 @@
     "chatExpThirdPartyDetails": [],
     "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI",
     "deletedTriggerTypes": [],
-    "dtRunProfiles": {
-      "activeProfileId": "3518c42d-e94e-4e8e-a2e9-b618808070a4",
-      "profiles": [
-        {
-          "id": "3518c42d-e94e-4e8e-a2e9-b618808070a4",
-          "name": "New run profile 1",
-          "type": "rest",
-          "agenticAppMode": "query",
-          "restConfigJson": "{\n  \"oraMessageHint\": \"InitDisplay\"\n}"
-        }
-      ]
-    }
+    "dtRunProfiles": {}
   },
   "name": "Top Leavers By Manager",
   "description": "Shows attrition across the logged-in employee’s reporting hierarchy by grouping leavers under each manager, enabling manager-level drilldown, suggesting active employees with similar attrition risk patterns, and surfacing corrective actions alongside those suggestions.",

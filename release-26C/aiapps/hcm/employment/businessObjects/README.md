@@ -1,6 +1,5 @@
 ## Business Objects
-
----------------
+<br>
 
 #### Business Object : **HR Attrition All Reports**
 
@@ -10,7 +9,6 @@
 
 ## Functions
 
----------------
 
 #### Function : **findAllReports_compensation**
 
@@ -40,7 +38,6 @@ Description: Retrieves active worker reports from the employment view, including
 
 ## Functions
 
----------------
 
 #### Function : **run_sql_query_using_payload**
 
@@ -56,7 +53,6 @@ Description: Opens a BI session and returns the session token used by subsequent
 
 | Parameter Name | Description |
 |---------------|---------------|
-| None | This function does not require input parameters. |
 
 ---------------
 
@@ -68,7 +64,6 @@ Description: Opens a BI session and returns the session token used by subsequent
 
 ## Functions
 
----------------
 
 #### Function : **get_WorkersCntByBusinessUnitName**
 

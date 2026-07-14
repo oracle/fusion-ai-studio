@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "supportedObjectId": "300100663913958",
   "name": "Fetch Accounting Periods",
   "description": "The Accounting Periods Business Object provides access to records defining financial reporting periods within the general ledger. It supports retrieval of accounting period data to facilitate financial processes and reporting, enabling users to query period information based on specific criteria. Currently, it focuses on fetching accounting period details without supporting creation or modification operations.",

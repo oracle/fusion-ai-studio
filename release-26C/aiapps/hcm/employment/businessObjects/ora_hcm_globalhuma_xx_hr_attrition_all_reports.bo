@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "supportedObjectId": "300100649724856",
   "name": "HR Attrition All Reports",
   "description": "The HR Attrition All Reports Business Object retrieves active worker report data for a manager's full line-manager reporting hierarchy to support HR attrition analysis. It uses manager person and assignment identifiers to return employment, organization, location, job, tenure, and compensation-quartile fields for downstream attrition reports and drilldowns. Functions: findAllReports returns employment report details for all active payroll-eligible reports; findAllReports_compensation returns compensation-focused report details, including compensation quartile, for the manager's reports.",

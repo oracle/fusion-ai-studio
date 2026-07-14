@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "supportedObjectId": "300100649724855",
   "name": "HR Attrition Analytic Reports",
   "description": "The HR Attrition Analytic Reports Business Object provides the BI session and logical SQL execution functions used by HR attrition workflows. It authenticates to BI Publisher/OTBI resources, then runs prepared logical SQL payloads that return attrition analytics such as leavers by reason, manager, job, location, tenure, and related drilldown data. Functions: perform_logon opens a BI session and returns the session token used by report queries; run_sql_query_using_payload submits a logical SQL request payload and returns the query result data for display and downstream workflow steps.",

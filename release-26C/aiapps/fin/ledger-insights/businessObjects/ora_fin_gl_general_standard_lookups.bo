@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "supportedObjectId": "300100663913960",
   "name": "General Standard Lookups",
   "description": "The Standard Lookups Business Object provides access to predefined lookup data used within the General Ledger product. It supports retrieving comprehensive lists of standard lookup values to facilitate consistent data selection and validation across financial processes. Currently, it enables read-only operations to fetch all relevant lookup records without supporting modifications or related child entities.",

@@ -89,7 +89,7 @@
         "name": "getDefaultOrganizationName",
         "description": "For getting the default organization name",
         "operationType": "GET",
-        "resourcePath": "/fscmRestApi/resources/latest/https:/cpdcfqdqy.fusionappspreprod.ocs.oc-test.com:443/fscmRestApi/resources/11.13.18.05/inventoryAccessibleOrganizations/{ProfileOptionValue}?fields=OrganizationId,OrganizationName",
+        "resourcePath": "/fscmRestApi/resources/latest/inventoryAccessibleOrganizations/{ProfileOptionValue}?fields=OrganizationId,OrganizationName",
         "resourceType": "ADF_BC_FIXED_QUERY",
         "useNativeAuthentication": true,
         "type": "BUS_OBJECT",

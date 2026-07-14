@@ -1,5 +1,5 @@
 {
-  "_comment": "Copyright © 2022,2023, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
   "workflowCode": "XX_WORKER_CARD",
   "name": "Worker Card",
   "description": "Agentic App compatible workflow that retrieves employment and contact information for the person in the app context, or for the current logged-in user when no person is selected. It provides a concise summary of the person's name, role, organization, manager, work location, email, phone, communication accounts, and office address when available.",

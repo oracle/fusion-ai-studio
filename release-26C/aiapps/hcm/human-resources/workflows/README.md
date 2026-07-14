@@ -1,7 +1,7 @@
-# Human Resources
+# Human Resources Workflows
 
 <!-- BEGIN GENERATED WORKFLOWS -->
-## Workflows
+<br/>
 
 #### Workflow : Team Document Records Near Expiry
 
@@ -53,7 +53,7 @@
 | **Code** | XX_WORKER_DOCUMENT_RECORD_EXPIRY |
 | **Description** | Retrieves document records for the logged-in user that are due to expire within the next 30 days, displaying the document type, document name, expiration date, and expiry date. |
 | **Exposed to Agentic Apps** | Yes |
-| **Input Parameters** | No input parameters requiredNo input parameters required |
+| **Input Parameters** | No input parameters required |
 | **Output Parameters** | This workflow supports `InitDisplay`. <br> <br> `InitDisplay` - Retrieves document records for the current logged-in user that are due to expire within the next 30 days using the `Document Records Expiring Lookup` business object and displays them using a Message List widget. Fields displayed: Document Name, Document Type, Attachments Count, Last Update Date, and Expiration Date. It also provides a brief summary of the expiring records. |
 
 #### Workflow : Worker Representatives

@@ -1,7 +1,7 @@
 # Inventory Workflows
 
 <!-- BEGIN GENERATED WORKFLOWS -->
-## Workflows
+<br/>
 
 #### Workflow : Inventory Organization Context Switcher
 
