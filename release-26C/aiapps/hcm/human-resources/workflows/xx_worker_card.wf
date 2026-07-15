@@ -134,7 +134,7 @@
           "metadata": {
             "description": "Returns assignment information for the supplied person identifier.",
             "name": "Get Assignment Information by Person",
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_EMPLOYMENTGHR",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_EMPLOYMENTGHR",
             "functionName": "GetAssignmentInformationByPerson"
           },
           "diagram": {
