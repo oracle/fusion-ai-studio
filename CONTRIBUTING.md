@@ -13,10 +13,10 @@ For legal reasons, we cannot accept external pull requests.
 
 ## Pull request process
 
-**Pull requests are currently not being accepted for the VisualVM project.**
+**Pull requests are currently not being accepted for the Oracle Fusion AI Agent Studio Sample Apps and Workflows project.**
 
 ## Code of conduct
 
-Oracle and its affiliates have a perpetual, royalty-free, non-exclusive, irrevocable license to use, reproduce, distribute or otherwise commercialize any Feedback that you voluntarily provide.  Oracle shall have no obligation to respond to any Feedback or to incorporate your Feedback into the VisualVM software.
+Oracle and its affiliates have a perpetual, royalty-free, non-exclusive, irrevocable license to use, reproduce, distribute or otherwise commercialize any Feedback that you voluntarily provide.  Oracle shall have no obligation to respond to any Feedback or to incorporate your Feedback into the Oracle Fusion AI Agent Studio Sample Apps and Workflows project.
 
 [OCA]: https://oca.opensource.oracle.com

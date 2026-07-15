@@ -14,6 +14,6 @@ Description : This business object function fetches the existing balances of a p
 
 | **Parameter Name** | **Description**|
 |---------------|---------------|
-| userContext | Indicates weather the user is viewing the data as an employee or manager. Supported values - EMP, MGR |
+| userContext | Indicates whether the user is viewing the data as an employee or manager. Supported values - EMP, MGR |
 | startDate | Start date filter for absences |
 | personId | Person id filter for absences |
