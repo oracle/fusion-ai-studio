@@ -97,7 +97,7 @@ You can find the online documentation for Oracle Fusion AI Agent Studio at [offi
 
 ## Contributing
 
-This project do not accept accept external pull requests. Please [review our contribution guide](./CONTRIBUTING.md)
+This project does not accept external pull requests. Please [review our contribution guide](./CONTRIBUTING.md)
 
 ## Security
 
