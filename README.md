@@ -63,13 +63,19 @@ The Builder UI organizes application design into several key functional areas:
 
 [![Watch the demo](https://img.youtube.com/vi/TDJJLHdBvnY/mqdefault.jpg)](https://www.youtube.com/watch?v=TDJJLHdBvnY)
 
-## Installation : How do I use Fusion AI Studio with VS Code and Codex?
+## Installation 
+
+### How do I install and use Fusion AI Studio with Visual Studio Code (VS Code) and Codex?
 
 Fusion AI Studio provides the tools for building the AI Studio Agentic apps and workflows, while VS Code acts as the workspace where files are created, opened, reviewed, and updated. The Fusion AI Studio VS Code extension adds guided commands and visual editing options so users can complete common tasks from one place. This includes setting up a workspace, connecting to the correct environment, creating new artifacts, opening existing artifacts, and making changes in a structured way.
 
 Codex can also be used as an optional assistant when a task involves several related changes or when users want help creating, reviewing, or updating artifacts. Instead of manually changing each file one by one, users can describe the intended business outcome and ask Codex to help apply the change across the relevant local files. This can be useful when creating an app that depends on workflows, business objects, agents, or other supporting artifacts.
 
 You may need to refer to `install-and-use-fusion-ai-studio-CLI_vscode-codex.md` in the  `<release>/how-to` folder for more detail. The guide focuses on the practical steps needed to get started. It explains how to install the required tools, open a workspace, configure access, create or fetch artifacts, and understand the main approaches available for building AI Studio apps and workflows. 
+
+### How to Uptake Incremental Updates for Fusion AI Studio Skills and Samples in Existing Fusion AI Apps Workspaces?
+
+Instructions for upgrading existing Fusion Agentic Apps workspaces with the latest skill versions and sample apps and workflows are available in the `how-to-uptake-incremental-updates` guide, located in the `<release>/how-to` folder.
 
 
 ## Fusion AI Studio Artifacts
