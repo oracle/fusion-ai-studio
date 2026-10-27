@@ -27,7 +27,7 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Person identifier used to retrieve records for the person.",
             "id": 2,
             "isToken": true,

@@ -17,9 +17,13 @@
             "name": "Start"
           },
           "outcomes": {
-            "success": "1777367339550"
+            "success": "VALIDATE_REQUEST_GET_WORKER_PRIMARY_ASSIGNMENT"
           },
-          "inputs": []
+          "inputs": [],
+          "diagram": {
+            "x": 5572,
+            "y": 5000
+          }
         },
         {
           "id": "end",
@@ -39,7 +43,6 @@
           "metadata": {
             "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_EMPLOYMENTGHR",
             "functionName": "GetWorkerPrimaryAssignmentInfo",
-            "processJson": true,
             "name": "Get Worker Primary Assignment",
             "description": "Returns the primary assignment identifier for the supplied person."
           },
@@ -50,12 +53,16 @@
             {
               "id": "1777367370719_1",
               "name": "personId",
-              "type": "string",
-              "value": "{{$context.$triggers.REST.$input.personId}}",
+              "type": "integer",
+              "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_WORKER_PRIMARY_ASSIGNMENT.$output.result.personId}}",
               "required": true
             }
           ],
-          "outputSpecification": "{}"
+          "outputSpecification": "{}",
+          "diagram": {
+            "x": 5450,
+            "y": 5872
+          }
         },
         {
           "id": "1777367984512",
@@ -70,7 +77,11 @@
             "success": "1777367858656"
           },
           "inputs": [],
-          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": [\n        \"string\",\n        \"number\",\n        \"null\"\n      ]\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "diagram": {
+            "x": 5450,
+            "y": 6094
+          }
         },
         {
           "id": "1777368046578",
@@ -85,7 +96,11 @@
             "success": "end"
           },
           "inputs": [],
-          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"additionalProperties\": true\n      }\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "diagram": {
+            "x": 5450,
+            "y": 6982
+          }
         },
         {
           "id": "1777367858656",
@@ -95,7 +110,7 @@
             "name": "AssignmentId Present"
           },
           "outcomes": {
-            "true": "1777367934644",
+            "true": "VALIDATE_REQUEST_GET_MANAGERS_INFO",
             "false": "1777368046578"
           },
           "inputs": [
@@ -106,7 +121,11 @@
               "value": "{{$context.$nodes.GET_ASSIGNMENTID.$output.result != null}}"
             }
           ],
-          "convergenceTargetId": "1777368046578"
+          "convergenceTargetId": "1777368046578",
+          "diagram": {
+            "x": 5450,
+            "y": 6316
+          }
         },
         {
           "id": "1777367934644",
@@ -115,7 +134,6 @@
           "metadata": {
             "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_EMPLOYMENTGHR",
             "functionName": "GetWorkerManagers",
-            "processJson": true,
             "name": "Get Worker Managers",
             "description": "Returns manager details for the supplied person and assignment."
           },
@@ -126,19 +144,23 @@
             {
               "id": "1777367955622_1",
               "name": "personId",
-              "type": "string",
-              "value": "{{$context.$triggers.REST.$input.personId}}",
+              "type": "integer",
+              "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_MANAGERS_INFO.$output.result.personId}}",
               "required": true
             },
             {
               "id": "1777367955623_2",
               "name": "assignmentId",
-              "type": "string",
-              "value": "{{$context.$nodes.GET_ASSIGNMENTID.$output.result}}",
+              "type": "integer",
+              "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_MANAGERS_INFO.$output.result.assignmentId}}",
               "required": true
             }
           ],
-          "outputSpecification": "{}"
+          "outputSpecification": "{}",
+          "diagram": {
+            "x": 5000,
+            "y": 6760
+          }
         },
         {
           "id": "add_false_1777367858656",
@@ -151,6 +173,68 @@
             "success": "1777368046578"
           },
           "inputs": []
+        },
+        {
+          "id": "VALIDATE_REQUEST_GET_WORKER_PRIMARY_ASSIGNMENT",
+          "code": "VALIDATE_REQUEST_GET_WORKER_PRIMARY_ASSIGNMENT",
+          "type": "CODE",
+          "metadata": {
+            "name": "Validate Request Get Worker Primary Assignment",
+            "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
+            "returnType": "object",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$triggers.REST.$input.personId),\"personId\");\nreturn checked;",
+            "errorNodeId": "HR_REQUEST_REJECTED"
+          },
+          "outcomes": {
+            "success": "1777367339550"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "diagram": {
+            "x": 5450,
+            "y": 5650
+          }
+        },
+        {
+          "id": "VALIDATE_REQUEST_GET_MANAGERS_INFO",
+          "code": "VALIDATE_REQUEST_GET_MANAGERS_INFO",
+          "type": "CODE",
+          "metadata": {
+            "name": "Validate Request Get Managers Info",
+            "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
+            "returnType": "object",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$triggers.REST.$input.personId),\"personId\");\nchecked[\"assignmentId\"]=id(($context.$nodes.GET_ASSIGNMENTID.$output.result),\"assignmentId\");\nreturn checked;",
+            "errorNodeId": "HR_REQUEST_REJECTED"
+          },
+          "outcomes": {
+            "success": "1777367934644"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "diagram": {
+            "x": 5000,
+            "y": 6538
+          }
+        },
+        {
+          "id": "HR_REQUEST_REJECTED",
+          "code": "HR_REQUEST_REJECTED",
+          "type": "RETURN",
+          "metadata": {
+            "name": "Reject Invalid HR Request"
+          },
+          "inputs": [
+            {
+              "name": "returnValue",
+              "type": "string",
+              "value": "The HR request contains invalid or unsupported parameters."
+            }
+          ],
+          "outcomes": {},
+          "diagram": {
+            "x": 5850,
+            "y": 5000
+          }
         }
       ],
       "rootNode": "start",
@@ -183,7 +267,17 @@
         }
       ]
     },
-    "modelConfiguration": null,
+    "modelConfiguration": {
+      "code": "ORA_MODEL_GPT_6_LUNA",
+      "modelName": "GPT-6 Luna (Balanced)",
+      "provider": "CERT_PREMIUM",
+      "model": "OCI_GPT_6_LUNA",
+      "modelProperties": {
+        "max_completion_tokens": 32000,
+        "reasoning_effort": "medium",
+        "verbosity": "medium"
+      }
+    },
     "humanApprovalFlag": false,
     "waitFlag": false,
     "triggers": [
@@ -230,5 +324,6 @@
   "customizationPolicy": null,
   "isTemplate": false,
   "emailConfigCode": null,
-  "jobRequestId": null
+  "jobRequestId": null,
+  "header": {}
 }

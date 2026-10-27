@@ -21,7 +21,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5146,
+            "x": 5122,
             "y": 5000
           }
         },
@@ -35,14 +35,35 @@
             "sourceCode": "function hasValue(v) {\n  return v !== null && v !== undefined && String(v).trim() !== \"\";\n}\n\nfunction addTermsFilter(filtersArray, name, value) {\n  if (hasValue(value)) {\n    filtersArray.push({\n      name: name,\n      terms: [String(value).trim()]\n    });\n  }\n}\n\nlet filtersArray = [];\nlet selectedFacet = null;\nlet selectedFacetValue = null;\n\n// Pick ONE input as facet + facetValueQuery (first non-empty in priority order)\nif (hasValue($context.$triggers.REST.$input.LocationName)) {\n  selectedFacet = \"LocationName\";\n  selectedFacetValue = $context.$triggers.REST.$input.LocationName;\n} else if (hasValue($context.$triggers.REST.$input.LocationCode)) {\n  selectedFacet = \"LocationCode\";\n  selectedFacetValue = $context.$triggers.REST.$input.LocationCode;\n} else if (hasValue($context.$triggers.REST.$input.JobName)) {\n  selectedFacet = \"JobName\";\n  selectedFacetValue = $context.$triggers.REST.$input.JobName;\n} else if (hasValue($context.$triggers.REST.$input.JobCode)) {\n  selectedFacet = \"JobCode\";\n  selectedFacetValue = $context.$triggers.REST.$input.JobCode;\n} else if (hasValue($context.$triggers.REST.$input.GradeName)) {\n  selectedFacet = \"GradeName\";\n  selectedFacetValue = $context.$triggers.REST.$input.GradeName;\n} else if (hasValue($context.$triggers.REST.$input.GradeCode)) {\n  selectedFacet = \"GradeCode\";\n  selectedFacetValue = $context.$triggers.REST.$input.GradeCode;\n} else if (hasValue($context.$triggers.REST.$input.DepartmentName)) {\n  selectedFacet = \"DepartmentName\";\n  selectedFacetValue = $context.$triggers.REST.$input.DepartmentName;\n} else if (hasValue($context.$triggers.REST.$input.PositionName)) {\n  selectedFacet = \"PositionName\";\n  selectedFacetValue = $context.$triggers.REST.$input.PositionName;\n} else if (hasValue($context.$triggers.REST.$input.PositionCode)) {\n  selectedFacet = \"PositionCode\";\n  selectedFacetValue = $context.$triggers.REST.$input.PositionCode;\n} else if (hasValue($context.$triggers.REST.$input.BusinessUnitName)) {\n  selectedFacet = \"BusinessUnitName\";\n  selectedFacetValue = $context.$triggers.REST.$input.BusinessUnitName;\n}\n\nlet payload = {\n  securityFilters: {\n    type: \"PersonSearch\",\n    value: \"AdvancedSearch\"\n  }\n};\n\nif (hasValue(selectedFacet)) {\n  payload.facets = [selectedFacet];\n}\n\nif (hasValue(selectedFacetValue)) {\n  payload.facetValueQuery = String(selectedFacetValue).trim();\n}\n\n// Add the rest as filters, skipping the selected facet field\nif (selectedFacet !== \"LocationName\") {\n  if (hasValue($context.$triggers.REST.$input.LocationName)) {\n    addTermsFilter(filtersArray, \"LocationName\", $context.$triggers.REST.$input.LocationName);\n  } else if (hasValue($context.$triggers.REST.$input.LocationCode)) {\n    addTermsFilter(filtersArray, \"LocationCode\", $context.$triggers.REST.$input.LocationCode);\n  }\n}\n\nif (selectedFacet !== \"JobName\") {\n  if (hasValue($context.$triggers.REST.$input.JobName)) {\n    addTermsFilter(filtersArray, \"JobName\", $context.$triggers.REST.$input.JobName);\n  } else if (hasValue($context.$triggers.REST.$input.JobCode)) {\n    addTermsFilter(filtersArray, \"JobCode\", $context.$triggers.REST.$input.JobCode);\n  }\n}\n\nif (selectedFacet !== \"GradeName\") {\n  if (hasValue($context.$triggers.REST.$input.GradeName)) {\n    addTermsFilter(filtersArray, \"GradeName\", $context.$triggers.REST.$input.GradeName);\n  } else if (hasValue($context.$triggers.REST.$input.GradeCode)) {\n    addTermsFilter(filtersArray, \"GradeCode\", $context.$triggers.REST.$input.GradeCode);\n  }\n}\n\nif (selectedFacet !== \"DepartmentName\") {\n  if (hasValue($context.$triggers.REST.$input.DepartmentName)) {\n    addTermsFilter(filtersArray, \"DepartmentName\", $context.$triggers.REST.$input.DepartmentName);\n  }\n}\n\nif (selectedFacet !== \"PositionName\") {\n  if (hasValue($context.$triggers.REST.$input.PositionName)) {\n    addTermsFilter(filtersArray, \"PositionName\", $context.$triggers.REST.$input.PositionName);\n  } else if (hasValue($context.$triggers.REST.$input.PositionCode)) {\n    addTermsFilter(filtersArray, \"PositionCode\", $context.$triggers.REST.$input.PositionCode);\n  }\n}\n\nif (selectedFacet !== \"BusinessUnitName\") {\n  if (hasValue($context.$triggers.REST.$input.BusinessUnitName)) {\n    addTermsFilter(filtersArray, \"BusinessUnitName\", $context.$triggers.REST.$input.BusinessUnitName);\n  }\n}\n\n// Only add filters if any exist\nif (filtersArray.length > 0) {\n  payload.filters = filtersArray;\n}\n\n\n$context.$variables.inputFacet = selectedFacetValue;\nreturn payload;\n"
           },
           "outcomes": {
-            "success": "1777374487772"
+            "success": "VALIDATE_REQUEST_GET_WORKER_DETAILS"
           },
           "inputs": [],
           "diagram": {
-            "x": 5024,
+            "x": 5000,
             "y": 5206
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "VALIDATE_REQUEST_GET_WORKER_DETAILS",
+          "code": "VALIDATE_REQUEST_GET_WORKER_DETAILS",
+          "type": "CODE",
+          "metadata": {
+            "name": "Validate Request Get Worker Details",
+            "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
+            "returnType": "object",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\nfunction page(value,name,min,max) {\n  if(typeof value!==\"number\" && typeof value!==\"string\") reject(name);\n  if(typeof value===\"string\" && !/^[0-9]{1,7}$/.test(value.trim())) reject(name);\n  const number=Number(value);if(!Number.isSafeInteger(number)||number<min||number>max) reject(name);return number;\n}\nfunction ownKeys(value,allowed) {\n  if(!value || typeof value!==\"object\" || Array.isArray(value)) reject(\"payload\");\n  Object.keys(value).forEach(function(k){if(allowed.indexOf(k)<0) reject(k);});\n}\nfunction plain(value,name,max) {\n  if(typeof value!==\"string\" || value.length>max || /[\\u0000-\\u001f\\u007f-\\u009f\\u202a-\\u202e\\u2066-\\u2069]/.test(value)) reject(name);return value;\n}\nfunction search(value,aggregation,expectedSecurity,expectedFields) {\n  if(typeof value === \"string\") {if(value.length>100000) reject(\"payload\");value=JSON.parse(value);}\n  ownKeys(value,aggregation ? [\"securityFilters\",\"facets\",\"facetValueQuery\",\"query\",\"searchFields\",\"filters\",\"offset\",\"limit\"] : [\"securityFilters\",\"displayFields\",\"query\",\"searchFields\",\"filters\",\"offset\",\"limit\"]);\n  // These fields belong to the authored operation, never a client payload.\n  if(JSON.stringify(value.securityFilters)!==JSON.stringify(expectedSecurity)) {\n    const security=value.securityFilters;ownKeys(security,[\"type\",\"value\",\"context\"]);\n    if(security.type!==expectedSecurity.type || security.value!==expectedSecurity.value || security.context!==expectedSecurity.context) reject(\"securityFilters\");\n  }\n  value.securityFilters=expectedSecurity;\n  if(!aggregation) {\n    if(!Array.isArray(value.displayFields) || value.displayFields.length!==expectedFields.length || value.displayFields.some(function(field,i){return field!==expectedFields[i];})) reject(\"displayFields\");\n    value.displayFields=expectedFields;\n  }\n  const names=[\"PersonName\",\"DisplayName\",\"PersonId\",\"PersonNumber\",\"AssignmentId\",\"AssignmentNumber\",\"Manager\",\"Reports\",\"JobId\",\"JobName\",\"JobCode\",\"DepartmentName\",\"PositionId\",\"PositionName\",\"PositionCode\",\"LocationId\",\"LocationName\",\"LocationCode\",\"GradeId\",\"GradeName\",\"GradeCode\",\"BusinessUnitId\",\"BusinessUnitName\",\"Country\",\"City\",\"Timezone\",\"TimeZone\",\"WorkPhone\",\"WorkEmail\",\"ManagerReports\",\"PrimaryAssignmentOnly\"];\n  if(value.filters!==undefined) {\n    if(!Array.isArray(value.filters)||value.filters.length>30) reject(\"filters\");\n    value.filters.forEach(function(filter){\n      ownKeys(filter,[\"name\",\"terms\",\"term\",\"value\"]);\n      if(names.indexOf(filter.name)<0) reject(\"filter name\");\n      const slots=[\"terms\",\"term\",\"value\"].filter(function(k){return Object.prototype.hasOwnProperty.call(filter,k);});if(slots.length!==1) reject(\"filter value\");\n      if(filter.name===\"ManagerReports\") {if(slots[0]!==\"value\" || [\"DIRECTS\",\"ALL\"].indexOf(filter.value)<0) reject(\"ManagerReports\");return;}\n      if(filter.name===\"PrimaryAssignmentOnly\") {if(slots[0]!==\"value\" || filter.value!==true) reject(\"PrimaryAssignmentOnly\");return;}\n      const values=slots[0]===\"terms\" ? filter.terms : [filter[slots[0]]];if(!Array.isArray(values)||!values.length||values.length>20) reject(\"terms\");\n      values.forEach(function(v){if(/(?:Id|ID)$/.test(filter.name)||[\"Manager\",\"Reports\"].indexOf(filter.name)>=0) id(v,filter.name);else plain(v,filter.name,500);});\n    });\n  }\n  if(value.query!==undefined) plain(value.query,\"query\",500);\n  if(value.facetValueQuery!==undefined) plain(value.facetValueQuery,\"facetValueQuery\",500);\n  if(value.searchFields!==undefined && (JSON.stringify(value.searchFields)!=='[\"DisplayName\"]')) reject(\"searchFields\");\n  if(aggregation) {if(!Array.isArray(value.facets)||value.facets.length!==1||[\"JobName\",\"JobCode\",\"DepartmentName\",\"PositionName\",\"PositionCode\",\"LocationName\",\"LocationCode\",\"GradeName\",\"GradeCode\",\"BusinessUnitName\"].indexOf(value.facets[0])<0) reject(\"facets\");}\n  if(value.offset!==undefined) value.offset=page(value.offset,\"offset\",0,1000000);\n  if(value.limit!==undefined) value.limit=page(value.limit,\"limit\",1,500);\n  return JSON.stringify(value);\n}\n\nconst checked={};\nchecked[\"payload\"]=search(($context.$nodes.CREATE_PAYLOAD.$output.result),true,{\"type\": \"PersonSearch\", \"value\": \"AdvancedSearch\"},[\"PersonId\", \"DisplayName\", \"AssignmentNumber\", \"AssignmentId\", \"LocationName\", \"DepartmentName\", \"JobName\", \"PositionName\", \"BusinessUnitName\", \"ManagerDisplayName\"]);\nreturn checked;",
+            "errorNodeId": "HR_REQUEST_REJECTED"
+          },
+          "outcomes": {
+            "success": "1777374487772"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "diagram": {
+            "x": 5000,
+            "y": 5428
+          }
         },
         {
           "id": "1777374487772",
@@ -61,12 +82,12 @@
               "id": "1778143017126_1",
               "name": "payload",
               "type": "string",
-              "value": "{{$context.$nodes.CREATE_PAYLOAD.$output.result}}"
+              "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_WORKER_DETAILS.$output.result.payload}}"
             }
           ],
           "diagram": {
-            "x": 5024,
-            "y": 5428
+            "x": 5000,
+            "y": 5650
           },
           "outputSpecification": "{}"
         },
@@ -86,7 +107,7 @@
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
             "x": 5000,
-            "y": 5650
+            "y": 5872
           }
         },
         {
@@ -97,8 +118,8 @@
             "name": "Result"
           },
           "diagram": {
-            "x": 4883.24776679057,
-            "y": 5870.76416438728
+            "x": 5000,
+            "y": 6094
           },
           "outcomes": {},
           "inputs": [
@@ -109,6 +130,26 @@
               "value": "{{$context.$nodes.FIRST_RESULT.$output.result}}"
             }
           ]
+        },
+        {
+          "id": "HR_REQUEST_REJECTED",
+          "code": "HR_REQUEST_REJECTED",
+          "type": "RETURN",
+          "metadata": {
+            "name": "Reject Invalid HR Request"
+          },
+          "inputs": [
+            {
+              "name": "returnValue",
+              "type": "string",
+              "value": "The HR request contains invalid or unsupported parameters."
+            }
+          ],
+          "outcomes": {},
+          "diagram": {
+            "x": 5400,
+            "y": 5000
+          }
         },
         {
           "id": "end",
@@ -159,7 +200,17 @@
         }
       ]
     },
-    "modelConfiguration": null,
+    "modelConfiguration": {
+      "code": "ORA_MODEL_GPT_6_LUNA",
+      "modelName": "GPT-6 Luna (Balanced)",
+      "provider": "CERT_PREMIUM",
+      "model": "OCI_GPT_6_LUNA",
+      "modelProperties": {
+        "max_completion_tokens": 32000,
+        "reasoning_effort": "medium",
+        "verbosity": "medium"
+      }
+    },
     "humanApprovalFlag": false,
     "waitFlag": false,
     "triggers": [
@@ -300,5 +351,6 @@
   "customizationPolicy": null,
   "isTemplate": false,
   "emailConfigCode": null,
-  "jobRequestId": null
+  "jobRequestId": null,
+  "header": {}
 }

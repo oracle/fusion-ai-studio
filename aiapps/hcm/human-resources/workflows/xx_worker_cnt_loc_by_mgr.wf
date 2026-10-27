@@ -19,7 +19,11 @@
           "outcomes": {
             "success": "1777550487606"
           },
-          "inputs": []
+          "inputs": [],
+          "diagram": {
+            "x": 5572,
+            "y": 5000
+          }
         },
         {
           "id": "end",
@@ -45,7 +49,11 @@
             "success": "1777550506265"
           },
           "inputs": [],
-          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "diagram": {
+            "x": 5450,
+            "y": 5650
+          }
         },
         {
           "id": "1777550525211",
@@ -60,7 +68,11 @@
             "success": "end"
           },
           "inputs": [],
-          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"additionalProperties\": true\n      }\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "diagram": {
+            "x": 5450,
+            "y": 6538
+          }
         },
         {
           "id": "1777550506265",
@@ -70,7 +82,7 @@
             "name": "checkManagerId"
           },
           "outcomes": {
-            "true": "1777550589991",
+            "true": "VALIDATE_REQUEST_WORKERCOUNTBYMANAGERANDLOCATION",
             "false": "1777550525211"
           },
           "inputs": [
@@ -81,7 +93,11 @@
               "value": "{{$context.$nodes.GET_QUERY_TYPE.$output.result == \"ManagerId\"}}"
             }
           ],
-          "convergenceTargetId": "1777550525211"
+          "convergenceTargetId": "1777550525211",
+          "diagram": {
+            "x": 5450,
+            "y": 5872
+          }
         },
         {
           "id": "add_false_1777550506265",
@@ -102,7 +118,6 @@
           "metadata": {
             "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkerCount",
-            "processJson": true,
             "name": "Get Worker Count by Manager and Location",
             "description": "Returns worker aggregation counts using the supplied workerAggregationsV2 JSON payload."
           },
@@ -113,12 +128,57 @@
             {
               "id": "1777550613713_1",
               "name": "payload",
-              "value": "{\n  \"facets\": [\n    \"LocationName\"\n  ],\n  \"securityFilters\": {\n    \"type\": \"PersonSearch\",\n    \"value\": \"AdvancedSearch\"\n  },\n  \"filters\": [\n    {\n      \"name\": \"Reports\",\n      \"value\": \"{{$context.$triggers.REST.$input.managerId}}\"\n    },\n    {\n      \"name\": \"PrimaryAssignmentOnly\",\n      \"value\": true\n    }\n  ]\n}",
+              "value": "{{$context.$nodes.VALIDATE_REQUEST_WORKERCOUNTBYMANAGERANDLOCATION.$output.result.payload}}",
               "required": false,
               "type": "string"
             }
           ],
-          "outputSpecification": "{}"
+          "outputSpecification": "{}",
+          "diagram": {
+            "x": 5000,
+            "y": 6316
+          }
+        },
+        {
+          "id": "VALIDATE_REQUEST_WORKERCOUNTBYMANAGERANDLOCATION",
+          "code": "VALIDATE_REQUEST_WORKERCOUNTBYMANAGERANDLOCATION",
+          "type": "CODE",
+          "metadata": {
+            "name": "Validate Request Workercountbymanagerandlocation",
+            "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
+            "returnType": "object",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\nfunction page(value,name,min,max) {\n  if(typeof value!==\"number\" && typeof value!==\"string\") reject(name);\n  if(typeof value===\"string\" && !/^[0-9]{1,7}$/.test(value.trim())) reject(name);\n  const number=Number(value);if(!Number.isSafeInteger(number)||number<min||number>max) reject(name);return number;\n}\nfunction ownKeys(value,allowed) {\n  if(!value || typeof value!==\"object\" || Array.isArray(value)) reject(\"payload\");\n  Object.keys(value).forEach(function(k){if(allowed.indexOf(k)<0) reject(k);});\n}\nfunction plain(value,name,max) {\n  if(typeof value!==\"string\" || value.length>max || /[\\u0000-\\u001f\\u007f-\\u009f\\u202a-\\u202e\\u2066-\\u2069]/.test(value)) reject(name);return value;\n}\nfunction search(value,aggregation,expectedSecurity,expectedFields) {\n  if(typeof value === \"string\") {if(value.length>100000) reject(\"payload\");value=JSON.parse(value);}\n  ownKeys(value,aggregation ? [\"securityFilters\",\"facets\",\"facetValueQuery\",\"query\",\"searchFields\",\"filters\",\"offset\",\"limit\"] : [\"securityFilters\",\"displayFields\",\"query\",\"searchFields\",\"filters\",\"offset\",\"limit\"]);\n  // These fields belong to the authored operation, never a client payload.\n  if(JSON.stringify(value.securityFilters)!==JSON.stringify(expectedSecurity)) {\n    const security=value.securityFilters;ownKeys(security,[\"type\",\"value\",\"context\"]);\n    if(security.type!==expectedSecurity.type || security.value!==expectedSecurity.value || security.context!==expectedSecurity.context) reject(\"securityFilters\");\n  }\n  value.securityFilters=expectedSecurity;\n  if(!aggregation) {\n    if(!Array.isArray(value.displayFields) || value.displayFields.length!==expectedFields.length || value.displayFields.some(function(field,i){return field!==expectedFields[i];})) reject(\"displayFields\");\n    value.displayFields=expectedFields;\n  }\n  const names=[\"PersonName\",\"DisplayName\",\"PersonId\",\"PersonNumber\",\"AssignmentId\",\"AssignmentNumber\",\"Manager\",\"Reports\",\"JobId\",\"JobName\",\"JobCode\",\"DepartmentName\",\"PositionId\",\"PositionName\",\"PositionCode\",\"LocationId\",\"LocationName\",\"LocationCode\",\"GradeId\",\"GradeName\",\"GradeCode\",\"BusinessUnitId\",\"BusinessUnitName\",\"Country\",\"City\",\"Timezone\",\"TimeZone\",\"WorkPhone\",\"WorkEmail\",\"ManagerReports\",\"PrimaryAssignmentOnly\"];\n  if(value.filters!==undefined) {\n    if(!Array.isArray(value.filters)||value.filters.length>30) reject(\"filters\");\n    value.filters.forEach(function(filter){\n      ownKeys(filter,[\"name\",\"terms\",\"term\",\"value\"]);\n      if(names.indexOf(filter.name)<0) reject(\"filter name\");\n      const slots=[\"terms\",\"term\",\"value\"].filter(function(k){return Object.prototype.hasOwnProperty.call(filter,k);});if(slots.length!==1) reject(\"filter value\");\n      if(filter.name===\"ManagerReports\") {if(slots[0]!==\"value\" || [\"DIRECTS\",\"ALL\"].indexOf(filter.value)<0) reject(\"ManagerReports\");return;}\n      if(filter.name===\"PrimaryAssignmentOnly\") {if(slots[0]!==\"value\" || filter.value!==true) reject(\"PrimaryAssignmentOnly\");return;}\n      const values=slots[0]===\"terms\" ? filter.terms : [filter[slots[0]]];if(!Array.isArray(values)||!values.length||values.length>20) reject(\"terms\");\n      values.forEach(function(v){if(/(?:Id|ID)$/.test(filter.name)||[\"Manager\",\"Reports\"].indexOf(filter.name)>=0) id(v,filter.name);else plain(v,filter.name,500);});\n    });\n  }\n  if(value.query!==undefined) plain(value.query,\"query\",500);\n  if(value.facetValueQuery!==undefined) plain(value.facetValueQuery,\"facetValueQuery\",500);\n  if(value.searchFields!==undefined && (JSON.stringify(value.searchFields)!=='[\"DisplayName\"]')) reject(\"searchFields\");\n  if(aggregation) {if(!Array.isArray(value.facets)||value.facets.length!==1||[\"JobName\",\"JobCode\",\"DepartmentName\",\"PositionName\",\"PositionCode\",\"LocationName\",\"LocationCode\",\"GradeName\",\"GradeCode\",\"BusinessUnitName\"].indexOf(value.facets[0])<0) reject(\"facets\");}\n  if(value.offset!==undefined) value.offset=page(value.offset,\"offset\",0,1000000);\n  if(value.limit!==undefined) value.limit=page(value.limit,\"limit\",1,500);\n  return JSON.stringify(value);\n}\n\nconst checked={};\nchecked[\"payload\"]=search({\"facets\":[\"LocationName\"],\"securityFilters\":{\"type\":\"PersonSearch\",\"value\":\"AdvancedSearch\"},\"filters\":[{\"name\":\"Reports\",\"value\":($context.$triggers.REST.$input.managerId)},{\"name\":\"PrimaryAssignmentOnly\",\"value\":true}]},true,{\"type\": \"PersonSearch\", \"value\": \"AdvancedSearch\"},[\"PersonId\", \"DisplayName\", \"AssignmentNumber\", \"AssignmentId\", \"LocationName\", \"DepartmentName\", \"JobName\", \"PositionName\", \"BusinessUnitName\", \"ManagerDisplayName\"]);\nreturn checked;",
+            "errorNodeId": "HR_REQUEST_REJECTED"
+          },
+          "outcomes": {
+            "success": "1777550589991"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "diagram": {
+            "x": 5000,
+            "y": 6094
+          }
+        },
+        {
+          "id": "HR_REQUEST_REJECTED",
+          "code": "HR_REQUEST_REJECTED",
+          "type": "RETURN",
+          "metadata": {
+            "name": "Reject Invalid HR Request"
+          },
+          "inputs": [
+            {
+              "name": "returnValue",
+              "type": "string",
+              "value": "The HR request contains invalid or unsupported parameters."
+            }
+          ],
+          "outcomes": {},
+          "diagram": {
+            "x": 5850,
+            "y": 5000
+          }
         }
       ],
       "rootNode": "start",
@@ -151,7 +211,17 @@
         }
       ]
     },
-    "modelConfiguration": null,
+    "modelConfiguration": {
+      "code": "ORA_MODEL_GPT_6_LUNA",
+      "modelName": "GPT-6 Luna (Balanced)",
+      "provider": "CERT_PREMIUM",
+      "model": "OCI_GPT_6_LUNA",
+      "modelProperties": {
+        "max_completion_tokens": 32000,
+        "reasoning_effort": "medium",
+        "verbosity": "medium"
+      }
+    },
     "humanApprovalFlag": false,
     "waitFlag": false,
     "triggers": [
@@ -198,5 +268,6 @@
   "customizationPolicy": null,
   "isTemplate": false,
   "emailConfigCode": null,
-  "jobRequestId": null
+  "jobRequestId": null,
+  "header": {}
 }

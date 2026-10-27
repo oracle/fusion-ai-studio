@@ -21,7 +21,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5327,
+            "x": 5572,
             "y": 5000
           }
         },
@@ -39,8 +39,8 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5225,
-            "y": 5246
+            "x": 5450,
+            "y": 5206
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -64,8 +64,8 @@
             }
           ],
           "diagram": {
-            "x": 5144,
-            "y": 5410
+            "x": 5450,
+            "y": 5428
           },
           "convergenceTargetId": "1777025762930"
         },
@@ -76,7 +76,6 @@
           "metadata": {
             "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersCountByDepartmentName",
-            "processJson": true,
             "name": "Get Worker Count by Department Name",
             "description": "Returns the number of workers whose department name matches the supplied value."
           },
@@ -93,8 +92,8 @@
             }
           ],
           "diagram": {
-            "x": 4925,
-            "y": 5690
+            "x": 5000,
+            "y": 5650
           },
           "convergenceTargetId": "1778058320561",
           "outputSpecification": "{}"
@@ -113,10 +112,30 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5319,
-            "y": 5895
+            "x": 5450,
+            "y": 5872
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "HR_REQUEST_REJECTED",
+          "code": "HR_REQUEST_REJECTED",
+          "type": "RETURN",
+          "metadata": {
+            "name": "Reject Invalid HR Request"
+          },
+          "inputs": [
+            {
+              "name": "returnValue",
+              "type": "string",
+              "value": "The HR request could not be verified."
+            }
+          ],
+          "outcomes": {},
+          "diagram": {
+            "x": 5850,
+            "y": 5000
+          }
         },
         {
           "id": "end",
@@ -160,7 +179,17 @@
         }
       ]
     },
-    "modelConfiguration": null,
+    "modelConfiguration": {
+      "code": "ORA_MODEL_GPT_6_LUNA",
+      "modelName": "GPT-6 Luna (Balanced)",
+      "provider": "CERT_PREMIUM",
+      "model": "OCI_GPT_6_LUNA",
+      "modelProperties": {
+        "max_completion_tokens": 32000,
+        "reasoning_effort": "medium",
+        "verbosity": "medium"
+      }
+    },
     "humanApprovalFlag": false,
     "waitFlag": false,
     "triggers": [
@@ -207,5 +236,6 @@
   "customizationPolicy": null,
   "isTemplate": false,
   "emailConfigCode": null,
-  "jobRequestId": null
+  "jobRequestId": null,
+  "header": {}
 }

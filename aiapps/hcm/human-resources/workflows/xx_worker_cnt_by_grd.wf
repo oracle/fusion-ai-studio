@@ -19,18 +19,11 @@
           "outcomes": {
             "success": "1776414658197"
           },
-          "inputs": []
-        },
-        {
-          "id": "end",
-          "code": "END",
-          "type": "END",
-          "metadata": {
-            "description": "End of data pipeline",
-            "name": "End"
-          },
-          "outcomes": {},
-          "inputs": []
+          "inputs": [],
+          "diagram": {
+            "x": 5347,
+            "y": 5000
+          }
         },
         {
           "id": "1776414658197",
@@ -45,22 +38,11 @@
             "success": "1776414770496"
           },
           "inputs": [],
-          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"string\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
-        },
-        {
-          "id": "1776414691862",
-          "code": "MODIFY_RESPONSE",
-          "type": "CODE",
-          "metadata": {
-            "name": "Modify Response",
-            "returnType": "number",
-            "sourceCode": "const type = $context.$nodes.GET_QUERY_TYPE.$output.result;\nlet response = {};\n\nif (type === \"GradeName\") {\n  response = $context.$nodes.GET_WORKER_COUNT_BY_GRADE_NAME?.$output ?? {};\n} else if (type === \"GradeCode\") {\n  response = $context.$nodes.GET_WORKER_COUNT_BY_GRADE_CODE?.$output ?? {};\n}\n\nreturn response?.facets?.[0]?.values?.[0]?.count ?? 0;"
-          },
-          "outcomes": {
-            "success": "end"
-          },
-          "inputs": [],
-          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "diagram": {
+            "x": 5225,
+            "y": 5206
+          }
         },
         {
           "id": "1776414770496",
@@ -81,7 +63,11 @@
               "value": "{{$context.$nodes.GET_QUERY_TYPE.$output.result}}"
             }
           ],
-          "convergenceTargetId": "1776414691862"
+          "convergenceTargetId": "1776414691862",
+          "diagram": {
+            "x": 5225,
+            "y": 5428
+          }
         },
         {
           "id": "1776414795026",
@@ -90,7 +76,6 @@
           "metadata": {
             "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersCountByGradeCode",
-            "processJson": true,
             "name": "Get Worker Count by Grade Code",
             "description": "Returns the number of workers whose grade code matches the supplied value."
           },
@@ -106,7 +91,30 @@
               "required": true
             }
           ],
-          "outputSpecification": "{}"
+          "outputSpecification": "{}",
+          "diagram": {
+            "x": 5000,
+            "y": 5650
+          }
+        },
+        {
+          "id": "1776414691862",
+          "code": "MODIFY_RESPONSE",
+          "type": "CODE",
+          "metadata": {
+            "name": "Modify Response",
+            "returnType": "number",
+            "sourceCode": "const type = $context.$nodes.GET_QUERY_TYPE.$output.result;\nlet response = {};\n\nif (type === \"GradeName\") {\n  response = $context.$nodes.GET_WORKER_COUNT_BY_GRADE_NAME?.$output ?? {};\n} else if (type === \"GradeCode\") {\n  response = $context.$nodes.GET_WORKER_COUNT_BY_GRADE_CODE?.$output ?? {};\n}\n\nreturn response?.facets?.[0]?.values?.[0]?.count ?? 0;"
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "diagram": {
+            "x": 5225,
+            "y": 5872
+          }
         },
         {
           "id": "1776414892191",
@@ -115,7 +123,6 @@
           "metadata": {
             "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersCountByGradeName",
-            "processJson": true,
             "name": "Get Worker Count by Grade Name",
             "description": "Returns the number of workers whose grade name matches the supplied value."
           },
@@ -131,7 +138,42 @@
               "required": true
             }
           ],
-          "outputSpecification": "{}"
+          "outputSpecification": "{}",
+          "diagram": {
+            "x": 5450,
+            "y": 5650
+          }
+        },
+        {
+          "id": "HR_REQUEST_REJECTED",
+          "code": "HR_REQUEST_REJECTED",
+          "type": "RETURN",
+          "metadata": {
+            "name": "Reject Invalid HR Request"
+          },
+          "inputs": [
+            {
+              "name": "returnValue",
+              "type": "string",
+              "value": "The HR request could not be verified."
+            }
+          ],
+          "outcomes": {},
+          "diagram": {
+            "x": 5850,
+            "y": 5000
+          }
+        },
+        {
+          "id": "end",
+          "code": "END",
+          "type": "END",
+          "metadata": {
+            "description": "End of data pipeline",
+            "name": "End"
+          },
+          "outcomes": {},
+          "inputs": []
         }
       ],
       "rootNode": "start",
@@ -164,7 +206,17 @@
         }
       ]
     },
-    "modelConfiguration": null,
+    "modelConfiguration": {
+      "code": "ORA_MODEL_GPT_6_LUNA",
+      "modelName": "GPT-6 Luna (Balanced)",
+      "provider": "CERT_PREMIUM",
+      "model": "OCI_GPT_6_LUNA",
+      "modelProperties": {
+        "max_completion_tokens": 32000,
+        "reasoning_effort": "medium",
+        "verbosity": "medium"
+      }
+    },
     "humanApprovalFlag": false,
     "waitFlag": false,
     "triggers": [
@@ -217,5 +269,6 @@
   "customizationPolicy": null,
   "isTemplate": false,
   "emailConfigCode": null,
-  "jobRequestId": null
+  "jobRequestId": null,
+  "header": {}
 }

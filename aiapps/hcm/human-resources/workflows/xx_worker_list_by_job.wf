@@ -21,7 +21,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5552,
+            "x": 5572,
             "y": 5000
           }
         },
@@ -40,9 +40,9 @@
           "inputs": [],
           "diagram": {
             "x": 5450,
-            "y": 5246
+            "y": 5650
           },
-          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"string\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
         {
           "id": "1777020311844",
@@ -52,7 +52,7 @@
             "name": "Switch Query"
           },
           "outcomes": {
-            "JobId": "1777020550809",
+            "JobId": "VALIDATE_REQUEST_GET_WORKER_DETAILS_BY_JOB_ID",
             "JobCode": "1777020639791",
             "JobName": "1777020688923"
           },
@@ -66,7 +66,7 @@
           ],
           "diagram": {
             "x": 5450,
-            "y": 5468
+            "y": 5872
           },
           "convergenceTargetId": "1777021035809"
         },
@@ -77,7 +77,6 @@
           "metadata": {
             "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersByJobId",
-            "processJson": true,
             "name": "Get Workers by Job Id",
             "description": "Lists workers whose job identifier matches the supplied value."
           },
@@ -88,14 +87,14 @@
             {
               "id": "1777020606439_1",
               "name": "jobId",
-              "type": "string",
-              "value": "{{$context.$triggers.REST.$input.jobId}}",
+              "type": "integer",
+              "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_WORKER_DETAILS_BY_JOB_ID.$output.result.jobId}}",
               "required": true
             }
           ],
           "diagram": {
             "x": 5000,
-            "y": 5690
+            "y": 6316
           },
           "outputSpecification": "{}"
         },
@@ -106,7 +105,6 @@
           "metadata": {
             "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersByJobCode",
-            "processJson": true,
             "name": "Get Workers by Job Code",
             "description": "Lists workers whose job code matches the supplied value."
           },
@@ -124,7 +122,7 @@
           ],
           "diagram": {
             "x": 5450,
-            "y": 5690
+            "y": 6094
           },
           "outputSpecification": "{}"
         },
@@ -135,7 +133,6 @@
           "metadata": {
             "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersByJobName",
-            "processJson": true,
             "name": "Get Workers by Job Name",
             "description": "Lists workers whose job name matches the supplied value."
           },
@@ -153,7 +150,7 @@
           ],
           "diagram": {
             "x": 5900,
-            "y": 5690
+            "y": 6094
           },
           "outputSpecification": "{}"
         },
@@ -172,9 +169,9 @@
           "inputs": [],
           "diagram": {
             "x": 5450,
-            "y": 5912
+            "y": 6538
           },
-          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"additionalProperties\": true\n      }\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
         {
           "id": "end",
@@ -186,6 +183,47 @@
           },
           "outcomes": {},
           "inputs": []
+        },
+        {
+          "id": "VALIDATE_REQUEST_GET_WORKER_DETAILS_BY_JOB_ID",
+          "code": "VALIDATE_REQUEST_GET_WORKER_DETAILS_BY_JOB_ID",
+          "type": "CODE",
+          "metadata": {
+            "name": "Validate Request Get Worker Details By Job Id",
+            "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
+            "returnType": "object",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"jobId\"]=id(($context.$triggers.REST.$input.jobId),\"jobId\");\nreturn checked;",
+            "errorNodeId": "HR_REQUEST_REJECTED"
+          },
+          "outcomes": {
+            "success": "1777020550809"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "diagram": {
+            "x": 5000,
+            "y": 6094
+          }
+        },
+        {
+          "id": "HR_REQUEST_REJECTED",
+          "code": "HR_REQUEST_REJECTED",
+          "type": "RETURN",
+          "metadata": {
+            "name": "Reject Invalid HR Request"
+          },
+          "inputs": [
+            {
+              "name": "returnValue",
+              "type": "string",
+              "value": "The HR request contains invalid or unsupported parameters."
+            }
+          ],
+          "outcomes": {},
+          "diagram": {
+            "x": 6300,
+            "y": 5000
+          }
         }
       ],
       "rootNode": "start",
@@ -218,7 +256,17 @@
         }
       ]
     },
-    "modelConfiguration": null,
+    "modelConfiguration": {
+      "code": "ORA_MODEL_GPT_6_LUNA",
+      "modelName": "GPT-6 Luna (Balanced)",
+      "provider": "CERT_PREMIUM",
+      "model": "OCI_GPT_6_LUNA",
+      "modelProperties": {
+        "max_completion_tokens": 32000,
+        "reasoning_effort": "medium",
+        "verbosity": "medium"
+      }
+    },
     "humanApprovalFlag": false,
     "waitFlag": false,
     "triggers": [
@@ -277,5 +325,6 @@
   "customizationPolicy": null,
   "isTemplate": false,
   "emailConfigCode": null,
-  "jobRequestId": null
+  "jobRequestId": null,
+  "header": {}
 }

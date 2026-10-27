@@ -1,0 +1,256 @@
+{
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "name": "Person Direct Reports",
+  "description": "Retrieves a manager's direct reports using person and assignment identifiers, with paging for larger teams. Returns worker identity, job, department, location, and work contact details, and provides direct-report and total-report counts for a worker assignment.",
+  "objectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONDIRECTREPORTS",
+  "family": "HCM",
+  "product": "GLOBAL_HUMAN_RESOURCES",
+  "objectSource": "ADF_BC",
+  "restResourcePath": "/hcmRestApi",
+  "restResourceIdentifier": "-1",
+  "seededFlag": false,
+  "mandatoryFlag": false,
+  "objectProperties": {
+    "jsonSchemaName": "supportedObjectProperties",
+    "jsonSchemaVersion": 1,
+    "baseUrlTMKey": "",
+    "serviceNameOverride": "",
+    "tools": [
+      {
+        "name": "get_directReports",
+        "description": "Retrieves a manager's direct reports using the manager person ID and assignment ID. Supports limit and offset paging and returns worker identity, assignment, and reporting-count details ordered by display name.",
+        "operationType": "GET",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/publicWorkers/{managerPersonId}/child/assignments/{managerAssignmentId}/child/directReports?onlyData=true&fields=PersonId,PersonNumber,DisplayName,AssignmentName,DirectReportsCount,AllReportsCount&limit={limit}&offset={offset}&orderBy=DisplayName",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "managerPersonId",
+            "dataType": "integer",
+            "description": "Manager person identifier used to retrieve direct report records.",
+            "id": 2,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "managerAssignmentId",
+            "dataType": "integer",
+            "description": "Manager assignment identifier used to retrieve direct report records.",
+            "id": 3,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "limit",
+            "dataType": "integer",
+            "description": "Maximum number of direct report records to return.",
+            "id": 4,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": "<limit>"
+          },
+          {
+            "name": "offset",
+            "dataType": "integer",
+            "description": "Zero-based offset used for paginated direct report results.",
+            "id": 5,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": "<offset>"
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Sample response for get_directReports.",
+            "query": {
+              "items": [
+                {
+                  "DisplayName": "<displayName>",
+                  "PersonDisplayName": "<personDisplayName>",
+                  "PersonId": "<personId>",
+                  "PersonNumber": "<personNumber>",
+                  "AssignmentId": "<assignmentId>",
+                  "AssignmentNumber": "<assignmentNumber>",
+                  "AssignmentName": "<assignmentName>",
+                  "DirectReportsCount": "<directReportsCount>",
+                  "AllReportsCount": "<allReportsCount>"
+                }
+              ],
+              "count": "<count>",
+              "hasMore": "<hasMore>",
+              "limit": "<limit>",
+              "offset": "<offset>"
+            },
+            "sampleType": "response"
+          }
+        ]
+      },
+      {
+        "name": "get_directReportDetails",
+        "description": "Returns direct-report display details, including job, department, location, work email, and work phone, for a manager assignment.",
+        "operationType": "POST",
+        "resourcePath": "/hcmRestApi/redwood/11.13.18.05/workerSearchesV2",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "{\n  \"securityFilters\": {\n    \"type\": \"QuickAction\",\n    \"value\": \"HRIdentificationInfo\",\n    \"context\": \"MyClientGroups\"\n  },\n  \"filters\": [\n    {\n      \"name\": \"Manager\",\n      \"terms\": [\"{managerAssignmentId}\"]\n    },\n    {\n      \"name\": \"ManagerReports\",\n      \"value\": \"DIRECTS\"\n    },\n    {\n      \"name\": \"PrimaryAssignmentOnly\",\n      \"value\": true\n    }\n  ],\n  \"displayFields\": [\n    \"PersonId\", \"PersonNumber\", \"DisplayName\", \"AssignmentId\", \"AssignmentNumber\", \"BusinessTitle\", \"JobName\", \"DepartmentName\", \"LocationName\", \"WorkEmail\", \"WorkPhone\"\n  ],\n  \"limit\": {limit},\n  \"offset\": {offset}\n}",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "managerAssignmentId",
+            "dataType": "integer",
+            "description": "Manager primary assignment identifier used by the Manager filter.",
+            "id": 8,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "limit",
+            "dataType": "integer",
+            "description": "Maximum number of direct rows to return.",
+            "id": 9,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": "25"
+          },
+          {
+            "name": "offset",
+            "dataType": "integer",
+            "description": "Zero-based result offset.",
+            "id": 10,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": "0"
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Sample direct-report detail response. Values are abstract placeholders and must be replaced with runtime data.",
+            "query": {
+              "items": [
+                {
+                  "PersonId": "<personId>",
+                  "PersonNumber": "<personNumber>",
+                  "DisplayName": "<displayName>",
+                  "AssignmentId": "<assignmentId>",
+                  "AssignmentNumber": "<assignmentNumber>",
+                  "BusinessTitle": "<businessTitle>",
+                  "JobName": "<jobName>",
+                  "DepartmentName": "<departmentName>",
+                  "LocationName": "<locationName>",
+                  "WorkEmail": "<workEmail>",
+                  "WorkPhone": "<workPhone>"
+                }
+              ],
+              "count": "<count>",
+              "hasMore": "<hasMore>",
+              "limit": "<limit>",
+              "offset": "<offset>"
+            },
+            "sampleType": "response"
+          }
+        ]
+      },
+      {
+        "name": "get_directReportCounts",
+        "description": "Returns the direct-report collection count for one worker assignment.",
+        "operationType": "GET",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/publicWorkers/{personId}/child/assignments/{assignmentId}/child/directReports?onlyData=true&totalResults=true&limit=1",
+        "resourceType": "ADF_BC_REST_RESOURCE",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "personId",
+            "dataType": "integer",
+            "description": "Worker person identifier used in the direct-reports resource path.",
+            "id": 13,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "assignmentId",
+            "dataType": "integer",
+            "description": "Worker assignment identifier used in the direct-reports resource path.",
+            "id": 14,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Sample response for get_directReportCounts with redacted field-name placeholders.",
+            "query": {
+              "items": [],
+              "totalResults": "<totalResults>",
+              "count": "<count>",
+              "hasMore": "<hasMore>",
+              "limit": "<limit>",
+              "offset": "<offset>"
+            },
+            "sampleType": "response"
+          }
+        ]
+      },
+      {
+        "name": "get_allReportCounts",
+        "description": "Returns the total all-reports count for one worker assignment.",
+        "operationType": "GET",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/publicWorkers/{personId}/child/assignments/{assignmentId}/child/allReports?onlyData=true&totalResults=true&limit=1",
+        "resourceType": "ADF_BC_REST_RESOURCE",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "personId",
+            "dataType": "integer",
+            "description": "Worker person identifier used in the all-reports resource path.",
+            "id": 17,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "assignmentId",
+            "dataType": "integer",
+            "description": "Worker assignment identifier used in the all-reports resource path.",
+            "id": 18,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Sample response for get_allReportCounts with redacted field-name placeholders.",
+            "query": {
+              "items": [],
+              "totalResults": "<totalResults>",
+              "count": "<count>",
+              "hasMore": "<hasMore>",
+              "limit": "<limit>",
+              "offset": "<offset>"
+            },
+            "sampleType": "response"
+          }
+        ]
+      }
+    ]
+  }
+}

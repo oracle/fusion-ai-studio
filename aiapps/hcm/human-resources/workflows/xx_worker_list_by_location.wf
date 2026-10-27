@@ -21,7 +21,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5655.5,
+            "x": 5572,
             "y": 5000
           }
         },
@@ -39,10 +39,10 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5553.5,
-            "y": 5246
+            "x": 5450,
+            "y": 5650
           },
-          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"string\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
         {
           "id": "1776325328264",
@@ -52,7 +52,7 @@
             "name": "Switch Query"
           },
           "outcomes": {
-            "LocationId": "1776327268502",
+            "LocationId": "VALIDATE_REQUEST_GET_PERSON_DETAILS_BY_LOCATION_ID",
             "LocationName": "1776327132104",
             "LocationCode": "1776325390919"
           },
@@ -65,8 +65,8 @@
             }
           ],
           "diagram": {
-            "x": 5611.5,
-            "y": 5494
+            "x": 5450,
+            "y": 5872
           },
           "convergenceTargetId": "1776342330315"
         },
@@ -77,7 +77,6 @@
           "metadata": {
             "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersByLocationId",
-            "processJson": true,
             "name": "Get Workers by Location Id",
             "description": "Lists workers whose location identifier matches the supplied value."
           },
@@ -88,14 +87,14 @@
             {
               "id": "1776327284439_1",
               "name": "locationId",
-              "type": "string",
-              "value": "{{$context.$triggers.REST.$input.locationId}}",
+              "type": "integer",
+              "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_PERSON_DETAILS_BY_LOCATION_ID.$output.result.locationId}}",
               "required": true
             }
           ],
           "diagram": {
             "x": 5000,
-            "y": 5690
+            "y": 6316
           },
           "outputSpecification": "{}"
         },
@@ -106,7 +105,6 @@
           "metadata": {
             "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersByLocationName",
-            "processJson": true,
             "name": "Get Workers by Location Name",
             "description": "Lists workers whose location name matches the supplied value."
           },
@@ -123,8 +121,8 @@
             }
           ],
           "diagram": {
-            "x": 5507,
-            "y": 5690
+            "x": 5450,
+            "y": 6094
           },
           "outputSpecification": "{}"
         },
@@ -135,7 +133,6 @@
           "metadata": {
             "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersByLocationCode",
-            "processJson": true,
             "name": "Get Workers by Location Code",
             "description": "Lists workers whose location code matches the supplied value."
           },
@@ -152,8 +149,8 @@
             }
           ],
           "diagram": {
-            "x": 6032,
-            "y": 5690
+            "x": 5900,
+            "y": 6094
           },
           "outputSpecification": "{}"
         },
@@ -171,11 +168,11 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5584.5,
-            "y": 5923
+            "x": 5450,
+            "y": 6538
           },
           "convergenceTargetId": "1776325328264",
-          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"additionalProperties\": true\n      }\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
         {
           "id": "end",
@@ -187,6 +184,47 @@
           },
           "outcomes": {},
           "inputs": []
+        },
+        {
+          "id": "VALIDATE_REQUEST_GET_PERSON_DETAILS_BY_LOCATION_ID",
+          "code": "VALIDATE_REQUEST_GET_PERSON_DETAILS_BY_LOCATION_ID",
+          "type": "CODE",
+          "metadata": {
+            "name": "Validate Request Get Person Details By Location Id",
+            "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
+            "returnType": "object",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"locationId\"]=id(($context.$triggers.REST.$input.locationId),\"locationId\");\nreturn checked;",
+            "errorNodeId": "HR_REQUEST_REJECTED"
+          },
+          "outcomes": {
+            "success": "1776327268502"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "diagram": {
+            "x": 5000,
+            "y": 6094
+          }
+        },
+        {
+          "id": "HR_REQUEST_REJECTED",
+          "code": "HR_REQUEST_REJECTED",
+          "type": "RETURN",
+          "metadata": {
+            "name": "Reject Invalid HR Request"
+          },
+          "inputs": [
+            {
+              "name": "returnValue",
+              "type": "string",
+              "value": "The HR request contains invalid or unsupported parameters."
+            }
+          ],
+          "outcomes": {},
+          "diagram": {
+            "x": 6300,
+            "y": 5000
+          }
         }
       ],
       "rootNode": "start",
@@ -219,7 +257,17 @@
         }
       ]
     },
-    "modelConfiguration": null,
+    "modelConfiguration": {
+      "code": "ORA_MODEL_GPT_6_LUNA",
+      "modelName": "GPT-6 Luna (Balanced)",
+      "provider": "CERT_PREMIUM",
+      "model": "OCI_GPT_6_LUNA",
+      "modelProperties": {
+        "max_completion_tokens": 32000,
+        "reasoning_effort": "medium",
+        "verbosity": "medium"
+      }
+    },
     "humanApprovalFlag": false,
     "waitFlag": false,
     "triggers": [
@@ -278,5 +326,6 @@
   "customizationPolicy": null,
   "isTemplate": false,
   "emailConfigCode": null,
-  "jobRequestId": null
+  "jobRequestId": null,
+  "header": {}
 }

@@ -21,7 +21,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5384,
+            "x": 5347,
             "y": 5000
           }
         },
@@ -39,10 +39,10 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5282,
-            "y": 5246
+            "x": 5225,
+            "y": 5206
           },
-          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"string\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
         {
           "id": "1776336326908",
@@ -64,8 +64,8 @@
             }
           ],
           "diagram": {
-            "x": 5282,
-            "y": 5468
+            "x": 5225,
+            "y": 5428
           },
           "convergenceTargetId": "1776343126705"
         },
@@ -76,7 +76,6 @@
           "metadata": {
             "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersCountByLocationCode",
-            "processJson": true,
             "name": "Get Worker Count by Location Code",
             "description": "Returns the number of workers whose location code matches the supplied value."
           },
@@ -94,39 +93,9 @@
           ],
           "diagram": {
             "x": 5000,
-            "y": 5690
+            "y": 5650
           },
           "convergenceTargetId": "1776336368929",
-          "outputSpecification": "{}"
-        },
-        {
-          "id": "1776336368929",
-          "code": "GET_WORKER_COUNT_BY_LOCATION_NAME",
-          "type": "BO_FUNCTION",
-          "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
-            "functionName": "GetWorkersCountByLocationName",
-            "processJson": true,
-            "name": "Get Worker Count by Location Name",
-            "description": "Returns the number of workers whose location name matches the supplied value."
-          },
-          "outcomes": {
-            "success": "1776343126705"
-          },
-          "inputs": [
-            {
-              "id": "1776336393445_1",
-              "name": "locationName",
-              "type": "string",
-              "value": "{{$context.$triggers.REST.$input.locationName}}",
-              "required": true
-            }
-          ],
-          "diagram": {
-            "x": 5439,
-            "y": 5679
-          },
-          "convergenceTargetId": "1776336577967",
           "outputSpecification": "{}"
         },
         {
@@ -143,10 +112,59 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5282,
-            "y": 5912
+            "x": 5225,
+            "y": 5872
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "1776336368929",
+          "code": "GET_WORKER_COUNT_BY_LOCATION_NAME",
+          "type": "BO_FUNCTION",
+          "metadata": {
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
+            "functionName": "GetWorkersCountByLocationName",
+            "name": "Get Worker Count by Location Name",
+            "description": "Returns the number of workers whose location name matches the supplied value."
+          },
+          "outcomes": {
+            "success": "1776343126705"
+          },
+          "inputs": [
+            {
+              "id": "1776336393445_1",
+              "name": "locationName",
+              "type": "string",
+              "value": "{{$context.$triggers.REST.$input.locationName}}",
+              "required": true
+            }
+          ],
+          "diagram": {
+            "x": 5450,
+            "y": 5650
+          },
+          "convergenceTargetId": "1776336577967",
+          "outputSpecification": "{}"
+        },
+        {
+          "id": "HR_REQUEST_REJECTED",
+          "code": "HR_REQUEST_REJECTED",
+          "type": "RETURN",
+          "metadata": {
+            "name": "Reject Invalid HR Request"
+          },
+          "inputs": [
+            {
+              "name": "returnValue",
+              "type": "string",
+              "value": "The HR request could not be verified."
+            }
+          ],
+          "outcomes": {},
+          "diagram": {
+            "x": 5850,
+            "y": 5000
+          }
         },
         {
           "id": "end",
@@ -190,7 +208,17 @@
         }
       ]
     },
-    "modelConfiguration": null,
+    "modelConfiguration": {
+      "code": "ORA_MODEL_GPT_6_LUNA",
+      "modelName": "GPT-6 Luna (Balanced)",
+      "provider": "CERT_PREMIUM",
+      "model": "OCI_GPT_6_LUNA",
+      "modelProperties": {
+        "max_completion_tokens": 32000,
+        "reasoning_effort": "medium",
+        "verbosity": "medium"
+      }
+    },
     "humanApprovalFlag": false,
     "waitFlag": false,
     "triggers": [
@@ -243,5 +271,6 @@
   "customizationPolicy": null,
   "isTemplate": false,
   "emailConfigCode": null,
-  "jobRequestId": null
+  "jobRequestId": null,
+  "header": {}
 }

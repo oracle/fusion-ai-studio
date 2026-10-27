@@ -17,11 +17,11 @@
             "name": "Start"
           },
           "outcomes": {
-            "success": "1777445873598"
+            "success": "VALIDATE_REQUEST_GETPERSONSENIORITY"
           },
           "inputs": [],
           "diagram": {
-            "x": 5126,
+            "x": 5122,
             "y": 5000
           }
         },
@@ -32,7 +32,6 @@
           "metadata": {
             "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_EMPLOYMENTGHR",
             "functionName": "GetPersonSeniorityInformation",
-            "processJson": true,
             "name": "Get Person Seniority Information",
             "description": "Returns seniority information for the supplied person identifier."
           },
@@ -43,14 +42,14 @@
             {
               "id": "1777445921110_1",
               "name": "personId",
-              "type": "string",
-              "value": "{{$context.$triggers.REST.$input.personId}}",
+              "type": "integer",
+              "value": "{{$context.$nodes.VALIDATE_REQUEST_GETPERSONSENIORITY.$output.result.personId}}",
               "required": true
             }
           ],
           "diagram": {
-            "x": 5057,
-            "y": 5229
+            "x": 5000,
+            "y": 5872
           },
           "outputSpecification": "{}"
         },
@@ -68,8 +67,8 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5024,
-            "y": 5468
+            "x": 5000,
+            "y": 6094
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -83,6 +82,47 @@
           },
           "outcomes": {},
           "inputs": []
+        },
+        {
+          "id": "VALIDATE_REQUEST_GETPERSONSENIORITY",
+          "code": "VALIDATE_REQUEST_GETPERSONSENIORITY",
+          "type": "CODE",
+          "metadata": {
+            "name": "Validate Request Getpersonseniority",
+            "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
+            "returnType": "object",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$triggers.REST.$input.personId),\"personId\");\nreturn checked;",
+            "errorNodeId": "HR_REQUEST_REJECTED"
+          },
+          "outcomes": {
+            "success": "1777445873598"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "diagram": {
+            "x": 5000,
+            "y": 5650
+          }
+        },
+        {
+          "id": "HR_REQUEST_REJECTED",
+          "code": "HR_REQUEST_REJECTED",
+          "type": "RETURN",
+          "metadata": {
+            "name": "Reject Invalid HR Request"
+          },
+          "inputs": [
+            {
+              "name": "returnValue",
+              "type": "string",
+              "value": "The HR request contains invalid or unsupported parameters."
+            }
+          ],
+          "outcomes": {},
+          "diagram": {
+            "x": 5400,
+            "y": 5000
+          }
         }
       ],
       "rootNode": "start",
@@ -115,7 +155,17 @@
         }
       ]
     },
-    "modelConfiguration": null,
+    "modelConfiguration": {
+      "code": "ORA_MODEL_GPT_6_LUNA",
+      "modelName": "GPT-6 Luna (Balanced)",
+      "provider": "CERT_PREMIUM",
+      "model": "OCI_GPT_6_LUNA",
+      "modelProperties": {
+        "max_completion_tokens": 32000,
+        "reasoning_effort": "medium",
+        "verbosity": "medium"
+      }
+    },
     "humanApprovalFlag": false,
     "waitFlag": false,
     "triggers": [
@@ -166,5 +216,6 @@
   "customizationPolicy": null,
   "isTemplate": false,
   "emailConfigCode": null,
-  "jobRequestId": null
+  "jobRequestId": null,
+  "header": {}
 }

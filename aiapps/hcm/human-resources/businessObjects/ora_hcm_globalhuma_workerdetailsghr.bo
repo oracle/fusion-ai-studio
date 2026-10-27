@@ -20,7 +20,7 @@
         "name": "GetWorkerEmailsByPersonId",
         "description": "Returns worker email details for the supplied person identifier.",
         "operationType": "GET",
-        "resourcePath": "/hcmRestApi/resources/11.13.18.05/workers?q=PersonId={personId}&expand=emails&onlyData=true",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/workers?q=PersonId={personId}&fields=emails&onlyData=true",
         "resourceType": "ADF_BC_FIXED_QUERY",
         "bodyTemplate": "",
         "useNativeAuthentication": true,
@@ -28,7 +28,7 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Person identifier used to retrieve worker contact detail records.",
             "id": 2,
             "isToken": true,
@@ -195,7 +195,7 @@
         "name": "GetWorkerPhonesByPersonId",
         "description": "Returns worker phone details for the supplied person identifier.",
         "operationType": "GET",
-        "resourcePath": "/hcmRestApi/resources/11.13.18.05/workers?q=PersonId={personId}&expand=phones&onlyData=true",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/workers?q=PersonId={personId}&fields=phones&onlyData=true",
         "resourceType": "ADF_BC_FIXED_QUERY",
         "bodyTemplate": "",
         "useNativeAuthentication": true,
@@ -203,7 +203,7 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Person identifier used to retrieve worker contact detail records.",
             "id": 18,
             "isToken": true,
@@ -370,7 +370,7 @@
         "name": "GetWorkerEmailsByPersonNumber",
         "description": "Returns worker email details for the supplied person number.",
         "operationType": "GET",
-        "resourcePath": "/hcmRestApi/resources/11.13.18.05/workers?q=PersonNumber={personNumber}&expand=emails&onlyData=true",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/workers?q=PersonNumber=%27{personNumber}%27&fields=emails&onlyData=true",
         "resourceType": "ADF_BC_FIXED_QUERY",
         "bodyTemplate": "",
         "useNativeAuthentication": true,
@@ -545,7 +545,7 @@
         "name": "GetWorkerPhonesByPersonNumber",
         "description": "Returns worker phone details for the supplied person number.",
         "operationType": "GET",
-        "resourcePath": "/hcmRestApi/resources/11.13.18.05/workers?q=PersonNumber={personNumber}&expand=phones&onlyData=true",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/workers?q=PersonNumber=%27{personNumber}%27&fields=phones&onlyData=true",
         "resourceType": "ADF_BC_FIXED_QUERY",
         "bodyTemplate": "",
         "useNativeAuthentication": true,
@@ -720,7 +720,7 @@
         "name": "GetWorkerAddressesByPersonId",
         "description": "Returns worker address details for the supplied person identifier.",
         "operationType": "GET",
-        "resourcePath": "/hcmRestApi/resources/11.13.18.05/workers?q=PersonId={personId}&expand=addresses&onlyData=true",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/workers?q=PersonId={personId}&fields=addresses&onlyData=true",
         "resourceType": "ADF_BC_FIXED_QUERY",
         "bodyTemplate": "",
         "useNativeAuthentication": true,
@@ -728,7 +728,7 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Person identifier used to retrieve worker contact detail records.",
             "id": 66,
             "isToken": true,
@@ -939,7 +939,7 @@
         "name": "GetWorkerAddressesByPersonNumber",
         "description": "Returns worker address details for the supplied person number.",
         "operationType": "GET",
-        "resourcePath": "/hcmRestApi/resources/11.13.18.05/workers?q=PersonNumber={personNumber}&expand=addresses&onlyData=true",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/workers?q=PersonNumber=%27{personNumber}%27&fields=addresses&onlyData=true",
         "resourceType": "ADF_BC_FIXED_QUERY",
         "bodyTemplate": "",
         "useNativeAuthentication": true,
@@ -1165,7 +1165,7 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Person identifier used to retrieve worker details.",
             "id": 106,
             "isToken": true,
@@ -1253,7 +1253,7 @@
         "name": "GetWorkerDetailsByPersonNumber",
         "description": "Returns worker details for the supplied person number.",
         "operationType": "GET",
-        "resourcePath": "/hcmRestApi/resources/11.13.18.05/publicWorkers?q=PersonNumber={personNumber}&onlyData=true",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/publicWorkers?q=PersonNumber=%27{personNumber}%27&onlyData=true",
         "resourceType": "ADF_BC_FIXED_QUERY",
         "useNativeAuthentication": true,
         "type": "BUS_OBJECT",
@@ -1327,7 +1327,7 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Person identifier used to retrieve the worker's other communication account details.",
             "id": 114,
             "isToken": true,

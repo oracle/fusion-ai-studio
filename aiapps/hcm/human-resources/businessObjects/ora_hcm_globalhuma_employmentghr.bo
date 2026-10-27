@@ -1,8 +1,7 @@
 {
   "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
-  "supportedObjectId": "300100697003914",
-  "name": "HCM GHR Employment",
-  "description": "Provides Global Human Resources employment functions for assignment history, manager hierarchy, worker connections, seniority, compensation, performance, representatives, profiles, notes, and reporting counts.",
+  "name": "Worker Employment",
+  "description": "Provides worker assignment, employment history, manager hierarchy, seniority, salary, performance, representative, and reporting information. Retrieves talent profiles and notes, and updates existing About Me summary, expertise, and interest records.",
   "objectCode": "ORA_HCM_GLOBALHUMA_XX_EMPLOYMENTGHR",
   "family": "HCM",
   "product": "GLOBAL_HUMAN_RESOURCES",
@@ -14,6 +13,8 @@
   "objectProperties": {
     "jsonSchemaName": "supportedObjectProperties",
     "jsonSchemaVersion": 1,
+    "baseUrlTMKey": "",
+    "serviceNameOverride": "",
     "tools": [
       {
         "name": "GetAssignmentHistoryUpdates",
@@ -27,15 +28,13 @@
         "parameterDefinitions": [
           {
             "name": "assignmentId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Assignment identifier used to retrieve assignment history update records.",
             "id": 2,
             "isToken": true,
             "location": "query",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
           },
           {
             "name": "effectiveDate",
@@ -45,9 +44,7 @@
             "isToken": true,
             "location": "query",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
           },
           {
             "name": "DisplayName",
@@ -57,9 +54,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "FirstName",
@@ -69,9 +64,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "LastName",
@@ -81,9 +74,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "BusinessTitle",
@@ -93,9 +84,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "PersonId",
@@ -105,9 +94,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "PersonNumber",
@@ -117,9 +104,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "AssignmentNumber",
@@ -129,9 +114,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "AssignmentName",
@@ -141,9 +124,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "WorkerType",
@@ -153,9 +134,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "WorkEmail",
@@ -165,9 +144,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "WorkPhone",
@@ -177,9 +154,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "DepartmentId",
@@ -189,9 +164,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "DepartmentName",
@@ -201,9 +174,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "JobId",
@@ -213,9 +184,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "JobCode",
@@ -225,9 +194,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "JobName",
@@ -237,9 +204,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "PositionId",
@@ -249,9 +214,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "PositionCode",
@@ -261,9 +224,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "PositionName",
@@ -273,9 +234,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "LocationId",
@@ -285,9 +244,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "LocationCode",
@@ -297,9 +254,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "LocationName",
@@ -309,9 +264,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "GradeId",
@@ -321,9 +274,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "GradeCode",
@@ -333,9 +284,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "GradeName",
@@ -345,9 +294,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "BusinessUnitId",
@@ -357,9 +304,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "BusinessUnitName",
@@ -369,9 +314,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "items",
@@ -381,9 +324,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "count",
@@ -393,9 +334,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "hasMore",
@@ -405,9 +344,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "limit",
@@ -417,9 +354,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "offset",
@@ -429,9 +364,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "EffectiveStartDate",
@@ -441,9 +374,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "EffectiveEndDate",
@@ -453,9 +384,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "StartDate",
@@ -465,9 +394,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "PrimaryFlag",
@@ -477,9 +404,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "PrimaryAssignmentFlag",
@@ -489,9 +414,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "LegalEmployerName",
@@ -501,9 +424,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "AssignmentStatusType",
@@ -513,9 +434,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "AssignmentStatusTypeName",
@@ -525,9 +444,7 @@
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           }
         ],
         "sampleQueries": [
@@ -603,183 +520,153 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Person identifier used to locate the worker record in HCM.",
-            "id": 46,
-            "isToken": true,
-            "location": "query",
-            "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
-          },
-          {
-            "name": "assignmentId",
-            "dataType": "string",
-            "description": "Assignment identifier used with the person identifier for assignment-scoped lookups.",
             "id": 47,
             "isToken": true,
             "location": "query",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
+          },
+          {
+            "name": "assignmentId",
+            "dataType": "integer",
+            "description": "Assignment identifier used with the person identifier for assignment-scoped lookups.",
+            "id": 48,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
           },
           {
             "name": "PersonId",
             "dataType": "integer",
             "description": "Unique person identifier of the worker.",
-            "id": 48,
+            "id": 49,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "AssignmentId",
             "dataType": "integer",
             "description": "Unique assignment identifier returned by HCM.",
-            "id": 49,
+            "id": 50,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "RelationshipType",
             "dataType": "string",
             "description": "Worker connection relationship type code.",
-            "id": 50,
+            "id": 51,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "RelationshipTypeMeaning",
             "dataType": "string",
             "description": "User-readable worker connection relationship type.",
-            "id": 51,
+            "id": 52,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "RelatedPersonId",
             "dataType": "integer",
             "description": "Person identifier of the related worker in the connection.",
-            "id": 52,
+            "id": 53,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "RelatedPersonAssignmentId",
             "dataType": "integer",
             "description": "Assignment identifier of the related worker in the connection.",
-            "id": 53,
+            "id": 54,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "RelatedDisplayName",
             "dataType": "string",
             "description": "Display name of the related worker in the connection.",
-            "id": 54,
+            "id": 55,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "Level",
             "dataType": "integer",
             "description": "Hierarchy level for a worker connection relationship.",
-            "id": 55,
+            "id": 56,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "items",
             "dataType": "string",
             "description": "Collection of response rows returned by the REST resource.",
-            "id": 56,
+            "id": 57,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "count",
             "dataType": "integer",
             "description": "Number of rows or matching workers returned by the REST resource.",
-            "id": 57,
+            "id": 58,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "hasMore",
             "dataType": "boolean",
             "description": "Indicates whether additional result rows are available.",
-            "id": 58,
+            "id": 59,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "limit",
             "dataType": "integer",
             "description": "Maximum number of response rows requested or returned.",
-            "id": 59,
+            "id": 60,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "offset",
             "dataType": "integer",
             "description": "Zero-based paging offset for the response.",
-            "id": 60,
+            "id": 61,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           }
         ],
         "sampleQueries": [
@@ -827,327 +714,273 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Person identifier used to locate the worker record in HCM.",
-            "id": 63,
+            "id": 65,
             "isToken": true,
             "location": "path",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
           },
           {
             "name": "assignmentId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Assignment identifier used with the person identifier for assignment-scoped lookups.",
-            "id": 64,
+            "id": 66,
             "isToken": true,
             "location": "path",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
           },
           {
             "name": "managers",
             "dataType": "string",
             "description": "Manager child collection returned for a worker assignment.",
-            "id": 65,
+            "id": 67,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "AssignmentSupervisorId",
             "dataType": "integer",
             "description": "Unique identifier for the assignment supervisor relationship.",
-            "id": 66,
+            "id": 68,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "ManagerPersonId",
             "dataType": "integer",
             "description": "Unique person identifier of the manager.",
-            "id": 67,
+            "id": 69,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "ManagerPersonNumber",
             "dataType": "string",
             "description": "Person number of the manager.",
-            "id": 68,
+            "id": 70,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "FirstName",
             "dataType": "string",
             "description": "Worker or manager first name.",
-            "id": 69,
+            "id": 71,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "LastName",
             "dataType": "string",
             "description": "Worker or manager last name.",
-            "id": 70,
+            "id": 72,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "DisplayName",
             "dataType": "string",
             "description": "Worker display name returned by HCM.",
-            "id": 71,
+            "id": 73,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "KnownAs",
             "dataType": "string",
             "description": "Preferred or known-as name for the manager.",
-            "id": 72,
+            "id": 74,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "ManagerAssignmentId",
             "dataType": "integer",
             "description": "Unique assignment identifier of the manager.",
-            "id": 73,
+            "id": 75,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "ManagerAssignmentNumber",
             "dataType": "string",
             "description": "Assignment number of the manager.",
-            "id": 74,
+            "id": 76,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "ManagerAssignmentName",
             "dataType": "string",
             "description": "Assignment name of the manager.",
-            "id": 75,
+            "id": 77,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "ManagerType",
             "dataType": "string",
             "description": "Manager relationship type code.",
-            "id": 76,
+            "id": 78,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "ManagerTypeMeaning",
             "dataType": "string",
             "description": "User-readable manager relationship type.",
-            "id": 77,
+            "id": 79,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "JobCode",
             "dataType": "string",
             "description": "Job code associated with the worker assignment.",
-            "id": 78,
+            "id": 80,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "JobName",
             "dataType": "string",
             "description": "Job name associated with the worker assignment.",
-            "id": 79,
+            "id": 81,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "PositionCode",
             "dataType": "string",
             "description": "Position code associated with the worker assignment.",
-            "id": 80,
+            "id": 82,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "PositionName",
             "dataType": "string",
             "description": "Position name associated with the worker assignment.",
-            "id": 81,
+            "id": 83,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "PhotoId",
             "dataType": "integer",
             "description": "Unique identifier of the manager photo.",
-            "id": 82,
+            "id": 84,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "PhotoName",
             "dataType": "string",
             "description": "File name or display name of the manager photo.",
-            "id": 83,
+            "id": 85,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "WorkEmail",
             "dataType": "string",
             "description": "Worker or manager work email address.",
-            "id": 84,
+            "id": 86,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "items",
             "dataType": "string",
             "description": "Collection of response rows returned by the REST resource.",
-            "id": 85,
+            "id": 87,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "count",
             "dataType": "integer",
             "description": "Number of rows or matching workers returned by the REST resource.",
-            "id": 86,
+            "id": 88,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "hasMore",
             "dataType": "boolean",
             "description": "Indicates whether additional result rows are available.",
-            "id": 87,
+            "id": 89,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "limit",
             "dataType": "integer",
             "description": "Maximum number of response rows requested or returned.",
-            "id": 88,
+            "id": 90,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "offset",
             "dataType": "integer",
             "description": "Zero-based paging offset for the response.",
-            "id": 89,
+            "id": 91,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           }
         ],
         "sampleQueries": [
@@ -1208,135 +1041,113 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Person identifier used to retrieve the worker primary assignment.",
-            "id": 92,
+            "id": 95,
             "isToken": true,
             "location": "path",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
           },
           {
             "name": "PersonId",
             "dataType": "integer",
             "description": "Unique person identifier of the worker.",
-            "id": 93,
+            "id": 96,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "AssignmentId",
             "dataType": "integer",
             "description": "Unique assignment identifier returned by HCM.",
-            "id": 94,
+            "id": 97,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "AssignmentNumber",
             "dataType": "string",
             "description": "Assignment number associated with the worker assignment.",
-            "id": 95,
+            "id": 98,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "AssignmentName",
             "dataType": "string",
             "description": "Display name of the assignment.",
-            "id": 96,
+            "id": 99,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "PrimaryFlag",
             "dataType": "boolean",
             "description": "Indicates whether the row is for the primary assignment.",
-            "id": 97,
+            "id": 100,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "items",
             "dataType": "string",
             "description": "Collection of response rows returned by the REST resource.",
-            "id": 98,
+            "id": 101,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "count",
             "dataType": "integer",
             "description": "Number of rows or matching workers returned by the REST resource.",
-            "id": 99,
+            "id": 102,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "hasMore",
             "dataType": "boolean",
             "description": "Indicates whether additional result rows are available.",
-            "id": 100,
+            "id": 103,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "limit",
             "dataType": "integer",
             "description": "Maximum number of response rows requested or returned.",
-            "id": 101,
+            "id": 104,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "offset",
             "dataType": "integer",
             "description": "Zero-based paging offset for the response.",
-            "id": 102,
+            "id": 105,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           }
         ],
         "sampleQueries": [
@@ -1380,363 +1191,303 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Person identifier used to retrieve worker assignment records.",
-            "id": 105,
+            "id": 109,
             "isToken": true,
             "location": "path",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
           },
           {
             "name": "AssignmentId",
             "dataType": "integer",
             "description": "Unique assignment identifier returned by HCM.",
-            "id": 106,
+            "id": 110,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "AssignmentNumber",
             "dataType": "string",
             "description": "Assignment number associated with the worker assignment.",
-            "id": 107,
+            "id": 111,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "AssignmentName",
             "dataType": "string",
             "description": "Display name of the assignment.",
-            "id": 108,
+            "id": 112,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "LegalEmployerName",
             "dataType": "string",
             "description": "Legal employer name associated with the assignment.",
-            "id": 109,
+            "id": 113,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "StartDate",
             "dataType": "date",
             "description": "Assignment start date returned by HCM.",
-            "id": 110,
+            "id": 114,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "PrimaryFlag",
             "dataType": "boolean",
             "description": "Indicates whether this contact record is primary.",
-            "id": 111,
+            "id": 115,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "PrimaryAssignmentFlag",
             "dataType": "boolean",
             "description": "Indicates whether the assignment is the primary assignment.",
-            "id": 112,
+            "id": 116,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "WorkerType",
             "dataType": "string",
             "description": "Worker type associated with the assignment.",
-            "id": 113,
+            "id": 117,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "WorkerNumber",
             "dataType": "string",
             "description": "Worker number associated with the assignment.",
-            "id": 114,
+            "id": 118,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "ManagerName",
             "dataType": "string",
             "description": "Manager display name associated with the assignment.",
-            "id": 115,
+            "id": 119,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "BusinessUnitName",
             "dataType": "string",
             "description": "Name of the worker business unit.",
-            "id": 116,
+            "id": 120,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "DepartmentName",
             "dataType": "string",
             "description": "Name of the worker department.",
-            "id": 117,
+            "id": 121,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "JobCode",
             "dataType": "string",
             "description": "Job code associated with the worker assignment.",
-            "id": 118,
+            "id": 122,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "JobName",
             "dataType": "string",
             "description": "Job name associated with the worker assignment.",
-            "id": 119,
+            "id": 123,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "PositionCode",
             "dataType": "string",
             "description": "Position code associated with the worker assignment.",
-            "id": 120,
+            "id": 124,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "PositionName",
             "dataType": "string",
             "description": "Position name associated with the worker assignment.",
-            "id": 121,
+            "id": 125,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "LocationCode",
             "dataType": "string",
             "description": "Location code associated with the worker assignment.",
-            "id": 122,
+            "id": 126,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "LocationName",
             "dataType": "string",
             "description": "Location name associated with the worker assignment.",
-            "id": 123,
+            "id": 127,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "GradeCode",
             "dataType": "string",
             "description": "Grade code associated with the worker assignment.",
-            "id": 124,
+            "id": 128,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "GradeName",
             "dataType": "string",
             "description": "Grade name associated with the worker assignment.",
-            "id": 125,
+            "id": 129,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "LocationPostalCode",
             "dataType": "string",
             "description": "Postal code of the worker location.",
-            "id": 126,
+            "id": 130,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "LocationCountry",
             "dataType": "string",
             "description": "Country of the worker location.",
-            "id": 127,
+            "id": 131,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "LengthOfServiceYears",
             "dataType": "number",
             "description": "Length of service in years.",
-            "id": 128,
+            "id": 132,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "MarkedAsFavoriteFlag",
             "dataType": "boolean",
             "description": "Indicates whether the assignment is marked as a favorite.",
-            "id": 129,
+            "id": 133,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "items",
             "dataType": "string",
             "description": "Collection of response rows returned by the REST resource.",
-            "id": 130,
+            "id": 134,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "count",
             "dataType": "integer",
             "description": "Number of assignment rows returned by the REST resource.",
-            "id": 131,
+            "id": 135,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "hasMore",
             "dataType": "boolean",
             "description": "Indicates whether additional response rows are available.",
-            "id": 132,
+            "id": 136,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "limit",
             "dataType": "integer",
             "description": "Maximum number of response rows requested or returned.",
-            "id": 133,
+            "id": 137,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "offset",
             "dataType": "integer",
             "description": "Zero-based paging offset for the response.",
-            "id": 134,
+            "id": 138,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           }
         ],
         "sampleQueries": [
@@ -1800,735 +1551,613 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Person identifier used to retrieve worker seniority records.",
-            "id": 137,
+            "id": 142,
             "isToken": true,
             "location": "query",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
           },
           {
             "name": "ActionOccurrenceId",
             "dataType": "integer",
             "description": "Action occurrence identifier associated with the seniority row.",
-            "id": 138,
+            "id": 143,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "AutoAdjustmentComments",
             "dataType": "string",
             "description": "Comments for automatic seniority adjustments.",
-            "id": 139,
+            "id": 144,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "AutoAdjustmentDays",
             "dataType": "number",
             "description": "Automatic adjustment days for seniority calculation.",
-            "id": 140,
+            "id": 145,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "AutoAdjustmentHours",
             "dataType": "number",
             "description": "Automatic adjustment hours for seniority calculation.",
-            "id": 141,
+            "id": 146,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "BaseSeniorityDate",
             "dataType": "date",
             "description": "Base date used for seniority calculation.",
-            "id": 142,
+            "id": 147,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "CalculationType",
             "dataType": "string",
             "description": "Seniority calculation type.",
-            "id": 143,
+            "id": 148,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "CreatedBy",
             "dataType": "string",
             "description": "User who created the seniority row.",
-            "id": 144,
+            "id": 149,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "CreationDate",
             "dataType": "date",
             "description": "Date the seniority row was created.",
-            "id": 145,
+            "id": 150,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "EffectiveEndDate",
             "dataType": "date",
             "description": "Effective end date of the seniority row.",
-            "id": 146,
+            "id": 151,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "EffectiveStartDate",
             "dataType": "date",
             "description": "Effective start date of the seniority row.",
-            "id": 147,
+            "id": 152,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "EntryDate",
             "dataType": "date",
             "description": "Entry date for the seniority row.",
-            "id": 148,
+            "id": 153,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "ExitDate",
             "dataType": "date",
             "description": "Exit date for the seniority row.",
-            "id": 149,
+            "id": 154,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "LastUpdateDate",
             "dataType": "date",
             "description": "Date the seniority row was last updated.",
-            "id": 150,
+            "id": 155,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "LastUpdatedBy",
             "dataType": "string",
             "description": "User who last updated the seniority row.",
-            "id": 151,
+            "id": 156,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "LevelCode",
             "dataType": "string",
             "description": "Seniority level code.",
-            "id": 152,
+            "id": 157,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "LevelObjectId",
             "dataType": "integer",
             "description": "Identifier of the object associated with the seniority level.",
-            "id": 153,
+            "id": 158,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "ManualAdjustmentComments",
             "dataType": "string",
             "description": "Comments for manual seniority adjustments.",
-            "id": 154,
+            "id": 159,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "ManualAdjustmentDays",
             "dataType": "number",
             "description": "Manual adjustment days for seniority calculation.",
-            "id": 155,
+            "id": 160,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "ManualAdjustmentHours",
             "dataType": "number",
             "description": "Manual adjustment hours for seniority calculation.",
-            "id": 156,
+            "id": 161,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "PersonId",
             "dataType": "integer",
             "description": "Unique person identifier of the worker.",
-            "id": 157,
+            "id": 162,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "SourceIdentifier",
             "dataType": "string",
             "description": "Source identifier for the seniority row.",
-            "id": 158,
+            "id": 163,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "SeniorityDate",
             "dataType": "date",
             "description": "Calculated seniority date.",
-            "id": 159,
+            "id": 164,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "SeniorityDateCode",
             "dataType": "string",
             "description": "Seniority date code.",
-            "id": 160,
+            "id": 165,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "SeniorityDateId",
             "dataType": "integer",
             "description": "Unique identifier of the seniority date row.",
-            "id": 161,
+            "id": 166,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "SeniorityAttributeCode",
             "dataType": "string",
             "description": "Seniority attribute code.",
-            "id": 162,
+            "id": 167,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "SeniorityAttributeIdentifier",
             "dataType": "string",
             "description": "Seniority attribute identifier.",
-            "id": 163,
+            "id": 168,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "SeniorityHours",
             "dataType": "number",
             "description": "Seniority hours for the row.",
-            "id": 164,
+            "id": 169,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "SeniorityLengthOfServiceHours",
             "dataType": "number",
             "description": "Length-of-service hours used for seniority.",
-            "id": 165,
+            "id": 170,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "TotalAdjustmentDays",
             "dataType": "number",
             "description": "Total seniority adjustment days.",
-            "id": 166,
+            "id": 171,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "TotalAdjustmentHours",
             "dataType": "number",
             "description": "Total seniority adjustment hours.",
-            "id": 167,
+            "id": 172,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "TotalAutoAdjustmentDays",
             "dataType": "number",
             "description": "Total automatic adjustment days.",
-            "id": 168,
+            "id": 173,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "TotalAutoAdjustmentHours",
             "dataType": "number",
             "description": "Total automatic adjustment hours.",
-            "id": 169,
+            "id": 174,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "TotalManualAdjustmentDays",
             "dataType": "number",
             "description": "Total manual adjustment days.",
-            "id": 170,
+            "id": 175,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "TotalManualAdjustmentHours",
             "dataType": "number",
             "description": "Total manual adjustment hours.",
-            "id": 171,
+            "id": 176,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "JobName",
             "dataType": "string",
             "description": "Job name associated with the worker assignment.",
-            "id": 172,
+            "id": 177,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "JobId",
             "dataType": "string",
             "description": "JobId field returned by the REST resource.",
-            "id": 173,
+            "id": 178,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "LocationName",
             "dataType": "string",
             "description": "Location name associated with the worker assignment.",
-            "id": 174,
+            "id": 179,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "LocationId",
             "dataType": "string",
             "description": "LocationId field returned by the REST resource.",
-            "id": 175,
+            "id": 180,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "GradeName",
             "dataType": "string",
             "description": "Grade name associated with the worker assignment.",
-            "id": 176,
+            "id": 181,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "GradeId",
             "dataType": "string",
             "description": "GradeId field returned by the REST resource.",
-            "id": 177,
+            "id": 182,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "DepartmentName",
             "dataType": "string",
             "description": "Name of the worker department.",
-            "id": 178,
+            "id": 183,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "DepartmentId",
             "dataType": "string",
             "description": "DepartmentId field returned by the REST resource.",
-            "id": 179,
+            "id": 184,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "BusinessUnitName",
             "dataType": "string",
             "description": "Name of the worker business unit.",
-            "id": 180,
+            "id": 185,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "BusinessUnitId",
             "dataType": "string",
             "description": "BusinessUnitId field returned by the REST resource.",
-            "id": 181,
+            "id": 186,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "PositionId",
             "dataType": "string",
             "description": "PositionId field returned by the REST resource.",
-            "id": 182,
+            "id": 187,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "PositionName",
             "dataType": "string",
             "description": "Position name associated with the worker assignment.",
-            "id": 183,
+            "id": 188,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "AssignmentNumber",
             "dataType": "string",
             "description": "Assignment number associated with the worker assignment.",
-            "id": 184,
+            "id": 189,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "WorkerType",
             "dataType": "string",
             "description": "Worker type associated with the assignment.",
-            "id": 185,
+            "id": 190,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "SeniorityLengthOfServiceDays",
             "dataType": "string",
             "description": "SeniorityLengthOfServiceDays field returned by the REST resource.",
-            "id": 186,
+            "id": 191,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "SeniorityLengthOfServiceMonths",
             "dataType": "string",
             "description": "SeniorityLengthOfServiceMonths field returned by the REST resource.",
-            "id": 187,
+            "id": 192,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "SeniorityLengthOfServiceYears",
             "dataType": "string",
             "description": "SeniorityLengthOfServiceYears field returned by the REST resource.",
-            "id": 188,
+            "id": 193,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "LegalEmployerName",
             "dataType": "string",
             "description": "Legal employer name associated with the assignment.",
-            "id": 189,
+            "id": 194,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "AssignmentStatusType",
             "dataType": "string",
             "description": "AssignmentStatusType field returned by the REST resource.",
-            "id": 190,
+            "id": 195,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "AssignmentStatusTypeId",
             "dataType": "string",
             "description": "AssignmentStatusTypeId field returned by the REST resource.",
-            "id": 191,
+            "id": 196,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "AssignmentStatusTypeName",
             "dataType": "string",
             "description": "AssignmentStatusTypeName field returned by the REST resource.",
-            "id": 192,
+            "id": 197,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "items",
             "dataType": "string",
             "description": "Collection of response rows returned by the REST resource.",
-            "id": 193,
+            "id": 198,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "count",
             "dataType": "integer",
             "description": "Number of seniority rows returned by the REST resource.",
-            "id": 194,
+            "id": 199,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "hasMore",
             "dataType": "boolean",
             "description": "Indicates whether additional response rows are available.",
-            "id": 195,
+            "id": 200,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "limit",
             "dataType": "integer",
             "description": "Maximum number of response rows requested or returned.",
-            "id": 196,
+            "id": 201,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "offset",
             "dataType": "integer",
             "description": "Zero-based paging offset for the response.",
-            "id": 197,
+            "id": 202,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           }
         ],
         "sampleQueries": [
@@ -2594,423 +2223,353 @@
         "parameterDefinitions": [
           {
             "name": "managerPersonId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Manager person identifier used to retrieve team seniority records.",
-            "id": 200,
+            "id": 206,
             "isToken": true,
             "location": "query",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
           },
           {
             "name": "PersonId",
             "dataType": "integer",
             "description": "Unique person identifier of the worker.",
-            "id": 201,
+            "id": 207,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "AssignmentId",
             "dataType": "integer",
             "description": "Unique assignment identifier returned by HCM.",
-            "id": 202,
+            "id": 208,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "ManagerId",
             "dataType": "integer",
             "description": "Person identifier of the manager.",
-            "id": 203,
+            "id": 209,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "ManagerAssignmentId",
             "dataType": "integer",
             "description": "Assignment identifier of the manager.",
-            "id": 204,
+            "id": 210,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "SeniorityDate",
             "dataType": "date",
             "description": "Calculated seniority date.",
-            "id": 205,
+            "id": 211,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "ExitDate",
             "dataType": "date",
             "description": "Exit date for the seniority row.",
-            "id": 206,
+            "id": 212,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "LevelCode",
             "dataType": "string",
             "description": "Seniority level code.",
-            "id": 207,
+            "id": 213,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "SeniorityField",
             "dataType": "string",
             "description": "Seniority field code used for team seniority grouping.",
-            "id": 208,
+            "id": 214,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "SeniorityFieldKey",
             "dataType": "string",
             "description": "Key value for the seniority field.",
-            "id": 209,
+            "id": 215,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "DisplayName",
             "dataType": "string",
             "description": "Worker display name returned by HCM.",
-            "id": 210,
+            "id": 216,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "SeniorityFieldName",
             "dataType": "string",
             "description": "Display name of the seniority field.",
-            "id": 211,
+            "id": 217,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "SeniorityFieldValue",
             "dataType": "string",
             "description": "Display value of the seniority field.",
-            "id": 212,
+            "id": 218,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "TotalSeniorityHours",
             "dataType": "number",
             "description": "Total seniority hours.",
-            "id": 213,
+            "id": 219,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "SeniorityLosYears",
             "dataType": "number",
             "description": "Seniority length of service in years.",
-            "id": 214,
+            "id": 220,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "SeniorityLosMonths",
             "dataType": "number",
             "description": "Seniority length of service in months.",
-            "id": 215,
+            "id": 221,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "SeniorityLosDays",
             "dataType": "number",
             "description": "Seniority length of service in days.",
-            "id": 216,
+            "id": 222,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "ManualAdjustmentDays",
             "dataType": "number",
             "description": "Manual adjustment days for seniority calculation.",
-            "id": 217,
+            "id": 223,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "TotalManualAdjustmentDays",
             "dataType": "number",
             "description": "Total manual adjustment days.",
-            "id": 218,
+            "id": 224,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "AutoAdjustmentDays",
             "dataType": "number",
             "description": "Automatic adjustment days for seniority calculation.",
-            "id": 219,
+            "id": 225,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "TotalAutoAdjustmentDays",
             "dataType": "number",
             "description": "Total automatic adjustment days.",
-            "id": 220,
+            "id": 226,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "TotalAdjustmentDays",
             "dataType": "number",
             "description": "Total seniority adjustment days.",
-            "id": 221,
+            "id": 227,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "ManualAdjustmentHours",
             "dataType": "number",
             "description": "Manual adjustment hours for seniority calculation.",
-            "id": 222,
+            "id": 228,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "TotalManualAdjustmentHours",
             "dataType": "number",
             "description": "Total manual adjustment hours.",
-            "id": 223,
+            "id": 229,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "AutoAdjustmentHours",
             "dataType": "number",
             "description": "Automatic adjustment hours for seniority calculation.",
-            "id": 224,
+            "id": 230,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "TotalAutoAdjustmentHours",
             "dataType": "number",
             "description": "Total automatic adjustment hours.",
-            "id": 225,
+            "id": 231,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "TotalAdjustmentHours",
             "dataType": "number",
             "description": "Total seniority adjustment hours.",
-            "id": 226,
+            "id": 232,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "SeniorityEffectiveDate",
             "dataType": "string",
             "description": "SeniorityEffectiveDate field returned by the REST resource.",
-            "id": 227,
+            "id": 233,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "ManagerLevel",
             "dataType": "integer",
             "description": "Manager hierarchy level for the seniority row.",
-            "id": 228,
+            "id": 234,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "IsDirect",
             "dataType": "boolean",
             "description": "Indicates whether the worker is a direct report of the manager.",
-            "id": 229,
+            "id": 235,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "items",
             "dataType": "string",
             "description": "Collection of response rows returned by the REST resource.",
-            "id": 230,
+            "id": 236,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "count",
             "dataType": "integer",
             "description": "Number of team seniority rows returned by the REST resource.",
-            "id": 231,
+            "id": 237,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "hasMore",
             "dataType": "boolean",
             "description": "Indicates whether additional response rows are available.",
-            "id": 232,
+            "id": 238,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "limit",
             "dataType": "integer",
             "description": "Maximum number of response rows requested or returned.",
-            "id": 233,
+            "id": 239,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           },
           {
             "name": "offset",
             "dataType": "integer",
             "description": "Zero-based paging offset for the response.",
-            "id": 234,
+            "id": 240,
             "isToken": false,
             "location": "body",
             "source": "manual",
-            "defaultValue": "undefined",
-            "required": false,
-            "requiredLocked": false
+            "defaultValue": "undefined"
           }
         ],
         "sampleQueries": [
@@ -3077,15 +2636,13 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Worker person identifier used to retrieve salary history.",
-            "id": 237,
+            "id": 244,
             "isToken": true,
             "location": "query",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
           }
         ],
         "sampleQueries": [
@@ -3163,15 +2720,13 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Worker person identifier used to retrieve talent and performance ratings.",
-            "id": 240,
+            "id": 248,
             "isToken": true,
             "location": "query",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
           }
         ],
         "sampleQueries": [
@@ -3219,58 +2774,40 @@
         "name": "GetAssignmentUpdatesBetweenDates",
         "description": "Returns assignment history rows for the supplied assignment identifier and effective-date range.",
         "operationType": "GET",
-        "resourcePath": "/hcmRestApi/resources/11.13.18.05/employmentAssignmentHistoryDetails?finder=findAssignmentUpdatesBetweenDates;pAssignmentId={AssignmentId},pRangeStartDate={RangeStartDate},pRangeEndDate={RangeEndDate}&fields={pFields}",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/employmentAssignmentHistoryDetails?finder=findAssignmentUpdatesBetweenDates;pAssignmentId={AssignmentId},pRangeStartDate={RangeStartDate},pRangeEndDate={RangeEndDate}&fields=AssignmentId,EffectiveStartDate,EffectiveEndDate,EffectiveLatestChange,EffectiveSequence,AssignmentNumber,PersonId,PersonNumber,PersonDisplayName,DateStart,Action,ActionReason,JobId,Job,GradeId,Grade,PositionId,Position,ManagerId,ManagerAssignmentId,ManagerDisplayName,BusinessUnit,Department,LegalEmployer,Location,AssignmentStatusType,SystemPersonType,FullPartTime,LastWorkingDate,TerminationDate",
         "resourceType": "ADF_BC_FIXED_QUERY",
         "useNativeAuthentication": true,
         "type": "BUS_OBJECT",
         "parameterDefinitions": [
           {
             "name": "AssignmentId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Worker assignment identifier whose history should be returned.",
-            "id": 243,
+            "id": 252,
             "isToken": true,
             "location": "query",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
           },
           {
             "name": "RangeStartDate",
-            "dataType": "string",
+            "dataType": "date",
             "description": "Start date of the history extraction range in YYYY-MM-DD format.",
-            "id": 244,
+            "id": 253,
             "isToken": true,
             "location": "query",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
           },
           {
             "name": "RangeEndDate",
-            "dataType": "string",
+            "dataType": "date",
             "description": "End date of the history extraction range in YYYY-MM-DD format.",
-            "id": 245,
+            "id": 254,
             "isToken": true,
             "location": "query",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
-          },
-          {
-            "name": "pFields",
-            "dataType": "string",
-            "description": "Comma-separated list of assignment history fields to return from employmentAssignmentHistoryDetails.",
-            "id": 246,
-            "isToken": true,
-            "location": "query",
-            "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
           }
         ],
         "sampleQueries": [
@@ -3279,8 +2816,7 @@
             "query": {
               "AssignmentId": "<assignment id>",
               "RangeStartDate": "<range start date>",
-              "RangeEndDate": "<range end date>",
-              "pFields": "<p fields>"
+              "RangeEndDate": "<range end date>"
             },
             "sampleType": "request"
           },
@@ -3405,27 +2941,23 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Person identifier of the worker whose assignment representatives are retrieved.",
-            "id": 249,
+            "id": 259,
             "isToken": true,
             "location": "path",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
           },
           {
             "name": "assignmentId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Assignment identifier used to retrieve representatives for the worker assignment.",
-            "id": 250,
+            "id": 260,
             "isToken": true,
             "location": "path",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
           }
         ],
         "sampleQueries": [
@@ -3620,15 +3152,13 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Person identifier of the worker whose talentProfiles are to be retrieved.",
-            "id": 253,
+            "id": 264,
             "isToken": true,
             "location": "query",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
           }
         ],
         "sampleQueries": [
@@ -3683,7 +3213,7 @@
         ]
       },
       {
-        "name": "GetPersonNotesV2",
+        "name": "GetPersonNotes",
         "description": "Returns person notes for a worker, including note text and note visibility details when available.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/personNotesV2?q=WorkerId={personId} and ContextType='ORA_NO_CONTEXT'&expand=NoteText&links=self",
@@ -3693,15 +3223,13 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Person identifier used to retrieve person notes for the requested worker.",
-            "id": 256,
+            "id": 268,
             "isToken": true,
             "location": "query",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
           }
         ],
         "sampleQueries": [
@@ -4040,27 +3568,23 @@
         "parameterDefinitions": [
           {
             "name": "managerPersonId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Manager person identifier whose direct reports should be returned.",
-            "id": 259,
+            "id": 272,
             "isToken": true,
             "location": "path",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
           },
           {
             "name": "managerAssignmentId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Manager assignment identifier used to retrieve direct reports.",
-            "id": 260,
+            "id": 273,
             "isToken": true,
             "location": "path",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
           }
         ],
         "sampleQueries": [
@@ -4118,27 +3642,23 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Person identifier whose direct reports count should be returned.",
-            "id": 263,
+            "id": 277,
             "isToken": true,
             "location": "path",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
           },
           {
             "name": "assignmentId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Assignment identifier used to retrieve direct reports count.",
-            "id": 264,
+            "id": 278,
             "isToken": true,
             "location": "path",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
           }
         ],
         "sampleQueries": [
@@ -4176,27 +3696,23 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Person identifier whose total reports count should be returned.",
-            "id": 267,
+            "id": 282,
             "isToken": true,
             "location": "path",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
           },
           {
             "name": "assignmentId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Assignment identifier used to retrieve total reports count.",
-            "id": 268,
+            "id": 283,
             "isToken": true,
             "location": "path",
             "source": "placeholder",
-            "defaultValue": "",
-            "required": true,
-            "requiredLocked": true
+            "defaultValue": ""
           }
         ],
         "sampleQueries": [
@@ -4219,6 +3735,356 @@
               "totalResults": "<total results>"
             },
             "sampleType": "response"
+          }
+        ]
+      },
+      {
+        "name": "GetTalentProfileByPersonId",
+        "description": "Resolves a person's talent profile and canonical REST item link for About Me updates.",
+        "operationType": "GET",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentPersonProfiles?q=PersonId={personId}&fields=ProfileId,PersonId;areasOfExpertise:ExpertiseId;areasOfInterest:InterestId&onlyData=false&limit=2",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "personId",
+            "dataType": "integer",
+            "description": "Person identifier whose profile resource link is requested.",
+            "id": 287,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Sample response for GetTalentProfileByPersonId with redacted field-name placeholders.",
+            "query": {
+              "items": [
+                {
+                  "ProfileId": "<profileId>",
+                  "PersonId": "<personId>",
+                  "links": [
+                    {
+                      "rel": "<rel>",
+                      "kind": "<kind>",
+                      "name": "<name>",
+                      "href": "<href>"
+                    }
+                  ],
+                  "areasOfExpertise": {
+                    "items": [
+                      {
+                        "ExpertiseId": "<expertiseId>"
+                      }
+                    ],
+                    "hasMore": false
+                  },
+                  "areasOfInterest": {
+                    "items": [
+                      {
+                        "InterestId": "<interestId>"
+                      }
+                    ],
+                    "hasMore": false
+                  }
+                }
+              ],
+              "hasMore": "<hasMore>"
+            },
+            "sampleType": "response"
+          }
+        ]
+      },
+      {
+        "name": "UpdateTalentProfileSummary",
+        "description": "Updates only Summary through a fixed one-field body. Callers supply the summary string after independently verifying the session and parent/child ownership.",
+        "operationType": "PATCH",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentPersonProfiles/{profileId}",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "{\"Summary\":\"{summary}\"}",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "profileId",
+            "dataType": "string",
+            "description": "REST resource key obtained from the profile self or canonical link.",
+            "id": 290,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "summary",
+            "dataType": "string",
+            "description": "The summary rich-text string. The request body permits only this field; callers must retain text encoding and independent session/child ownership checks.",
+            "id": 286,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Update the Summary text.",
+            "query": {
+              "Summary": "Sample value"
+            },
+            "sampleType": "request"
+          }
+        ]
+      },
+      {
+        "name": "UpdateAboutMeExpertise",
+        "description": "Updates only Expertise through a fixed one-field body. Callers supply the expertise string after independently verifying the session and parent/child ownership.",
+        "operationType": "PATCH",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentPersonProfiles/{profileId}/child/areasOfExpertise/{expertiseId}",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "{\"Expertise\":\"{expertise}\"}",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "profileId",
+            "dataType": "string",
+            "description": "REST resource key obtained from the profile self or canonical link.",
+            "id": 294,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "expertiseId",
+            "dataType": "integer",
+            "description": "Existing areasOfExpertise record identifier.",
+            "id": 295,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "expertise",
+            "dataType": "string",
+            "description": "The expertise rich-text string. The request body permits only this field; callers must retain text encoding and independent session/child ownership checks.",
+            "id": 289,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Function inputs: profile resource key, numeric child ID, and expertise field value.",
+            "query": {
+              "profileId": "<resource key from profile lookup>",
+              "expertiseId": 900000000000001,
+              "expertise": "Sample value"
+            },
+            "sampleType": "request"
+          }
+        ]
+      },
+      {
+        "name": "UpdateTalentProfileExpertise",
+        "description": "Updates only Expertise through a fixed one-field body. Callers supply the expertise string after independently verifying the session and parent/child ownership.",
+        "operationType": "PATCH",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentPersonProfiles/{profileId}/child/areasOfExpertise/{expertiseId}",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "{\n  \"Expertise\": \"{expertise}\"\n}",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "profileId",
+            "dataType": "string",
+            "description": "REST resource key obtained from the profile self or canonical link.",
+            "id": 299,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "expertiseId",
+            "dataType": "integer",
+            "description": "Existing areasOfExpertise record identifier.",
+            "id": 300,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "expertise",
+            "dataType": "string",
+            "description": "The expertise rich-text string. The request body permits only this field; callers must retain text encoding and independent session/child ownership checks.",
+            "id": 301,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Update the Expertise text.",
+            "query": {
+              "Expertise": "Sample value"
+            },
+            "sampleType": "request"
+          }
+        ]
+      },
+      {
+        "name": "UpdateTalentProfileInterest",
+        "description": "Updates only Interest through a fixed one-field body. Callers supply the interest string after independently verifying the session and parent/child ownership.",
+        "operationType": "PATCH",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentPersonProfiles/{profileId}/child/areasOfInterest/{interestId}",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "{\"Interest\":\"{interest}\"}",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "profileId",
+            "dataType": "string",
+            "description": "REST resource key obtained from the profile self or canonical link.",
+            "id": 304,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "interestId",
+            "dataType": "integer",
+            "description": "Existing areasOfInterest record identifier.",
+            "id": 305,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "interest",
+            "dataType": "string",
+            "description": "The interest rich-text string. The request body permits only this field; callers must retain text encoding and independent session/child ownership checks.",
+            "id": 295,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Update the Interest text.",
+            "query": {
+              "Interest": "Sample value"
+            },
+            "sampleType": "request"
+          }
+        ]
+      },
+      {
+        "name": "CreateFavoriteLink",
+        "description": "Creates a favorite link using the talent person profile canonical REST resource key and a JSON-serialized request containing only Description and URL.",
+        "operationType": "POST",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentPersonProfiles/{profileId}/child/favoriteLinks",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "{payload}",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "profileId",
+            "dataType": "string",
+            "description": "Canonical REST item resource key from the talent person profile self or canonical link; not the numeric ProfileId.",
+            "id": 306,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "payload",
+            "dataType": "string",
+            "description": "JSON-serialized object containing only Description and URL, serialized with JSON.stringify to preserve quotes and other special characters.",
+            "id": 307,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Request schema with field-name placeholders only.",
+            "query": {
+              "Description": "<description>",
+              "URL": "<url>"
+            },
+            "sampleType": "request"
+          }
+        ]
+      },
+      {
+        "name": "UpdateFavoriteLink",
+        "description": "Updates Description and URL on an existing favorite link.",
+        "operationType": "PATCH",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentPersonProfiles/{profileId}/child/favoriteLinks/{bookmarkId}",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "{payload}",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "profileId",
+            "dataType": "string",
+            "description": "Canonical REST item resource key from the talent person profile self or canonical link; not the numeric ProfileId.",
+            "id": 308,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "bookmarkId",
+            "dataType": "integer",
+            "description": "Existing favorite link BookmarkId obtained from the selected profile's favoriteLinks collection.",
+            "id": 309,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "payload",
+            "dataType": "string",
+            "description": "JSON-serialized object containing only Description and URL, serialized with JSON.stringify to preserve quotes and other special characters.",
+            "id": 310,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Request schema with field-name placeholders only.",
+            "query": {
+              "Description": "<description>",
+              "URL": "<url>"
+            },
+            "sampleType": "request"
           }
         ]
       }
