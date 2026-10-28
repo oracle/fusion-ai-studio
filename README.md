@@ -19,6 +19,7 @@ The repository now follows a **release-based branching model**. You will see **`
 
 | **Date**| **Operation** | **File/folder** | **Description**|
 |--------------|---------------|---------------|---------------|
+| 2026-10-26| Added |`aiapps/hcm/human-resources` | Added new business objects, workflows to human resources and updated widget output formats of workflows|
 | 2026-08-21| Added |`.agents/skills, aiapps` |Directory restructured to support standard `**git clone**` and `**git pull**` operations to obtain the latest skills, applications, and workflow updates.|
 | 2026-08-12| Added |`aiapps/scm/inventory` |Added inventory workflows, business objects for item shortage and lot expiry.|
 | 2026-08-12| Added |`aiapps/prc/purchasing` |Added workflows, business objects in PRC family related to purchase orders and purchase agreements.|
@@ -138,6 +139,20 @@ ATLAS integrates with local development and CI/CD workflows, allowing tests to r
 You can find the online documentation for Oracle Fusion AI Agent Studio at [official documentation](https://docs.oracle.com/en/cloud/saas/fusion-ai/) and information about the project at [Oracle Fusion AI](https://www.oracle.com/in/applications/fusion-ai/).
 
 ### Change Log Details
+
+##### 26th October 2026
+-----
+Added workflows, business objects in HCM family related to human resources in folder `aiapps/hcm/human-resources`
+
+- Workflows : Worker Achievements, Worker Favourite Links, Worker Feedback
+- Business Objects : Person Direct Reports, Person Headers Data Object Access, Representatives Search, Person Feedback Notes, Person Notes Visibility Options, Person Notes, Person Talent Profile
+
+Updated descriptions, business object code references, widget output formats in below workflows
+-  `aiapps/hcm/human-resources/xx_worker_aboutme.wf` 
+-  `aiapps/hcm/human-resources/xx_worker_card.wf`
+-  `aiapps/hcm/human-resources/xx_worker_directs.wf`
+-  `aiapps/hcm/human-resources/xx_worker_reps.wf`
+-  `aiapps/hcm/human-resources/xx_worker_wrk_loc_weather.wf`
 
 ##### 21th Aug 2026
 -----

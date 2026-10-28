@@ -21,7 +21,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5552,
+            "x": 5572,
             "y": 5000
           }
         },
@@ -39,10 +39,10 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5413,
-            "y": 5257
+            "x": 5450,
+            "y": 5650
           },
-          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"string\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
         {
           "id": "1776414083155",
@@ -52,7 +52,7 @@
             "name": "Switch Query"
           },
           "outcomes": {
-            "GradeId": "1776414110752",
+            "GradeId": "VALIDATE_REQUEST_GET_WORKER_DETAILS_BY_GRADE_ID",
             "GradeCode": "1776414161623",
             "GradeName": "1776414184508"
           },
@@ -66,7 +66,7 @@
           ],
           "diagram": {
             "x": 5450,
-            "y": 5468
+            "y": 5872
           },
           "convergenceTargetId": "1776414053079"
         },
@@ -77,7 +77,6 @@
           "metadata": {
             "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersByGradeId",
-            "processJson": true,
             "name": "Get Workers by Grade Id",
             "description": "Lists workers whose grade identifier matches the supplied value."
           },
@@ -88,14 +87,14 @@
             {
               "id": "1776414136446_1",
               "name": "gradeId",
-              "type": "string",
-              "value": "{{$context.$triggers.REST.$input.gradeId}}",
+              "type": "integer",
+              "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_WORKER_DETAILS_BY_GRADE_ID.$output.result.gradeId}}",
               "required": true
             }
           ],
           "diagram": {
             "x": 5000,
-            "y": 5690
+            "y": 6316
           },
           "outputSpecification": "{}"
         },
@@ -106,7 +105,6 @@
           "metadata": {
             "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersByGradeCode",
-            "processJson": true,
             "name": "Get Workers by Grade Code",
             "description": "Lists workers whose grade code matches the supplied value."
           },
@@ -124,7 +122,7 @@
           ],
           "diagram": {
             "x": 5450,
-            "y": 5690
+            "y": 6094
           },
           "outputSpecification": "{}"
         },
@@ -135,7 +133,6 @@
           "metadata": {
             "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersByGradeName",
-            "processJson": true,
             "name": "Get Workers by Grade Name",
             "description": "Lists workers whose grade name matches the supplied value."
           },
@@ -153,7 +150,7 @@
           ],
           "diagram": {
             "x": 5900,
-            "y": 5690
+            "y": 6094
           },
           "outputSpecification": "{}"
         },
@@ -172,7 +169,7 @@
           "inputs": [],
           "diagram": {
             "x": 5450,
-            "y": 5912
+            "y": 6538
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -186,6 +183,47 @@
           },
           "outcomes": {},
           "inputs": []
+        },
+        {
+          "id": "VALIDATE_REQUEST_GET_WORKER_DETAILS_BY_GRADE_ID",
+          "code": "VALIDATE_REQUEST_GET_WORKER_DETAILS_BY_GRADE_ID",
+          "type": "CODE",
+          "metadata": {
+            "name": "Validate Request Get Worker Details By Grade Id",
+            "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
+            "returnType": "object",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"gradeId\"]=id(($context.$triggers.REST.$input.gradeId),\"gradeId\");\nreturn checked;",
+            "errorNodeId": "HR_REQUEST_REJECTED"
+          },
+          "outcomes": {
+            "success": "1776414110752"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "diagram": {
+            "x": 5000,
+            "y": 6094
+          }
+        },
+        {
+          "id": "HR_REQUEST_REJECTED",
+          "code": "HR_REQUEST_REJECTED",
+          "type": "RETURN",
+          "metadata": {
+            "name": "Reject Invalid HR Request"
+          },
+          "inputs": [
+            {
+              "name": "returnValue",
+              "type": "string",
+              "value": "The HR request contains invalid or unsupported parameters."
+            }
+          ],
+          "outcomes": {},
+          "diagram": {
+            "x": 6300,
+            "y": 5000
+          }
         }
       ],
       "rootNode": "start",
@@ -218,7 +256,17 @@
         }
       ]
     },
-    "modelConfiguration": null,
+    "modelConfiguration": {
+      "code": "ORA_MODEL_GPT_6_LUNA",
+      "modelName": "GPT-6 Luna (Balanced)",
+      "provider": "CERT_PREMIUM",
+      "model": "OCI_GPT_6_LUNA",
+      "modelProperties": {
+        "max_completion_tokens": 32000,
+        "reasoning_effort": "medium",
+        "verbosity": "medium"
+      }
+    },
     "humanApprovalFlag": false,
     "waitFlag": false,
     "triggers": [
@@ -277,5 +325,6 @@
   "customizationPolicy": null,
   "isTemplate": false,
   "emailConfigCode": null,
-  "jobRequestId": null
+  "jobRequestId": null,
+  "header": {}
 }

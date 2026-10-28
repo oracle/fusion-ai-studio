@@ -19,7 +19,11 @@
           "outcomes": {
             "success": "1776419950457"
           },
-          "inputs": []
+          "inputs": [],
+          "diagram": {
+            "x": 5122,
+            "y": 5000
+          }
         },
         {
           "id": "end",
@@ -39,7 +43,6 @@
           "metadata": {
             "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersByName",
-            "processJson": true,
             "name": "Search Workers by Name",
             "description": "Lists workers whose display name matches the supplied full or partial worker name."
           },
@@ -55,7 +58,11 @@
               "required": true
             }
           ],
-          "outputSpecification": "{}"
+          "outputSpecification": "{}",
+          "diagram": {
+            "x": 5000,
+            "y": 5650
+          }
         },
         {
           "id": "1776420052404",
@@ -70,7 +77,31 @@
             "success": "end"
           },
           "inputs": [],
-          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "diagram": {
+            "x": 5000,
+            "y": 5872
+          }
+        },
+        {
+          "id": "HR_REQUEST_REJECTED",
+          "code": "HR_REQUEST_REJECTED",
+          "type": "RETURN",
+          "metadata": {
+            "name": "Reject Invalid HR Request"
+          },
+          "inputs": [
+            {
+              "name": "returnValue",
+              "type": "string",
+              "value": "The HR request could not be verified."
+            }
+          ],
+          "outcomes": {},
+          "diagram": {
+            "x": 5400,
+            "y": 5000
+          }
         }
       ],
       "rootNode": "start",
@@ -103,7 +134,17 @@
         }
       ]
     },
-    "modelConfiguration": null,
+    "modelConfiguration": {
+      "code": "ORA_MODEL_GPT_6_LUNA",
+      "modelName": "GPT-6 Luna (Balanced)",
+      "provider": "CERT_PREMIUM",
+      "model": "OCI_GPT_6_LUNA",
+      "modelProperties": {
+        "max_completion_tokens": 32000,
+        "reasoning_effort": "medium",
+        "verbosity": "medium"
+      }
+    },
     "humanApprovalFlag": false,
     "waitFlag": false,
     "triggers": [
@@ -131,7 +172,7 @@
   },
   "workflowCode": "XX_WORKER_SRCH_BY_NAME",
   "name": "Worker By Name",
-  "description": "A workflow agent that takes a worker’s name or partial name as input and returns the matching worker record.",
+  "description": "A workflow agent that takes a worker's name or partial name as input and returns the matching worker record.",
   "family": "HCM",
   "product": "GLOBAL_HUMAN_RESOURCES",
   "status": "PUBLISHED",
@@ -150,5 +191,6 @@
   "customizationPolicy": null,
   "isTemplate": false,
   "emailConfigCode": null,
-  "jobRequestId": null
+  "jobRequestId": null,
+  "header": {}
 }

@@ -21,7 +21,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5225,
+            "x": 5347,
             "y": 5000
           }
         },
@@ -40,7 +40,7 @@
           "inputs": [],
           "diagram": {
             "x": 5225,
-            "y": 5246
+            "y": 5206
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -65,7 +65,7 @@
           ],
           "diagram": {
             "x": 5225,
-            "y": 5468
+            "y": 5428
           },
           "convergenceTargetId": "1777025319070"
         },
@@ -76,7 +76,6 @@
           "metadata": {
             "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersCountByJobCode",
-            "processJson": true,
             "name": "Get Worker Count by Job Code",
             "description": "Returns the number of workers whose job code matches the supplied value."
           },
@@ -94,36 +93,7 @@
           ],
           "diagram": {
             "x": 5000,
-            "y": 5690
-          },
-          "outputSpecification": "{}"
-        },
-        {
-          "id": "1777024632860",
-          "code": "GET_WORKERS_CNT_BY_JOB_NAME",
-          "type": "BO_FUNCTION",
-          "metadata": {
-            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
-            "functionName": "GetWorkersCountByJobName",
-            "processJson": true,
-            "name": "Get Worker Count by Job Name",
-            "description": "Returns the number of workers whose job name matches the supplied value."
-          },
-          "outcomes": {
-            "success": "1777025319070"
-          },
-          "inputs": [
-            {
-              "id": "1777024654508_1",
-              "name": "jobName",
-              "type": "string",
-              "value": "{{$context.$triggers.REST.$input.jobName}}",
-              "required": true
-            }
-          ],
-          "diagram": {
-            "x": 5450,
-            "y": 5690
+            "y": 5650
           },
           "outputSpecification": "{}"
         },
@@ -142,9 +112,57 @@
           "inputs": [],
           "diagram": {
             "x": 5225,
-            "y": 5912
+            "y": 5872
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "1777024632860",
+          "code": "GET_WORKERS_CNT_BY_JOB_NAME",
+          "type": "BO_FUNCTION",
+          "metadata": {
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
+            "functionName": "GetWorkersCountByJobName",
+            "name": "Get Worker Count by Job Name",
+            "description": "Returns the number of workers whose job name matches the supplied value."
+          },
+          "outcomes": {
+            "success": "1777025319070"
+          },
+          "inputs": [
+            {
+              "id": "1777024654508_1",
+              "name": "jobName",
+              "type": "string",
+              "value": "{{$context.$triggers.REST.$input.jobName}}",
+              "required": true
+            }
+          ],
+          "diagram": {
+            "x": 5450,
+            "y": 5650
+          },
+          "outputSpecification": "{}"
+        },
+        {
+          "id": "HR_REQUEST_REJECTED",
+          "code": "HR_REQUEST_REJECTED",
+          "type": "RETURN",
+          "metadata": {
+            "name": "Reject Invalid HR Request"
+          },
+          "inputs": [
+            {
+              "name": "returnValue",
+              "type": "string",
+              "value": "The HR request could not be verified."
+            }
+          ],
+          "outcomes": {},
+          "diagram": {
+            "x": 5850,
+            "y": 5000
+          }
         },
         {
           "id": "end",
@@ -188,7 +206,17 @@
         }
       ]
     },
-    "modelConfiguration": null,
+    "modelConfiguration": {
+      "code": "ORA_MODEL_GPT_6_LUNA",
+      "modelName": "GPT-6 Luna (Balanced)",
+      "provider": "CERT_PREMIUM",
+      "model": "OCI_GPT_6_LUNA",
+      "modelProperties": {
+        "max_completion_tokens": 32000,
+        "reasoning_effort": "medium",
+        "verbosity": "medium"
+      }
+    },
     "humanApprovalFlag": false,
     "waitFlag": false,
     "triggers": [
@@ -241,5 +269,6 @@
   "customizationPolicy": null,
   "isTemplate": false,
   "emailConfigCode": null,
-  "jobRequestId": null
+  "jobRequestId": null,
+  "header": {}
 }

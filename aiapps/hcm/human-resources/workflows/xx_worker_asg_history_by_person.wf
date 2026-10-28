@@ -21,7 +21,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5225,
+            "x": 5572,
             "y": 5000
           }
         },
@@ -32,15 +32,16 @@
           "metadata": {
             "name": "Get Query Type",
             "returnType": "string",
-            "sourceCode": "const input = $context.$triggers.REST.$input || {};\nconst hasValue = (value) => value !== null && value !== undefined && String(value).trim() !== \"\";\n\nlet type = \"\";\nif (hasValue(input.personId)) {\n  type = \"PersonId\";\n} else if (hasValue(input.assignmentId)) {\n  type = \"AssignmentId\";\n}\n\nreturn type;"
+            "sourceCode": "const input=$context.$triggers.REST.$input || {};\nconst present=function(value){return value!==null && value!==undefined && String(value).trim()!==\"\";};\nif(!present(input.personId)) throw new Error(\"A personId is required to verify assignment ownership before reading history.\");\nreturn \"PersonId\";",
+            "errorNodeId": "HR_REQUEST_REJECTED"
           },
           "outcomes": {
             "success": "1777879057307"
           },
           "inputs": [],
           "diagram": {
-            "x": 5225,
-            "y": 5246
+            "x": 5450,
+            "y": 5206
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -52,7 +53,7 @@
             "name": "Switch Query"
           },
           "outcomes": {
-            "true": "1777456829024",
+            "true": "VALIDATE_REQUEST_GET_WORKER_PRIMARY_ASSIGNMENT",
             "false": "1777456888914"
           },
           "inputs": [
@@ -64,10 +65,31 @@
             }
           ],
           "diagram": {
-            "x": 5225,
-            "y": 5468
+            "x": 5450,
+            "y": 5428
           },
           "convergenceTargetId": "1777456888914"
+        },
+        {
+          "id": "VALIDATE_REQUEST_GET_WORKER_PRIMARY_ASSIGNMENT",
+          "code": "VALIDATE_REQUEST_GET_WORKER_PRIMARY_ASSIGNMENT",
+          "type": "CODE",
+          "metadata": {
+            "name": "Validate Request Get Worker Primary Assignment",
+            "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
+            "returnType": "object",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$triggers.REST.$input.personId),\"personId\");\nreturn checked;",
+            "errorNodeId": "HR_REQUEST_REJECTED"
+          },
+          "outcomes": {
+            "success": "1777456829024"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "diagram": {
+            "x": 5000,
+            "y": 5650
+          }
         },
         {
           "id": "1777456829024",
@@ -76,7 +98,6 @@
           "metadata": {
             "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_EMPLOYMENTGHR",
             "functionName": "GetAssignmentInformationByPerson",
-            "processJson": true,
             "name": "Get Worker Primary Assignment",
             "description": "Returns worker assignment rows for the supplied person so the workflow can select the primary assignment locally."
           },
@@ -87,14 +108,14 @@
             {
               "id": "1777456829024_personId",
               "name": "personId",
-              "value": "{{$context.$triggers.REST.$input.personId}}",
+              "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_WORKER_PRIMARY_ASSIGNMENT.$output.result.personId}}",
               "required": true,
-              "type": "string"
+              "type": "integer"
             }
           ],
           "diagram": {
-            "x": 4691,
-            "y": 5617
+            "x": 5000,
+            "y": 5872
           },
           "convergenceTargetId": "1777879107769",
           "outputSpecification": "{}"
@@ -106,15 +127,16 @@
           "metadata": {
             "name": "Get Payload",
             "returnType": "object",
-            "sourceCode": "let assignmentId=null;\nlet type = $context.$nodes.GET_QUERY_TYPE.$output.result;\n\nif (type === \"AssignmentId\") {\n  assignmentId =$context.$triggers.REST.$input.assignmentId ;\n} else if (type === \"PersonId\") {\n  assignmentId = $context.$nodes.GET_WORKER_PRIMARY_ASSIGNMENT.$output.items[0]?.AssignmentId;\n}\n\nconst effectiveDate = $context.$system.$currentDate || new Date().toISOString().split(\"T\")[0];\n\nconst result = {\n  assignmentId,\n  effectiveDate\n};\nreturn result;"
+            "sourceCode": "function id(v){const text=String(v==null?\"\":v).trim();if(!/^[1-9][0-9]{0,15}$/.test(text)||!Number.isSafeInteger(Number(text)))throw new Error(\"Invalid assignment ownership identifiers.\");return text;}\nconst input=$context.$triggers.REST.$input || {};\nconst personId=id(input.personId);\nconst response=$context.$nodes.GET_WORKER_PRIMARY_ASSIGNMENT.$output;\nif(!response || response.error || response.timeout || response.isError || Number(response.statusCode||response.status||0)>=400 || !Array.isArray(response.items) || !response.items.length)throw new Error(\"The worker's primary assignment could not be verified.\");\nconst row=response.items[0];\nif(!row || (row.PersonId!=null && id(row.PersonId)!==personId))throw new Error(\"Assignment does not belong to this worker.\");\nconst assignmentId=id(row.AssignmentId);\nif(input.assignmentId!=null && String(input.assignmentId).trim()!==\"\" && id(input.assignmentId)!==assignmentId)throw new Error(\"The requested assignment is not the worker's current primary assignment.\");\nreturn {assignmentId:assignmentId,effectiveDate:$context.$system.$currentDate || new Date().toISOString().slice(0,10)};",
+            "errorNodeId": "HR_REQUEST_REJECTED"
           },
           "outcomes": {
             "success": "1777879057308"
           },
           "inputs": [],
           "diagram": {
-            "x": 5133.894827772379,
-            "y": 5789.335061008531
+            "x": 5450,
+            "y": 6094
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -126,7 +148,7 @@
             "name": "Has Assignment Id"
           },
           "outcomes": {
-            "true": "1777457051049",
+            "true": "VALIDATE_REQUEST_GET_WORKER_ASSIGNMENT_HISTORY",
             "false": "1777457355010"
           },
           "inputs": [
@@ -138,10 +160,31 @@
             }
           ],
           "diagram": {
-            "x": 5423,
-            "y": 5931
+            "x": 5450,
+            "y": 6316
           },
           "convergenceTargetId": "1777457355010"
+        },
+        {
+          "id": "VALIDATE_REQUEST_GET_WORKER_ASSIGNMENT_HISTORY",
+          "code": "VALIDATE_REQUEST_GET_WORKER_ASSIGNMENT_HISTORY",
+          "type": "CODE",
+          "metadata": {
+            "name": "Validate Request Get Worker Assignment History",
+            "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
+            "returnType": "object",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\nfunction date(value,name) {\n  if(typeof value!==\"string\" || !/^\\d{4}-\\d{2}-\\d{2}$/.test(value) || value<\"1900-01-01\" || value>\"9999-12-31\") reject(name);\n  const parsed=new Date(value+\"T00:00:00Z\");if(!Number.isFinite(parsed.getTime()) || parsed.toISOString().slice(0,10)!==value) reject(name);return value;\n}\n\nconst checked={};\nchecked[\"assignmentId\"]=id(($context.$nodes.GET_PAYLOAD.$output.result.assignmentId),\"assignmentId\");\nchecked[\"effectiveDate\"]=date(($context.$nodes.GET_PAYLOAD.$output.result.effectiveDate),\"effectiveDate\");\nreturn checked;",
+            "errorNodeId": "HR_REQUEST_REJECTED"
+          },
+          "outcomes": {
+            "success": "1777457051049"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "diagram": {
+            "x": 5000,
+            "y": 6538
+          }
         },
         {
           "id": "1777457051049",
@@ -150,7 +193,6 @@
           "metadata": {
             "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_EMPLOYMENTGHR",
             "functionName": "GetAssignmentHistoryUpdates",
-            "processJson": true,
             "name": "Get Assignment History Updates",
             "description": "Returns assignment history update records for the supplied assignment identifier as of the supplied effective date."
           },
@@ -161,21 +203,21 @@
             {
               "id": "1777881438158_1",
               "name": "assignmentId",
-              "type": "string",
-              "value": "{{$context.$nodes.GET_PAYLOAD.$output.result.assignmentId}}",
+              "type": "integer",
+              "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_WORKER_ASSIGNMENT_HISTORY.$output.result.assignmentId}}",
               "required": true
             },
             {
               "id": "1777881438159_2",
               "name": "effectiveDate",
               "type": "string",
-              "value": "{{$context.$nodes.GET_PAYLOAD.$output.result.effectiveDate}}",
+              "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_WORKER_ASSIGNMENT_HISTORY.$output.result.effectiveDate}}",
               "required": true
             }
           ],
           "diagram": {
-            "x": 5016,
-            "y": 6129
+            "x": 5000,
+            "y": 6760
           },
           "convergenceTargetId": "1777457032628",
           "outputSpecification": "{}"
@@ -194,11 +236,31 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5225,
-            "y": 6356
+            "x": 5450,
+            "y": 6982
           },
           "convergenceTargetId": "1777457032628",
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "HR_REQUEST_REJECTED",
+          "code": "HR_REQUEST_REJECTED",
+          "type": "RETURN",
+          "metadata": {
+            "name": "Reject Invalid HR Request"
+          },
+          "inputs": [
+            {
+              "name": "returnValue",
+              "type": "string",
+              "value": "The HR request contains invalid or unsupported parameters."
+            }
+          ],
+          "outcomes": {},
+          "diagram": {
+            "x": 5850,
+            "y": 5000
+          }
         },
         {
           "id": "end",
@@ -242,7 +304,17 @@
         }
       ]
     },
-    "modelConfiguration": null,
+    "modelConfiguration": {
+      "code": "ORA_MODEL_GPT_6_LUNA",
+      "modelName": "GPT-6 Luna (Balanced)",
+      "provider": "CERT_PREMIUM",
+      "model": "OCI_GPT_6_LUNA",
+      "modelProperties": {
+        "max_completion_tokens": 32000,
+        "reasoning_effort": "medium",
+        "verbosity": "medium"
+      }
+    },
     "humanApprovalFlag": false,
     "waitFlag": false,
     "triggers": [
@@ -275,7 +347,7 @@
   },
   "workflowCode": "XX_WORKER_ASG_HISTORY_BY_PERSON",
   "name": "Assignment History",
-  "description": "A workflow agent that takes person id or assignment id and returns assignment history update records. When person id is provided, it resolves the worker primary assignment from assignment rows before fetching assignment history.",
+  "description": "Returns assignment history only after resolving the requested worker's current primary assignment and verifying any supplied assignment identifier against it.",
   "family": "HCM",
   "product": "GLOBAL_HUMAN_RESOURCES",
   "status": "DRAFT",
@@ -294,5 +366,6 @@
   "customizationPolicy": null,
   "isTemplate": false,
   "emailConfigCode": null,
-  "jobRequestId": null
+  "jobRequestId": null,
+  "header": {}
 }

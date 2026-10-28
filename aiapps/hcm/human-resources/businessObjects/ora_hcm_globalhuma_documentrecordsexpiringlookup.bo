@@ -17,9 +17,9 @@
     "tools": [
       {
         "name": "getDocumentRecordsExpiringWithinDateRange",
-        "description": "Retrieves document records that expire between the current date and 30 days later, and returns the display name, document type, document name, and DateTo for each matching record.\n",
+        "description": "Retrieves expiring document records for one authorized person number within the supplied date range. The team workflow calls this separately for each session-derived direct report.",
         "operationType": "GET",
-        "resourcePath": "/hcmRestApi/resources/latest/documentRecords?fields=PersonId,DisplayName,DocumentType,DocumentName,DateTo,LastUpdateDate,AttachmentsCount&orderBy=DateTo:asc&q=PersonNumber%21%3D%27{pPersonNumber}%27%20and%20DateTo%3E%3D%27{pCurrentDate}%27%20and%20DateTo%3C%3D%27{pDateAfter30Days}%27&onlyData=true",
+        "resourcePath": "/hcmRestApi/resources/latest/documentRecords?fields=PersonId,DisplayName,DocumentType,DocumentName,DateTo,LastUpdateDate,AttachmentsCount&orderBy=DateTo:asc&q=PersonNumber%3D%27{pPersonNumber}%27%20and%20DateTo%3E%3D%27{pCurrentDate}%27%20and%20DateTo%3C%3D%27{pDateAfter30Days}%27&onlyData=true&limit=500",
         "resourceType": "ADF_BC_FIXED_QUERY",
         "bodyTemplate": "",
         "useNativeAuthentication": true,
@@ -37,7 +37,7 @@
           },
           {
             "name": "pCurrentDate",
-            "dataType": "string",
+            "dataType": "date",
             "description": "Stores the current date",
             "id": 3,
             "isToken": true,
@@ -47,7 +47,7 @@
           },
           {
             "name": "pDateAfter30Days",
-            "dataType": "string",
+            "dataType": "date",
             "description": "Date after 30 days in YYYY-MM-DD format used as the end of the document DateTo range.",
             "id": 4,
             "isToken": true,
@@ -87,7 +87,7 @@
       },
       {
         "name": "getDocumentRecordsForPersonWithinDateRange",
-        "description": "Retrieves document records for the logged-in user's person number within the specified date range and returns the matching document record details from `documentRecords`.\n\n",
+        "description": "Retrieves document records for the logged-in user's person number within the specified date range and returns the matching document record details from documentRecords.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/latest/documentRecords?fields=*&q=PersonNumber%3D%27{pPersonNumber}%27%20and%20DateTo%20between%20%27{pStartDate}%27%20and%20%27{pEndDate}%27",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -107,7 +107,7 @@
           },
           {
             "name": "pStartDate",
-            "dataType": "string",
+            "dataType": "date",
             "description": "Start date in YYYY-MM-DD format for the document DateTo range.",
             "id": 9,
             "isToken": true,
@@ -117,7 +117,7 @@
           },
           {
             "name": "pEndDate",
-            "dataType": "string",
+            "dataType": "date",
             "description": "End date in YYYY-MM-DD format for the document DateTo range.",
             "id": 10,
             "isToken": true,

@@ -27,7 +27,7 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Person identifier used to retrieve representatives for the worker.",
             "id": 2,
             "isToken": true,
@@ -37,7 +37,7 @@
           },
           {
             "name": "assignmentId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Assignment identifier used to retrieve representatives for the worker assignment.",
             "id": 3,
             "isToken": true,
@@ -47,7 +47,7 @@
           },
           {
             "name": "limit",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Maximum number of representative records to return.",
             "id": 4,
             "isToken": true,
@@ -57,7 +57,7 @@
           },
           {
             "name": "offset",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Zero-based offset used for paginated representative results.",
             "id": 5,
             "isToken": true,
@@ -98,7 +98,7 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Person identifier used to retrieve representatives for the worker.",
             "id": 8,
             "isToken": true,
@@ -108,7 +108,7 @@
           },
           {
             "name": "assignmentId",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Assignment identifier used to retrieve representatives for the worker assignment.",
             "id": 9,
             "isToken": true,
@@ -128,7 +128,7 @@
           },
           {
             "name": "limit",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Maximum number of representative records to return.",
             "id": 11,
             "isToken": true,
@@ -138,7 +138,7 @@
           },
           {
             "name": "offset",
-            "dataType": "string",
+            "dataType": "integer",
             "description": "Zero-based offset used for paginated representative results.",
             "id": 12,
             "isToken": true,

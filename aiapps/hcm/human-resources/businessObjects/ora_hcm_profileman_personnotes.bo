@@ -1,0 +1,226 @@
+{
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "name": "Person Notes",
+  "description": "The Person Notes Business Object enables management of person notes.  It supports creating, updating, and deleting records that capture additional information or comments related to a person in the HCM system.",
+  "objectCode": "ORA_HCM_PROFILEMAN_XX_PERSONNOTES",
+  "family": "HCM",
+  "product": "PROFILE_MANAGEMENT",
+  "objectSource": "ADF_BC",
+  "restResourcePath": "/hcmRestApi/resources/11.13.18.05/personNotesV2",
+  "restResourceIdentifier": "-1",
+  "seededFlag": false,
+  "mandatoryFlag": false,
+  "objectProperties": {
+    "jsonSchemaName": "supportedObjectProperties",
+    "jsonSchemaVersion": 1,
+    "baseUrlTMKey": "",
+    "serviceNameOverride": "",
+    "tools": [
+      {
+        "name": "hide_unhide_person_note",
+        "description": "Hide or unhide a person note",
+        "operationType": "PATCH",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/personNotesV2/{NoteId}",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "{\n    \"HiddenFlag\" : \"{HiddenFlag}\"\n}",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "NoteId",
+            "dataType": "integer",
+            "description": "System-generated primary key of the note.",
+            "id": 2,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "HiddenFlag",
+            "dataType": "boolean",
+            "description": "Indicates whether the note is hidden or shown. The default value is Show.",
+            "id": 3,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "hide_unhide_person_note request schema 1; field-name placeholders only.",
+            "query": {
+              "HiddenFlag": "<hidden flag>"
+            },
+            "sampleType": "request"
+          },
+          {
+            "description": "hide_unhide_person_note request schema 2; field-name placeholders only.",
+            "query": {
+              "HiddenFlag": "<hidden flag>"
+            },
+            "sampleType": "request"
+          }
+        ]
+      },
+      {
+        "name": "update_person_note",
+        "description": "Update a person note",
+        "operationType": "PATCH",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/personNotesV2/{NoteId}",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "{\n    \"NoteText\": \"{NoteText}\",\n    \"NoteVisibilityCode\" : \"{NoteVisibilityCode}\"\n}",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "NoteId",
+            "dataType": "integer",
+            "description": "System-generated primary key of the note.",
+            "id": 7,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "NoteText",
+            "dataType": "string",
+            "description": "Text of the note.",
+            "id": 8,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "NoteVisibilityCode",
+            "dataType": "string",
+            "description": "Visibility of the note. Valid options are: ALL, MANAGERS, MANAGERS_AND_SUBJECT, PRIVATE, SUBJECT, MANAGERS_SUBJECT_PEERS. Administrators can remove any of the options via configuration for the specified context type.",
+            "id": 9,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "update_person_note request schema 1; field-name placeholders only.",
+            "query": {
+              "NoteText": "<note text>",
+              "NoteVisibilityCode": "<note visibility code>"
+            },
+            "sampleType": "request"
+          }
+        ]
+      },
+      {
+        "name": "create_person_note",
+        "description": "Creates a new person note by submitting data to the personNotesV2 resource using a POST operation. This function allows adding notes associated with a person in the system.",
+        "operationType": "POST",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/personNotesV2",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "{\n \t   \"AuthorId\": \"{AuthorId}\",\n           \"WorkerId\": \"{WorkerId}\",\n           \"NoteVisibilityCode\": \"{NoteVisibilityCode}\",\n           \"ContextType\": \"{ContextType}\",\n           \"ContextId\": \"{ContextId}\",\n           \"ContextType2\": \"{ContextType2}\",\n           \"ContextId2\": \"{ContextId2}\",\n           \"NoteText\": \"{NoteText}\"\n\n}",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "AuthorId",
+            "dataType": "integer",
+            "description": "Person identifier of the author of the note.",
+            "id": 12,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "WorkerId",
+            "dataType": "integer",
+            "description": "Person identifier of the worker who's the subject of the note.",
+            "id": 13,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "NoteVisibilityCode",
+            "dataType": "string",
+            "description": "Visibility of the note. Valid options are: ALL, MANAGERS, MANAGERS_AND_SUBJECT, PRIVATE, SUBJECT, MANAGERS_SUBJECT_PEERS. Administrators can remove any of the options via configuration for the specified context type.",
+            "id": 14,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "ContextType",
+            "dataType": "string",
+            "description": "Context type of the note. Supply value is ORA_NO_CONTEXT.",
+            "id": 15,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "ContextId",
+            "dataType": "integer",
+            "description": "Context identifier of the note.",
+            "id": 16,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "ContextType2",
+            "dataType": "string",
+            "description": "Additional context type of the note.",
+            "id": 17,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "ContextId2",
+            "dataType": "integer",
+            "description": "Additional context identifier of the note.",
+            "id": 18,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "NoteText",
+            "dataType": "string",
+            "description": "Text of the note.",
+            "id": 19,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "create_person_note request schema 1; field-name placeholders only.",
+            "query": {
+              "AuthorId": "<author id>",
+              "WorkerId": "<worker id>",
+              "NoteVisibilityCode": "<note visibility code>",
+              "ContextType": "<context type>",
+              "NoteText": "<note text>"
+            },
+            "sampleType": "request"
+          }
+        ]
+      }
+    ]
+  }
+}

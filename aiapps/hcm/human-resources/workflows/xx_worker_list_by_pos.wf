@@ -19,7 +19,11 @@
           "outcomes": {
             "success": "1776331254607"
           },
-          "inputs": []
+          "inputs": [],
+          "diagram": {
+            "x": 5572,
+            "y": 5000
+          }
         },
         {
           "id": "end",
@@ -45,7 +49,11 @@
             "success": "1776333748277"
           },
           "inputs": [],
-          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "diagram": {
+            "x": 5450,
+            "y": 5650
+          }
         },
         {
           "id": "1776342805913",
@@ -60,7 +68,11 @@
             "success": "end"
           },
           "inputs": [],
-          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "diagram": {
+            "x": 5450,
+            "y": 6538
+          }
         },
         {
           "id": "1776333748277",
@@ -70,7 +82,7 @@
             "name": "Switch Query"
           },
           "outcomes": {
-            "PositionId": "1776333776691",
+            "PositionId": "VALIDATE_REQUEST_GET_PERSON_DETAILS_BY_POSITION_ID",
             "PositionName": "1776333827039",
             "PositionCode": "1776333861451"
           },
@@ -82,7 +94,11 @@
               "value": "{{$context.$nodes.GET_QUERY_TYPE.$output.result}}"
             }
           ],
-          "convergenceTargetId": "1776342805913"
+          "convergenceTargetId": "1776342805913",
+          "diagram": {
+            "x": 5450,
+            "y": 5872
+          }
         },
         {
           "id": "1776333776691",
@@ -91,7 +107,6 @@
           "metadata": {
             "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersByPositionId",
-            "processJson": true,
             "name": "Get Workers by Position Id",
             "description": "Lists workers whose position identifier matches the supplied value."
           },
@@ -102,12 +117,16 @@
             {
               "id": "1776334351309_1",
               "name": "positionId",
-              "type": "string",
-              "value": "{{$context.$triggers.REST.$input.positionId}}",
+              "type": "integer",
+              "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_PERSON_DETAILS_BY_POSITION_ID.$output.result.positionId}}",
               "required": true
             }
           ],
-          "outputSpecification": "{}"
+          "outputSpecification": "{}",
+          "diagram": {
+            "x": 5000,
+            "y": 6316
+          }
         },
         {
           "id": "1776333827039",
@@ -116,7 +135,6 @@
           "metadata": {
             "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersByPositionName",
-            "processJson": true,
             "name": "Get Workers by Position Name",
             "description": "Lists workers whose position name matches the supplied value."
           },
@@ -132,7 +150,11 @@
               "required": true
             }
           ],
-          "outputSpecification": "{}"
+          "outputSpecification": "{}",
+          "diagram": {
+            "x": 5450,
+            "y": 6094
+          }
         },
         {
           "id": "1776333861451",
@@ -141,7 +163,6 @@
           "metadata": {
             "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
             "functionName": "GetWorkersByPositionCode",
-            "processJson": true,
             "name": "Get Workers by Position Code",
             "description": "Lists workers whose position code matches the supplied value."
           },
@@ -157,7 +178,52 @@
               "required": true
             }
           ],
-          "outputSpecification": "{}"
+          "outputSpecification": "{}",
+          "diagram": {
+            "x": 5900,
+            "y": 6094
+          }
+        },
+        {
+          "id": "VALIDATE_REQUEST_GET_PERSON_DETAILS_BY_POSITION_ID",
+          "code": "VALIDATE_REQUEST_GET_PERSON_DETAILS_BY_POSITION_ID",
+          "type": "CODE",
+          "metadata": {
+            "name": "Validate Request Get Person Details By Position Id",
+            "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
+            "returnType": "object",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"positionId\"]=id(($context.$triggers.REST.$input.positionId),\"positionId\");\nreturn checked;",
+            "errorNodeId": "HR_REQUEST_REJECTED"
+          },
+          "outcomes": {
+            "success": "1776333776691"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "diagram": {
+            "x": 5000,
+            "y": 6094
+          }
+        },
+        {
+          "id": "HR_REQUEST_REJECTED",
+          "code": "HR_REQUEST_REJECTED",
+          "type": "RETURN",
+          "metadata": {
+            "name": "Reject Invalid HR Request"
+          },
+          "inputs": [
+            {
+              "name": "returnValue",
+              "type": "string",
+              "value": "The HR request contains invalid or unsupported parameters."
+            }
+          ],
+          "outcomes": {},
+          "diagram": {
+            "x": 6300,
+            "y": 5000
+          }
         }
       ],
       "rootNode": "start",
@@ -190,7 +256,17 @@
         }
       ]
     },
-    "modelConfiguration": null,
+    "modelConfiguration": {
+      "code": "ORA_MODEL_GPT_6_LUNA",
+      "modelName": "GPT-6 Luna (Balanced)",
+      "provider": "CERT_PREMIUM",
+      "model": "OCI_GPT_6_LUNA",
+      "modelProperties": {
+        "max_completion_tokens": 32000,
+        "reasoning_effort": "medium",
+        "verbosity": "medium"
+      }
+    },
     "humanApprovalFlag": false,
     "waitFlag": false,
     "triggers": [
@@ -249,5 +325,6 @@
   "customizationPolicy": null,
   "isTemplate": false,
   "emailConfigCode": null,
-  "jobRequestId": null
+  "jobRequestId": null,
+  "header": {}
 }
