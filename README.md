@@ -19,6 +19,7 @@ The repository now follows a **release-based branching model**. You will see **`
 
 | **Date**| **Operation** | **File/folder** | **Description**|
 |--------------|---------------|---------------|---------------|
+| 2026-11-04| Added |`aistudio-extension.zip` | Updated the AI Studio extension to resolve file attachments failing with HTTP 400 in the workflow chat conversation. |
 | 2026-10-26| Added |`aiapps/hcm/human-resources` | Added new business objects, workflows to human resources and updated widget output formats of workflows|
 | 2026-08-21| Added |`.agents/skills, aiapps` |Directory restructured to support standard `**git clone**` and `**git pull**` operations to obtain the latest skills, applications, and workflow updates.|
 | 2026-08-12| Added |`aiapps/scm/inventory` |Added inventory workflows, business objects for item shortage and lot expiry.|
@@ -139,6 +140,12 @@ ATLAS integrates with local development and CI/CD workflows, allowing tests to r
 You can find the online documentation for Oracle Fusion AI Agent Studio at [official documentation](https://docs.oracle.com/en/cloud/saas/fusion-ai/) and information about the project at [Oracle Fusion AI](https://www.oracle.com/in/applications/fusion-ai/).
 
 ### Change Log Details
+
+##### 4th November 2026
+-----
+This change resolves an issue in AI Studio where files are uploaded successfully in the chat but failed to attach to the test conversation in workflow, returning an HTTP 400 error. This could cause the workflow to run without the attachment.
+
+The fix now ensures direct requests to Fusion preserve the required content types, preventing the attachment processing issue that caused the `VERSION/create` error.
 
 ##### 26th October 2026
 -----

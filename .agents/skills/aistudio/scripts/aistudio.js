@@ -26164,8 +26164,7 @@ function Nh(e, t = {}) {
   };
   return async (i, s) => {
     const c = CP(i), d = e.localOrchestrator === !0 ? PP(c, e.localOrchestratorUrl) : c, u = EP(d, n), p = EP(c, n);
-    let f = await AP(i, s);
-    f = TP(f);
+    const f = await AP(i, s);
     const m = new Headers(f?.headers ?? (i instanceof Request ? i.headers : void 0)), w = await a(p);
     m.set("Authorization", w);
     const y = {
