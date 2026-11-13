@@ -18,7 +18,7 @@
     "tools": [
       {
         "name": "GetAssignmentHistoryUpdates",
-        "description": "Returns assignment history update records for the supplied assignment identifier as of the supplied effective date.",
+        "description": "Retrieves assignment history updates by assignmentId and effectiveDate, including job, organization, location, action, and effective-date details when available.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/employmentAssignmentHistoryDetails?finder=findAssignmentHistoryUpdates;pAssignmentId={assignmentId},pEffectiveDate={effectiveDate}&onlyData=true",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -28,9 +28,9 @@
         "parameterDefinitions": [
           {
             "name": "assignmentId",
-            "dataType": "integer",
-            "description": "Assignment identifier used to retrieve assignment history update records.",
-            "id": 2,
+            "dataType": "string",
+            "description": "Assignment identifier used with the person identifier for assignment-scoped lookups.",
+            "id": 11,
             "isToken": true,
             "location": "query",
             "source": "placeholder",
@@ -40,7 +40,7 @@
             "name": "effectiveDate",
             "dataType": "date",
             "description": "Effective date used to retrieve assignment history updates, formatted as YYYY-MM-DD.",
-            "id": 3,
+            "id": 12,
             "isToken": true,
             "location": "query",
             "source": "placeholder",
@@ -510,7 +510,7 @@
       },
       {
         "name": "GetWorkerConnections",
-        "description": "Returns worker connection records for the supplied person and assignment, including line-manager hierarchy relationships.",
+        "description": "Retrieves worker connections by personId and assignmentId, including line-manager hierarchy relationships.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/workerConnections?finder=findByPerson;PersonId={personId},AssignmentId={assignmentId}&limit=20000&onlyData=true",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -520,7 +520,7 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "integer",
+            "dataType": "string",
             "description": "Person identifier used to locate the worker record in HCM.",
             "id": 47,
             "isToken": true,
@@ -530,7 +530,7 @@
           },
           {
             "name": "assignmentId",
-            "dataType": "integer",
+            "dataType": "string",
             "description": "Assignment identifier used with the person identifier for assignment-scoped lookups.",
             "id": 48,
             "isToken": true,
@@ -704,7 +704,7 @@
       },
       {
         "name": "GetWorkerManagers",
-        "description": "Returns manager details for the supplied person and assignment.",
+        "description": "Retrieves managers for a worker assignment using personId and assignmentId, including ManagerPersonId, DisplayName, ManagerAssignmentId, and ManagerTypeMeaning.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/publicWorkers/{personId}/child/assignments/{assignmentId}?onlyData=true&fields=managers",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -714,7 +714,7 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "integer",
+            "dataType": "string",
             "description": "Person identifier used to locate the worker record in HCM.",
             "id": 65,
             "isToken": true,
@@ -724,7 +724,7 @@
           },
           {
             "name": "assignmentId",
-            "dataType": "integer",
+            "dataType": "string",
             "description": "Assignment identifier used with the person identifier for assignment-scoped lookups.",
             "id": 66,
             "isToken": true,
@@ -1031,7 +1031,7 @@
       },
       {
         "name": "GetWorkerPrimaryAssignmentInfo",
-        "description": "Returns the primary assignment identifier for the supplied person.",
+        "description": "Retrieves AssignmentId for assignments marked PrimaryFlag=true for the supplied personId.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/publicWorkers/{personId}/child/assignments?q=PrimaryFlag=true&fields=AssignmentId&onlyData=true",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -1041,8 +1041,8 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "integer",
-            "description": "Person identifier used to retrieve the worker primary assignment.",
+            "dataType": "string",
+            "description": "Person identifier used to locate the worker record in HCM.",
             "id": 95,
             "isToken": true,
             "location": "path",
@@ -1181,7 +1181,7 @@
       },
       {
         "name": "GetAssignmentInformationByPerson",
-        "description": "Returns assignment information for the supplied person identifier.",
+        "description": "Retrieves primary assignment information by personId, including AssignmentId, AssignmentName, BusinessUnitName, DepartmentName, LegalEmployerName, JobName, and StartDate.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/publicWorkers/{personId}/child/assignments?q=PrimaryFlag=true&onlyData=true",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -1191,8 +1191,8 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "integer",
-            "description": "Person identifier used to retrieve worker assignment records.",
+            "dataType": "string",
+            "description": "Person identifier used to locate the worker record in HCM.",
             "id": 109,
             "isToken": true,
             "location": "path",
@@ -1541,7 +1541,7 @@
       },
       {
         "name": "GetPersonSeniorityInformation",
-        "description": "Returns seniority information for the supplied person identifier.",
+        "description": "Retrieves seniority records by personId, including SeniorityDate, SeniorityDateCode, SeniorityHours, and service adjustments. Orders records by seniority date code and effective start date.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/employmentSeniorityDatesAll?limit=500&onlyData=true&orderBy=SeniorityDateCode:asc,EffectiveStartDate:desc&q=PersonId={personId}&fields=*",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -1551,8 +1551,8 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "integer",
-            "description": "Person identifier used to retrieve worker seniority records.",
+            "dataType": "string",
+            "description": "Person identifier used to locate the worker record in HCM.",
             "id": 142,
             "isToken": true,
             "location": "query",
@@ -2213,7 +2213,7 @@
       },
       {
         "name": "GetTeamSeniorityInformationByManager",
-        "description": "Returns seniority information for workers in the supplied manager hierarchy.",
+        "description": "Retrieves team seniority records by managerPersonId, including worker and assignment identifiers, DisplayName, SeniorityDate, and TotalSeniorityHours.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/employmentTeamSeniorityDates?finder=findByManagerId;ManagerId={managerPersonId}&onlyData=true",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -2223,8 +2223,8 @@
         "parameterDefinitions": [
           {
             "name": "managerPersonId",
-            "dataType": "integer",
-            "description": "Manager person identifier used to retrieve team seniority records.",
+            "dataType": "string",
+            "description": "Person identifier used to locate the manager record in HCM.",
             "id": 206,
             "isToken": true,
             "location": "query",
@@ -2627,7 +2627,7 @@
       },
       {
         "name": "GetSalaryHistoryByPersonId",
-        "description": "Returns current and historical salary records for the supplied person identifier, including salary amount, annualized salary, compa-ratio, quartile, and salary range values.",
+        "description": "Retrieves current and historical salary records by personId, including SalaryAmount, AnnualSalary, CurrencyCode, DateFrom, DateTo, CompaRatio, and salary range values.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/salaries?q=PersonId={personId}&onlyData=true",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -2636,8 +2636,8 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "integer",
-            "description": "Worker person identifier used to retrieve salary history.",
+            "dataType": "string",
+            "description": "Person identifier used to locate the worker record in HCM.",
             "id": 244,
             "isToken": true,
             "location": "query",
@@ -2711,7 +2711,7 @@
       },
       {
         "name": "GetPerformanceRatingsByPersonId",
-        "description": "Returns talent profile performance rating records for the supplied person identifier, including expanded performance rating details.",
+        "description": "Retrieves talent ratings by personId with expanded performanceRatings, ordered by LastUpdateDate descending.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentRatings?q=PersonId={personId}&expand=performanceRatings&orderBy=LastUpdateDate:desc&onlyData=true",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -2720,8 +2720,8 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "integer",
-            "description": "Worker person identifier used to retrieve talent and performance ratings.",
+            "dataType": "string",
+            "description": "Person identifier used to locate the worker record in HCM.",
             "id": 248,
             "isToken": true,
             "location": "query",
@@ -2772,7 +2772,7 @@
       },
       {
         "name": "GetAssignmentUpdatesBetweenDates",
-        "description": "Returns assignment history rows for the supplied assignment identifier and effective-date range.",
+        "description": "Retrieves assignment history by AssignmentId, RangeStartDate, and RangeEndDate. Returns a fixed set of fields including Action, ActionReason, Job, Grade, Position, ManagerDisplayName, Department, Location, and effective dates.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/employmentAssignmentHistoryDetails?finder=findAssignmentUpdatesBetweenDates;pAssignmentId={AssignmentId},pRangeStartDate={RangeStartDate},pRangeEndDate={RangeEndDate}&fields=AssignmentId,EffectiveStartDate,EffectiveEndDate,EffectiveLatestChange,EffectiveSequence,AssignmentNumber,PersonId,PersonNumber,PersonDisplayName,DateStart,Action,ActionReason,JobId,Job,GradeId,Grade,PositionId,Position,ManagerId,ManagerAssignmentId,ManagerDisplayName,BusinessUnit,Department,LegalEmployer,Location,AssignmentStatusType,SystemPersonType,FullPartTime,LastWorkingDate,TerminationDate",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -2781,8 +2781,8 @@
         "parameterDefinitions": [
           {
             "name": "AssignmentId",
-            "dataType": "integer",
-            "description": "Worker assignment identifier whose history should be returned.",
+            "dataType": "string",
+            "description": "Assignment identifier used with the person identifier for assignment-scoped lookups.",
             "id": 252,
             "isToken": true,
             "location": "query",
@@ -2932,7 +2932,7 @@
       },
       {
         "name": "GetWorkerRepresentatives",
-        "description": "Returns work-contact representatives for a worker assignment, including representative responsibility, person, assignment, contact, and effective-date details.",
+        "description": "Retrieves representatives marked WorkContactsFlag=true for a worker assignment. Returns DisplayName, PersonId, ResponsibilityName, and ResponsibilityType.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/publicWorkers/{personId}/child/assignments/{assignmentId}/child/representatives?onlyData=true&q=WorkContactsFlag=true&fields=DisplayName,PersonId,ResponsibilityName,ResponsibilityType",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -2941,8 +2941,8 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "integer",
-            "description": "Person identifier of the worker whose assignment representatives are retrieved.",
+            "dataType": "string",
+            "description": "Person identifier used to locate the worker record in HCM.",
             "id": 259,
             "isToken": true,
             "location": "path",
@@ -2951,8 +2951,8 @@
           },
           {
             "name": "assignmentId",
-            "dataType": "integer",
-            "description": "Assignment identifier used to retrieve representatives for the worker assignment.",
+            "dataType": "string",
+            "description": "Assignment identifier used with the person identifier for assignment-scoped lookups.",
             "id": 260,
             "isToken": true,
             "location": "path",
@@ -3128,14 +3128,7 @@
               "hasMore": "<has more>",
               "limit": "<limit>",
               "offset": "<offset>",
-              "links": [
-                {
-                  "rel": "<rel>",
-                  "href": "<href>",
-                  "name": "<name>",
-                  "kind": "<kind>"
-                }
-              ]
+              "links": []
             },
             "sampleType": "response"
           }
@@ -3143,7 +3136,7 @@
       },
       {
         "name": "GetTalentPersonProfiles",
-        "description": "Returns eligible talent profile sections for a person, including profile summary, career ambassador details, expertise, interests, favorite links, tags, and skills.",
+        "description": "Retrieves eligible talent profile sections by personId, including ProfileId, Summary, career ambassador information, expertise, interests, favorite links, tags, and skills.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentPersonProfiles?finder=findEligibleSections;PersonId={personId}&limit=50&onlyData=true&fields=ProfileId,Summary,CareerAmbassadorFlag,CareerAmbassadorSummary;areasOfExpertise:ExpertiseId,Expertise;areasOfInterest:InterestId,Interest;favoriteLinks:BookmarkId,URL,Description;tags:TagId,Tag,ContentItemId;skillSections:SectionName,SectionId,SectionContext,ProfileSectionId;skillSections.skillItems:Skill,SkillId",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -3152,8 +3145,8 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "integer",
-            "description": "Person identifier of the worker whose talentProfiles are to be retrieved.",
+            "dataType": "string",
+            "description": "Person identifier used to locate the worker record in HCM.",
             "id": 264,
             "isToken": true,
             "location": "query",
@@ -3199,14 +3192,7 @@
               "hasMore": "<has more>",
               "limit": "<limit>",
               "offset": "<offset>",
-              "links": [
-                {
-                  "rel": "<rel>",
-                  "href": "<href>",
-                  "name": "<name>",
-                  "kind": "<kind>"
-                }
-              ]
+              "links": []
             },
             "sampleType": "response"
           }
@@ -3214,7 +3200,7 @@
       },
       {
         "name": "GetPersonNotes",
-        "description": "Returns person notes for a worker, including note text and note visibility details when available.",
+        "description": "Retrieves person notes for the supplied worker personId in the ORA_NO_CONTEXT context, including expanded NoteText and available visibility information.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/personNotesV2?q=WorkerId={personId} and ContextType='ORA_NO_CONTEXT'&expand=NoteText&links=self",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -3223,8 +3209,8 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "integer",
-            "description": "Person identifier used to retrieve person notes for the requested worker.",
+            "dataType": "string",
+            "description": "Person identifier used to locate the worker record in HCM.",
             "id": 268,
             "isToken": true,
             "location": "query",
@@ -3287,20 +3273,7 @@
                     "headers": {
                       "ETag": "<etag>"
                     },
-                    "links": [
-                      {
-                        "rel": "<rel>",
-                        "href": "<href>",
-                        "name": "<name>",
-                        "kind": "<kind>"
-                      },
-                      {
-                        "rel": "<rel>",
-                        "href": "<href>",
-                        "name": "<name>",
-                        "kind": "<kind>"
-                      }
-                    ]
+                    "links": []
                   }
                 },
                 {
@@ -3346,20 +3319,7 @@
                     "headers": {
                       "ETag": "<etag>"
                     },
-                    "links": [
-                      {
-                        "rel": "<rel>",
-                        "href": "<href>",
-                        "name": "<name>",
-                        "kind": "<kind>"
-                      },
-                      {
-                        "rel": "<rel>",
-                        "href": "<href>",
-                        "name": "<name>",
-                        "kind": "<kind>"
-                      }
-                    ]
+                    "links": []
                   }
                 },
                 {
@@ -3405,20 +3365,7 @@
                     "headers": {
                       "ETag": "<etag>"
                     },
-                    "links": [
-                      {
-                        "rel": "<rel>",
-                        "href": "<href>",
-                        "name": "<name>",
-                        "kind": "<kind>"
-                      },
-                      {
-                        "rel": "<rel>",
-                        "href": "<href>",
-                        "name": "<name>",
-                        "kind": "<kind>"
-                      }
-                    ]
+                    "links": []
                   }
                 },
                 {
@@ -3464,20 +3411,7 @@
                     "headers": {
                       "ETag": "<etag>"
                     },
-                    "links": [
-                      {
-                        "rel": "<rel>",
-                        "href": "<href>",
-                        "name": "<name>",
-                        "kind": "<kind>"
-                      },
-                      {
-                        "rel": "<rel>",
-                        "href": "<href>",
-                        "name": "<name>",
-                        "kind": "<kind>"
-                      }
-                    ]
+                    "links": []
                   }
                 },
                 {
@@ -3523,20 +3457,7 @@
                     "headers": {
                       "ETag": "<etag>"
                     },
-                    "links": [
-                      {
-                        "rel": "<rel>",
-                        "href": "<href>",
-                        "name": "<name>",
-                        "kind": "<kind>"
-                      },
-                      {
-                        "rel": "<rel>",
-                        "href": "<href>",
-                        "name": "<name>",
-                        "kind": "<kind>"
-                      }
-                    ]
+                    "links": []
                   }
                 }
               ],
@@ -3544,14 +3465,7 @@
               "hasMore": "<has more>",
               "limit": "<limit>",
               "offset": "<offset>",
-              "links": [
-                {
-                  "rel": "<rel>",
-                  "href": "<href>",
-                  "name": "<name>",
-                  "kind": "<kind>"
-                }
-              ]
+              "links": []
             },
             "sampleType": "response"
           }
@@ -3559,7 +3473,7 @@
       },
       {
         "name": "GetManagerDirectReports",
-        "description": "Returns direct reports for the supplied manager assignment, including worker identifiers and report-count metadata.",
+        "description": "Retrieves up to 200 direct reports for the supplied manager person and assignment identifiers, including worker identity and reporting-count information.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/publicWorkers/{managerPersonId}/child/assignments/{managerAssignmentId}/child/directReports?onlyData=true&limit=200&offset=0",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -3568,8 +3482,8 @@
         "parameterDefinitions": [
           {
             "name": "managerPersonId",
-            "dataType": "integer",
-            "description": "Manager person identifier whose direct reports should be returned.",
+            "dataType": "string",
+            "description": "Person identifier used to locate the manager record in HCM.",
             "id": 272,
             "isToken": true,
             "location": "path",
@@ -3578,8 +3492,8 @@
           },
           {
             "name": "managerAssignmentId",
-            "dataType": "integer",
-            "description": "Manager assignment identifier used to retrieve direct reports.",
+            "dataType": "string",
+            "description": "Assignment identifier used with the manager person identifier to retrieve reporting information.",
             "id": 273,
             "isToken": true,
             "location": "path",
@@ -3632,7 +3546,7 @@
       },
       {
         "name": "GetWorkerDirectReportsCount",
-        "description": "Returns direct reports count metadata for the supplied worker assignment using totalResults.",
+        "description": "Retrieves totalResults for the direct reports of the supplied worker assignment, requesting one item to obtain the collection count.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/publicWorkers/{personId}/child/assignments/{assignmentId}/child/directReports?onlyData=true&totalResults=true&limit=1",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -3642,8 +3556,8 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "integer",
-            "description": "Person identifier whose direct reports count should be returned.",
+            "dataType": "string",
+            "description": "Person identifier used to locate the worker record in HCM.",
             "id": 277,
             "isToken": true,
             "location": "path",
@@ -3652,8 +3566,8 @@
           },
           {
             "name": "assignmentId",
-            "dataType": "integer",
-            "description": "Assignment identifier used to retrieve direct reports count.",
+            "dataType": "string",
+            "description": "Assignment identifier used with the person identifier for assignment-scoped lookups.",
             "id": 278,
             "isToken": true,
             "location": "path",
@@ -3686,7 +3600,7 @@
       },
       {
         "name": "GetWorkerAllReportsCount",
-        "description": "Returns total reports count metadata for the supplied worker assignment using totalResults.",
+        "description": "Retrieves totalResults for all reports of the supplied worker assignment, requesting one item to obtain the collection count.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/publicWorkers/{personId}/child/assignments/{assignmentId}/child/allReports?onlyData=true&totalResults=true&limit=1",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -3696,8 +3610,8 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "integer",
-            "description": "Person identifier whose total reports count should be returned.",
+            "dataType": "string",
+            "description": "Person identifier used to locate the worker record in HCM.",
             "id": 282,
             "isToken": true,
             "location": "path",
@@ -3706,8 +3620,8 @@
           },
           {
             "name": "assignmentId",
-            "dataType": "integer",
-            "description": "Assignment identifier used to retrieve total reports count.",
+            "dataType": "string",
+            "description": "Assignment identifier used with the person identifier for assignment-scoped lookups.",
             "id": 283,
             "isToken": true,
             "location": "path",
@@ -3740,7 +3654,7 @@
       },
       {
         "name": "GetTalentProfileByPersonId",
-        "description": "Resolves a person's talent profile and canonical REST item link for About Me updates.",
+        "description": "Retrieves talent profiles by personId, including ProfileId, PersonId, ExpertiseId, InterestId, and REST item links used to identify existing records for updates.",
         "operationType": "GET",
         "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentPersonProfiles?q=PersonId={personId}&fields=ProfileId,PersonId;areasOfExpertise:ExpertiseId;areasOfInterest:InterestId&onlyData=false&limit=2",
         "resourceType": "ADF_BC_FIXED_QUERY",
@@ -3749,8 +3663,8 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "integer",
-            "description": "Person identifier whose profile resource link is requested.",
+            "dataType": "string",
+            "description": "Person identifier used to locate the worker record in HCM.",
             "id": 287,
             "isToken": true,
             "location": "query",
@@ -3766,21 +3680,14 @@
                 {
                   "ProfileId": "<profileId>",
                   "PersonId": "<personId>",
-                  "links": [
-                    {
-                      "rel": "<rel>",
-                      "kind": "<kind>",
-                      "name": "<name>",
-                      "href": "<href>"
-                    }
-                  ],
+                  "links": [],
                   "areasOfExpertise": {
                     "items": [
                       {
                         "ExpertiseId": "<expertiseId>"
                       }
                     ],
-                    "hasMore": false
+                    "hasMore": "<has more>"
                   },
                   "areasOfInterest": {
                     "items": [
@@ -3788,7 +3695,7 @@
                         "InterestId": "<interestId>"
                       }
                     ],
-                    "hasMore": false
+                    "hasMore": "<has more>"
                   }
                 }
               ],
@@ -3882,11 +3789,11 @@
         ],
         "sampleQueries": [
           {
-            "description": "Function inputs: profile resource key, numeric child ID, and expertise field value.",
+            "description": "Sample request for UpdateAboutMeExpertise using masked parameter placeholders.",
             "query": {
-              "profileId": "<resource key from profile lookup>",
-              "expertiseId": 900000000000001,
-              "expertise": "Sample value"
+              "profileId": "<profile id>",
+              "expertiseId": "<expertise id>",
+              "expertise": "<expertise>"
             },
             "sampleType": "request"
           }

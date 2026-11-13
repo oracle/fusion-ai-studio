@@ -43,16 +43,16 @@ Description: Retrieves document records for the logged-in user's person number w
 
 ### Function : GetAssignmentHistoryUpdates
 
-Description: Returns assignment history update records for the supplied assignment identifier as of the supplied effective date.
+Description: Retrieves assignment history updates by assignmentId and effectiveDate, including job, organization, location, action, and effective-date details when available.
 
 | Parameter Name | Description |
 |---------------|---------------|
-| `assignmentId` | Assignment identifier used to retrieve assignment history update records. |
+| `assignmentId` | Assignment identifier used with the person identifier for assignment-scoped lookups. |
 | `effectiveDate` | Effective date used to retrieve assignment history updates, formatted as YYYY-MM-DD. |
 
 ### Function : GetWorkerConnections
 
-Description: Returns worker connection records for the supplied person and assignment, including line-manager hierarchy relationships.
+Description: Retrieves worker connections by personId and assignmentId, including line-manager hierarchy relationships.
 
 | Parameter Name | Description |
 |---------------|---------------|
@@ -61,7 +61,7 @@ Description: Returns worker connection records for the supplied person and assig
 
 ### Function : GetWorkerManagers
 
-Description: Returns manager details for the supplied person and assignment.
+Description: Retrieves managers for a worker assignment using personId and assignmentId, including ManagerPersonId, DisplayName, ManagerAssignmentId, and ManagerTypeMeaning.
 
 | Parameter Name | Description |
 |---------------|---------------|
@@ -70,59 +70,59 @@ Description: Returns manager details for the supplied person and assignment.
 
 ### Function : GetWorkerPrimaryAssignmentInfo
 
-Description: Returns the primary assignment identifier for the supplied person.
+Description: Retrieves AssignmentId for assignments marked PrimaryFlag=true for the supplied personId.
 
 | Parameter Name | Description |
 |---------------|---------------|
-| `personId` | Person identifier used to retrieve the worker primary assignment. |
+| `personId` | Person identifier used to locate the worker record in HCM. |
 
 ### Function : GetAssignmentInformationByPerson
 
-Description: Returns assignment information for the supplied person identifier.
+Description: Retrieves primary assignment information by personId, including AssignmentId, AssignmentName, BusinessUnitName, DepartmentName, LegalEmployerName, JobName, and StartDate.
 
 | Parameter Name | Description |
 |---------------|---------------|
-| `personId` | Person identifier used to retrieve worker assignment records. |
+| `personId` | Person identifier used to locate the worker record in HCM. |
 
 ### Function : GetPersonSeniorityInformation
 
-Description: Returns seniority information for the supplied person identifier.
+Description: Retrieves seniority records by personId, including SeniorityDate, SeniorityDateCode, SeniorityHours, and service adjustments. Orders records by seniority date code and effective start date.
 
 | Parameter Name | Description |
 |---------------|---------------|
-| `personId` | Person identifier used to retrieve worker seniority records. |
+| `personId` | Person identifier used to locate the worker record in HCM. |
 
 ### Function : GetTeamSeniorityInformationByManager
 
-Description: Returns seniority information for workers in the supplied manager hierarchy.
+Description: Retrieves team seniority records by managerPersonId, including worker and assignment identifiers, DisplayName, SeniorityDate, and TotalSeniorityHours.
 
 | Parameter Name | Description |
 |---------------|---------------|
-| `managerPersonId` | Manager person identifier used to retrieve team seniority records. |
+| `managerPersonId` | Person identifier used to locate the manager record in HCM. |
 
 ### Function : GetSalaryHistoryByPersonId
 
-Description: Returns current and historical salary records for the supplied person identifier, including salary amount, annualized salary, compa-ratio, quartile, and salary range values.
+Description: Retrieves current and historical salary records by personId, including SalaryAmount, AnnualSalary, CurrencyCode, DateFrom, DateTo, CompaRatio, and salary range values.
 
 | Parameter Name | Description |
 |---------------|---------------|
-| `personId` | Worker person identifier used to retrieve salary history. |
+| `personId` | Person identifier used to locate the worker record in HCM. |
 
 ### Function : GetPerformanceRatingsByPersonId
 
-Description: Returns talent profile performance rating records for the supplied person identifier, including expanded performance rating details.
+Description: Retrieves talent ratings by personId with expanded performanceRatings, ordered by LastUpdateDate descending.
 
 | Parameter Name | Description |
 |---------------|---------------|
-| `personId` | Worker person identifier used to retrieve talent and performance ratings. |
+| `personId` | Person identifier used to locate the worker record in HCM. |
 
 ### Function : GetAssignmentUpdatesBetweenDates
 
-Description: Returns assignment history rows for the supplied assignment identifier and effective-date range.
+Description: Retrieves assignment history by AssignmentId, RangeStartDate, and RangeEndDate. Returns a fixed set of fields including Action, ActionReason, Job, Grade, Position, ManagerDisplayName, Department, Location, and effective dates.
 
 | Parameter Name | Description |
 |---------------|---------------|
-| `AssignmentId` | Worker assignment identifier whose history should be returned. |
+| `AssignmentId` | Assignment identifier used with the person identifier for assignment-scoped lookups. |
 | `RangeStartDate` | Start date of the history extraction range in YYYY-MM-DD format. |
 | `RangeEndDate` | End date of the history extraction range in YYYY-MM-DD format. |
 
@@ -130,28 +130,28 @@ The fields projection is fixed to the attributes in the exported assignment-hist
 
 ### Function : GetWorkerRepresentatives
 
-Description: Returns work-contact representatives for a worker assignment, including representative responsibility, person, assignment, contact, and effective-date details.
+Description: Retrieves representatives marked WorkContactsFlag=true for a worker assignment. Returns DisplayName, PersonId, ResponsibilityName, and ResponsibilityType.
 
 | Parameter Name | Description |
 |---------------|---------------|
-| `personId` | Person identifier of the worker whose assignment representatives are retrieved. |
-| `assignmentId` | Assignment identifier used to retrieve representatives for the worker assignment. |
+| `personId` | Person identifier used to locate the worker record in HCM. |
+| `assignmentId` | Assignment identifier used with the person identifier for assignment-scoped lookups. |
 
 ### Function : GetTalentPersonProfiles
 
-Description: Returns eligible talent profile sections for a person, including profile summary, career ambassador details, expertise, interests, favorite links, tags, and skills.
+Description: Retrieves eligible talent profile sections by personId, including ProfileId, Summary, career ambassador information, expertise, interests, favorite links, tags, and skills.
 
 | Parameter Name | Description |
 |---------------|---------------|
-| `personId` | Person identifier of the worker whose talentProfiles are to be retrieved. |
+| `personId` | Person identifier used to locate the worker record in HCM. |
 
 ### Function : GetPersonNotes
 
-Description: Returns person notes for a worker, including note text and note visibility details when available.
+Description: Retrieves person notes for the supplied worker personId in the ORA_NO_CONTEXT context, including expanded NoteText and available visibility information.
 
 | Parameter Name | Description |
 |---------------|---------------|
-| `personId` | Person identifier used to retrieve person notes for the requested worker. |
+| `personId` | Person identifier used to locate the worker record in HCM. |
 
 ### Function : CreateFavoriteLink
 
@@ -174,38 +174,38 @@ Description: Updates Description and URL on an existing favorite link.
 
 ### Function : GetManagerDirectReports
 
-Description: Returns direct reports for the supplied manager assignment, including worker identifiers and report-count metadata.
+Description: Retrieves up to 200 direct reports for the supplied manager person and assignment identifiers, including worker identity and reporting-count information.
 
 | Parameter Name | Description |
 |---------------|---------------|
-| `managerPersonId` | Manager person identifier whose direct reports should be returned. |
-| `managerAssignmentId` | Manager assignment identifier used to retrieve direct reports. |
+| `managerPersonId` | Person identifier used to locate the manager record in HCM. |
+| `managerAssignmentId` | Assignment identifier used with the manager person identifier to retrieve reporting information. |
 
 ### Function : GetWorkerDirectReportsCount
 
-Description: Returns direct reports count metadata for the supplied worker assignment using totalResults.
+Description: Retrieves totalResults for the direct reports of the supplied worker assignment, requesting one item to obtain the collection count.
 
 | Parameter Name | Description |
 |---------------|---------------|
-| `personId` | Person identifier whose direct reports count should be returned. |
-| `assignmentId` | Assignment identifier used to retrieve direct reports count. |
+| `personId` | Person identifier used to locate the worker record in HCM. |
+| `assignmentId` | Assignment identifier used with the person identifier for assignment-scoped lookups. |
 
 ### Function : GetWorkerAllReportsCount
 
-Description: Returns total reports count metadata for the supplied worker assignment using totalResults.
+Description: Retrieves totalResults for all reports of the supplied worker assignment, requesting one item to obtain the collection count.
 
 | Parameter Name | Description |
 |---------------|---------------|
-| `personId` | Person identifier whose total reports count should be returned. |
-| `assignmentId` | Assignment identifier used to retrieve total reports count. |
+| `personId` | Person identifier used to locate the worker record in HCM. |
+| `assignmentId` | Assignment identifier used with the person identifier for assignment-scoped lookups. |
 
 ### Function : GetTalentProfileByPersonId
 
-Description: Resolves a person's talent profile and canonical REST item link for About Me updates.
+Description: Retrieves talent profiles by personId, including ProfileId, PersonId, ExpertiseId, InterestId, and REST item links used to identify existing records for updates.
 
 | Parameter Name | Description |
 |---------------|---------------|
-| `personId` | Person identifier whose profile resource link is requested. |
+| `personId` | Person identifier used to locate the worker record in HCM. |
 
 ### Function : UpdateTalentProfileSummary
 
@@ -214,7 +214,7 @@ Description: Updates only Summary through a fixed one-field body. Callers supply
 | Parameter Name | Description |
 |---------------|---------------|
 | `profileId` | REST resource key obtained from the profile self or canonical link. |
-| `summary` | The summary rich-text string. Preserve approved text encoding; verify quoted-value escaping with the platform before deployment. |
+| `summary` | The summary rich-text string. The request body permits only this field; callers must retain text encoding and independent session/child ownership checks. |
 
 ### Function : UpdateAboutMeExpertise
 
@@ -224,7 +224,7 @@ Description: Updates only Expertise through a fixed one-field body. Callers supp
 |---------------|---------------|
 | `profileId` | REST resource key obtained from the profile self or canonical link. |
 | `expertiseId` | Existing areasOfExpertise record identifier. |
-| `expertise` | The expertise rich-text string. Preserve approved text encoding; verify quoted-value escaping with the platform before deployment. |
+| `expertise` | The expertise rich-text string. The request body permits only this field; callers must retain text encoding and independent session/child ownership checks. |
 
 ### Function : UpdateTalentProfileExpertise
 
@@ -234,7 +234,7 @@ Description: Updates only Expertise through a fixed one-field body. Callers supp
 |---------------|---------------|
 | `profileId` | REST resource key obtained from the profile self or canonical link. |
 | `expertiseId` | Existing areasOfExpertise record identifier. |
-| `expertise` | The expertise rich-text string. Preserve approved text encoding; verify quoted-value escaping with the platform before deployment. |
+| `expertise` | The expertise rich-text string. The request body permits only this field; callers must retain text encoding and independent session/child ownership checks. |
 
 ### Function : UpdateTalentProfileInterest
 
@@ -244,7 +244,7 @@ Description: Updates only Interest through a fixed one-field body. Callers suppl
 |---------------|---------------|
 | `profileId` | REST resource key obtained from the profile self or canonical link. |
 | `interestId` | Existing areasOfInterest record identifier. |
-| `interest` | The interest rich-text string. Preserve approved text encoding; verify quoted-value escaping with the platform before deployment. |
+| `interest` | The interest rich-text string. The request body permits only this field; callers must retain text encoding and independent session/child ownership checks. |
 
 ---------------
 
@@ -627,6 +627,17 @@ Description: Returns up to 25 accessible primary-assignment people ordered by di
 
 Description: Returns up to 25 accessible primary-assignment people ordered by display name and matching nonempty search text. Uses PersonSearch AdvancedSearch access controls and native authentication, with no manager-only or WorkerType filter.
 
+### Function : GetLookupWorkers
+
+Description: Finds accessible Manager or Person lookup options by display name. Uses primary assignments and the validated lookup selector: AssignmentManagerFlag/Yes for Manager or WorkerType/Employee for Person. Fixed PersonSearch AdvancedSearch security, native authentication, offset0, limit25, and ascending display-name order. Empty search text lists the first lookup page.
+
+| Parameter Name | Description |
+|---------------|---------------|
+| `lookupFilterName` | Selects the type of people returned by the lookup. Use AssignmentManagerFlag for the Manager lookup, paired with lookupFilterValue=Yes, or WorkerType for the Person lookup, paired with lookupFilterValue=Employee. Callers must validate and supply one of these exact pairs; this parameter is not a person name or identifier. |
+| `lookupFilterValue` | Value for the filter selected by lookupFilterName. Use Yes with AssignmentManagerFlag to return managers, or Employee with WorkerType to return employees for the Person lookup. Callers must validate the pair before invoking this function; other values and mixed pairs are not supported. |
+| `searchText` | Full or partial display name used to narrow the selected Manager or Person lookup. Pass an empty string to load the first page without a name filter. Both initial and name-filtered requests return up to 25 accessible primary-assignment matches, sorted by DisplayName in ascending order; this function always starts at offset 0. |
+
+
 ## Business Object : Representatives Search V2
 
 | Code | `ORA_HCM_GLOBALHUMA_XX_REPRESENTATIVESSEARCHV2` |
@@ -714,34 +725,34 @@ Description: This function gives talent profile information for a person based o
 
 ---------------
 
-## Business Object : HCM GHR Worker Contact Details
+## Business Object : Worker Contact Details
 
 | Code | `ORA_HCM_GLOBALHUMA_XX_WORKERDETAILSGHR` |
 |---------------|---------------|
-| Description | Provides Global Human Resources public worker and contact information by person identifier or person number, including worker profile, email, phone, address, and other communication account details. |
+| Description | Provides worker profile and contact information by person identifier or person number, including email addresses, phone numbers, addresses, and other communication accounts. |
 
 ## Functions
 
 
 ### Function : GetWorkerEmailsByPersonId
 
-Description: Returns worker email details for the supplied person identifier.
+Description: Retrieves worker emails by personId, including EmailAddress, EmailType, and PrimaryFlag.
 
 | Parameter Name | Description |
 |---------------|---------------|
-| `personId` | Person identifier used to retrieve worker contact detail records. |
+| `personId` | Person identifier used to locate the worker record in HCM. |
 
 ### Function : GetWorkerPhonesByPersonId
 
-Description: Returns worker phone details for the supplied person identifier.
+Description: Retrieves worker phones by personId, including PhoneNumber, PhoneType, and PrimaryFlag.
 
 | Parameter Name | Description |
 |---------------|---------------|
-| `personId` | Person identifier used to retrieve worker contact detail records. |
+| `personId` | Person identifier used to locate the worker record in HCM. |
 
 ### Function : GetWorkerEmailsByPersonNumber
 
-Description: Returns worker email details for the supplied person number.
+Description: Retrieves worker emails by personNumber, including EmailAddress, EmailType, and PrimaryFlag.
 
 | Parameter Name | Description |
 |---------------|---------------|
@@ -749,7 +760,7 @@ Description: Returns worker email details for the supplied person number.
 
 ### Function : GetWorkerPhonesByPersonNumber
 
-Description: Returns worker phone details for the supplied person number.
+Description: Retrieves worker phones by personNumber, including PhoneNumber, PhoneType, and PrimaryFlag.
 
 | Parameter Name | Description |
 |---------------|---------------|
@@ -757,15 +768,15 @@ Description: Returns worker phone details for the supplied person number.
 
 ### Function : GetWorkerAddressesByPersonId
 
-Description: Returns worker address details for the supplied person identifier.
+Description: Retrieves worker addresses by personId, including AddressLine1, TownOrCity, PostalCode, Country, and PrimaryFlag.
 
 | Parameter Name | Description |
 |---------------|---------------|
-| `personId` | Person identifier used to retrieve worker contact detail records. |
+| `personId` | Person identifier used to locate the worker record in HCM. |
 
 ### Function : GetWorkerAddressesByPersonNumber
 
-Description: Returns worker address details for the supplied person number.
+Description: Retrieves worker addresses by personNumber, including AddressLine1, TownOrCity, PostalCode, Country, and PrimaryFlag.
 
 | Parameter Name | Description |
 |---------------|---------------|
@@ -773,15 +784,15 @@ Description: Returns worker address details for the supplied person number.
 
 ### Function : GetWorkerDetailsByPersonId
 
-Description: Returns worker details for the supplied person identifier.
+Description: Retrieves public worker profile information by personId, including PersonId, PersonNumber, DisplayName, WorkEmail, and Username.
 
 | Parameter Name | Description |
 |---------------|---------------|
-| `personId` | Person identifier used to retrieve worker details. |
+| `personId` | Person identifier used to locate the worker record in HCM. |
 
 ### Function : GetWorkerDetailsByPersonNumber
 
-Description: Returns worker details for the supplied person number.
+Description: Retrieves public worker profile information by personNumber, including PersonId, PersonNumber, DisplayName, WorkEmail, and Username.
 
 | Parameter Name | Description |
 |---------------|---------------|
@@ -789,11 +800,11 @@ Description: Returns worker details for the supplied person number.
 
 ### Function : GetWorkerOtherCommunicationAccountsByPersonId
 
-Description: Returns a worker's other communication account details for the supplied person identifier.
+Description: Retrieves other communication accounts by personId, returning Provider, ProviderMeaning, and AccountName.
 
 | Parameter Name | Description |
 |---------------|---------------|
-| `personId` | Person identifier used to retrieve the worker's other communication account details. |
+| `personId` | Person identifier used to locate the worker record in HCM. |
 
 ---------------
 
@@ -870,6 +881,139 @@ Description: Retrieves up to 25 person notes for the given worker person ID wher
 |---------------|---------------|
 | `personId` | Person ID of the worker whose notes are retrieved. |
 
+---------------
+
+## Business Object : Worker Addresses
+
+| Code | `ORA_HCM_GLOBALHUMA_XX_PERSONADDRESSESV2` |
+|---------------|---------------|
+| Description | Provides address records by personId, including AddressTypeMeaning, FormattedMultiLineAddress, PrimaryFlag, EffectiveStartDate, and EffectiveEndDate. Uses offset to retrieve additional pages. |
+
+## Functions
+
+### Function : get_person_addresses
+
+Description: Retrieves address records by personId, including AddressTypeMeaning, FormattedMultiLineAddress, PrimaryFlag, EffectiveStartDate, and EffectiveEndDate. Uses offset to retrieve additional pages.
+
+| Parameter Name | Description |
+|---------------|---------------|
+| `personId` | Person identifier used to locate the worker record in HCM. |
+| `offset` | Zero-based offset used for paginated results. |
+
+---------------
+
+## Business Object : Worker Citizenships
+
+| Code | `ORA_HCM_GLOBALHUMA_XX_PERSONCITIZENSHIPSV2` |
+|---------------|---------------|
+| Description | Provides citizenship records by personId, including CitizenshipMeaning, CitizenshipStatusMeaning, FromDate, and ToDate. Uses offset to retrieve additional pages. |
+
+## Functions
+
+### Function : get_person_citizenships
+
+Description: Retrieves citizenship records by personId, including CitizenshipMeaning, CitizenshipStatusMeaning, FromDate, and ToDate. Uses offset to retrieve additional pages.
+
+| Parameter Name | Description |
+|---------------|---------------|
+| `personId` | Person identifier used to locate the worker record in HCM. |
+| `offset` | Zero-based offset used for paginated results. |
+
+---------------
+
+## Business Object : Worker Driver Licenses
+
+| Code | `ORA_HCM_GLOBALHUMA_XX_PERSONDRIVERLICENSES` |
+|---------------|---------------|
+| Description | Provides driver license records by personId, including LicenseNumber, LicenseTypeMeaning, IssuingCountryName, IssuingAuthority, IssuingLocation, FromDate, and ToDate. |
+
+## Functions
+
+### Function : get_person_driver_licenses
+
+Description: Retrieves driver license records by personId, including LicenseNumber, LicenseTypeMeaning, IssuingCountryName, IssuingAuthority, IssuingLocation, FromDate, and ToDate.
+
+| Parameter Name | Description |
+|---------------|---------------|
+| `personId` | Person identifier used to locate the worker record in HCM. |
+
+---------------
+
+## Business Object : Worker Family and Emergency Contacts
+
+| Code | `ORA_HCM_GLOBALHUMA_XX_PERSONFAMILYANDEMERGENCYCONTACTSHISTORYV2` |
+|---------------|---------------|
+| Description | Provides current and future contact relationships by personId and effectiveDate, excluding pending contacts. Returns ContactDisplayName, ContactTypeMeaning, EmergencyContactFlag, PrimaryContactFlag, ContactPhoneNumber, ContactEmailAddress, and effective dates. Supports offset paging. |
+
+## Functions
+
+### Function : get_current_and_future_person_family_and_emergency_contacts
+
+Description: Retrieves current and future contact relationships by personId and effectiveDate, excluding pending contacts. Returns ContactDisplayName, ContactTypeMeaning, EmergencyContactFlag, PrimaryContactFlag, ContactPhoneNumber, ContactEmailAddress, and effective dates. Supports offset paging.
+
+| Parameter Name | Description |
+|---------------|---------------|
+| `effectiveDate` | Effective date in YYYY-MM-DD format used to retrieve current and future records. |
+| `personId` | Person identifier used to locate the worker record in HCM. |
+| `offset` | Zero-based offset used for paginated results. |
+
+---------------
+
+## Business Object : Worker Passports
+
+| Code | `ORA_HCM_GLOBALHUMA_XX_PERSONPASSPORTSV2` |
+|---------------|---------------|
+| Description | Provides passport records by personId, including PassportNumber, PassportTypeMeaning, IssuingCountryName, IssueDate, ExpirationDate, IssuingAuthority, and IssuingLocation. Supports limit and offset paging. |
+
+## Functions
+
+### Function : get_person_passports
+
+Description: Retrieves passport records by personId, including PassportNumber, PassportTypeMeaning, IssuingCountryName, IssueDate, ExpirationDate, IssuingAuthority, and IssuingLocation. Supports limit and offset paging.
+
+| Parameter Name | Description |
+|---------------|---------------|
+| `personId` | Person identifier used to locate the worker record in HCM. |
+| `limit` | Maximum number of person passport records to return; must be between 1 and 100. |
+| `offset` | Zero-based offset used for paginated results. |
+
+---------------
+
+## Business Object : Worker Phones
+
+| Code | `ORA_HCM_GLOBALHUMA_XX_PERSONPHONESV2` |
+|---------------|---------------|
+| Description | Provides phone records by personId, including PhoneTypeMeaning, CountryCodeNumber, AreaCode, PhoneNumber, Extension, DisplayPhoneNumber, PrimaryFlag, FromDate, and ToDate. Supports offset paging. |
+
+## Functions
+
+### Function : get_person_phones
+
+Description: Retrieves phone records by personId, including PhoneTypeMeaning, CountryCodeNumber, AreaCode, PhoneNumber, Extension, DisplayPhoneNumber, PrimaryFlag, FromDate, and ToDate. Supports offset paging.
+
+| Parameter Name | Description |
+|---------------|---------------|
+| `personId` | Person identifier used to locate the worker record in HCM. |
+| `offset` | Zero-based offset used for paginated results. |
+
+---------------
+
+## Business Object : Worker Visas and Permits
+
+| Code | `ORA_HCM_GLOBALHUMA_XX_PERSONVISASPERMITS` |
+|---------------|---------------|
+| Description | Provides current and future visa and permit records by personId and effectiveDate, ordered by EffectiveStartDate descending. Returns VisaPermitNumber, type, category and status meanings, IssuingCountryName, IssueDate, EntryDate, ExpirationDate, and effective dates. |
+
+## Functions
+
+### Function : get_current_and_future_person_visas_and_permits
+
+Description: Retrieves current and future visa and permit records by personId and effectiveDate, ordered by EffectiveStartDate descending. Returns VisaPermitNumber, type, category and status meanings, IssuingCountryName, IssueDate, EntryDate, ExpirationDate, and effective dates.
+
+| Parameter Name | Description |
+|---------------|---------------|
+| `effectiveDate` | Effective date in YYYY-MM-DD format used to retrieve current and future records. |
+| `personId` | Person identifier used to locate the worker record in HCM. |
 
 ## Business Object : Person Talent Profile
 
@@ -960,3 +1104,61 @@ Creates a new person note by submitting data to the personNotesV2 resource using
 | `ContextType2` | string | Additional context type of the note. |
 | `ContextId2` | integer | Additional context identifier of the note. |
 | `NoteText` | string | Text of the note. |
+
+## Business Object : Job Profile Requirements
+
+| **Name** | Job Profile Requirements |
+|---------------|---------------|
+| **Code** | `ORA_HCM_GLOBALHUMA_XX_JOBPROFILEREQUIREMENTS` |
+| **Description** | Retrieves job-profile details for a supplied job ID and required-skill records for a supplied profile ID, including skill names, proficiency requirements, and readiness criteria. |
+
+### Functions
+
+#### Function : GetJobProfileByJobId
+
+Description : Retrieves the active model-profile relationship for the job with the specified job ID, including the job's effective date, code, name, and object ID and the related profile's name, code, ID, type, and status.
+
+| **Parameter Name** | **Description** |
+|---------------|---------------|
+| `JobId` | HCM job ID whose active model-profile relationship and related profile details should be returned. |
+
+#### Function : GetRequiredSkillsForJobProfile
+
+Description : Retrieves required-skill records for the job profile with the specified profile ID, including skill identifiers and names, importance, required status, proficiency and readiness criteria, and minimum experience.
+
+| **Parameter Name** | **Description** |
+|---------------|---------------|
+| `ProfileId` | Job-profile ID whose required skills and criteria should be returned. |
+
+## Business Object : Fetch Logged In User Info
+
+| **Name** | Fetch Logged In User Info |
+|---------------|---------------|
+| **Code** | `ORA_HCM_EMPINFO_XX_FETCHLOGGEDINUSERDETAILS` |
+| **Description** | This Business Object fetches the PersonNumber of the logged-in user. |
+
+### Functions
+
+#### Function : Get_User_Session_Details
+
+Description : Retrieves the authenticated user's person number for identifying the current manager.
+
+No input parameters required.
+
+## Business Object : Fetch Active Job Details
+
+| **Name** | Fetch Active Job Details |
+|---------------|---------------|
+| **Code** | `ORA_HCM_GLOBALHUMA_XX_FETCHACTIVEJOBDETAILS` |
+| **Description** | Retrieves active jobs matching a search term across job name, job code, and job family name within the specified set. Returns the job ID, job name, job code, and job family name. |
+
+### Functions
+
+#### Function : SearchActiveJobsBySearchTerm
+
+Description : Searches for active jobs matching the specified search term within the specified reference data set and retrieves each matching job's ID, name, code, and family name.
+
+| **Parameter Name** | **Description** |
+|---------------|---------------|
+| `setId` | Reference data-set ID used to scope the active-job search. Use the configured value for the applicable reference data set. |
+| `SearchTerm` | Search text matched against active job names, job codes, and job-family names. |

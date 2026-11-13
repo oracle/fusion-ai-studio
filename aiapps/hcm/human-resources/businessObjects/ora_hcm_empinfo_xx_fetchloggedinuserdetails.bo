@@ -1,0 +1,57 @@
+{
+  "supportedObjectId": "300100669109859",
+  "$context": {
+    "etag": "6"
+  },
+  "name": "Fetch Logged In User Info",
+  "description": "This Business Object fetches the PersonNumber of the logged-in user.",
+  "objectCode": "ORA_HCM_EMPINFO_XX_FETCHLOGGEDINUSERDETAILS",
+  "family": "HCM",
+  "product": "EMPINFO",
+  "objectSource": "ADF_BC",
+  "restResourcePath": "/hcmRestApi/resources/11.13.18.05",
+  "restResourceIdentifier": "-1",
+  "seededFlag": false,
+  "mandatoryFlag": false,
+  "objectProperties": {
+    "jsonSchemaName": "supportedObjectProperties",
+    "jsonSchemaVersion": 1,
+    "tools": [
+      {
+        "name": "Get_User_Session_Details",
+        "description": "Retrieves the authenticated user's person number for identifying the current manager.",
+        "operationType": "GET",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/selfDetails?fields=PersonNumber&onlyData=true",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [],
+        "sampleQueries": [
+          {
+            "description": "Example response containing the authenticated user's person number.",
+            "query": {
+              "items": [
+                {
+                  "PersonNumber": "<person_number>"
+                }
+              ],
+              "count": "<count>",
+              "hasMore": "<has_more>",
+              "limit": "<limit>",
+              "offset": "<offset>",
+              "links": [
+                {
+                  "rel": "<rel>",
+                  "href": "<href>",
+                  "name": "<name>",
+                  "kind": "<kind>"
+                }
+              ]
+            },
+            "sampleType": "response"
+          }
+        ]
+      }
+    ]
+  }
+}

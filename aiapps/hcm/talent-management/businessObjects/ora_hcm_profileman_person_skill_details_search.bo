@@ -1,0 +1,439 @@
+{
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "name": "Person Skill Details Search",
+  "description": "Searches for skill details that people are developing or have achieved.",
+  "objectCode": "ORA_HCM_PROFILEMAN_XX_PERSON_SKILL_DETAILS_SEARCH",
+  "family": "HCM",
+  "product": "PROFILE_MANAGEMENT",
+  "objectSource": "ADF_BC",
+  "restResourcePath": "/hcmRestApi/redwood/11.13.18.05",
+  "restResourceIdentifier": "-1",
+  "seededFlag": false,
+  "mandatoryFlag": false,
+  "objectProperties": {
+    "jsonSchemaName": "supportedObjectProperties",
+    "jsonSchemaVersion": 1,
+    "baseUrlTMKey": "",
+    "serviceNameOverride": "",
+    "tools": [
+      {
+        "name": "personSkillDetailsSearches",
+        "description": "Gets skill details that match the specified criteria for people who are developing or have achieved those skills.",
+        "operationType": "POST",
+        "resourcePath": "/hcmRestApi/redwood/11.13.18.05/personSkillDetailsSearches",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "{\n  \"filters\": [\n    { \"name\": \"SkillType\", \"value\": \"{skillType}\" },\n    { \"name\": \"ManagerId\", \"value\": \"{managerId}\" },\n    { \"name\": \"Reports\", \"value\": \"{reportsType}\" },\n    { \"name\": \"SkillName\", \"terms\": {skillName} }\n  ],\n  \"limit\": \"{limit}\",\n  \"offset\": \"{offset}\",\n  \"sort\": [{ \"name\": \"{sortAttributeName}\", \"direction\": \"{sortDirection}\" }]\n}",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "skillType",
+            "dataType": "string",
+            "description": "Ways to categorize skills. Valid values are Core, Role, Other, All.",
+            "id": 2,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "managerId",
+            "dataType": "integer",
+            "description": "Unique identifier of the manager.",
+            "id": 3,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "reportsType",
+            "dataType": "string",
+            "description": "Identifies the level of subordinates in the manager hierarchy. Valid values are directs, all.",
+            "id": 4,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "skillName",
+            "dataType": "string",
+            "description": "Names of the skills used to filter the person-skill details search results. Pass a JSON array of skill names.",
+            "id": 5,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "limit",
+            "dataType": "string",
+            "description": "Maximum number of items to get.",
+            "id": 6,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "offset",
+            "dataType": "string",
+            "description": "The number of items to skip before starting to return results. It controls where the page starts. Example: offset=100&limit=50 skips the first 100 items, then returns the next 50.",
+            "id": 7,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "sortAttributeName",
+            "dataType": "string",
+            "description": "Name of the attribute used to sort the results.",
+            "id": 8,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "sortDirection",
+            "dataType": "string",
+            "description": "Sort order for the results. Valid values are ASC, DESC.",
+            "id": 9,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "sampleQueries": [
+          {
+            "description": "Sample request that filters person skill details by skill name.",
+            "query": {
+              "limit": "<limit>",
+              "offset": "<offset>",
+              "sort": [
+                {
+                  "name": "<name>",
+                  "direction": "<direction>"
+                }
+              ],
+              "filters": [
+                {
+                  "name": "<name>",
+                  "value": "<value>"
+                },
+                {
+                  "name": "<name>",
+                  "value": "<value>"
+                },
+                {
+                  "name": "<name>",
+                  "value": "<value>"
+                },
+                {
+                  "name": "<name>",
+                  "terms": [
+                    "<terms>"
+                  ]
+                }
+              ]
+            },
+            "sampleType": "request"
+          },
+          {
+            "description": "Sample response containing three matching person skill details.",
+            "query": {
+              "totalResult": "<total result>",
+              "offset": "<offset>",
+              "limit": "<limit>",
+              "count": "<count>",
+              "hasMore": "<has more>",
+              "items": [
+                {
+                  "DisplayName": "<display name>",
+                  "PersonId": "<person id>",
+                  "PersonProfileId": "<person profile id>",
+                  "AssignmentName": "<assignment name>",
+                  "Achieved": "<achieved>",
+                  "AchievedLevel": "<achieved level>",
+                  "RequiredLevel": "<required level>",
+                  "Confirmed": "<confirmed>",
+                  "EndorsementsCount": "<endorsements count>",
+                  "AssignedBy": "<assigned by>",
+                  "AssignedByPersonId": "<assigned by person id>",
+                  "EndorsementId": "<endorsement id>",
+                  "EndorsedFlag": "<endorsed flag>",
+                  "RatingModelEnabledFlag": "<rating model enabled flag>",
+                  "skillName": "<skill name>",
+                  "assignedOn": "<assigned on>",
+                  "SkillId": "<skill id>"
+                },
+                {
+                  "DisplayName": "<display name>",
+                  "PersonId": "<person id>",
+                  "PersonProfileId": "<person profile id>",
+                  "AssignmentName": "<assignment name>",
+                  "Achieved": "<achieved>",
+                  "AchievedLevel": "<achieved level>",
+                  "RequiredLevel": "<required level>",
+                  "Confirmed": "<confirmed>",
+                  "EndorsementsCount": "<endorsements count>",
+                  "AssignedBy": "<assigned by>",
+                  "AssignedByPersonId": "<assigned by person id>",
+                  "EndorsementId": "<endorsement id>",
+                  "EndorsedFlag": "<endorsed flag>",
+                  "RatingModelEnabledFlag": "<rating model enabled flag>",
+                  "skillName": "<skill name>",
+                  "assignedOn": "<assigned on>",
+                  "SkillId": "<skill id>"
+                },
+                {
+                  "DisplayName": "<display name>",
+                  "PersonId": "<person id>",
+                  "PersonProfileId": "<person profile id>",
+                  "AssignmentName": "<assignment name>",
+                  "Achieved": "<achieved>",
+                  "AchievedLevel": "<achieved level>",
+                  "RequiredLevel": "<required level>",
+                  "Confirmed": "<confirmed>",
+                  "EndorsementsCount": "<endorsements count>",
+                  "AssignedBy": "<assigned by>",
+                  "AssignedByPersonId": "<assigned by person id>",
+                  "EndorsementId": "<endorsement id>",
+                  "EndorsedFlag": "<endorsed flag>",
+                  "RatingModelEnabledFlag": "<rating model enabled flag>",
+                  "skillName": "<skill name>",
+                  "assignedOn": "<assigned on>",
+                  "SkillId": "<skill id>"
+                }
+              ]
+            },
+            "sampleType": "response"
+          }
+        ]
+      },
+      {
+        "name": "personSkillDetailsSearchesByJob",
+        "description": "Gets skill details that match the specified criteria for people who are developing or have achieved those skills.",
+        "operationType": "POST",
+        "resourcePath": "/hcmRestApi/redwood/11.13.18.05/personSkillDetailsSearches",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "{\n  \"filters\": [\n    { \"name\": \"SkillType\", \"value\": \"{skillType}\" },\n    { \"name\": \"ManagerId\", \"value\": \"{managerId}\" },\n    { \"name\": \"Reports\", \"value\": \"{reportsType}\" },\n    { \"name\": \"SkillName\", \"terms\": {skillName} },\n    { \"name\": \"JobCode\", \"terms\": [\"{jobCode}\"] }\n  ],\n  \"limit\": \"{limit}\",\n  \"offset\": \"{offset}\",\n  \"sort\": [{ \"name\": \"{sortAttributeName}\", \"direction\": \"{sortDirection}\" }]\n}",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "skillType",
+            "dataType": "string",
+            "description": "Ways to categorize skills. Valid values are Core, Role, Other, All.",
+            "id": 14,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "managerId",
+            "dataType": "integer",
+            "description": "Unique identifier of the manager.",
+            "id": 15,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "reportsType",
+            "dataType": "string",
+            "description": "Identifies the level of subordinates in the manager hierarchy. Valid values are directs, all.",
+            "id": 16,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "skillName",
+            "dataType": "string",
+            "description": "Names of the skills used to filter the person-skill details search results. Pass a JSON array of skill names.",
+            "id": 17,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "jobCode",
+            "dataType": "string",
+            "description": "Job code used to filter the person-skill details search results.",
+            "id": 18,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "limit",
+            "dataType": "string",
+            "description": "Maximum number of items to get.",
+            "id": 19,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "offset",
+            "dataType": "string",
+            "description": "The number of items to skip before starting to return results. It controls where the page starts. Example: offset=100&limit=50 skips the first 100 items, then returns the next 50.",
+            "id": 20,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "sortAttributeName",
+            "dataType": "string",
+            "description": "Name of the attribute used to sort the results.",
+            "id": 21,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "sortDirection",
+            "dataType": "string",
+            "description": "Sort order for the results. Valid values are ASC, DESC.",
+            "id": 22,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "sampleQueries": [
+          {
+            "description": "Sample request that filters person skill details by skill name and job code.",
+            "query": {
+              "limit": "<limit>",
+              "offset": "<offset>",
+              "sort": [
+                {
+                  "name": "<name>",
+                  "direction": "<direction>"
+                }
+              ],
+              "filters": [
+                {
+                  "name": "<name>",
+                  "value": "<value>"
+                },
+                {
+                  "name": "<name>",
+                  "value": "<value>"
+                },
+                {
+                  "name": "<name>",
+                  "value": "<value>"
+                },
+                {
+                  "name": "<name>",
+                  "terms": [
+                    "<terms>"
+                  ]
+                },
+                {
+                  "name": "<name>",
+                  "terms": [
+                    "<terms>"
+                  ]
+                }
+              ]
+            },
+            "sampleType": "request"
+          },
+          {
+            "description": "Sample response containing three matching person skill details.",
+            "query": {
+              "totalResult": "<total result>",
+              "offset": "<offset>",
+              "limit": "<limit>",
+              "count": "<count>",
+              "hasMore": "<has more>",
+              "items": [
+                {
+                  "DisplayName": "<display name>",
+                  "PersonId": "<person id>",
+                  "PersonProfileId": "<person profile id>",
+                  "AssignmentName": "<assignment name>",
+                  "Achieved": "<achieved>",
+                  "AchievedLevel": "<achieved level>",
+                  "RequiredLevel": "<required level>",
+                  "Confirmed": "<confirmed>",
+                  "EndorsementsCount": "<endorsements count>",
+                  "AssignedBy": "<assigned by>",
+                  "AssignedByPersonId": "<assigned by person id>",
+                  "EndorsementId": "<endorsement id>",
+                  "EndorsedFlag": "<endorsed flag>",
+                  "RatingModelEnabledFlag": "<rating model enabled flag>",
+                  "skillName": "<skill name>",
+                  "assignedOn": "<assigned on>",
+                  "SkillId": "<skill id>"
+                },
+                {
+                  "DisplayName": "<display name>",
+                  "PersonId": "<person id>",
+                  "PersonProfileId": "<person profile id>",
+                  "AssignmentName": "<assignment name>",
+                  "Achieved": "<achieved>",
+                  "AchievedLevel": "<achieved level>",
+                  "RequiredLevel": "<required level>",
+                  "Confirmed": "<confirmed>",
+                  "EndorsementsCount": "<endorsements count>",
+                  "AssignedBy": "<assigned by>",
+                  "AssignedByPersonId": "<assigned by person id>",
+                  "EndorsementId": "<endorsement id>",
+                  "EndorsedFlag": "<endorsed flag>",
+                  "RatingModelEnabledFlag": "<rating model enabled flag>",
+                  "skillName": "<skill name>",
+                  "assignedOn": "<assigned on>",
+                  "SkillId": "<skill id>"
+                },
+                {
+                  "DisplayName": "<display name>",
+                  "PersonId": "<person id>",
+                  "PersonProfileId": "<person profile id>",
+                  "AssignmentName": "<assignment name>",
+                  "Achieved": "<achieved>",
+                  "AchievedLevel": "<achieved level>",
+                  "RequiredLevel": "<required level>",
+                  "Confirmed": "<confirmed>",
+                  "EndorsementsCount": "<endorsements count>",
+                  "AssignedBy": "<assigned by>",
+                  "AssignedByPersonId": "<assigned by person id>",
+                  "EndorsementId": "<endorsement id>",
+                  "EndorsedFlag": "<endorsed flag>",
+                  "RatingModelEnabledFlag": "<rating model enabled flag>",
+                  "skillName": "<skill name>",
+                  "assignedOn": "<assigned on>",
+                  "SkillId": "<skill id>"
+                }
+              ]
+            },
+            "sampleType": "response"
+          }
+        ]
+      }
+    ]
+  }
+}

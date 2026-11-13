@@ -1,0 +1,276 @@
+{
+  "workflowCode": "XX_DIRECT_REPORT_DETAILS",
+  "specification": {
+    "jsonSchemaName": "Workflow.spec",
+    "jsonSchemaVersion": "1",
+    "inputs": [],
+    "outputSpecification": " ",
+    "agentsValueMappings": [],
+    "dataPipeline": {
+      "pipelineNodes": [
+        {
+          "id": "start",
+          "code": "START",
+          "type": "START",
+          "metadata": {
+            "name": "Start",
+            "description": "Start of data pipeline"
+          },
+          "outcomes": {
+            "success": "1783319772474"
+          },
+          "inputs": [],
+          "diagram": {
+            "x": 5000,
+            "y": 5000
+          }
+        },
+        {
+          "id": "1783319772474",
+          "code": "GET_QUERY_TYPE",
+          "type": "CODE",
+          "metadata": {
+            "name": "Get Query Type",
+            "returnType": "string",
+            "sourceCode": "const input = $context.$triggers.REST.$input || {};\n\nconst hasValue = (value) =>\n  value !== null &&\n  value !== undefined &&\n  String(value).trim() !== \"\";\n\nif (!hasValue(input.personId)) {\n  throw new Error(\n    \"personId is required. assignmentId can optionally be supplied.\"\n  );\n}\n\nif (!/^[0-9]{1,20}$/.test(String(input.personId).trim())) {\n  throw new Error(\"personId must contain 1 to 20 digits.\");\n}\n\nif (hasValue(input.assignmentId)) {\n  if (!/^[0-9]{1,20}$/.test(String(input.assignmentId).trim())) {\n    throw new Error(\"assignmentId must contain 1 to 20 digits.\");\n  }\n\n  return \"AssignmentId\";\n}\n\nreturn \"PersonId\";"
+          },
+          "diagram": {
+            "x": 4878.545506459959,
+            "y": 5137.9957566317025
+          },
+          "outcomes": {
+            "success": "1783319772475"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "1783319772475",
+          "code": "SWITCH_QUERY",
+          "type": "CONDITION",
+          "convergenceTargetId": "1783319772477",
+          "metadata": {
+            "name": "Switch Query"
+          },
+          "diagram": {
+            "x": 4879.598138038907,
+            "y": 5337.8904934738075
+          },
+          "outcomes": {
+            "true": "1783319772476",
+            "false": "1783319772477"
+          },
+          "inputs": [
+            {
+              "id": "1777879057309_1",
+              "name": "condition",
+              "type": "string",
+              "value": "{{$context.$nodes.GET_QUERY_TYPE.$output.result==\"PersonId\"}}"
+            }
+          ]
+        },
+        {
+          "id": "1783319772476",
+          "code": "GET_WORKER_PRIMARY_ASSIGNMENT",
+          "type": "BO_FUNCTION",
+          "metadata": {
+            "description": "Returns worker assignment rows for the supplied person so the workflow can select the primary assignment locally.",
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_EMPLOYMENTGHR",
+            "processJson": true,
+            "name": "Get Worker Primary Assignment",
+            "functionName": "GetAssignmentInformationByPerson"
+          },
+          "diagram": {
+            "x": 4324.598138038907,
+            "y": 5433.8904934738075
+          },
+          "outcomes": {
+            "success": "1783319772477"
+          },
+          "inputs": [
+            {
+              "id": "1783319772476_personId",
+              "name": "personId",
+              "value": "{{$context.$triggers.REST.$input.personId}}",
+              "required": false,
+              "type": "integer"
+            }
+          ]
+        },
+        {
+          "id": "1783319772477",
+          "code": "GET_PAYLOAD",
+          "type": "CODE",
+          "metadata": {
+            "name": "Get Payload",
+            "returnType": "object",
+            "sourceCode": "let assignmentId=null;\nlet type = $context.$nodes.GET_QUERY_TYPE.$output.result;\n\nif (type === \"AssignmentId\") {\n  assignmentId =$context.$triggers.REST.$input.assignmentId ;\n} else if (type === \"PersonId\") {\n  assignmentId = $context.$nodes.GET_WORKER_PRIMARY_ASSIGNMENT.$output.items[0]?.AssignmentId;\n}\n\nconst effectiveDate = $context.$system.$currentDate || new Date().toISOString().split(\"T\")[0];\n\nconst result = {\n  assignmentId,\n  effectiveDate\n};\nreturn result;"
+          },
+          "diagram": {
+            "x": 4788.492965811286,
+            "y": 5659.225554482338
+          },
+          "outcomes": {
+            "success": "1783319772478"
+          },
+          "inputs": []
+        },
+        {
+          "id": "1783319772478",
+          "code": "HAS_ASSIGNMENT_ID",
+          "type": "CONDITION",
+          "convergenceTargetId": "1783319772479",
+          "metadata": {
+            "name": "Has Assignment Id"
+          },
+          "diagram": {
+            "x": 5077.598138038907,
+            "y": 5800.8904934738075
+          },
+          "outcomes": {
+            "false": "1783319772479",
+            "true": "1783319772480"
+          },
+          "inputs": [
+            {
+              "id": "1777879057308_condition",
+              "name": "condition",
+              "type": "string",
+              "value": "{{$context.$nodes.GET_PAYLOAD.$output.result.assignmentId!=null&&$context.$nodes.GET_PAYLOAD.$output.result.assignmentId!=\"\"}}"
+            }
+          ]
+        },
+        {
+          "id": "1783319772479",
+          "code": "MODIFY_RESPONSE",
+          "type": "CODE",
+          "metadata": {
+            "name": "Modify Response",
+            "returnType": "array",
+            "sourceCode": "const data = $context.$nodes.GET_DIRECT_REPORTS.$output;\n\nif (!data?.items?.length) {\n  return [];\n}\n\nconst directReportsDetails = data.items.map((r) => ({\n  assignmentId: r.AssignmentId,\n  assignmentNumber: r.AssignmentNumber,\n  assignmentName: r.AssignmentName,\n  personId: r.PersonId,\n  personNumber: r.PersonNumber,\n  firstName: r.FirstName,\n  lastName: r.LastName,\n  displayName: r.DisplayName,\n  knownAs: r.KnownAs,\n  relationshipType: r.RelationshipType,\n  relationshipTypeMeaning: r.RelationshipTypeMeaning,\n  workerType: r.WorkerType,\n  photoId: r.PhotoId,\n  photoName: r.PhotoName,\n  photo: r.Photo,\n  directReportsCount: r.DirectReportsCount,\n  allReportsCount: r.AllReportsCount,\n}));\n\nreturn directReportsDetails;"
+          },
+          "diagram": {
+            "x": 5075.724110526331,
+            "y": 6192.948062260934
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "inputs": []
+        },
+        {
+          "id": "1783319772480",
+          "code": "GET_DIRECT_REPORTS",
+          "type": "BO_FUNCTION",
+          "metadata": {
+            "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_EMPLOYMENTGHR",
+            "processJson": true,
+            "name": "Get Direct Reports",
+            "functionName": "GetManagerDirectReports"
+          },
+          "diagram": {
+            "x": 4775.780796045414,
+            "y": 6010.313208323545
+          },
+          "outcomes": {
+            "success": "1783319772479"
+          },
+          "inputs": [
+            {
+              "id": "1783319772480_managerPersonId",
+              "name": "managerPersonId",
+              "value": "{{$context.$triggers.REST.$input.personId}}",
+              "required": false,
+              "type": "integer"
+            },
+            {
+              "id": "1783319772480_managerAssignmentId",
+              "name": "managerAssignmentId",
+              "value": "{{$context.$nodes.GET_PAYLOAD.$output.result.assignmentId}}",
+              "required": false,
+              "type": "integer"
+            }
+          ]
+        },
+        {
+          "id": "end",
+          "code": "END",
+          "type": "END",
+          "metadata": {
+            "name": "End",
+            "description": "End of data pipeline"
+          },
+          "outcomes": {},
+          "inputs": []
+        }
+      ],
+      "rootNode": "start",
+      "variables": [],
+      "errorHandlers": []
+    },
+    "modelConfiguration": null,
+    "humanApprovalFlag": false,
+    "waitFlag": false,
+    "triggers": [
+      {
+        "type": "REST",
+        "inputs": [
+          {
+            "id": "1783319764848",
+            "name": "assignmentId",
+            "type": "string"
+          },
+          {
+            "id": "1783319758664",
+            "name": "personId",
+            "type": "string"
+          }
+        ]
+      }
+    ],
+    "deletedTriggerTypes": [],
+    "answerInUserLanguage": false,
+    "userLanguagePrompt": "",
+    "chatExpTPFileUploadEnabledFlag": false,
+    "chatExpThirdPartyDetails": [],
+    "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI",
+    "diagram": {
+      "orientation": "vertical",
+      "commentNodes": []
+    }
+  },
+  "name": "Direct Report Details",
+  "description": "The Direct Report Details Workflow Agent takes a personId and optionally an assignmentId to fetch the direct reports for the specified assignment. If only personId is provided, it first resolves the worker’s primary assignment and then retrieves the direct report details for that primary assignment. The workflow returns a structured view of the employee’s reporting hierarchy at the direct-report level.",
+  "family": "HCM",
+  "product": "GLOBAL_HUMAN_RESOURCES",
+  "workflowId": "300100665103912",
+  "ownerName": null,
+  "seededFlag": false,
+  "hiddenFlag": false,
+  "status": "PUBLISHED",
+  "version": 89125899,
+  "useCaseId": "NA",
+  "accessModifier": "public",
+  "architecture": "data_pipeline",
+  "followupPrompt": null,
+  "firstStarterQuestion": null,
+  "secondStarterQuestion": null,
+  "thirdStarterQuestion": null,
+  "followupEnabledFlag": false,
+  "maxInteractions": null,
+  "customFlag": false,
+  "sourceWorkflowCode": null,
+  "customizationPolicy": null,
+  "emailConfigCode": null,
+  "jobRequestId": null,
+  "aiAppsCompatibleFlag": false,
+  "isTemplate": false,
+  "ownerId": null,
+  "$id": "300100665103912",
+  "tags": [],
+  "roles": [],
+  "seededRoles": [],
+  "customizedSpecifications": [],
+  "initialTags": [],
+  "initialRoles": []
+}

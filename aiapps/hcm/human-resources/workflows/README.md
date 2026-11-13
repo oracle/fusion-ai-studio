@@ -147,8 +147,8 @@ Skill-search dependencies are provided by the existing `Team Skill Search` and `
 | **Code** | XX_WORKER_ASG_INFO_BY_PERSON |
 | **Description** | Returns assignment and employment information for the supplied person identifier. |
 | **Exposed to Agentic Apps** | No |
-| **Input Parameters** | personId (string) |
-| **Output Parameters** | The workflow returns an array of assignment objects. Each object has the fields AssignmentId (integer), AssignmentNumber (string), AssignmentName (string), LegalEmployerName (string), StartDate (date), PrimaryFlag (boolean), PrimaryAssignmentFlag (boolean), WorkerType (string), WorkerNumber (string), WorkAtHomeFlag (boolean), FullPartTime (string), ManagerName (string), BusinessUnitName (string), DepartmentName (string), JobCode (string), JobName (string), PositionCode (string), PositionName (string), LocationCode (string), LocationName (string), GradeCode (string), GradeName (string), InternalBuilding (string), InternalFloor (string), InternalOfficeNumber (string), InternalMailstop (string), LocationAddressLine1 (string), LocationAddressLine2 (string), LocationAddressLine3 (string), LocationAddressLine4 (string), LocationRegion1 (string), LocationRegion2 (string), LocationRegion3 (string), LocationTownOrCity (string), LocationPostalCode (string), LocationCountry (string), LocationLongPostalCode (string), LocationTimezoneCode (string), LocationSingleLineAddress (string), LocationMultiLineAddress (string), LengthOfServiceYears (integer), LengthOfServiceMonths (integer), LengthOfServiceDays (integer), MarkedAsFavoriteFlag (boolean), DateProbationEnd (date), and ProjectedStartDate (date). |
+| **Input Parameters** | personId (string; required) - Person identifier of the worker whose assignment information is requested. |
+| **Output Parameters** | The workflow returns an array of primary assignment objects. Each object has the fields AssignmentId (integer), AssignmentNumber (string), AssignmentName (string), LegalEmployerName (string), StartDate (date), PrimaryFlag (boolean), PrimaryAssignmentFlag (boolean), WorkerType (string), WorkerNumber (string), WorkAtHomeFlag (boolean), FullPartTime (string), ManagerName (string), BusinessUnitName (string), DepartmentName (string), JobCode (string), JobName (string), PositionCode (string), PositionName (string), LocationCode (string), LocationName (string), GradeCode (string), GradeName (string), InternalBuilding (string), InternalFloor (string), InternalOfficeNumber (string), InternalMailstop (string), LocationAddressLine1 (string), LocationAddressLine2 (string), LocationAddressLine3 (string), LocationAddressLine4 (string), LocationRegion1 (string), LocationRegion2 (string), LocationRegion3 (string), LocationTownOrCity (string), LocationPostalCode (string), LocationCountry (string), LocationLongPostalCode (string), LocationTimezoneCode (string), LocationSingleLineAddress (string), LocationMultiLineAddress (string), LengthOfServiceYears (number), LengthOfServiceMonths (integer), LengthOfServiceDays (integer), MarkedAsFavoriteFlag (boolean), DateProbationEnd (date), and ProjectedStartDate (date). |
 
 #### Workflow : Number of Workers by Business Unit
 
@@ -389,4 +389,125 @@ Skill-search dependencies are provided by the existing `Team Skill Search` and `
 | **Exposed to Agentic Apps** | No |
 | **Input Parameters** | workerName (string) |
 | **Output Parameters** | The workflow returns an array of worker objects. Each object has the fields DisplayName (string), DepartmentName (string), JobName (string), LocationName (string), PositionName (string), PersonId (string), PersonNumber (string), and AssignmentNumber (string). |
+
+#### Workflow : Worker Addresses
+
+| Workflow Name | Worker Addresses |
+|---------------|---------------|
+| **Code** | XX_PER_ADDRESSES |
+| **Description** | Displays the selected worker's addresses, including address type, formatted address, primary indicator, and effective dates. Shows primary addresses first and answers questions using the available address records. |
+| **Exposed to Agentic Apps** | Yes |
+| **Input Parameters** | `personId` - Optional person identifier supplied as a string. Uses the selected person from `$OraAppContext` first, then the supplied `personId`, then the logged-in worker from `$OraUserContext`. |
+| **Output Parameters** | This workflow supports `InitDisplay`, `AdditionalContent`, `Query`. <br> <br> `InitDisplay` - Displays the first five address records, with primary addresses first and dates formatted for the viewer. <br> <br> `AdditionalContent` - Displays the remaining address records. <br> <br> `Query` - Retrieves current address records and answers the user's question using those records. <br> <br> Business objects used: [Worker Employment](../businessObjects/ora_hcm_globalhuma_employmentghr.bo), [Worker Addresses](../businessObjects/ora_hcm_globalhuma_xx_personaddressesv2.bo). |
+
+#### Workflow : Worker Citizenships
+
+| Workflow Name | Worker Citizenships |
+|---------------|---------------|
+| **Code** | XX_PER_CITIZENSHIPS |
+| **Description** | Displays the selected worker's citizenship records, including country, citizenship status, and start and end dates. Answers questions using the available citizenship information. |
+| **Exposed to Agentic Apps** | Yes |
+| **Input Parameters** | `personId` - Optional person identifier supplied as a string. Uses the selected person from `$OraAppContext` first, then the supplied `personId`, then the logged-in worker from `$OraUserContext`. |
+| **Output Parameters** | This workflow supports `InitDisplay`, `AdditionalContent`, `Query`. <br> <br> `InitDisplay` - Displays citizenship records with status and start and end dates. <br> <br> `AdditionalContent` - Displays the remaining citizenship records. <br> <br> `Query` - Answers the user's question using the retrieved citizenship records. <br> <br> Business objects used: [Worker Employment](../businessObjects/ora_hcm_globalhuma_employmentghr.bo), [Worker Citizenships](../businessObjects/ora_hcm_globalhuma_xx_personcitizenshipsv2.bo). |
+
+#### Workflow : Worker Driver Licenses
+
+| Workflow Name | Worker Driver Licenses |
+|---------------|---------------|
+| **Code** | XX_PER_DRIVER_LICENSES |
+| **Description** | Displays the selected worker's driver licenses, including license number, type, issuing country, and validity dates. Answers questions using the available license records. |
+| **Exposed to Agentic Apps** | Yes |
+| **Input Parameters** | `personId` - Optional person identifier supplied as a string. Uses the selected person from `$OraAppContext` first, then the supplied `personId`, then the logged-in worker from `$OraUserContext`. |
+| **Output Parameters** | This workflow supports `InitDisplay`, `Query`. <br> <br> `InitDisplay` - Displays driver license details with dates formatted for the viewer. <br> <br> `Query` - Retrieves current license records and answers the user's question using those records. <br> <br> Business objects used: [Worker Employment](../businessObjects/ora_hcm_globalhuma_employmentghr.bo), [Worker Driver Licenses](../businessObjects/ora_hcm_globalhuma_xx_persondriverlicenses.bo). |
+
+#### Workflow : Worker Email Addresses
+
+| Workflow Name | Worker Email Addresses |
+|---------------|---------------|
+| **Code** | XX_PER_EMAILS |
+| **Description** | Displays the selected worker's email addresses, including email type and primary indicator. Answers questions using the available email records. |
+| **Exposed to Agentic Apps** | Yes |
+| **Input Parameters** | `personId` - Optional person identifier supplied as a string. Uses the selected person from `$OraAppContext` first, then the supplied `personId`, then the logged-in worker from `$OraUserContext`. |
+| **Output Parameters** | This workflow supports `InitDisplay`, `Query`. <br> <br> `InitDisplay` - Displays email addresses, types, primary indicators, and dates formatted for the viewer. <br> <br> `Query` - Answers the user's question using current email addresses, types, and primary indicators. <br> <br> Business objects used: [Worker Employment](../businessObjects/ora_hcm_globalhuma_employmentghr.bo), [Worker Contact Details](../businessObjects/ora_hcm_globalhuma_workerdetailsghr.bo). |
+
+#### Workflow : Worker Passports
+
+| Workflow Name | Worker Passports |
+|---------------|---------------|
+| **Code** | XX_PER_PASSPORTS |
+| **Description** | Displays the selected worker's passports, including passport number, type, issuing country, issue date, and expiration date. Answers questions using the available passport records. |
+| **Exposed to Agentic Apps** | Yes |
+| **Input Parameters** | `personId` - Optional person identifier supplied as a string. Uses the selected person from `$OraAppContext` first, then the supplied `personId`, then the logged-in worker from `$OraUserContext`. |
+| **Output Parameters** | This workflow supports `InitDisplay`, `Query`. <br> <br> `InitDisplay` - Displays passport details with dates formatted for the viewer. <br> <br> `Query` - Retrieves current passport records and answers the user's question using those records. <br> <br> Business objects used: [Worker Employment](../businessObjects/ora_hcm_globalhuma_employmentghr.bo), [Worker Passports](../businessObjects/ora_hcm_globalhuma_xx_personpassportsv2.bo). |
+
+#### Workflow : Worker Phone Numbers
+
+| Workflow Name | Worker Phone Numbers |
+|---------------|---------------|
+| **Code** | XX_PER_PHONES |
+| **Description** | Displays the selected worker's phone numbers, including phone type, country and area codes, extension, primary indicator, and validity dates. Shows primary numbers first and answers questions using the available phone records. |
+| **Exposed to Agentic Apps** | Yes |
+| **Input Parameters** | `personId` - Optional person identifier supplied as a string. Uses the selected person from `$OraAppContext` first, then the supplied `personId`, then the logged-in worker from `$OraUserContext`. |
+| **Output Parameters** | This workflow supports `InitDisplay`, `AdditionalContent`, `Query`. <br> <br> `InitDisplay` - Displays the first five phone records, with primary numbers first and dates formatted for the viewer. <br> <br> `AdditionalContent` - Displays the remaining phone records. <br> <br> `Query` - Retrieves current phone records and answers the user's question using those records. <br> <br> Business objects used: [Worker Employment](../businessObjects/ora_hcm_globalhuma_employmentghr.bo), [Worker Phones](../businessObjects/ora_hcm_globalhuma_xx_personphonesv2.bo). |
+
+#### Workflow : Worker Visas and Permits
+
+| Workflow Name | Worker Visas and Permits |
+|---------------|---------------|
+| **Code** | XX_PER_VISAS_PERMITS |
+| **Description** | Displays current and future visa and permit records for the selected worker, including document number, type, status, issuing country, and available dates. Answers questions using the available visa and permit information. |
+| **Exposed to Agentic Apps** | Yes |
+| **Input Parameters** | `personId` - Optional person identifier supplied as a string. Uses the selected person from `$OraAppContext` first, then the supplied `personId`, then the logged-in worker from `$OraUserContext`. |
+| **Output Parameters** | This workflow supports `InitDisplay`, `Query`. <br> <br> `InitDisplay` - Displays current and future visa and permit details. <br> <br> `Query` - Retrieves current records and answers the user's question using the available visa and permit details. <br> <br> Business objects used: [Worker Employment](../businessObjects/ora_hcm_globalhuma_employmentghr.bo), [Worker Visas and Permits](../businessObjects/ora_hcm_globalhuma_xx_personvisaspermits.bo). |
+
+#### Workflow : Worker Family and Emergency Contacts
+
+| Workflow Name | Worker Family and Emergency Contacts |
+|---------------|---------------|
+| **Code** | XX_WORKER_EMERGENCY_CONTACTS |
+| **Description** | Displays the selected worker's family and emergency contacts, including contact name, relationship, phone number, email address, and start date. Shows emergency contacts first and answers questions using the available contact records. |
+| **Exposed to Agentic Apps** | Yes |
+| **Input Parameters** | `personId` - Optional person identifier supplied as a string. Uses the selected person from `$OraAppContext` first, then the supplied `personId`, then the logged-in worker from `$OraUserContext`. |
+| **Output Parameters** | This workflow supports `InitDisplay`, `AdditionalContent`, `Query`. <br> <br> `InitDisplay` - Displays family and emergency contacts, with emergency contacts first and dates formatted for the viewer. <br> <br> `AdditionalContent` - Displays the remaining contact records. <br> <br> `Query` - Answers the user's question using the retrieved contact details. <br> <br> Business objects used: [Worker Employment](../businessObjects/ora_hcm_globalhuma_employmentghr.bo), [Worker Family and Emergency Contacts](../businessObjects/ora_hcm_globalhuma_xx_personfamilyandemergencycontactshistoryv2.bo). |
+
+#### Workflow : Worker Employment History
+
+| Workflow Name | Worker Employment History |
+|---------------|---------------|
+| **Code** | XX_WORKER_EMPLOYMENT_HISTORY |
+| **Description** | Displays employment and assignment history for the selected worker, including business title, start and end dates, business unit, legal employer, and location. Answers questions using the available history records. |
+| **Exposed to Agentic Apps** | Yes |
+| **Input Parameters** | `personId` - Optional person identifier supplied as a string. Uses the selected person from `$OraAppContext` first, then the supplied `personId`, then the logged-in worker from `$OraUserContext`. |
+| **Output Parameters** | This workflow supports `InitDisplay`, `Query`, `InvokeAction`. <br> <br> `InitDisplay` - Displays employment and assignment history for the selected worker. <br> <br> `Query` - Answers the user's question using the retrieved history. <br> <br> `InvokeAction` - Returns an unavailable-action message for employment task actions. <br> <br> Business objects used: [Worker Employment](../businessObjects/ora_hcm_globalhuma_employmentghr.bo). |
+
+#### Workflow : Worker Other Communication Accounts
+
+| Workflow Name | Worker Other Communication Accounts |
+|---------------|---------------|
+| **Code** | XX_WORKER_OTHER_COMMUNICATION_ACCOUNTS |
+| **Description** | Displays the selected worker's other communication accounts, including provider and account name. Answers questions using the available communication account records. |
+| **Exposed to Agentic Apps** | Yes |
+| **Input Parameters** | `personId` - Optional person identifier supplied as a string. Uses the selected person from `$OraAppContext` first, then the supplied `personId`, then the logged-in worker from `$OraUserContext`. |
+| **Output Parameters** | This workflow supports `InitDisplay`, `Query`. <br> <br> `InitDisplay` - Displays communication providers and account details. <br> <br> `Query` - Retrieves current communication accounts and answers the user's question using those records. <br> <br> Business objects used: [Worker Contact Details](../businessObjects/ora_hcm_globalhuma_workerdetailsghr.bo). |
+#### Workflow : Worker Organization Search
+
+| Workflow Name | Worker Organization Search |
+|---------------|---------------|
+| **Code** | XX_WORKER_ORG_SEARCH |
+| **Description** | Finds employees using optional Person, Manager, Location, Department, Position, and Job lookup selections, plus directly supplied work email or phone values. Supports broad employee searches and searches across a manager's direct and indirect reports, using primary assignments and existing access controls. |
+| **Exposed to Agentic Apps** | Yes |
+| **Input Parameters** | No declared REST input parameters.<br>Uses the user message and app context: `$OraMessageHint` - `Query`, `QueryFilterValues`, or `InvokeAction`; `$OraQueryFilter` - Lookup category (`person`, `manager`, `location`, `department`, `position`, or `job`) and optional search text; `$OraAction` - Show More action containing the next zero-based offset and the selected search filters. Person selections require personId metadata; Manager selections require personId and assignmentId metadata. Work email and phone filters may be supplied directly in the user message. |
+| **Output Parameters** | This workflow supports `Query`, `QueryFilterValues`, and `InvokeAction`. <br> <br> `Query` - Retrieves matching employees using the `Worker Search` business object and displays a clickable Message List with available name, job, department, location, work email, work phone, and person photo. Returns up to five backend rows per page and provides a Show More action when additional results are available. <br> <br> `QueryFilterValues` - Returns lookup options for Person, Manager, Location, Department, Position, and Job. Person options include personId metadata; Manager options include personId and assignmentId metadata. Empty search text loads the initial options. <br> <br> `InvokeAction` - Loads the next search page using the offset and filters carried by the Show More action. Invalid searches or unsupported requests return the configured guidance response. |
+
+
+#### Workflow : Direct Report Details
+
+| Workflow Name | Direct Report Details |
+|---------------|---------------|
+| **Code** | XX_DIRECT_REPORT_DETAILS |
+| **Description** | The Direct Report Details Workflow Agent takes a personId and optionally an assignmentId to fetch the direct reports for the specified assignment. If only personId is provided, it first resolves the worker’s primary assignment and then retrieves the direct report details for that primary assignment. The workflow returns a structured view of the employee’s reporting hierarchy at the direct-report level. |
+| **Exposed to Agentic Apps** | No |
+| **Input Parameters** | `assignmentId` (string) - Optional assignment identifier. When supplied together with the required personId, this assignment is used directly. When omitted, the workflow retrieves the primary assignment using personId.<br>`personId` (string) - Manager person identifier used to resolve the primary assignment and retrieve direct reports. |
+| **Output Parameters** | Requires personId. Uses the supplied assignmentId when present; otherwise retrieves the primary assignment using personId, then retrieves direct reports for that assignment. Returns direct-report records with available person, assignment, reporting-relationship, photo, and report-count fields. Returns an empty collection when no reports are retrieved. This shared workflow is used by Team Skill Details and Team Skills Summary. |
+
 <!-- END GENERATED WORKFLOWS -->

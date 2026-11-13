@@ -1,0 +1,73 @@
+{
+  "supportedObjectId": "300100669108915",
+  "$context": {
+    "etag": "5"
+  },
+  "name": "Fetch Active Job Details",
+  "description": "Retrieves active jobs matching a search term across job name, job code, and job family name within the specified set. Returns the job ID, job name, job code, and job family name.",
+  "objectCode": "ORA_HCM_GLOBALHUMA_XX_FETCHACTIVEJOBDETAILS",
+  "family": "HCM",
+  "product": "GLOBAL_HUMAN_RESOURCES",
+  "objectSource": "ADF_BC",
+  "restResourcePath": "/hcmRestApi/resources/11.13.18.05",
+  "restResourceIdentifier": "-1",
+  "seededFlag": false,
+  "mandatoryFlag": false,
+  "objectProperties": {
+    "jsonSchemaName": "supportedObjectProperties",
+    "jsonSchemaVersion": 1,
+    "tools": [
+      {
+        "name": "SearchActiveJobsBySearchTerm",
+        "description": "Searches for active jobs matching the specified search term within the specified reference data set and retrieves each matching job's ID, name, code, and family name.",
+        "operationType": "GET",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/jobsLovV2?fields=JobId,JobName,JobCode,JobFamilyName&finder=findByWord;ActiveStatus=A,SetId={setId},SearchTerms={SearchTerm},FilterAttributes=JobName%20JobCode%20JobFamilyName&onlyData=true",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "setId",
+            "dataType": "integer",
+            "description": "Reference data-set ID used to scope the active-job search. Use the configured value for the applicable reference data set.",
+            "id": 2,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": "0"
+          },
+          {
+            "name": "SearchTerm",
+            "dataType": "string",
+            "description": "Search text matched against active job names, job codes, and job-family names.",
+            "id": 3,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Placeholder-only example response showing active jobs returned by a fuzzy search term. All scalar values are placeholders; no sample data is included.",
+            "query": {
+              "items": [
+                {
+                  "JobId": "<job_id>",
+                  "JobName": "<job_name>",
+                  "JobCode": "<job_code>",
+                  "JobFamilyName": "<job_family_name>"
+                }
+              ],
+              "count": "<count>",
+              "hasMore": "<has_more>",
+              "limit": "<limit>",
+              "offset": "<offset>"
+            },
+            "sampleType": "response"
+          }
+        ]
+      }
+    ]
+  }
+}
