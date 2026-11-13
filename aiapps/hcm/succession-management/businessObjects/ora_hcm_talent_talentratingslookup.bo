@@ -357,6 +357,44 @@
           }
         ]
       }
+      ,
+      {
+        "name": "GetAdvancementReadinessByTalentProfileId",
+        "description": "Retrieves advancement-readiness records for the talent profile with the specified profile ID, including readiness levels and effective date ranges, ordered by the most recent start date.",
+        "operationType": "GET",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentRatings/{TalentProfileId}/child/advancementReadiness?fields=*&onlyData=true&orderBy=FromDate%3Adesc&limit=25&offset=0",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "TalentProfileId",
+            "dataType": "string",
+            "description": "Talent-rating profile ID of the worker whose advancement-readiness records should be returned.",
+            "id": 9,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Placeholder-only response showing advancement readiness for a talent rating profile. All scalar values are placeholders; no sample data is included.",
+            "query": {
+              "items": [
+                {
+                  "AdvancementReadinessId": "<advancement_readiness_id>",
+                  "ReadinessLevelCode": "<readiness_level_code>",
+                  "FromDate": "<from_date>",
+                  "ToDate": "<to_date>"
+                }
+              ]
+            },
+            "sampleType": "response"
+          }
+        ]
+      }
     ]
   }
 }

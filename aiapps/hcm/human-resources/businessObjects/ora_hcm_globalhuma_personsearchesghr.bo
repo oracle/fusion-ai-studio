@@ -1,5 +1,9 @@
 {
   "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "supportedObjectId": "300100720762476",
+  "$context": {
+    "etag": "2"
+  },
   "name": "Worker Search",
   "description": "Searches for workers and returns worker lists, reporting relationships, and grouped counts. Supports name, department, job, grade, business unit, position, location, and manager filters, as well as custom search criteria.",
   "objectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONSEARCHESGHR",
@@ -9745,7 +9749,7 @@
             "name": "facetField",
             "dataType": "string",
             "description": "Validated facet field: LocationName, DepartmentName, PositionName, or JobName.",
-            "id": 811,
+            "id": 853,
             "isToken": true,
             "location": "body",
             "source": "placeholder",
@@ -9755,7 +9759,7 @@
             "name": "searchText",
             "dataType": "string",
             "description": "Optional text used to narrow facet values. Empty string requests initial values.",
-            "id": 812,
+            "id": 854,
             "isToken": true,
             "location": "body",
             "source": "placeholder",
@@ -9840,7 +9844,7 @@
             "name": "searchText",
             "dataType": "string",
             "description": "Nonempty full or partial display name. Use GetLookupManagers for empty search text.",
-            "id": 819,
+            "id": 861,
             "isToken": true,
             "location": "body",
             "source": "placeholder",
@@ -9920,7 +9924,7 @@
             "name": "searchText",
             "dataType": "string",
             "description": "Nonempty full or partial display name. Use GetLookupPeople for empty search text.",
-            "id": 826,
+            "id": 868,
             "isToken": true,
             "location": "body",
             "source": "placeholder",
@@ -9947,6 +9951,95 @@
               "offset": "<offset>"
             },
             "sampleType": "response"
+          }
+        ]
+      },
+      {
+        "name": "GetLookupWorkers",
+        "description": "Finds accessible Manager or Person lookup options by display name. Uses primary assignments and the validated lookup selector: AssignmentManagerFlag/Yes for Manager or WorkerType/Employee for Person. Fixed PersonSearch AdvancedSearch security, native authentication, offset0, limit25, and ascending display-name order. Empty search text lists the first lookup page.",
+        "operationType": "POST",
+        "resourcePath": "/hcmRestApi/redwood/11.13.18.05/workerSearchesV2",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "{\n  \"securityFilters\": {\n    \"type\": \"PersonSearch\",\n    \"value\": \"AdvancedSearch\"\n  },\n  \"filters\": [\n    {\n      \"name\": \"PrimaryAssignmentOnly\",\n      \"value\": true\n    },\n    {\n      \"name\": \"{lookupFilterName}\",\n      \"terms\": [\n        \"{lookupFilterValue}\"\n      ]\n    }\n  ],\n  \"displayFields\": [\n    \"DisplayName\",\n    \"PersonId\",\n    \"AssignmentId\",\n    \"DepartmentName\",\n    \"JobName\",\n    \"LocationName\"\n  ],\n  \"offset\": 0,\n  \"limit\": 25,\n  \"sort\": [\n    {\n      \"name\": \"DisplayName\",\n      \"direction\": \"asc\"\n    }\n  ],\n  \"query\": \"{searchText}\",\n  \"searchFields\": [\n    \"DisplayName\"\n  ]\n}",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "lookupFilterName",
+            "dataType": "string",
+            "description": "Selects the type of people returned by the lookup. Use AssignmentManagerFlag for the Manager lookup, paired with lookupFilterValue=Yes, or WorkerType for the Person lookup, paired with lookupFilterValue=Employee. Callers must validate and supply one of these exact pairs; this parameter is not a person name or identifier.",
+            "id": 872,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "lookupFilterValue",
+            "dataType": "string",
+            "description": "Value for the filter selected by lookupFilterName. Use Yes with AssignmentManagerFlag to return managers, or Employee with WorkerType to return employees for the Person lookup. Callers must validate the pair before invoking this function; other values and mixed pairs are not supported.",
+            "id": 873,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "searchText",
+            "dataType": "string",
+            "description": "Full or partial display name used to narrow the selected Manager or Person lookup. Pass an empty string to load the first page without a name filter. Both initial and name-filtered requests return up to 25 accessible primary-assignment matches, sorted by DisplayName in ascending order; this function always starts at offset 0.",
+            "id": 874,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "sampleQueries": [
+          {
+            "description": "Initial Manager lookup request with primary assignments, existing access controls, and a 25-row limit.",
+            "query": {
+              "securityFilters": {
+                "type": "PersonSearch",
+                "value": "AdvancedSearch"
+              },
+              "filters": [
+                {
+                  "name": "PrimaryAssignmentOnly",
+                  "value": true
+                },
+                {
+                  "name": "AssignmentManagerFlag",
+                  "terms": [
+                    "Yes"
+                  ]
+                }
+              ],
+              "displayFields": [
+                "DisplayName",
+                "PersonId",
+                "AssignmentId",
+                "DepartmentName",
+                "JobName",
+                "LocationName"
+              ],
+              "offset": 0,
+              "limit": 25,
+              "sort": [
+                {
+                  "name": "DisplayName",
+                  "direction": "asc"
+                }
+              ],
+              "query": "",
+              "searchFields": [
+                "DisplayName"
+              ]
+            },
+            "sampleType": "request"
           }
         ]
       }

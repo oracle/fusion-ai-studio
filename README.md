@@ -19,7 +19,9 @@ The repository now follows a **release-based branching model**. You will see **`
 
 | **Date**| **Operation** | **File/folder** | **Description**|
 |--------------|---------------|---------------|---------------|
-| 2026-11-04| Added |`aistudio-extension.zip` | Updated the AI Studio extension to resolve file attachments failing with HTTP 400 in the workflow chat conversation. |
+| 2026-11-13| Added |`aiapps/hcm/human-resources` | Added new business objects and workflows to the human resources area|
+| 2026-11-13| Added |`aiapps/hcm/talent-management` | Added new business objects and workflows to the talent management area|
+| 2026-11-13| Added |`aiapps/hcm/succession-management` | Added new function to business object in the succession management area|
 | 2026-10-26| Added |`aiapps/hcm/human-resources` | Added new business objects, workflows to human resources and updated widget output formats of workflows|
 | 2026-08-21| Added |`.agents/skills, aiapps` |Directory restructured to support standard `**git clone**` and `**git pull**` operations to obtain the latest skills, applications, and workflow updates.|
 | 2026-08-12| Added |`aiapps/scm/inventory` |Added inventory workflows, business objects for item shortage and lot expiry.|
@@ -141,11 +143,21 @@ You can find the online documentation for Oracle Fusion AI Agent Studio at [offi
 
 ### Change Log Details
 
-##### 4th November 2026
+##### 13th November 2026
 -----
-This change resolves an issue in AI Studio where files are uploaded successfully in the chat but failed to attach to the test conversation in workflow, returning an HTTP 400 error. This could cause the workflow to run without the attachment.
+Added workflows, business objects in HCM family related to human resources in folder `aiapps/hcm/human-resources`
 
-The fix now ensures direct requests to Fusion preserve the required content types, preventing the attachment processing issue that caused the `VERSION/create` error.
+- Workflows : Direct Report Details, Worker Addresses, Worker Citizenships, Worker Driver Licenses, Worker Email Addresses, Worker Passports, Worker Phone Numbers, Worker Visas and Permits, Worker Family and Emergency Contacts, Worker Employment History, Worker Organization Search, Worker Other Communication Accounts
+- Business Objects : Job Profile Requirements, Worker Addresses, Worker Citizenships, Worker Driver Licenses, Worker Family and Emergency Contacts, Worker Passports, Worker Phones, Worker Visas and Permits, Fetch Logged In User Info, Fetch Active Job Details
+
+Added workflows, business objects in HCM family related to talent management in folder `aiapps/hcm/talent-management`
+
+- Workflows : Team Highest and Lowest Achieved Skills, Team Skill Details, Team Skill Overview, Team Skills Summary, Worker Current and Future Role Skills Gap, Worker Skills Details, Worker Skills Summary
+- Business Objects : Person Skill Details Search, Team Skill Search, Team Skill Details, Person Talent Profile V2
+
+Added a new function GetAdvancementReadinessByTalentProfileId to business object Talent Ratings Lookup in `aiapps/hcm/succession-management`. This helps in retrieving advancement-readiness information for a given talent profile ID.
+
+
 
 ##### 26th October 2026
 -----

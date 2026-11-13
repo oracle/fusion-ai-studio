@@ -1,0 +1,96 @@
+{
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "supportedObjectId": "300100661812965",
+  "$context": {
+    "etag": "2"
+  },
+  "name": "Worker Visas and Permits",
+  "description": "Provides current and future visa and permit records by personId and effectiveDate, ordered by EffectiveStartDate descending. Returns VisaPermitNumber, type, category and status meanings, IssuingCountryName, IssueDate, EntryDate, ExpirationDate, and effective dates.",
+  "objectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONVISASPERMITS",
+  "family": "HCM",
+  "product": "GLOBAL_HUMAN_RESOURCES",
+  "objectSource": "ADF_BC",
+  "restResourcePath": "/hcmRestApi/resources/11.13.18.05/personVisasPermitsAll",
+  "restResourceIdentifier": "-1",
+  "seededFlag": false,
+  "mandatoryFlag": false,
+  "objectProperties": {
+    "jsonSchemaName": "supportedObjectProperties",
+    "jsonSchemaVersion": 1,
+    "baseUrlTMKey": "",
+    "serviceNameOverride": "",
+    "tools": [
+      {
+        "name": "get_current_and_future_person_visas_and_permits",
+        "description": "Retrieves current and future visa and permit records by personId and effectiveDate, ordered by EffectiveStartDate descending. Returns VisaPermitNumber, type, category and status meanings, IssuingCountryName, IssueDate, EntryDate, ExpirationDate, and effective dates.",
+        "operationId": "getall_personVisasPermitsAll",
+        "operationType": "GET",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/personVisasPermitsAll?finder=findDateEffectiveRecords;RequestedMode=currentFuture,RequestedDate={effectiveDate}&fields=PersonId,VisaPermitNumber,VisaPermitTypeMeaning,VisaPermitCategoryMeaning,VisaPermitStatusMeaning,IssuingCountryName,IssuingAuthority,IssuingLocation,Profession,IssueDate,EntryDate,ExpirationDate,EffectiveStartDate,EffectiveEndDate&onlyData=true&orderBy=EffectiveStartDate:desc&q=PersonId={personId}&limit=500&offset=0",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "effectiveDate",
+            "dataType": "date",
+            "description": "Calendar-valid effective date in YYYY-MM-DD format, validated before the BO call.",
+            "id": 2,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "personId",
+            "dataType": "string",
+            "description": "Person identifier used to locate the worker record in HCM.",
+            "id": 3,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Sample request for get_current_and_future_person_visas_and_permits using masked parameter placeholders.",
+            "query": {
+              "effectiveDate": "<effective date>",
+              "personId": "<person id>"
+            },
+            "sampleType": "request"
+          },
+          {
+            "description": "Illustrative response containing one visa or permit record. All values are masked placeholders.",
+            "query": {
+              "items": [
+                {
+                  "PersonId": "<person id>",
+                  "VisaPermitNumber": "<visa permit number>",
+                  "VisaPermitTypeMeaning": "<visa permit type meaning>",
+                  "VisaPermitCategoryMeaning": "<visa permit category meaning>",
+                  "VisaPermitStatusMeaning": "<visa permit status meaning>",
+                  "IssuingCountryName": "<issuing country name>",
+                  "IssuingAuthority": "<issuing authority>",
+                  "IssuingLocation": "<issuing location>",
+                  "Profession": "<profession>",
+                  "IssueDate": "<issue date>",
+                  "EntryDate": "<entry date>",
+                  "ExpirationDate": "<expiration date>",
+                  "EffectiveStartDate": "<effective start date>",
+                  "EffectiveEndDate": "<effective end date>"
+                }
+              ],
+              "count": "<count>",
+              "hasMore": "<has more>",
+              "limit": "<limit>",
+              "offset": "<offset>",
+              "links": []
+            },
+            "sampleType": "response"
+          }
+        ]
+      }
+    ]
+  }
+}

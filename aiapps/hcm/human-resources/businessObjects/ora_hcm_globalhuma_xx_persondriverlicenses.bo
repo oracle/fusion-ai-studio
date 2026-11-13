@@ -1,0 +1,76 @@
+{
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "supportedObjectId": "300100661812953",
+  "$context": {
+    "etag": "4"
+  },
+  "name": "Worker Driver Licenses",
+  "description": "Provides driver license records by personId, including LicenseNumber, LicenseTypeMeaning, IssuingCountryName, IssuingAuthority, IssuingLocation, FromDate, and ToDate.",
+  "objectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONDRIVERLICENSES",
+  "family": "HCM",
+  "product": "GLOBAL_HUMAN_RESOURCES",
+  "objectSource": "ADF_BC",
+  "restResourcePath": "/hcmRestApi/resources/11.13.18.05/personDriverLicenses",
+  "restResourceIdentifier": "-1",
+  "seededFlag": false,
+  "mandatoryFlag": false,
+  "objectProperties": {
+    "jsonSchemaName": "supportedObjectProperties",
+    "jsonSchemaVersion": 1,
+    "tools": [
+      {
+        "name": "get_person_driver_licenses",
+        "description": "Retrieves driver license records by personId, including LicenseNumber, LicenseTypeMeaning, IssuingCountryName, IssuingAuthority, IssuingLocation, FromDate, and ToDate.",
+        "operationId": "getall_personDriverLicenses",
+        "operationType": "GET",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/personDriverLicenses?fields=LicenseNumber,LicenseTypeMeaning,IssuingAuthority,IssuingLocation,IssuingCountryName,FromDate,ToDate&onlyData=true&q=PersonId={personId}",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "personId",
+            "dataType": "string",
+            "description": "Person identifier used to locate the worker record in HCM.",
+            "id": 2,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Sample request for get_person_driver_licenses using masked parameter placeholders.",
+            "query": {
+              "personId": "<person id>"
+            },
+            "sampleType": "request"
+          },
+          {
+            "description": "Illustrative response containing one driver license record. All values are masked placeholders.",
+            "query": {
+              "items": [
+                {
+                  "LicenseNumber": "<license number>",
+                  "LicenseTypeMeaning": "<license type meaning>",
+                  "IssuingAuthority": "<issuing authority>",
+                  "IssuingLocation": "<issuing location>",
+                  "IssuingCountryName": "<issuing country name>",
+                  "FromDate": "<from date>",
+                  "ToDate": "<to date>"
+                }
+              ],
+              "count": "<count>",
+              "hasMore": "<has more>",
+              "limit": "<limit>",
+              "offset": "<offset>",
+              "links": []
+            },
+            "sampleType": "response"
+          }
+        ]
+      }
+    ]
+  }
+}

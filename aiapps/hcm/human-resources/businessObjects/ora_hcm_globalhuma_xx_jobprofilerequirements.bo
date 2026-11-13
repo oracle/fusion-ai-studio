@@ -1,0 +1,119 @@
+{
+  "supportedObjectId": "300100669109865",
+  "$context": {
+    "etag": "5"
+  },
+  "name": "Job Profile Requirements",
+  "description": "Provides public worker skills, job-profile details, required-skill criteria, talent-rating profile identifiers, and advancement-readiness data for comparing a worker's skills with current or prospective role requirements.",
+  "objectCode": "ORA_HCM_GLOBALHUMA_XX_JOBPROFILEREQUIREMENTS",
+  "family": "HCM",
+  "product": "GLOBAL_HUMAN_RESOURCES",
+  "objectSource": "ADF_BC",
+  "restResourcePath": "/hcmRestApi/resources/11.13.18.05/",
+  "restResourceIdentifier": "-1",
+  "seededFlag": false,
+  "mandatoryFlag": false,
+  "objectProperties": {
+    "jsonSchemaName": "supportedObjectProperties",
+    "jsonSchemaVersion": 1,
+    "tools": [
+      {
+        "name": "GetJobProfileByJobId",
+        "description": "Retrieves the active model-profile relationship for the job with the specified job ID, including the job's effective date, code, name, and object ID and the related profile's name, code, ID, type, and status.",
+        "operationType": "GET",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentModelProfileRelations?fields=EffectiveStartDate,JobCode,JobName,ObjectId;modelProfile:Name,ProfileCode,ProfileId,ProfileType,ProfileTypeId,Status&finder=findRelationByObjectId;ObjectId={JobId},RelationId=2&limit=1&onlyData=true",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "JobId",
+            "dataType": "string",
+            "description": "HCM job ID whose active model-profile relationship and related profile details should be returned.",
+            "id": 2,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Placeholder-only example response showing a job and its related job profile. All scalar values are placeholders; no sample data is included.",
+            "query": {
+              "items": [
+                {
+                  "EffectiveStartDate": "<effective_start_date>",
+                  "JobCode": "<job_code>",
+                  "JobName": "<job_name>",
+                  "ObjectId": "<object_id>",
+                  "modelProfile": {
+                    "items": [
+                      {
+                        "Name": "<name>",
+                        "ProfileCode": "<profile_code>",
+                        "ProfileId": "<profile_id>",
+                        "ProfileType": "<profile_type>",
+                        "ProfileTypeId": "<profile_type_id>",
+                        "Status": "<status>"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "count": "<count>",
+              "hasMore": "<has_more>",
+              "limit": "<limit>",
+              "offset": "<offset>"
+            },
+            "sampleType": "response"
+          }
+        ]
+      },
+      {
+        "name": "GetRequiredSkillsForJobProfile",
+        "description": "Retrieves required-skill records for the job profile with the specified profile ID, including skill identifiers and names, importance, required status, proficiency and readiness criteria, and minimum experience.",
+        "operationType": "GET",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentModelTypeProfiles/{ProfileId}/child/publicSkills?fields=ContentItemId,CreatedBy,CreationDate,DateTo,ImportanceCode,Importance,LastUpdateDate,LastUpdatedBy,MasteryLevelCode,MasteryLevelId,MasteryNumericRating,MinimumYearsExperience,MinimumSkillLevelId,MinimumSkillLevelCode,MinimumSkillNumericRating,MaximumSkillLevelId,MaximumSkillLevelCode,MaximumSkillNumericRating,SkillCurationStatus,SkillCurationType,SkillTypeCode,ReadinessLevelCode,ReadinessLevelId,ReadinessNumericRating,RequiredCode,RequirementType,RequirementTypeMeaning,Required,Skill,SkillId,SkillName&limit=100&onlyData=true",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "ProfileId",
+            "dataType": "string",
+            "description": "Job-profile ID whose required skills and criteria should be returned.",
+            "id": 5,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Placeholder-only response showing required skills for a job profile. All scalar values are placeholders; no sample data is included.",
+            "query": {
+              "items": [
+                {
+                  "ContentItemId": "<content_item_id>",
+                  "ImportanceCode": "<importance_code>",
+                  "Importance": "<importance>",
+                  "MinimumYearsExperience": "<minimum_years_experience>",
+                  "MinimumSkillLevelCode": "<minimum_skill_level_code>",
+                  "MinimumSkillNumericRating": "<minimum_skill_numeric_rating>",
+                  "ReadinessLevelCode": "<readiness_level_code>",
+                  "Required": "<required>",
+                  "RequirementTypeMeaning": "<requirement_type_meaning>",
+                  "SkillId": "<skill_id>",
+                  "SkillName": "<skill_name>"
+                }
+              ]
+            },
+            "sampleType": "response"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -274,3 +274,11 @@ Description : Retrieves talent ratings for a selected employee using the person'
 | **Parameter Name** | **Description**|
 |---------------|---------------|
 | pPersonId | Person Id of the employee |
+
+#### Function : GetAdvancementReadinessByTalentProfileId
+
+Description : Retrieves advancement-readiness records for the talent profile with the specified profile ID, including readiness levels and effective date ranges, ordered by the most recent start date.
+
+| **Parameter Name** | **Description** |
+|---------------|---------------|
+| `TalentProfileId` | Talent-rating profile ID of the worker whose advancement-readiness records should be returned. |
