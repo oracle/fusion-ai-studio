@@ -1,0 +1,61 @@
+{
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "name": "Person Notes Visibility Options",
+  "description": "Retrieves the visibility choices available when creating a person note in the current setup context. Returns visibility codes, display labels, and the default visibility setting for feedback forms.",
+  "objectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONNOTESVISIBILITYOPTIONS",
+  "family": "HCM",
+  "product": "GLOBAL_HUMAN_RESOURCES",
+  "objectSource": "ADF_BC",
+  "restResourcePath": "/hcmRestApi/resources/11.13.18.05/personNotesVisibilityOptionsLOV",
+  "restResourceIdentifier": "-1",
+  "seededFlag": false,
+  "mandatoryFlag": false,
+  "objectProperties": {
+    "jsonSchemaName": "supportedObjectProperties",
+    "jsonSchemaVersion": 1,
+    "baseUrlTMKey": "",
+    "serviceNameOverride": "",
+    "tools": [
+      {
+        "name": "get_person_notes_visibility_options",
+        "description": "Returns the available person note visibility options for the current setup context.",
+        "operationType": "GET",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/personNotesVisibilityOptionsLOV?finder=findBySetupContextType&onlyData=true",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [],
+        "sampleQueries": [
+          {
+            "description": "Sample response for get_person_notes_visibility_options with redacted field-name placeholders.",
+            "query": {
+              "items": [
+                {
+                  "VisibilityMeaning": "<visibilityMeaning>",
+                  "VisibilityCode": "<visibilityCode>",
+                  "DefaultNoteVisibilityFlag": "<defaultNoteVisibilityFlag>",
+                  "@context": {
+                    "key": "<key>"
+                  }
+                }
+              ],
+              "count": "<count>",
+              "hasMore": "<hasMore>",
+              "limit": "<limit>",
+              "offset": "<offset>",
+              "links": [
+                {
+                  "rel": "<rel>",
+                  "href": "<href>",
+                  "name": "<name>",
+                  "kind": "<kind>"
+                }
+              ]
+            },
+            "sampleType": "response"
+          }
+        ]
+      }
+    ]
+  }
+}

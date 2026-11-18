@@ -1,0 +1,143 @@
+{
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "name": "Team Skill Search",
+  "description": "Searches for skills that team members are developing or have achieved.",
+  "objectCode": "ORA_HCM_PROFILEMAN_XX_TEAM_SKILL_SEARCH",
+  "family": "HCM",
+  "product": "PROFILE_MANAGEMENT",
+  "objectSource": "ADF_BC",
+  "restResourcePath": "/hcmRestApi/redwood/11.13.18.05",
+  "restResourceIdentifier": "-1",
+  "seededFlag": false,
+  "mandatoryFlag": false,
+  "objectProperties": {
+    "jsonSchemaName": "supportedObjectProperties",
+    "jsonSchemaVersion": 1,
+    "baseUrlTMKey": "",
+    "serviceNameOverride": "",
+    "tools": [
+      {
+        "name": "teamSkillSearches",
+        "description": "Get the counts for the skills that match the specified criteria, that team members are developing and have achieved.",
+        "operationType": "POST",
+        "resourcePath": "/hcmRestApi/redwood/11.13.18.05/teamSkillsSearches",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "{\n    \"filters\": [\n        {\n            \"name\": \"SkillType\",\n            \"value\": \"{skillType}\"\n        },\n        {\n            \"name\": \"ManagerId\",\n            \"value\": \"{managerId}\"\n        },\n        {\n            \"name\": \"Reports\",\n            \"value\": \"{reportsType}\"\n        }\n    ],\n    \"query\" : \"{skillName}\",\n    \"limit\": \"{limit}\",\n    \"offset\": \"{offset}\",\n    \"sort\": [\n        {\n            \"name\": \"{sortAttributeName}\",\n            \"direction\": \"{sortDirection}\"\n        }\n    ]\n}",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "skillType",
+            "dataType": "string",
+            "description": "Ways to categorize skills. Valid values are Core, Role, Other, All.",
+            "id": 2,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "managerId",
+            "dataType": "integer",
+            "description": "Unique identifier of the manager.",
+            "id": 3,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "reportsType",
+            "dataType": "string",
+            "description": "Identifies the level of subordinates in the manager hierarchy. Valid values are directs, all.",
+            "id": 4,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "skillName",
+            "dataType": "string",
+            "description": "Name of the skill used to filter the team-skill search results.",
+            "id": 5,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "limit",
+            "dataType": "string",
+            "description": "Maximum number of items to get.",
+            "id": 6,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "offset",
+            "dataType": "string",
+            "description": "The number of items to skip before starting to return results. It controls where the page starts. Example: offset=100&limit=50 skips the first 100 items, then returns the next 50.",
+            "id": 7,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "sortAttributeName",
+            "dataType": "string",
+            "description": "Name of the attribute used to sort the results.",
+            "id": 8,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "sortDirection",
+            "dataType": "string",
+            "description": "Sort order for the results. Valid values are ASC, DESC.",
+            "id": 9,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Sample request for team skill search.",
+            "query": {
+              "filters": [
+                {
+                  "name": "<name>",
+                  "value": "<value>"
+                },
+                {
+                  "name": "<name>",
+                  "value": "<value>"
+                },
+                {
+                  "name": "<name>",
+                  "value": "<value>"
+                }
+              ],
+              "limit": "<limit>",
+              "offset": "<offset>",
+              "sort": [
+                {
+                  "name": "<name>",
+                  "direction": "<direction>"
+                }
+              ]
+            },
+            "sampleType": "request"
+          }
+        ]
+      }
+    ]
+  }
+}

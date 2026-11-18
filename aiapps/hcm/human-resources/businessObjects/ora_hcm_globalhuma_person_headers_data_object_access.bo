@@ -1,0 +1,105 @@
+{
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "name": "Person Headers Data Object Access",
+  "description": "Retrieves the data-object access permissions for a person as of an effective date.",
+  "objectCode": "ORA_HCM_GLOBALHUMA_XX_PERSON_HEADERS_DATA_OBJECT_ACCESS",
+  "family": "HCM",
+  "product": "GLOBAL_HUMAN_RESOURCES",
+  "objectSource": "ADF_BC",
+  "restResourcePath": "/hcmRestApi/resources/11.13.18.05/personHeaders",
+  "restResourceIdentifier": "-1",
+  "seededFlag": false,
+  "mandatoryFlag": false,
+  "objectProperties": {
+    "jsonSchemaName": "supportedObjectProperties",
+    "jsonSchemaVersion": 1,
+    "baseUrlTMKey": "",
+    "serviceNameOverride": "",
+    "tools": [
+      {
+        "name": "getObjectsDataAccess",
+        "description": "Retrieves the data-object access permissions for the specified person and effective date.",
+        "operationType": "POST",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/personHeaders/action/getObjectsDataAccess",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "{\n  \"dataAccessMap\": {\n    \"ObjectNames\": \"{objectName}\",\n    \"Type\": \"All\",\n    \"PersonId\": \"{personId}\",\n    \"EffectiveDate\": \"{effectiveDate}\",\n    \"PerformPersonExistCheck\": \"Y\"\n  }\n}",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "objectName",
+            "dataType": "string",
+            "description": "Comma-separated data object names for which to retrieve access permissions.",
+            "id": 2,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "personId",
+            "dataType": "integer",
+            "description": "Identifier of the person whose data-object access is requested.",
+            "id": 3,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "effectiveDate",
+            "dataType": "date",
+            "description": "Effective date used to evaluate data-object access.",
+            "id": 4,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "headers": {
+          "Content-Type": "application/vnd.oracle.adf.action+json"
+        },
+        "sampleQueries": [
+          {
+            "description": "Sample request for retrieving a person's data-object access permissions.",
+            "query": {
+              "dataAccessMap": {
+                "ObjectNames": "<object names>",
+                "Type": "<type>",
+                "PersonId": "<person id>",
+                "EffectiveDate": "<effective date>",
+                "PerformPersonExistCheck": "<perform person exist check>"
+              }
+            },
+            "sampleType": "request"
+          },
+          {
+            "description": "Sample response showing data-object access permissions for a person.",
+            "query": {
+              "result": {
+                "Relationship_View": "<relationship view>",
+                "Email": "<email>",
+                "PersonAddress": "<person address>",
+                "ContactInfo_View": "<contact info view>",
+                "FamilyAndEmergencyContacts_View": "<family and emergency contacts view>",
+                "PersonAddress_View": "<person address view>",
+                "Email_View": "<email view>",
+                "Phone": "<phone>",
+                "Relationship": "<relationship>",
+                "DocumentOfRecord": "<document of record>",
+                "OtherCommunicationMethod_View": "<other communication method view>",
+                "ContactInfo": "<contact info>",
+                "Phone_View": "<phone view>",
+                "DocumentOfRecord_View": "<document of record view>",
+                "OtherCommunicationMethod": "<other communication method>",
+                "FamilyAndEmergencyContacts": "<family and emergency contacts>"
+              }
+            },
+            "sampleType": "response"
+          }
+        ]
+      }
+    ]
+  }
+}

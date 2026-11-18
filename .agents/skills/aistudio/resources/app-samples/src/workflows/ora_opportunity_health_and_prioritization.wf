@@ -1,0 +1,1059 @@
+{
+  "workflowId": "300100649504268",
+  "workflowCode": "ORA_OPPORTUNITY_HEALTH_AND_PRIORITIZATION",
+  "name": "Opportunity Health & Prioritization Agent",
+  "description": "Retrieves the opportunities you or your team owns, ranks them by expected impact, and recommends next actions and communication ideas.",
+  "specification": {
+    "jsonSchemaName": "Workflow.spec",
+    "jsonSchemaVersion": "1",
+    "inputs": [],
+    "outputSpecification": " ",
+    "agentsValueMappings": [],
+    "dataPipeline": {
+      "pipelineNodes": [
+        {
+          "metadata": {
+            "description": "Start of data pipeline",
+            "name": "Start"
+          },
+          "outcomes": {
+            "success": "1770186748233"
+          },
+          "code": "START",
+          "id": "start",
+          "inputs": [],
+          "type": "START"
+        },
+        {
+          "metadata": {
+            "businessObjectCode": "ORA_CX_SALESFORCE_CXOBJECTSEARCHB",
+            "functionName": "SEARCH_OBJECTS",
+            "name": "Get Owned Opportunities"
+          },
+          "outcomes": {
+            "success": "1770186551591"
+          },
+          "code": "GET_OWNED_OPPORTUNITIES",
+          "convergenceTargetId": "1770555835046",
+          "id": "1770186748233",
+          "inputs": [
+            {
+              "id": "1770186771930_1",
+              "name": "object",
+              "value": "Opportunity"
+            },
+            {
+              "id": "1770186771930_2",
+              "name": "q",
+              "value": "{    \"op\": \"$and\",    \"criteria\": [        {            \"op\": \"$in\",            \"attribute\": \"StatusCode\",            \"values\": [                \"OPEN\"            ]        },        {            \"op\": \"$or\",            \"criteria\": [                {                    \"op\": \"$eq\",                    \"attribute\": \"RecordSet\",                    \"value\": \"ORA_MYSUBORDINATESOPTIES\"                }            ]        },        {            \"op\": \"$or\",            \"criteria\": [                {                    \"op\": \"$wi\",                    \"attribute\": \"EffectiveDate\",                    \"value1\": \"now/q+1q\",                    \"value2\": \"now/q+2q\"                },                {                    \"op\": \"$wi\",                    \"attribute\": \"EffectiveDate\",                    \"value1\": \"now/q\",                    \"value2\": \"now/q+1q\"                }            ]        },        {            \"op\": \"$gt\",            \"attribute\": \"PrimaryRevenue.WinProb\",            \"value\": 0,            \"dynamicDate\": false        },{  \"op\": \"$co\",  \"attribute\": \"OptyNumber\",  \"value\": \"CDRM\",  \"dynamicDate\": false}    ]}"
+            },
+            {
+              "id": "1770186771931_3",
+              "name": "sort",
+              "value": "[{\"attribute\":\"EffectiveDate\",\"direction\":\"descending\"}]"
+            },
+            {
+              "id": "1770186771931_4",
+              "name": "limit",
+              "value": "5"
+            },
+            {
+              "id": "1770186771932_5",
+              "name": "fields",
+              "value": "[\"OptyId\", \"OptyNumber\"]"
+            }
+          ],
+          "outputSpecification": "{}",
+          "type": "BO_FUNCTION"
+        },
+        {
+          "metadata": {
+            "name": "Run in Parallel"
+          },
+          "outcomes": {
+            "0": "1770187563837",
+            "1": "1770189068707",
+            "2": "1780303098376"
+          },
+          "code": "PARALLEL_1770186551592",
+          "convergenceTargetId": "1770635568573",
+          "id": "1770186551591",
+          "inputs": [],
+          "type": "PARALLEL"
+        },
+        {
+          "metadata": {
+            "name": "Consolidate Output",
+            "returnType": "array",
+            "sourceCode": "let items = $context.$nodes.GET_OPPORTUNITY_SUMMARY.$output?.items ??[];\nlet optyDetails = $context.$nodes.GET_OPPORTUNITY_DETAILS.$output ?? [];\nlet recommendationList = $context.$nodes.GET_RECOMMENDATION_FROM_OUTCOME.$output?.items ?? [];\nlet optySummary = [];\nlet retunArray = [];\n// Build optySummary\nitems.forEach(( item) => {\n  let progressionSummary = JSON.parse( item?.payload ?? \"{}\");\n  optySummary.push( {\n    summary: JSON.stringify( progressionSummary?.what?.summary),\n    opportunityId: item.primaryObjectKey\n  });\n});\n// iterate summaries and only include when matching detail exists\noptySummary.forEach(( summaryObj) => {\n  // find corresponding detail  \n  let opty = optyDetails.find(( d) => d?.OptyId == summaryObj?.opportunityId);\n  if( ! opty)\n  return;\n  // no detail => skip entirely\n  \n  let obj = {\n    opportunity: opty,\n    opportunitySummary: summaryObj?.summary,\n    recommendations: []\n  };\n  // add recommendations for this opportunity\n  \n  let recommendationArr = recommendationList.filter(( recom) => recom?.primaryObjectKey == opty?.OptyId);\n  recommendationArr.forEach(( recom) => {\n    let parsedSugg = JSON.parse( recom?.payload ?? \"{}\");\n    let actions = parsedSugg?.next?.actions;\n    obj.recommendations = actions.map(action => ( {\n      type: action?.type ?? \"\",\n      suggestionTitle: action?.label ?? \"\",\n      suggestionTask: action?.description ?? \"\",\n      explainability: action?.explainability ?? \"\"\n    }))\n  });\n  retunArray.push( obj);\n});\nreturn retunArray;"
+          },
+          "outcomes": {
+            "success": "1770653172246"
+          },
+          "code": "CONSOLIDATE_OUTPUT",
+          "id": "1770635568573",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "type": "CODE"
+        },
+        {
+          "metadata": {
+            "name": "Set Opportunity List Variable"
+          },
+          "outcomes": {
+            "success": "1776663707005"
+          },
+          "code": "SET_OPPORTUNITY_LIST_VARIABLE",
+          "id": "1770653172246",
+          "inputs": [
+            {
+              "id": "1770653184181",
+              "name": "ListofOpportunities",
+              "type": "array",
+              "value": "{{$context.$nodes.CONSOLIDATE_OUTPUT.$output.result}}"
+            }
+          ],
+          "type": "SET_FIELDS"
+        },
+        {
+          "metadata": {
+            "name": "Prioritize Opportunities",
+            "referenceableBlockId": "OPPORTUNITY_PRIORITIZATION_BLOCK"
+          },
+          "outcomes": {
+            "success": "1770659482865"
+          },
+          "code": "PRIORITIZE_OPPORTUNITIES",
+          "id": "1776663707005",
+          "inputs": [
+            {
+              "id": "1776663707005_listOfOpportunities",
+              "name": "listOfOpportunities",
+              "type": "array",
+              "value": "{{$context.$variables.ListofOpportunities}}"
+            }
+          ],
+          "type": "REFERENCE"
+        },
+        {
+          "metadata": {
+            "name": "Combine the Prioritized Output",
+            "returnType": "array",
+            "sourceCode": "let result = [];\ntry {\n  \n  let prioritizedOutput = $context.$nodes.PRIORITIZE_OPPORTUNITIES.$output;\n\n  if (typeof prioritizedOutput === \"string\") {\n    try {\n      prioritizedOutput = JSON.parse(prioritizedOutput);\n    } catch (parseError) {\n      prioritizedOutput = [];\n    }\n  }\n\n  if (!Array.isArray(prioritizedOutput)) {\n    prioritizedOutput = [];\n  }\n\n\n  const allOpportunities = $context.$variables.ListofOpportunities || [];\n\n  const opportunityMap = new Map();\n  for (const opp of allOpportunities) {\n    const optyId = opp.opportunity.OptyId;\n    if (optyId !== undefined && optyId !== null) {\n      opportunityMap.set(optyId, opp);\n    }\n  }\n  for (const prioritizedRow of prioritizedOutput) {\n    const oppId = prioritizedRow.opportunityId;\n    const baseOpportunity = opportunityMap.get(oppId);\n    if (baseOpportunity) {\n      const combined = {\n        ...baseOpportunity,\n        priorityTier: prioritizedRow.priorityTier,\n        scoreRationale: prioritizedRow.scoreRationale,\n        priorityScore: prioritizedRow.priorityOrder,\n        recommendedAction: prioritizedRow.recommendedAction\n      };\n      result.push(combined);\n    }\n  }\n} catch (error) {\n  result = [];\n}\n\nreturn result;"
+          },
+          "outcomes": {
+            "success": "1779916431531"
+          },
+          "code": "COMBINE_THE_PRIORITIZED_OUTPUT",
+          "id": "1770659482865",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "type": "CODE"
+        },
+        {
+          "metadata": {
+            "name": "Set Updated Opportunity List"
+          },
+          "outcomes": {
+            "success": "1770659680411"
+          },
+          "code": "SET_UPDATED_OPPORTUNITY_LIST",
+          "id": "1779916431531",
+          "inputs": [
+            {
+              "id": "1779916431531_ListofOpportunities",
+              "name": "ListofOpportunities",
+              "value": "{{$context.$nodes.COMBINE_THE_PRIORITIZED_OUTPUT.$output.result}}"
+            }
+          ],
+          "type": "SET_FIELDS"
+        },
+        {
+          "metadata": {
+            "name": "App Display Switch"
+          },
+          "outcomes": {
+            "summary": "1770659847584",
+            "Query": "1770877680874",
+            "SendCommunication": "1774373935870",
+            "InitSubtitle": "1774719209605",
+            "InvokeAction": "1776406643431",
+            "InitDisplay": "1779777953497",
+            "InitActions": "1779919634947"
+          },
+          "code": "APP_DISPLAY_SWITCH",
+          "convergenceTargetId": "end",
+          "id": "1770659680411",
+          "inputs": [
+            {
+              "id": "1770659680412_1",
+              "name": "caseExpression",
+              "type": "string",
+              "value": "{{$context.$app.$OraMessageHint}}"
+            }
+          ],
+          "type": "SWITCH"
+        },
+        {
+          "metadata": {
+            "name": "Generate Summary"
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "code": "GENERATE_SUMMARY",
+          "id": "1770659847584",
+          "inputs": [
+            {
+              "id": "1770659847585_1",
+              "name": "prompt",
+              "type": "string",
+              "value": "Provided with the below list of opportunities that are owned and being worked upon by the user, provide a brief, 2 line summary based on the below details with current status and what needs immediate attention.\n\n**Critical** Provide  one consolidated summary in just 2 lines for all the opportunities provided. DO NOT provide summary for each opportunity separately. \nInclude only Opportunities that are in Critical Status. If not opportunities are in High Risk Status, then choose the opportunities with other status.\n\ninput: {{$context.$nodes.COMBINE_THE_PRIORITIZED_OUTPUT.$output.result}}"
+            }
+          ],
+          "type": "LLM"
+        },
+        {
+          "metadata": {
+            "name": "Invoke Opportunity App Advisor",
+            "workflowCode": "ORA_OPPORTUNITY_APP_ADVISOR"
+          },
+          "outcomes": {
+            "success": "1770878975269"
+          },
+          "code": "INVOKE_OPPORTUNITY_APP_ADVISOR",
+          "id": "1770877680874",
+          "inputs": [
+            {
+              "id": "1771558730077_1",
+              "name": "message",
+              "type": "string",
+              "value": "{{$context.$system.$inputMessage}}"
+            },
+            {
+              "id": "1771558730078_2",
+              "name": "opportunityContext",
+              "type": "array",
+              "value": "{{$context.$variables.ListofOpportunities}}"
+            }
+          ],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"input\": {\n      \"type\": \"string\"\n    },\n    \"output\": {\n      \"type\": \"string\"\n    },\n    \"error\": {\n      \"type\": \"null\"\n    },\n    \"followUpQuestions\": {\n      \"type\": \"array\",\n      \"items\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"string\"\n        }\n      ]\n    },\n    \"jobId\": {\n      \"type\": \"string\"\n    },\n    \"conversationId\": {\n      \"type\": \"string\"\n    },\n    \"traceId\": {\n      \"type\": \"string\"\n    },\n    \"status\": {\n      \"type\": \"string\"\n    },\n    \"supportingChunks\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"citations\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"nodes\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"waitingToolCode\": {\n      \"type\": \"null\"\n    },\n    \"workflowCode\": {\n      \"type\": \"string\"\n    },\n    \"workflowVersion\": {\n      \"type\": \"integer\"\n    },\n    \"workflowStatus\": {\n      \"type\": \"string\"\n    },\n    \"startDate\": {\n      \"type\": \"integer\"\n    },\n    \"endTime\": {\n      \"type\": \"integer\"\n    },\n    \"createDate\": {\n      \"type\": \"string\"\n    },\n    \"endDate\": {\n      \"type\": \"string\"\n    },\n    \"timeTaken\": {\n      \"type\": \"integer\"\n    },\n    \"inputTokenCount\": {\n      \"type\": \"integer\"\n    },\n    \"outputTokenCount\": {\n      \"type\": \"integer\"\n    }\n  },\n  \"required\": []\n}",
+          "type": "WORKFLOW"
+        },
+        {
+          "aiAppOutputSpecification": {
+            "dataDisplay": {
+              "enableActions": true,
+              "layouts": [
+                "ORA_LAYOUT_CARD",
+                "ORA_LAYOUT_MULTICARD",
+                "ORA_LAYOUT_MESSAGES_LIST",
+                "ORA_LAYOUT_CHANGE_LIST",
+                "ORA_LAYOUT_CHART",
+                "ORA_LAYOUT_MULTIRECORD",
+                "ORA_LAYOUT_RECORD"
+              ],
+              "customNotes": ""
+            }
+          },
+          "metadata": {
+            "name": "Query Response"
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "code": "QUERY_RESPONSE",
+          "id": "1770878975269",
+          "inputs": [
+            {
+              "id": "1770878975270_1",
+              "name": "prompt",
+              "type": "string",
+              "value": "For the user query: `{{$context.$system.$inputMessage}}`\n\nUse this response content as the source of truth: `{{$context.$nodes.INVOKE_OPPORTUNITY_APP_ADVISOR.$output.output}}`\n\n\nStrict data rules:\n\nOnly use data, values, fields, opportunities, actions, and insights that are explicitly present in the provided response content.\nDo not infer, calculate, summarize, or add any value unless it is directly supported by the provided response content.\nDo not invent facts, labels, opportunity names, IDs, amounts, dates, actions, or insights.\nIf a useful field is not present in the provided response content, omit it.\nPreserve the meaning of the original response.\nClean up formatting only when needed for readability.\n\nRules:\n- **Always** hightlight the main answer to the user query in Bold.\n- Do not include prefixes such as `Answer=`, `content=`, `Response=`, or similar labels.\n- Preserve the meaning of the original response.\n- Clean up formatting only when needed for readability.\n- Do not invent facts, values, opportunities, actions, or insights.\n- Do not wrap the response in code fences.\n- Do not include unrelated explanation.\n- Return the response with 1 ~ 3 widgets for easy display of the response. \n-  The supporting data / Additional insights should be added as markdown without the widget as a drop down\n- ** Do not ** repeat the same data n the widget and in additional insights. If it is include in the widget, remove the data from the additional insights\n\nWidget selection rules:\n- Choose the widget or widgets that best display the response for the user query.\n- If the response contains an `action` attribute, use it to enable an action on the widget.\n- When using an action, use the related opportunity name as the action text and Title of the widget. Choose available additional attributes or description as short desctiption.\n- If the response contains multiple opportunities, use a `Message List` or `Multi Record` widget.\n- If the user query asks for comparison, change, trend, increase, decrease, delta, or difference, use a `Change Widget`.\n- Use \"Card\" or \"Multi Card\" widget if the response needed 1 ~ 3 opportunities with few attributes.\n- If a visualization would make the answer easier to understand, add a `Chart` widget.\n- A `Chart` widget must always be additional. Do not use a chart as the only widget.\n- Always display the actual data in a non-chart widget when a chart is used."
+            }
+          ],
+          "outputSpecification": "",
+          "type": "LLM"
+        },
+        {
+          "metadata": {
+            "name": "Payload for Communication",
+            "returnType": "object",
+            "sourceCode": "let payload = $context.$app.$OraCommNonTemplateParamList;\nlet message = $context.$system.$inputMessage;\n\nlet retObj = {\n  \"draftFlag\": true,\n  \"subject\": payload.find(p=>p.id==\"subject\")?.value??\"\",\n  \"body\": message,\n  \"trackConversationFlag\": true,\n  \"providerCode\": \"EXCHANGE\",\n  \"toAddress\": payload.find(p=>p.id==\"email\")?.value??\"\",\n  \"ccAddress\":payload.find(p=>p.id==\"cc\")?.value??\"\",\n  \"conversationReferences\": `ORA_MOO_OPTY.${payload.find(p=>p.id==\"optyid\")?.value??\"\"}`,\n  \"msgTemplateObjectId\": payload.find(p=>p.id==\"optyid\")?.value??\"\",\n  \"messageTemplateObjTypeCd\": \"ORA_MOO_OPTY\"\n}\n\nreturn retObj;"
+          },
+          "outcomes": {
+            "success": "1774374663144"
+          },
+          "code": "PAYLOAD_FOR_COMMUNICATION",
+          "id": "1774373935870",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "type": "CODE"
+        },
+        {
+          "metadata": {
+            "businessObjectCode": "ORA_CX_SALESFORCE_EMAILCONNECTOR",
+            "functionName": "send",
+            "processJson": true,
+            "name": "Generate Mail"
+          },
+          "outcomes": {
+            "success": "1774374826054"
+          },
+          "code": "GENERATE_MAIL",
+          "id": "1774374663144",
+          "inputs": [
+            {
+              "id": "1774374688596_1",
+              "name": "payload",
+              "type": "string",
+              "value": "{{$context.$nodes.PAYLOAD_FOR_COMMUNICATION.$output.result}}"
+            }
+          ],
+          "outputSpecification": "{}",
+          "type": "BO_FUNCTION"
+        },
+        {
+          "metadata": {
+            "name": "Return Outlook URL"
+          },
+          "outcomes": {},
+          "code": "RETURN_OUTLOOK_URL",
+          "convergenceTargetId": "end",
+          "id": "1774374826054",
+          "inputs": [
+            {
+              "id": "1774374826055_1",
+              "name": "returnValue",
+              "type": "string",
+              "value": "<oraImmediateInsight>\n  {\n    \"followUpCommand\": \"ora.launchUrl({{$context.$nodes.GENERATE_MAIL.$output.webLink}})\"\n  }\n</oraImmediateInsight>"
+            }
+          ],
+          "type": "RETURN"
+        },
+        {
+          "metadata": {
+            "description": "",
+            "name": "Return Subtitle"
+          },
+          "outcomes": {},
+          "code": "RETURN_SUBTITLE",
+          "id": "1774719209605",
+          "inputs": [
+            {
+              "id": "1774719209605_returnValue",
+              "name": "returnValue",
+              "type": "string",
+              "value": "{{$context.$app.$OraUserContext.fullName}}"
+            }
+          ],
+          "type": "RETURN"
+        },
+        {
+          "metadata": {
+            "name": "Build Insight Query",
+            "returnType": "object",
+            "sourceCode": "let result = {};\ntry {\n  const oraActionRaw = $context.$app?.$OraAction || \"\";\n  let oraAction = {};\n  try {\n    oraAction = JSON.parse(oraActionRaw);\n  } catch (parseError) {\n    oraAction = {};\n  }\n\n  const opportunityId = oraAction.opportunityId || null;\n  const opportunityNumber = oraAction.opportunityNumber || null;\n  const task = oraAction.task || null;\n  const title = oraAction.title || null;\n\n  result = { opportunityId, opportunityNumber, task, title};\n} catch (error) {\n  result = { opportunityId: null, opportunityNumber: null, task: null, title: null };\n}\n\nreturn result;"
+          },
+          "outcomes": {
+            "success": "1776406819312"
+          },
+          "code": "BUILD_INSIGHT_QUERY",
+          "id": "1776406643431",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "type": "CODE"
+        },
+        {
+          "metadata": {
+            "businessObjectCode": "ORA_CX_SALESFORCE_ENGAGEMENT_INSIGHTS",
+            "errorNodeId": "1776407907444",
+            "functionName": "engagement_Insights_for_given_sourceObjectrec",
+            "name": "Get Insight Data"
+          },
+          "outcomes": {
+            "success": "1776407300532"
+          },
+          "code": "GET_INSIGHT_DATA",
+          "id": "1776406819312",
+          "inputs": [
+            {
+              "id": "1776406819312_sourceObjectId",
+              "name": "sourceObjectId",
+              "value": "{{$context.$nodes.BUILD_INSIGHT_QUERY.$output.result.opportunityId}}"
+            }
+          ],
+          "type": "BO_FUNCTION"
+        },
+        {
+          "metadata": {
+            "name": "Build Payload for Assistant",
+            "returnType": "object",
+            "sourceCode": "let result = {};\ntry {\n  // Access BUILD_INSIGHT_QUERY output result safely\n  const insightQueryResult = $context.$nodes?.BUILD_INSIGHT_QUERY.$output.result || {};\n\n  // Initialize assistantPayload with required properties\n  const assistantPayload = {\n    opportunityId: insightQueryResult.opportunityId || null,\n    opportunityNumber: insightQueryResult.opportunityNumber || null,\n    task: insightQueryResult.task || null,\n    title: insightQueryResult.title || null\n  };\n\n  // Access GET_INSIGHT_DATA output safely\n  const insightDataOutput = $context.$nodes.GET_INSIGHT_DATA.$output.items || null;\n\n  // Determine if insightDataOutput is array or object\n  let insightRow = null;\n  if (Array.isArray(insightDataOutput)) {\n    insightRow = insightDataOutput.length > 0 ? insightDataOutput[0] : null;\n  } else if (insightDataOutput && typeof insightDataOutput === 'object') {\n    insightRow = insightDataOutput;\n  }\n\n  if (insightRow) {\n    // Extract properties from insightRow\n    assistantPayload.insightId = insightRow.id || null;\n    assistantPayload.insightNumber = insightRow.engagementInsightNumber || null;\n\n    // Parse additionalInsightData JSON string safely\n    let additionalInsightDataObj = {};\n    try {\n      additionalInsightDataObj = insightRow.additionalInsightData ? JSON.parse(insightRow.additionalInsightData) : {};\n    } catch (parseError) {\n      additionalInsightDataObj = {};\n    }\n\n    // Extract salesPlay from additionalInsightData.salesPlays.all\n    assistantPayload.salesPlay = additionalInsightDataObj.salesPlays?.all || null;\n  }\n\n  result = assistantPayload;\n} catch (error) {\n  // In case of error, return empty object\n  result = {};\n}\n\nreturn result;"
+          },
+          "outcomes": {
+            "success": "1776407907444"
+          },
+          "code": "BUILD_PAYLOAD_FOR_ASSISTANT",
+          "id": "1776407300532",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "type": "CODE"
+        },
+        {
+          "metadata": {
+            "name": "Invoke Opportunity Assistant",
+            "workflowCode": "ORA_OPPORTUNITY_ASSISTANT_AGENT_TEAM"
+          },
+          "outcomes": {
+            "success": "1776452715643"
+          },
+          "code": "INVOKE_OPPORTUNITY_ASSISTANT",
+          "id": "1776407907444",
+          "inputs": [
+            {
+              "id": "1776407907444_message",
+              "name": "message",
+              "type": "string",
+              "value": "{{$context.$nodes.BUILD_PAYLOAD_FOR_ASSISTANT.$output.result.title}}"
+            },
+            {
+              "id": "1776407907444_taskType",
+              "name": "taskType",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "id": "1776407907444_salesPlay",
+              "name": "salesPlay",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "id": "1776407907444_insightNumber",
+              "name": "insightNumber",
+              "type": "string",
+              "value": "{{$context.$nodes.BUILD_PAYLOAD_FOR_ASSISTANT.$output.result.insightNumber}}"
+            },
+            {
+              "id": "1776407907444_insightId",
+              "name": "insightId",
+              "type": "string",
+              "value": "{{$context.$nodes.BUILD_PAYLOAD_FOR_ASSISTANT.$output.result.insightId}}"
+            },
+            {
+              "id": "1776407907444_puid",
+              "name": "puid",
+              "type": "string",
+              "value": "{{$context.$nodes.BUILD_PAYLOAD_FOR_ASSISTANT.$output.result.opportunityNumber}}"
+            },
+            {
+              "id": "1776407907444_id",
+              "name": "id",
+              "type": "string",
+              "value": "{{$context.$nodes.BUILD_PAYLOAD_FOR_ASSISTANT.$output.result.opportunityId}}"
+            },
+            {
+              "id": "1776407907444_recommendationDetails",
+              "name": "recommendationDetails",
+              "type": "string",
+              "value": "{{$context.$nodes.BUILD_PAYLOAD_FOR_ASSISTANT.$output.result.task}}"
+            }
+          ],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"input\": {\n      \"type\": \"string\"\n    },\n    \"output\": {\n      \"type\": \"string\"\n    },\n    \"error\": {\n      \"type\": \"null\"\n    },\n    \"followUpQuestions\": {\n      \"type\": \"array\",\n      \"items\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"string\"\n        }\n      ]\n    },\n    \"jobId\": {\n      \"type\": \"string\"\n    },\n    \"conversationId\": {\n      \"type\": \"string\"\n    },\n    \"traceId\": {\n      \"type\": \"string\"\n    },\n    \"status\": {\n      \"type\": \"string\"\n    },\n    \"supportingChunks\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"citations\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"nodes\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"waitingToolCode\": {\n      \"type\": \"null\"\n    },\n    \"workflowCode\": {\n      \"type\": \"string\"\n    },\n    \"workflowVersion\": {\n      \"type\": \"integer\"\n    },\n    \"workflowStatus\": {\n      \"type\": \"string\"\n    },\n    \"startDate\": {\n      \"type\": \"integer\"\n    },\n    \"endTime\": {\n      \"type\": \"integer\"\n    },\n    \"createDate\": {\n      \"type\": \"string\"\n    },\n    \"endDate\": {\n      \"type\": \"string\"\n    },\n    \"timeTaken\": {\n      \"type\": \"integer\"\n    },\n    \"inputTokenCount\": {\n      \"type\": \"integer\"\n    },\n    \"outputTokenCount\": {\n      \"type\": \"integer\"\n    }\n  },\n  \"required\": []\n}",
+          "type": "WORKFLOW"
+        },
+        {
+          "metadata": {
+            "name": "Refine Response from Assistant",
+            "returnType": "object",
+            "sourceCode": "let result = { type: \"text\", message: {} };\ntry {\n  const assistantOutput = JSON.parse($context.$nodes.INVOKE_OPPORTUNITY_ASSISTANT.$output.output);\n\n  if (assistantOutput && typeof assistantOutput === \"object\") {\n\n    const responseType = assistantOutput.type;\n    if (responseType === \"text\") {\n      result = { type: \"text\", message: { messageString: \"No Results found\" } };\n    } else {\n      const primaryText = assistantOutput.primaryText || \"\";\n      const secondaryText = assistantOutput.secondaryText || \"\";\n      const postback = assistantOutput.postback || \"\";\n\n      const messageString = `# ${primaryText}\\n## ${secondaryText}\\n${postback}`;\n\n      result = {\n        type: responseType,\n        message: {\n          primaryText: primaryText,\n          secondaryText: secondaryText,\n          postback: postback,\n          messageString: messageString\n        }\n      };\n    }\n  } else {\n    // If output is not object or missing, default to text with messageString \"No Results found\"\n    result = { type: \"text\", message: { messageString: \"No Results found\" } };\n  }\n} catch (error) {\n  result = { type: \"text\", message: { messageString: \"No Results found\" } };\n}\n\nreturn result;"
+          },
+          "outcomes": {
+            "success": "1776452312415"
+          },
+          "code": "REFINE_RESPONSE_FROM_ASSISTANT",
+          "id": "1776452715643",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "type": "CODE"
+        },
+        {
+          "metadata": {
+            "name": "Prepare Email Content",
+            "returnType": "object",
+            "sourceCode": "let retObj;\ntry {\n  let payload = [];\n  // TODO: Inferred 'messageString' from 'message.messageString' as per schema\n  let message = $context.$nodes.REFINE_RESPONSE_FROM_ASSISTANT.$output.result.message.message || \"\";\n\n  retObj = {\n    draftFlag: true,\n    subject: payload.find(p => p.id === \"subject\")?.value || \"\",\n    body: message,\n    trackConversationFlag: true,\n    providerCode: \"EXCHANGE\",\n    toAddress: payload.find(p => p.id === \"email\")?.value || \"\",\n    ccAddress: payload.find(p => p.id === \"cc\")?.value || \"\",\n    conversationReferences: `ORA_MOO_OPTY.${payload.find(p => p.id === \"optyid\")?.value || \"\"}`,\n    msgTemplateObjectId: payload.find(p => p.id === \"optyid\")?.value || \"\",\n    messageTemplateObjTypeCd: \"ORA_MOO_OPTY\"\n  };\n} catch (error) {\n  retObj = {\n    draftFlag: true,\n    subject: \"\",\n    body: \"\",\n    trackConversationFlag: true,\n    providerCode: \"EXCHANGE\",\n    toAddress: \"\",\n    ccAddress: \"\",\n    conversationReferences: \"\",\n    msgTemplateObjectId: \"\",\n    messageTemplateObjTypeCd: \"ORA_MOO_OPTY\"\n  };\n}\n\nreturn retObj;"
+          },
+          "outcomes": {
+            "success": "1776463026330"
+          },
+          "code": "PREPARE_EMAIL_CONTENT",
+          "id": "1776452312415",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "type": "CODE"
+        },
+        {
+          "aiAppOutputSpecification": {
+            "dataDisplay": {
+              "enableActions": true,
+              "enableCommunications": true
+            }
+          },
+          "metadata": {
+            "name": "Action Response"
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "code": "ACTION_RESPONSE",
+          "id": "1776463026330",
+          "inputs": [
+            {
+              "id": "1776463026330_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "Based on {{$context.$nodes.REFINE_RESPONSE_FROM_ASSISTANT.$output.result}}, which has the structure: {\n\"type\": <Type>, \"message\": { \"primaryText\": <primaryText>, \"secondaryText\": <secondaryText>, \"postback\": <postback> } }\n\nIf the type is \"text\", generate a professional single-line sentence stating that no data insights were found to process the action and no action and communication will be created.\n\nIf the type is \"chip\":\n- Format primaryText as a markdown Header Level 3 (###).\n- Format secondaryText as a markdown Header Level 4 (####).\n- Format postback as markdown content.\n\nAlso, Produce a PowerPoint communication with the following:\n  - Format primaryText as a markdown Header Level 3 (###).\n  - Format secondaryText as a markdown Header Level 4 (####).\n  - Format postback as markdown content.\n- Ensure the PowerPoint slides are well-organized and content is easily readable.\n- If the content is too long for one slide, split it into multiple slides to maintain clarity and readability.\n"
+            },
+            {
+              "id": "1776463026330_systemPrompt",
+              "name": "systemPrompt",
+              "type": "string",
+              "value": "You are an assistant that generates communication content based on user input.\nWhen both PowerPoint communication and email communication are requested, create each\nseparately and clearly separate their outputs. Do not mix content from PowerPoint and email\ncommunications in the same output. Ensure that each communication type is distinctly\nlabeled or formatted so the user can easily identify and use them independently.\n\nFollow these rules strictly to avoid any confusion between the two communication types.\n\nUse concise and clear language for each output section.\n\nMaintain all existing prompt template rules and expression formats as provided."
+            }
+          ],
+          "type": "LLM"
+        },
+        {
+          "metadata": {
+            "name": "Get Display Attributes",
+            "policyCode": "ORA_OPPORTUNITY_PRIORITIZATION_POLICY",
+            "functionCode": "IDENTIFYOPPORTUNITYDISPLAYATTRIBUTES"
+          },
+          "outcomes": {
+            "success": "1770659703086"
+          },
+          "code": "GET_DISPLAY_ATTRIBUTES",
+          "id": "1779777953497",
+          "inputs": [],
+          "type": "POLICY"
+        },
+        {
+          "aiAppOutputSpecification": {
+            "dataDisplay": {
+              "layouts": [
+                "ORA_LAYOUT_MESSAGES_LIST"
+              ],
+              "enableActions": true,
+              "enableCommunications": true
+            }
+          },
+          "metadata": {
+            "name": "Generate Display Widget"
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "code": "GENERATE_DISPLAY_WIDGET",
+          "id": "1770659703086",
+          "inputs": [
+            {
+              "id": "1770659703087_1",
+              "name": "prompt",
+              "type": "string",
+              "value": "Use this version to prevent rows from being dropped:\n\nAs a CX Analytics expert, create a MessageListWidget for the opportunities in `{{$context.$variables.ListofOpportunities}}`.\n\nImportant:\n\n* Create **one row for every opportunity** in `ListofOpportunities`.\n* **Do not filter, skip, deduplicate, or rank away rows**.\n* **Preserve the same order** as the input list.\n* If a field is missing for a row, use an empty string or the closest available value. Do not drop the row.\n* The output must contain exactly the same number of rows as `ListofOpportunities`.\n\nDo NOT return any title for the MessageListWidget.\nDo NOT return any description for the MessageListWidget.\n\nFor each row, set:\n\nTitle: `Opportunity name`\n\n* Use `opportunity.Name` from the current row.\n\nSubtitle:\n\n* Build dynamically from the first 3 entries in `{{$context.$nodes.GET_DISPLAY_ATTRIBUTES.$output.attributes}}`.\n* For each of the first 3 attributes, get the value of `<normalizedFieldName>` from the current row and apply `<formattingRule>`.\n* Join the formatted values with `|`.\n* Use only the first 3 attributes.\n* Do not add, remove, or modify any values.\n\nSummary:\n\n* Use `recommendedAction`.\n* Keep it short and professional, under 10 words.\n\nStatus:\n\n* Generate exactly 3 concise phrases from `scoreRationale`, separated by commas.\n* Each phrase must be Init Caps / Title Case.\n* Do not use bullets, numbering, lowercase phrases, or extra punctuation.\n* Do not repeat words unless needed for clarity.\n* Keep each phrase short and business-focused.\n\nBadgeText:\n\n* Use `priorityTier`.\n\nPriority: normalize `priorityTier` as follows:\n\n* Critical -> `alert`\n* High -> `warning`\n* Medium or Moderate -> `medium`\n\nFor Critical `riskStatus`, display `rational` exactly as provided, without changes and without adding 'Risk Score'.\n\nDo not include timestamp.\n\nAction logic:\n\n* For each row, set `action` to:\n  `ora.Invoke(\"launchOpportunity\", {\"opportunityId\":\"\"+<opportunityId>})`\n* Replace `<opportunityId>` with `opportunity.OptyId`.\n\nEnsure the widget output includes a row for all 5 opportunities in the input list, even if some fields are missing."
+            },
+            {
+              "id": "1770659703086_systemPrompt",
+              "name": "systemPrompt",
+              "type": "string",
+              "value": "When generating output, return only the oraInfoDisplay field from the messageListWidget.\nDo not include any additional text, explanations, or formatting outside of this field.\nEnsure the output is exactly the value of oraInfoDisplay and nothing else."
+            }
+          ],
+          "type": "LLM"
+        },
+        {
+          "metadata": {
+            "name": "Generate Payload for Recommendations",
+            "returnType": "object",
+            "sourceCode": "let result = {};\ntry {\n  // Access the array of rows safely\n  const rows =  $context.$variables.ListofOpportunities || [];\n\n  const objectAltKeys = rows\n    .map(row => row.opportunity.OptyNumber)\n    .filter(OptyNumber => OptyNumber !== undefined && OptyNumber !== null);\n\n  // Build standardParameters as JSON string\n  const standardParameters = JSON.stringify({\n    objectType: \"OPPORTUNITY\",\n    objectAltKeys: objectAltKeys\n  });\n\n  // Build optionalParameters string as specified\n  const optionalParameters = \"outcomeType = 'RECOMMENDATION' and outcomeReferences[primaryRef='Y']\";\n\n  result = {\n    standardParameters: standardParameters,\n    optionalParameters: optionalParameters\n  };\n} catch (error) {\n  // Fallback empty object on error\n  result = {\n    standardParameters: JSON.stringify({ objectType: \"OPPORTUNITY\", objectAltKeys: [] }),\n    optionalParameters: \"outcomeType IN('RECOMMENDATION') and outcomeReferences[primaryRef='Y']\"\n  };\n}\n\nreturn result;"
+          },
+          "outcomes": {
+            "success": "1779919922650"
+          },
+          "code": "GENERATE_PAYLOAD_FOR_RECOMMENDATIONS",
+          "id": "1779919634947",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "type": "CODE"
+        },
+        {
+          "metadata": {
+            "businessObjectCode": "ORA_CX_SALESFORCE_AIOUTCOMESTORE",
+            "functionName": "getOutcomes",
+            "name": "Get Recommendations"
+          },
+          "outcomes": {
+            "success": "1779920242318"
+          },
+          "code": "GET_RECOMMENDATIONS",
+          "id": "1779919922650",
+          "inputs": [
+            {
+              "id": "1779919922650_Outcome_Standard_Parameters",
+              "name": "Outcome_Standard_Parameters",
+              "value": "{{$context.$nodes.GENERATE_PAYLOAD_FOR_RECOMMENDATIONS.$output.result.standardParameters}}",
+              "required": true
+            },
+            {
+              "id": "1779919922650_Outcome_Optional_Parameters",
+              "name": "Outcome_Optional_Parameters",
+              "value": "{{$context.$nodes.GENERATE_PAYLOAD_FOR_RECOMMENDATIONS.$output.result.optionalParameters}}",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "type": "BO_FUNCTION"
+        },
+        {
+          "metadata": {
+            "name": "Prepare Suggestions",
+            "returnType": "array",
+            "sourceCode": "let result = [];\ntry {\n  // Access the items array safely\n  const recommendationItems = $context.$nodes?.GET_RECOMMENDATIONS?.$output?.items || [];\n\n  // Loop through each recommendation item with index\n  for (let index = 0; index < recommendationItems.length; index++) {\n    const item = recommendationItems[index];\n\n    // Parse the payload JSON string safely\n    const payloadStr = item?.payload;\n    if (!payloadStr) continue;\n\n    let payloadObj;\n    try {\n      payloadObj = JSON.parse(payloadStr);\n    } catch (e) {\n      // Skip this item if payload is not valid JSON\n      continue;\n    }\n\n    const actions = payloadObj?.next?.actions || [];\n\n\n    for (const action of actions) {\n      const title = action?.label || \"\"; \n      const task = action?.description || \"\"; \n      const opportunityId = item?.primaryObjectKey || \"\"; \n      const opportunityNumber = item?.primaryObjectAltKey || \"\"; \n\n      result.push({ opportunityId: opportunityId, opportunityNumber: opportunityNumber, Title: title, Task: task });\n    }\n  }\n} catch (error) {\n  result = [];\n}\n\nreturn result;"
+          },
+          "outcomes": {
+            "success": "1772120260250"
+          },
+          "code": "PREPARE_SUGGESTIONS",
+          "id": "1779920242318",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "type": "CODE"
+        },
+        {
+          "aiAppOutputSpecification": {
+            "dataDisplay": {
+              "layouts": [],
+              "enableActions": true,
+              "enableCommunications": false
+            }
+          },
+          "metadata": {
+            "modelConfiguration": {
+              "modelProperties": {
+                "k": 0,
+                "max_tokens": 32000,
+                "p": 0.75
+              },
+              "code": "ORA_LLM_PREMIUM",
+              "model": "OPEN_AI_GPT_4_1_MINI",
+              "modelName": "GPT-4.1 mini",
+              "provider": "CERT_PREMIUM"
+            },
+            "name": "Generate Actions"
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "code": "GENERATE_ACTIONS",
+          "id": "1772120260250",
+          "inputs": [
+            {
+              "id": "1772120260253_1",
+              "name": "prompt",
+              "type": "string",
+              "value": "Create a high priority OraInsight action for each item in the array {{$context.$nodes.PREPARE_SUGGESTIONS.$output.result}}.\nFor every row, use the following properties:\n- title: the Title field from the row\n- shortDescription: the Task field from the row\n- actionText: Generate one or two Words which represents an action based on the Title and Task\n- followUpCommand: ora.Invoke(\"invokeSuggestedTask\", {opportunityId: <opportunityId>, opportunityNumber: <opportunityNumber>, task: <Task>, title: <Title>})\nReplace <opportunityId>, <opportunityNumber>, <Title> and <Task> with the respective values from the row.\nOutput the list of actions accordingly."
+            }
+          ],
+          "type": "LLM"
+        },
+        {
+          "metadata": {
+            "name": "Generate Opportunity Payload",
+            "returnType": "object",
+            "sourceCode": "let optyDetails = $context.$nodes.GET_OWNED_OPPORTUNITIES.$output??[]; \nlet optyId = optyDetails.map(opty =>opty.OptyId);\n\nlet payload = {\n    \"limit\": 50,\n    \"offset\": 0,\n    \"sort\": [],\n    \"entity\": \"Opportunity\",\n    \"q\": {\n        \"op\": \"$and\",\n        \"criteria\": [\n            {\n                \"op\": \"$in\",\n                \"attribute\": \"OptyId\",\n                \"values\": optyId\n            }\n        ]\n    },\n    \"fields\": [\n        \"PrCmptPartyId\",\n        \"PrimaryCampaignId.CampaignName\",\n        \"PrimaryCampaignId.CampaignId\",\n        \"PrimaryCampaignId.CampaignNumber\",\n        \"PrimaryRevenue.RevnAmountCurcyCode\",\n        \"ReasonWonLostCode\",\n        \"OptyId\",\n        \"OptyNumber\",\n        \"Owner.PartyId\",\n        \"SalesMethodId\",\n        \"SalesStage.StgOrderEnum\",\n        \"StatusCode\",\n        \"PrConPartyId.PartyId\",\n        \"PrConPartyId.PartyName\",\n        \"CustomerAccount.PartyId\",\n        \"CustomerAccount.PartyUniqueName\",\n        \"EffectiveDate\",\n        \"PrimaryRevenue.RevnAmount\",\n        \"PrimaryRevenue.WinProb\",\n        \"LastUpdatedBy\",\n        \"CreatedBy\",\n        \"CreationDate\",\n        \"LastUpdateDate\",\n        \"Name\",\n        \"CustomerAccount.PartyNumber\",\n        \"ListOfLeads.LeadId.LeadId\",\n        \"ListOfResourcesForTheTeam.OptyResourceId\",\n        \"ListOfResourcesForTheTeam.ResourceId.PartyId\",\n        \"ListOfResourcesForTheTeam.ResourceId.PartyName\",\n        \"ListOfResourcesForTheTeam.ResourceId.PrimaryEmail.EmailAddress\",\n        \"ListOfResourcesForTheTeam.ResourceId.PrimaryPhone.FormattedPhone\",\n        \"ListOfRevenues.Quantity\",\n        \"ListOfRevenues.RevnAmount\",\n        \"ListOfRevenues.RevnAmountCurcyCode\",\n        \"ListOfRevenues.Primary\",\n        \"ListOfRevenues.RevnNumber\",\n        \"ListOfRevenues.ProdGroupId.ProductGroupId\",\n        \"ListOfRevenues.ProdGroupId.Name\",\n        \"ListOfRevenues.CrmCurcyCode\",\n        \"ListOfRevenues.RevnId\",\n        \"ListOfRevenues.UnitPrice\",\n        \"ListOfRevenues.InventoryItemId.InventoryItemId\",\n        \"ListOfRevenues.InventoryItemId.Name\",\n        \"ListOfContacts.OptyConId\",\n        \"ListOfContacts.PerPartyId.PartyId\",\n        \"ListOfContacts.PerPartyId.PartyName\",\n        \"ListOfContacts.PerPartyId.JobTitle\",\n        \"ListOfContacts.PerPartyId.PrimaryEmail.EmailAddress\",\n        \"ListOfContacts.PerPartyId.PrimaryPhone.FormattedPhone\",\n        \"ListOfContacts.PerPartyId.PrimaryAddress.FormattedAddress\",\n        \"ListOfContacts.PerPartyId.DoNotContactFlag\",\n        \"ListOfContacts.RoleCd\"\n    ]\n};\n\nreturn payload;"
+          },
+          "outcomes": {
+            "success": "1770187596259"
+          },
+          "code": "GENERATE_OPPORTUNITY_PAYLOAD",
+          "id": "1770187563837",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "type": "CODE"
+        },
+        {
+          "metadata": {
+            "name": "Generate Summary Payload",
+            "returnType": "object",
+            "sourceCode": "let optyDetails = $context.$nodes.GET_OWNED_OPPORTUNITIES.$output??[];\n\nconst objectAltKeys = optyDetails\n  .map((optyDetail) => optyDetail?.OptyNumber)\n  .filter((value) => value !== null && value !== undefined)\n  .map((value) => String(value).trim())\n  .filter((value) => value.length > 0);\n\nreturn {\n  objectType: \"OPPORTUNITY\",\n  objectAltKeys\n};"
+          },
+          "outcomes": {
+            "success": "1770192080030"
+          },
+          "code": "GENERATE_SUMMARY_PAYLOAD",
+          "id": "1770189068707",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "type": "CODE"
+        },
+        {
+          "metadata": {
+            "businessObjectCode": "ORA_CX_SALESFORCE_CXOBJECTSEARCHB",
+            "functionName": "SEARCH_OBJECTS",
+            "name": "Get Opportunity Details"
+          },
+          "outcomes": {
+            "success": "1770635568573"
+          },
+          "code": "GET_OPPORTUNITY_DETAILS",
+          "id": "1770187596259",
+          "inputs": [
+            {
+              "id": "1770187608565_1",
+              "name": "object",
+              "value": "{{$context.$nodes.GENERATE_OPPORTUNITY_PAYLOAD.$output.result.entity}}"
+            },
+            {
+              "id": "1770187608565_2",
+              "name": "q",
+              "value": "{{$context.$nodes.GENERATE_OPPORTUNITY_PAYLOAD.$output.result.q}}"
+            },
+            {
+              "id": "1770187608566_3",
+              "name": "sort",
+              "value": "{{JSON.stringify($context.$nodes.GENERATE_OPPORTUNITY_PAYLOAD.$output.result.sort).replace(/\"/g, \"'\")}}"
+            },
+            {
+              "id": "1770187608566_4",
+              "name": "limit",
+              "value": "{{$context.$nodes.GENERATE_OPPORTUNITY_PAYLOAD.$output.result.limit}}"
+            },
+            {
+              "id": "1770187608567_5",
+              "name": "fields",
+              "value": "{{JSON.stringify($context.$nodes.GENERATE_OPPORTUNITY_PAYLOAD.$output.result.fields).replace(/\"/g, \"'\")}}"
+            }
+          ],
+          "outputSpecification": "{}",
+          "type": "BO_FUNCTION"
+        },
+        {
+          "metadata": {
+            "businessObjectCode": "ORA_CX_SALESFORCE_AIOUTCOMESTORE",
+            "functionName": "getOutcomes",
+            "name": "Get Opportunity Summary"
+          },
+          "outcomes": {
+            "success": "1770635568573"
+          },
+          "code": "GET_OPPORTUNITY_SUMMARY",
+          "id": "1770192080030",
+          "inputs": [
+            {
+              "id": "1770192080030_Outcome_Standard_Parameters",
+              "name": "Outcome_Standard_Parameters",
+              "type": "string",
+              "value": "{{$context.$nodes.GENERATE_SUMMARY_PAYLOAD.$output.result}}"
+            },
+            {
+              "id": "1770192080030_Outcome_Optional_Parameters",
+              "name": "Outcome_Optional_Parameters",
+              "type": "string",
+              "value": "outcomeType = 'SUMMARY'"
+            }
+          ],
+          "outputSpecification": "{}",
+          "type": "BO_FUNCTION"
+        },
+        {
+          "metadata": {
+            "businessObjectCode": "ORA_CX_SALESFORCE_AIOUTCOMESTORE",
+            "functionName": "getOutcomes",
+            "name": "get Recommendation from outcome"
+          },
+          "outcomes": {
+            "success": "1770635568573"
+          },
+          "code": "GET_RECOMMENDATION_FROM_OUTCOME",
+          "id": "1780302931975",
+          "inputs": [
+            {
+              "id": "1780302931975_Outcome_Standard_Parameters",
+              "name": "Outcome_Standard_Parameters",
+              "type": "string",
+              "value": "{{$context.$nodes.GET_RECOMMENDATION_PAYLOAD.$output.result}}"
+            },
+            {
+              "id": "1780302931975_Outcome_Optional_Parameters",
+              "name": "Outcome_Optional_Parameters",
+              "type": "string",
+              "value": "outcomeType = 'RECOMMENDATION'"
+            }
+          ],
+          "type": "BO_FUNCTION"
+        },
+        {
+          "metadata": {
+            "description": "",
+            "name": "get Recommendation payload",
+            "returnType": "object",
+            "sourceCode": "let optyDetails = $context.$nodes.GET_OWNED_OPPORTUNITIES.$output??[];\n\nconst objectAltKeys = optyDetails\n  .map((optyDetail) => optyDetail?.OptyNumber)\n  .filter((value) => value !== null && value !== undefined)\n  .map((value) => String(value).trim())\n  .filter((value) => value.length > 0);\n\nreturn {\n  objectType: \"OPPORTUNITY\",\n  objectAltKeys\n};"
+          },
+          "outcomes": {
+            "success": "1780302931975"
+          },
+          "code": "GET_RECOMMENDATION_PAYLOAD",
+          "id": "1780303098376",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "type": "CODE"
+        },
+        {
+          "metadata": {
+            "dataPipeline": {
+              "rootNode": "start_1776663479112",
+              "pipelineNodes": [
+                {
+                  "metadata": {
+                    "description": "Start of data pipeline",
+                    "name": "Start"
+                  },
+                  "diagram": {
+                    "x": 8543.5,
+                    "y": 5090
+                  },
+                  "outcomes": {
+                    "success": "1779773415991"
+                  },
+                  "id": "start_1776663479112",
+                  "code": "START",
+                  "type": "START",
+                  "inputs": []
+                },
+                {
+                  "metadata": {
+                    "name": "Get Attributes For Prioritization",
+                    "policyCode": "ORA_OPPORTUNITY_PRIORITIZATION_POLICY",
+                    "functionCode": "IDENTIFYOPPORTUNITYCONFIGURABLEATTRIBUTES"
+                  },
+                  "diagram": {
+                    "x": 8365.5,
+                    "y": 5241
+                  },
+                  "outcomes": {
+                    "success": "1779773558530"
+                  },
+                  "id": "1779773415991",
+                  "code": "GET_ATTRIBUTES_FOR_PRIORITIZATION",
+                  "type": "POLICY",
+                  "inputs": []
+                },
+                {
+                  "metadata": {
+                    "name": "Get Prioritization Rules",
+                    "policyCode": "ORA_OPPORTUNITY_PRIORITIZATION_POLICY",
+                    "functionCode": "IDENTIFYPRIORITIZATIONRULE"
+                  },
+                  "diagram": {
+                    "x": 8394,
+                    "y": 5463
+                  },
+                  "outcomes": {
+                    "success": "1779773585458"
+                  },
+                  "id": "1779773558530",
+                  "code": "GET_PRIORITIZATION_RULES",
+                  "type": "POLICY",
+                  "inputs": []
+                },
+                {
+                  "metadata": {
+                    "name": "Prioritize Opportunity"
+                  },
+                  "diagram": {
+                    "x": 8394,
+                    "y": 5685
+                  },
+                  "outcomes": {
+                    "success": "1779774119696"
+                  },
+                  "id": "1779773585458",
+                  "code": "PRIORITIZE_OPPORTUNITY",
+                  "type": "LLM",
+                  "inputs": [
+                    {
+                      "id": "1779773585458_prompt",
+                      "name": "prompt",
+                      "type": "string",
+                      "value": "You are the Opportunity Prioritization Agent.\n\nAttributes for Prioritization:\n{{$context.$nodes.GET_ATTRIBUTES_FOR_PRIORITIZATION.$output}}\n\nopportunities:\n{{$context.$input.listOfOpportunities}}\n\nPRIORITIZATION_RULES:\n{{$context.$nodes.GET_PRIORITIZATION_RULES.$output}}\n\nTASK:\nScore each opportunity using the prioritization rules. Use all available structured fields plus Opportunity Summary, Opportunity Recommendations, Account Summary, and comments when present. Treat missing expected fields as signal gaps.\n\n\nOUTPUT CONTRACT:\n\n\n* opportunityId: number\n* priorityOrder: number from 0 to 100\n* priorityTier: <Use Tier Mapping based on priorityOrder>\n* scoreRationale: 2 to 3 concise sentences grounded in the provided data\n* recommendedAction: one specific next step for the rep, with a clear time horizon\n\nTIER MAPPING:\n\n* Critical: 80 to 100\n* High: 60 to 79\n* Medium: 35 to 59\n* Monitor: 15 to 34\n* Low: 0 to 14\n"
+                    },
+                    {
+                      "id": "1779773585458_systemPrompt",
+                      "name": "systemPrompt",
+                      "type": "string",
+                      "value": "Return ONLY valid raw JSON that strictly matches the required array schema/contract.\n\nRules:\n\n* Do not use markdown.\n* Do not wrap the response in code fences.\n* Do not include explanations, comments, notes, prefixes, or suffixes.\n* Do not include any text before or after the JSON.\n* The response must be directly parsable by a standard JSON parser.\n* Ensure all property names and string values use double quotes.\n* Do not include trailing commas.\n* Do not return null unless explicitly allowed by the schema.\n* Preserve the exact response structure and field names defined in the contract.\n* If no records exist, return an empty JSON array: []\n"
+                    }
+                  ]
+                },
+                {
+                  "metadata": {
+                    "name": "Return Prioritize Opportunities"
+                  },
+                  "diagram": {
+                    "x": 8374.5,
+                    "y": 6129
+                  },
+                  "outcomes": {},
+                  "id": "1779773934303",
+                  "code": "RETURN_PRIORITIZE_OPPORTUNITIES",
+                  "type": "RETURN",
+                  "inputs": [
+                    {
+                      "id": "1779773934303_returnValue",
+                      "name": "returnValue",
+                      "type": "string",
+                      "value": "{{$context.$nodes.REFINE_THE_TOP_5_OPPORTUNITIES.$output.result}} "
+                    }
+                  ]
+                },
+                {
+                  "metadata": {
+                    "name": "Refine the top 5 Opportunities",
+                    "returnType": "array",
+                    "sourceCode": "let result = [];\ntry {\n  const prioritizedOpportunities = $context.$nodes?.PRIORITIZE_OPPORTUNITY?.$output || [];\n  if (Array.isArray(prioritizedOpportunities)) {\n    prioritizedOpportunities.sort((a, b) => (b.priorityOrder || 0) - (a.priorityOrder || 0));\n    result = prioritizedOpportunities.slice(0, 5);\n  } else {\n    result = [];\n  }\n} catch (error) {\n  result = [];\n}\nreturn result;"
+                  },
+                  "diagram": {
+                    "x": 8379,
+                    "y": 5907
+                  },
+                  "outcomes": {
+                    "success": "1779773934303"
+                  },
+                  "id": "1779774119696",
+                  "code": "REFINE_THE_TOP_5_OPPORTUNITIES",
+                  "type": "CODE",
+                  "inputs": [],
+                  "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+                },
+                {
+                  "metadata": {
+                    "name": "End",
+                    "description": "End of data pipeline"
+                  },
+                  "outcomes": {},
+                  "id": "end_1776663479112",
+                  "code": "END",
+                  "type": "END",
+                  "inputs": []
+                }
+              ],
+              "variables": [
+                {
+                  "id": "1776663506870",
+                  "name": "listOfOpportunities",
+                  "type": "array"
+                }
+              ]
+            },
+            "name": "Opportunity Prioritization Block"
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "code": "OPPORTUNITY_PRIORITIZATION_BLOCK",
+          "id": "1776663479112",
+          "inputs": [],
+          "type": "REFERENCEABLEBLOCK"
+        },
+        {
+          "metadata": {
+            "description": "End of data pipeline",
+            "name": "End"
+          },
+          "outcomes": {},
+          "code": "END",
+          "id": "end",
+          "inputs": [],
+          "type": "END"
+        }
+      ],
+      "rootNode": "start",
+      "variables": [
+        {
+          "id": "1767170126572",
+          "name": "ListofOpportunities",
+          "scope": "JOB",
+          "type": "array"
+        }
+      ],
+      "errorHandlers": [
+        {
+          "type": "EMAIL",
+          "inputs": [
+            {
+              "name": "toList",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "ccList",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "subject",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "body",
+              "type": "string",
+              "value": ""
+            }
+          ]
+        }
+      ]
+    },
+    "modelConfiguration": null,
+    "humanApprovalFlag": false,
+    "waitFlag": false,
+    "triggers": [
+      {
+        "type": "REST",
+        "inputs": [
+          {
+            "id": "1770657207647",
+            "name": "dummy",
+            "type": "string"
+          }
+        ]
+      }
+    ],
+    "costSavings": 0,
+    "timeSavings": 10,
+    "chatExpTPFileUploadEnabledFlag": false,
+    "chatExpThirdPartyDetails": [],
+    "policyIds": [],
+    "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI"
+  },
+  "status": "DRAFT",
+  "version": 76494277,
+  "family": "CX",
+  "product": "SALES_FORCE_AUTOMATION",
+  "ownerName": null,
+  "customFlag": false,
+  "seededFlag": true,
+  "isTemplate": false,
+  "customizationPolicy": "FULL",
+  "hiddenFlag": false,
+  "useCaseId": "NA",
+  "accessModifier": "public",
+  "architecture": "data_pipeline",
+  "aiAppsCompatibleFlag": true,
+  "followupEnabledFlag": false,
+  "followupPrompt": "Based on the following conversion: $param.system_context.chat_history generate $param.system_context.number_of_follow_up_questions\nfollow up questions only while strictly adhering to the JSON Schema format mentioned below. Remove the ```json markdown from the output.\nHere is the JSON Schema format the output should adhere to:\n[{\"question\": \"<put first question generated here>\"}, {\"question\": \"<put second question generated here>\"}, {\"question\": \"<put third question generated here>\"}",
+  "header": {
+    "ETag": "\"9\""
+  }
+}

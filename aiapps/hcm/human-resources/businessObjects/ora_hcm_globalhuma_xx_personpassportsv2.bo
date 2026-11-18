@@ -1,0 +1,109 @@
+{
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "supportedObjectId": "300100661811250",
+  "$context": {
+    "etag": "2"
+  },
+  "name": "Worker Passports",
+  "description": "Provides passport records by personId, including PassportNumber, PassportTypeMeaning, IssuingCountryName, IssueDate, ExpirationDate, IssuingAuthority, and IssuingLocation. Supports limit and offset paging.",
+  "objectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONPASSPORTSV2",
+  "family": "HCM",
+  "product": "GLOBAL_HUMAN_RESOURCES",
+  "objectSource": "ADF_BC",
+  "restResourcePath": "/hcmRestApi/resources/11.13.18.05/personPassports",
+  "restResourceIdentifier": "-1",
+  "seededFlag": false,
+  "mandatoryFlag": false,
+  "objectProperties": {
+    "jsonSchemaName": "supportedObjectProperties",
+    "jsonSchemaVersion": 1,
+    "baseUrlTMKey": "",
+    "serviceNameOverride": "",
+    "tools": [
+      {
+        "name": "get_person_passports",
+        "description": "Retrieves passport records by personId, including PassportNumber, PassportTypeMeaning, IssuingCountryName, IssueDate, ExpirationDate, IssuingAuthority, and IssuingLocation. Supports limit and offset paging.",
+        "operationType": "GET",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/personPassports?fields=PassportNumber,PassportTypeMeaning,IssuingCountryName,IssueDate,ExpirationDate,IssuingAuthority,IssuingLocation&onlyData=true&q=PersonId={personId}&limit={limit}&offset={offset}",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "personId",
+            "dataType": "string",
+            "description": "Person identifier used to locate the worker record in HCM.",
+            "id": 2,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "limit",
+            "dataType": "integer",
+            "description": "Maximum number of person passport records to return; must be between 1 and 100.",
+            "id": 3,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "offset",
+            "dataType": "integer",
+            "description": "Zero-based offset used for paginated passport results; must be non-negative.",
+            "id": 4,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Sample request for get_person_passports using masked parameter placeholders.",
+            "query": {
+              "personId": "<person id>",
+              "limit": "<limit>",
+              "offset": "<offset>"
+            },
+            "sampleType": "request"
+          },
+          {
+            "description": "Sample response for get_person_passports.",
+            "query": {
+              "items": [
+                {
+                  "PassportId": "<PassportId>",
+                  "IssuingCountry": "<IssuingCountry>",
+                  "IssuingCountryName": "<IssuingCountryName>",
+                  "PassportType": "<PassportType>",
+                  "PassportTypeMeaning": "<PassportTypeMeaning>",
+                  "PassportNumber": "<PassportNumber>",
+                  "IssuingAuthority": "<IssuingAuthority>",
+                  "IssueDate": "<IssueDate>",
+                  "ExpirationDate": "<ExpirationDate>",
+                  "IssuingLocation": "<IssuingLocation>",
+                  "Profession": "<Profession>",
+                  "PersonId": "<PersonId>",
+                  "CreatedBy": "<CreatedBy>",
+                  "CreationDate": "<CreationDate>",
+                  "LastUpdatedBy": "<LastUpdatedBy>",
+                  "LastUpdateDate": "<LastUpdateDate>",
+                  "RowPostState": "<RowPostState>"
+                }
+              ],
+              "count": "<count>",
+              "hasMore": "<hasMore>",
+              "limit": "<limit>",
+              "offset": "<offset>",
+              "links": []
+            },
+            "sampleType": "response"
+          }
+        ]
+      }
+    ]
+  }
+}

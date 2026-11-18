@@ -1,0 +1,397 @@
+{
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "name": "Person Talent Profile",
+  "description": "Consolidates talent profile lookup, profile section lookup, accomplishment, honor, and certification retrieval for a person.",
+  "objectCode": "ORA_HCM_TALENTREVI_XX_PERSONTALENTPROFILE",
+  "family": "HCM",
+  "product": "TALENT_REVIEW",
+  "objectSource": "ADF_BC",
+  "restResourcePath": "/hcmRestApi/resources/11.13.18.05",
+  "restResourceIdentifier": "-1",
+  "seededFlag": false,
+  "mandatoryFlag": false,
+  "objectProperties": {
+    "jsonSchemaName": "supportedObjectProperties",
+    "jsonSchemaVersion": 1,
+    "baseUrlTMKey": "",
+    "serviceNameOverride": "",
+    "tools": [
+      {
+        "name": "find_personTalentProfileId",
+        "description": "Finds the talent profile identifier for a person identifier.",
+        "operationType": "GET",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentPersonTypeProfiles/personProfiles/child/profiles?fields=PersonId,ProfileId&finder=findByPersonId;PersonId={pPersonId}&limit=1&onlyData=true",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "pPersonId",
+            "dataType": "string",
+            "description": "Person identifier used to find the talent profile.",
+            "id": 2,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Field-name placeholders only; no employee or test records.",
+            "query": {
+              "items": [
+                {
+                  "PersonId": "<person id>",
+                  "ProfileId": "<profile id>"
+                }
+              ],
+              "count": "<count>",
+              "hasMore": "<has more>",
+              "limit": "<limit>",
+              "offset": "<offset>",
+              "links": []
+            },
+            "sampleType": "response"
+          }
+        ]
+      },
+      {
+        "name": "getProfileTypeSectionId",
+        "description": "Retrieves the section identifier for the specified person and profile section context.",
+        "operationType": "GET",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/profileTypeSectionsLOV?q=SectionContext='{sectionContext}'&finder=findSectionByPersonId;PersonId={personId}&fields=SectionId",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "sectionContext",
+            "dataType": "string",
+            "description": "Profile section context used to locate the section, for example PERSON_COMPETENCY.",
+            "id": 5,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "personId",
+            "dataType": "string",
+            "description": "Surrogate identifier of the person whose profile section is requested.",
+            "id": 6,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Field-name placeholders only; no employee or test records.",
+            "query": {
+              "items": [
+                {
+                  "SectionId": "<section id>"
+                }
+              ],
+              "count": "<count>",
+              "hasMore": "<has more>",
+              "limit": "<limit>",
+              "offset": "<offset>"
+            },
+            "sampleType": "response"
+          }
+        ]
+      },
+      {
+        "name": "getAccomplishmentItems",
+        "description": "Retrieves accomplishment items for a talent person profile and section.",
+        "operationType": "GET",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentPersonTypeProfiles/personProfiles,{profileId}/child/accomplishmentItems?fields=AccomplishmentId,Accomplishment,DateAccomplished,Organization,ExpirationDate,Description,AccomplishmentType,EstablishmentId,Establishment,OtherEstablishment,Comments,PublisherOrPublication,AuthorOrInventor,PatentOrApplicationNumber,PatentIssued,PatentPending,PatentURL,AccomplishmentLocation,PrimaryAuthor,CreatedBy,CreationDate,LastUpdatedBy,LastUpdateDate,AccomplishmentTypeMeaning,PatentIssuedMeaning,PatentPendingMeaning,PrimaryAuthorMeaning,ProfileId,Source,RelatedItemFlag,SectionId,ProfileId,SourceType&finder=findByProfileIdAndSectionId;ProfileId={profileId},SectionId={sectionId}&limit=500&onlyData=true&orderBy=DateAccomplished:desc",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "profileId",
+            "dataType": "string",
+            "description": "Talent person profile identifier.",
+            "id": 9,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "sectionId",
+            "dataType": "string",
+            "description": "Profile section identifier.",
+            "id": 10,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Field-name placeholders only; no employee or test records.",
+            "query": {
+              "items": [
+                {
+                  "AccomplishmentId": "<accomplishment id>",
+                  "Accomplishment": "<accomplishment>",
+                  "DateAccomplished": "<date accomplished>",
+                  "Organization": "<organization>",
+                  "ExpirationDate": "<expiration date>",
+                  "Description": "<description>",
+                  "AccomplishmentType": "<accomplishment type>",
+                  "EstablishmentId": "<establishment id>",
+                  "Establishment": "<establishment>",
+                  "OtherEstablishment": "<other establishment>",
+                  "Comments": "<comments>",
+                  "PublisherOrPublication": "<publisher or publication>",
+                  "AuthorOrInventor": "<author or inventor>",
+                  "PatentOrApplicationNumber": "<patent or application number>",
+                  "PatentIssued": "<patent issued>",
+                  "PatentPending": "<patent pending>",
+                  "PatentURL": "<patent url>",
+                  "AccomplishmentLocation": "<accomplishment location>",
+                  "PrimaryAuthor": "<primary author>",
+                  "CreatedBy": "<created by>",
+                  "CreationDate": "<creation date>",
+                  "LastUpdatedBy": "<last updated by>",
+                  "LastUpdateDate": "<last update date>",
+                  "AccomplishmentTypeMeaning": "<accomplishment type meaning>",
+                  "PatentIssuedMeaning": "<patent issued meaning>",
+                  "PatentPendingMeaning": "<patent pending meaning>",
+                  "PrimaryAuthorMeaning": "<primary author meaning>",
+                  "ProfileId": "<profile id>",
+                  "Source": "<source>",
+                  "RelatedItemFlag": "<related item flag>",
+                  "SectionId": "<section id>",
+                  "SourceType": "<source type>",
+                  "@context": {
+                    "key": "<key>",
+                    "headers": {
+                      "ETag": "<etag>"
+                    }
+                  }
+                }
+              ],
+              "count": "<count>",
+              "hasMore": "<has more>",
+              "limit": "<limit>",
+              "offset": "<offset>",
+              "links": [
+                {
+                  "rel": "<rel>",
+                  "href": "<href>",
+                  "name": "<name>",
+                  "kind": "<kind>"
+                }
+              ]
+            },
+            "sampleType": "response"
+          }
+        ]
+      },
+      {
+        "name": "getHonorItems",
+        "description": "Retrieves honor and award items for a talent person profile and section.",
+        "operationType": "GET",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentPersonTypeProfiles/personProfiles,{profileId}/child/honorItems?fields=HonorId,ContentItemId,HonorOrAward,OtherHonorOrAward,Points,AwardDate,BadgeSourceURL,HonorOrAwardDescription,Organization,IssueYear,CompletionDate,ExpirationDate,TypeOfAward,EstablishmentId,Establishment,OtherEstablishment,Title,Grantor,HonorURL,TypeOfAwardMeaning,Comments,Description,Source,LastUpdateDate,RelatedItemFlag,SectionId,ProfileId,SourceType&finder=findByProfileIdAndSectionId;ProfileId={profileId},SectionId={sectionId}&limit=500&onlyData=true&orderBy=AwardDate:desc,CompletionDate:desc",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "profileId",
+            "dataType": "string",
+            "description": "Talent person profile identifier.",
+            "id": 13,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "sectionId",
+            "dataType": "string",
+            "description": "Profile section identifier.",
+            "id": 14,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Field-name placeholders only; no employee or test records.",
+            "query": {
+              "items": [
+                {
+                  "HonorId": "<honor id>",
+                  "ContentItemId": "<content item id>",
+                  "HonorOrAward": "<honor or award>",
+                  "OtherHonorOrAward": "<other honor or award>",
+                  "Points": "<points>",
+                  "AwardDate": "<award date>",
+                  "BadgeSourceURL": "<badge source url>",
+                  "HonorOrAwardDescription": "<honor or award description>",
+                  "Organization": "<organization>",
+                  "IssueYear": "<issue year>",
+                  "CompletionDate": "<completion date>",
+                  "ExpirationDate": "<expiration date>",
+                  "TypeOfAward": "<type of award>",
+                  "EstablishmentId": "<establishment id>",
+                  "Establishment": "<establishment>",
+                  "OtherEstablishment": "<other establishment>",
+                  "Title": "<title>",
+                  "Grantor": "<grantor>",
+                  "HonorURL": "<honor url>",
+                  "TypeOfAwardMeaning": "<type of award meaning>",
+                  "Comments": "<comments>",
+                  "Description": "<description>",
+                  "Source": "<source>",
+                  "LastUpdateDate": "<last update date>",
+                  "RelatedItemFlag": "<related item flag>",
+                  "SectionId": "<section id>",
+                  "ProfileId": "<profile id>",
+                  "SourceType": "<source type>",
+                  "@context": {
+                    "key": "<key>",
+                    "headers": {
+                      "ETag": "<etag>"
+                    }
+                  }
+                }
+              ],
+              "count": "<count>",
+              "hasMore": "<has more>",
+              "limit": "<limit>",
+              "offset": "<offset>",
+              "links": [
+                {
+                  "rel": "<rel>",
+                  "href": "<href>",
+                  "name": "<name>",
+                  "kind": "<kind>"
+                }
+              ]
+            },
+            "sampleType": "response"
+          }
+        ]
+      },
+      {
+        "name": "getCertificationItems",
+        "description": "Retrieves certification items for a talent person profile and section.",
+        "operationType": "GET",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentPersonTypeProfiles/personProfiles,{profileId}/child/certificationItems?fields=ActualCompletionDate,CertificateNumber,CertificationId,CertificationURL,Comments,CompletedAmount,ContentItemId,Country,CountryMeaning,CreatedBy,CreationDate,Establishment,EstablishmentId,ExpirationDate,IssueDate,IssuedBy,LastRenewalDate,LastUpdateDate,LastUpdatedBy,LicenseOrCertificate,OriginalIssueYear,OtherEstablishment,OtherLicenseOrCertificate,RenewalDate,RenewalInprogress,RenewalInprogressMeaning,RenewalRequired,RenewalRequiredMeaning,Restrictions,Source,State,Status,StatusMeaning,Title,TotalAmount,TrainingCompletedUnits,Verified,VerifiedMeaning,RelatedItemFlag,ThirdPartyVerificationFlag,ExternalPartyVerifyBy,ExternalPartyVerifyDate,SectionId,ProfileId,SourceType&finder=findByProfileIdAndSectionId;ProfileId={profileId},SectionId={sectionId}&limit=500&onlyData=true&orderBy=IssueDate:desc",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "profileId",
+            "dataType": "string",
+            "description": "Talent person profile identifier.",
+            "id": 17,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "sectionId",
+            "dataType": "string",
+            "description": "Profile section identifier.",
+            "id": 18,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Field-name placeholders only; no employee or test records.",
+            "query": {
+              "items": [
+                {
+                  "ActualCompletionDate": "<actual completion date>",
+                  "CertificateNumber": "<certificate number>",
+                  "CertificationId": "<certification id>",
+                  "CertificationURL": "<certification url>",
+                  "Comments": "<comments>",
+                  "CompletedAmount": "<completed amount>",
+                  "ContentItemId": "<content item id>",
+                  "Country": "<country>",
+                  "CountryMeaning": "<country meaning>",
+                  "CreatedBy": "<created by>",
+                  "CreationDate": "<creation date>",
+                  "Establishment": "<establishment>",
+                  "EstablishmentId": "<establishment id>",
+                  "ExpirationDate": "<expiration date>",
+                  "IssueDate": "<issue date>",
+                  "IssuedBy": "<issued by>",
+                  "LastRenewalDate": "<last renewal date>",
+                  "LastUpdateDate": "<last update date>",
+                  "LastUpdatedBy": "<last updated by>",
+                  "LicenseOrCertificate": "<license or certificate>",
+                  "OriginalIssueYear": "<original issue year>",
+                  "OtherEstablishment": "<other establishment>",
+                  "OtherLicenseOrCertificate": "<other license or certificate>",
+                  "RenewalDate": "<renewal date>",
+                  "RenewalInprogress": "<renewal inprogress>",
+                  "RenewalInprogressMeaning": "<renewal inprogress meaning>",
+                  "RenewalRequired": "<renewal required>",
+                  "RenewalRequiredMeaning": "<renewal required meaning>",
+                  "Restrictions": "<restrictions>",
+                  "Source": "<source>",
+                  "State": "<state>",
+                  "Status": "<status>",
+                  "StatusMeaning": "<status meaning>",
+                  "Title": "<title>",
+                  "TotalAmount": "<total amount>",
+                  "TrainingCompletedUnits": "<training completed units>",
+                  "Verified": "<verified>",
+                  "VerifiedMeaning": "<verified meaning>",
+                  "RelatedItemFlag": "<related item flag>",
+                  "ThirdPartyVerificationFlag": "<third party verification flag>",
+                  "ExternalPartyVerifyBy": "<external party verify by>",
+                  "ExternalPartyVerifyDate": "<external party verify date>",
+                  "SectionId": "<section id>",
+                  "ProfileId": "<profile id>",
+                  "SourceType": "<source type>",
+                  "@context": {
+                    "key": "<key>",
+                    "headers": {
+                      "ETag": "<etag>"
+                    }
+                  }
+                }
+              ],
+              "count": "<count>",
+              "hasMore": "<has more>",
+              "limit": "<limit>",
+              "offset": "<offset>",
+              "links": [
+                {
+                  "rel": "<rel>",
+                  "href": "<href>",
+                  "name": "<name>",
+                  "kind": "<kind>"
+                }
+              ]
+            },
+            "sampleType": "response"
+          }
+        ]
+      }
+    ]
+  }
+}

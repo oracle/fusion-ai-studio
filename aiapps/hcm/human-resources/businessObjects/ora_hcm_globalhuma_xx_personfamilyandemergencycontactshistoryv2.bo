@@ -1,0 +1,147 @@
+{
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "supportedObjectId": "300100661812334",
+  "$context": {
+    "etag": "2"
+  },
+  "name": "Worker Family and Emergency Contacts",
+  "description": "Provides current and future contact relationships by personId and effectiveDate, excluding pending contacts. Returns ContactDisplayName, ContactTypeMeaning, EmergencyContactFlag, PrimaryContactFlag, ContactPhoneNumber, ContactEmailAddress, and effective dates. Supports offset paging.",
+  "objectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONFAMILYANDEMERGENCYCONTACTSHISTORYV2",
+  "family": "HCM",
+  "product": "GLOBAL_HUMAN_RESOURCES",
+  "objectSource": "ADF_BC",
+  "restResourcePath": "/hcmRestApi/resources/11.13.18.05/contactRelationshipsAll",
+  "restResourceIdentifier": "-1",
+  "seededFlag": false,
+  "mandatoryFlag": false,
+  "objectProperties": {
+    "jsonSchemaName": "supportedObjectProperties",
+    "jsonSchemaVersion": 1,
+    "baseUrlTMKey": "",
+    "serviceNameOverride": "",
+    "tools": [
+      {
+        "name": "get_current_and_future_person_family_and_emergency_contacts",
+        "description": "Retrieves current and future contact relationships by personId and effectiveDate, excluding pending contacts. Returns ContactDisplayName, ContactTypeMeaning, EmergencyContactFlag, PrimaryContactFlag, ContactPhoneNumber, ContactEmailAddress, and effective dates. Supports offset paging.",
+        "operationType": "GET",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/contactRelationshipsAll?finder=findDateEffectiveRecords;RequestedMode=currentFuture,RequestedDate={effectiveDate},ContextName=Contact&onlyData=true&orderBy=EffectiveStartDate:desc&q=RelatedPersonId={personId} and ExistingPerson != 'PENDING'&fields=ContactRelationshipId,RelatedPersonId,EffectiveStartDate,EffectiveEndDate,EmergencyContactFlag,ContactPhoneNumber,ContactEmailAddress,PrimaryContactFlag,ContactDisplayName,ContactTypeMeaning&limit=100&offset={offset}",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "effectiveDate",
+            "dataType": "date",
+            "description": "Calendar-valid effective date in YYYY-MM-DD format, validated before the BO call.",
+            "id": 2,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "personId",
+            "dataType": "string",
+            "description": "Person identifier used to locate the worker record in HCM.",
+            "id": 3,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "offset",
+            "dataType": "integer",
+            "description": "Non-negative paging offset; generated and bounded by the workflow, never copied from user input.",
+            "id": 4,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "headers": {
+          "REST-Framework-Version": "9"
+        },
+        "sampleQueries": [
+          {
+            "description": "Sample request for get_current_and_future_person_family_and_emergency_contacts using masked parameter placeholders.",
+            "query": {
+              "effectiveDate": "<effective date>",
+              "personId": "<person id>",
+              "offset": "<offset>"
+            },
+            "sampleType": "request"
+          },
+          {
+            "description": "Sample response for get_current_and_future_person_family_and_emergency_contacts.",
+            "query": {
+              "items": [
+                {
+                  "ContactRelationshipId": "<ContactRelationshipId>",
+                  "EffectiveStartDate": "<EffectiveStartDate>",
+                  "EffectiveEndDate": "<EffectiveEndDate>",
+                  "ContactType": "<ContactType>",
+                  "ContactTypeMeaning": "<ContactTypeMeaning>",
+                  "LegislationCode": "<LegislationCode>",
+                  "LegislationName": "<LegislationName>",
+                  "EmergencyContactFlag": "<EmergencyContactFlag>",
+                  "PrimaryContactFlag": "<PrimaryContactFlag>",
+                  "StatutoryDependent": "<StatutoryDependent>",
+                  "StatutoryDependentMeaning": "<StatutoryDependentMeaning>",
+                  "CreatedBy": "<CreatedBy>",
+                  "CreationDate": "<CreationDate>",
+                  "LastUpdatedBy": "<LastUpdatedBy>",
+                  "LastUpdateDate": "<LastUpdateDate>",
+                  "RelatedPersonId": "<RelatedPersonId>",
+                  "ContactPersonId": "<ContactPersonId>",
+                  "ExistingPerson": "<ExistingPerson>",
+                  "ContactDisplayName": "<ContactDisplayName>",
+                  "ContactPhoneNumber": "<phoneNumber>",
+                  "ContactPersonNumber": "<ContactPersonNumber>",
+                  "ContactEmailAddress": "<email>",
+                  "ContactFormattedMultiLineAddress": "<ContactFormattedMultiLineAddress>",
+                  "IsStatusNewFlag": "<IsStatusNewFlag>",
+                  "RowPostState": "<RowPostState>"
+                },
+                {
+                  "ContactRelationshipId": "<ContactRelationshipId>",
+                  "EffectiveStartDate": "<EffectiveStartDate>",
+                  "EffectiveEndDate": "<EffectiveEndDate>",
+                  "ContactType": "<ContactType>",
+                  "ContactTypeMeaning": "<ContactTypeMeaning>",
+                  "LegislationCode": "<LegislationCode>",
+                  "LegislationName": "<LegislationName>",
+                  "EmergencyContactFlag": "<EmergencyContactFlag>",
+                  "PrimaryContactFlag": "<PrimaryContactFlag>",
+                  "StatutoryDependent": "<StatutoryDependent>",
+                  "StatutoryDependentMeaning": "<StatutoryDependentMeaning>",
+                  "CreatedBy": "<CreatedBy>",
+                  "CreationDate": "<CreationDate>",
+                  "LastUpdatedBy": "<LastUpdatedBy>",
+                  "LastUpdateDate": "<LastUpdateDate>",
+                  "RelatedPersonId": "<RelatedPersonId>",
+                  "ContactPersonId": "<ContactPersonId>",
+                  "ExistingPerson": "<ExistingPerson>",
+                  "ContactDisplayName": "<ContactDisplayName>",
+                  "ContactPhoneNumber": "<phoneNumber>",
+                  "ContactPersonNumber": "<ContactPersonNumber>",
+                  "ContactEmailAddress": "<email>",
+                  "ContactFormattedMultiLineAddress": "<ContactFormattedMultiLineAddress>",
+                  "IsStatusNewFlag": "<IsStatusNewFlag>",
+                  "RowPostState": "<RowPostState>"
+                }
+              ],
+              "count": "<count>",
+              "hasMore": "<hasMore>",
+              "limit": "<limit>",
+              "offset": "<offset>",
+              "links": []
+            },
+            "sampleType": "response"
+          }
+        ]
+      }
+    ]
+  }
+}

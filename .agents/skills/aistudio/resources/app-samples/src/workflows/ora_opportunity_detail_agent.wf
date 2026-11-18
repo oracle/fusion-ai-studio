@@ -1,0 +1,2383 @@
+{
+  "workflowId": "300100647771996",
+  "workflowCode": "ORA_OPPORTUNITY_DETAIL_AGENT",
+  "name": "Opportunity Detail Agent",
+  "description": "This agent analyzes opportunity data and generates a structured summary by capturing key signals such as priority drivers, close date pressure, engagement velocity, and associated service requests. It processes and organizes these inputs to produce a consistent representation of the opportunity and its related activities within the system.",
+  "specification": {
+    "dataPipeline": {
+      "pipelineNodes": [
+        {
+          "metadata": {
+            "description": "Start of data pipeline",
+            "name": "Start"
+          },
+          "outcomes": {
+            "success": "1774721156012"
+          },
+          "diagram": {
+            "x": 9169,
+            "y": 5000
+          },
+          "code": "START",
+          "id": "start",
+          "inputs": [],
+          "type": "START"
+        },
+        {
+          "metadata": {
+            "name": "Extract OpportunityId",
+            "sourceCode": "let result = {};\n\ntry {\n  const oraAppContextEncoded = $context.$app?.$OraAppContext;\n\n  let opportunityId = \"\";\n  let activityNumber;\n  let task;\n  let title;\n  let action;\n\n  if (typeof oraAppContextEncoded === \"string\" && oraAppContextEncoded.trim() !== \"\") {\n\n    const decodedString = decodeURIComponent(oraAppContextEncoded);\n\n    // Normalize malformed format\n    const normalizedString = decodedString\n      .replace(/:\\+\\s*\"/g, ':\"')\n      .replace(/,\\+\\s*\"/g, ',\"')\n      .replace(/\\+/g, \" \");\n\n    let parsedContext = {};\n\n    try {\n      parsedContext = JSON.parse(normalizedString);\n    } catch (jsonError) {\n      parsedContext = {};\n    }\n\n    if (typeof parsedContext.opportunityId === \"string\") {\n      opportunityId = parsedContext.opportunityId.trim();\n    }\n\n    if (typeof parsedContext.activityNumber === \"string\" && parsedContext.activityNumber.trim() !== \"\") {\n      activityNumber = parsedContext.activityNumber.trim();\n    }\n\n    if (typeof parsedContext.task === \"string\" && parsedContext.task.trim() !== \"\") {\n      task = parsedContext.task.trim();\n    }\n\n    if (typeof parsedContext.title === \"string\" && parsedContext.title.trim() !== \"\") {\n      title = parsedContext.title.trim();\n    }\n\n    if (typeof parsedContext.action === \"string\" && parsedContext.action.trim() !== \"\") {\n      action = parsedContext.action.trim();\n    }\n  }\n\n  result = {\n    opportunityId\n  };\n\n  if (activityNumber !== undefined) {\n    result.activityNumber = activityNumber;\n  }\n\n  if (task !== undefined) {\n    result.task = task;\n  }\n\n  if (title !== undefined) {\n    result.title = title;\n  }\n\n  if (action !== undefined) {\n    result.action = action;\n  }\n\n} catch (error) {\n  result = {\n    opportunityId: \"\"\n  };\n}\n\nreturn result;",
+            "returnType": "object"
+          },
+          "diagram": {
+            "x": 9047,
+            "y": 5206
+          },
+          "outcomes": {
+            "success": "1774721212388"
+          },
+          "id": "1774721156012",
+          "code": "EXTRACT_OPPORTUNITYID",
+          "type": "CODE",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "metadata": {
+            "name": "Set OpportunityId Variable"
+          },
+          "diagram": {
+            "x": 9047,
+            "y": 5428
+          },
+          "outcomes": {
+            "success": "1774733737511"
+          },
+          "id": "1774721212388",
+          "code": "SET_OPPORTUNITYID_VARIABLE",
+          "type": "SET_FIELDS",
+          "inputs": [
+            {
+              "id": "1774721212388_opportunityId",
+              "name": "opportunityId",
+              "value": "{{$context.$nodes.EXTRACT_OPPORTUNITYID.$output.result.opportunityId}}"
+            }
+          ],
+          "outputSpecification": "{\"type\":\"object\",\"properties\":{\"opportunityId\":{\"type\":\"string\"}},\"required\":[\"opportunityId\"]}"
+        },
+        {
+          "metadata": {
+            "name": "Generate Opportunity Payload",
+            "returnType": "object",
+            "sourceCode": "let optyId = $context.$variables.opportunityId;\n\nlet payload = {\n    \"limit\": 5,\n    \"offset\": 0,\n    \"sort\": [],\n    \"entity\": \"Opportunity\",\n    \"q\": {\n        \"op\": \"$and\",\n        \"criteria\": [\n            {\n                \"op\": \"$eq\",\n                \"attribute\": \"OptyId\",\n                \"value\": optyId\n            }\n        ]\n    },\n    \"fields\": [\n        \"OptyId\",\n        \"OptyNumber\",\n        \"EffectiveDate\",\n        \"PrimaryRevenue.RevnAmount\",\n        \"Name\",\n        \"StatusCode\",\n        \"SalesStage.StgOrderEnum_localizedValue\",\n        \"ListOfRevenues.InventoryItemId.Name\",\n        \"CustomerAccount.PartyNumber\",\n        \"CustomerAccount.PartyUniqueName\",\n        \"PrConPartyId\"\n        \n    ]\n};\n\nreturn payload;"
+          },
+          "diagram": {
+            "x": 9041,
+            "y": 5650
+          },
+          "outcomes": {
+            "success": "1774733380709"
+          },
+          "id": "1774733737511",
+          "code": "GENERATE_OPPORTUNITY_PAYLOAD",
+          "type": "CODE",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "metadata": {
+            "name": "Get Opportunity",
+            "businessObjectCode": "ORA_CX_SALESFORCE_CXOBJECTSEARCHB",
+            "functionName": "SEARCH_OBJECTS"
+          },
+          "diagram": {
+            "x": 9047,
+            "y": 5872
+          },
+          "outcomes": {
+            "success": "1774727295931"
+          },
+          "id": "1774733380709",
+          "code": "GET_OPPORTUNITY",
+          "type": "BO_FUNCTION",
+          "inputs": [
+            {
+              "id": "1774733380709_object",
+              "name": "object",
+              "value": "{{$context.$nodes.GENERATE_OPPORTUNITY_PAYLOAD.$output.result.entity}}",
+              "required": true
+            },
+            {
+              "id": "1774733380709_q",
+              "name": "q",
+              "value": "{{$context.$nodes.GENERATE_OPPORTUNITY_PAYLOAD.$output.result.q}}",
+              "required": true
+            },
+            {
+              "id": "1774733380709_sort",
+              "name": "sort",
+              "value": "{{$context.$nodes.GENERATE_OPPORTUNITY_PAYLOAD.$output.result.sort}}",
+              "required": true
+            },
+            {
+              "id": "1774733380709_limit",
+              "name": "limit",
+              "value": "{{$context.$nodes.GENERATE_OPPORTUNITY_PAYLOAD.$output.result.limit}}",
+              "required": true
+            },
+            {
+              "id": "1774733380709_fields",
+              "name": "fields",
+              "value": "{{JSON.stringify($context.$nodes.GENERATE_OPPORTUNITY_PAYLOAD.$output.result.fields).replace(/\"/g, \"'\")}}",
+              "required": true
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "AI App Display Switch"
+          },
+          "diagram": {
+            "x": 9047,
+            "y": 6094
+          },
+          "outcomes": {
+            "InitSubtitle": "1774727305095",
+            "InitCommunications": "1774727310815",
+            "FillParameters": "1774727315132",
+            "default": "1774727317992",
+            "InitDisplay": "1774741960415",
+            "Summary": "1776475146775",
+            "Query": "1776635233152",
+            "InvokeAction": "1779494594875",
+            "SendCommunication": "1780079529519"
+          },
+          "id": "1774727295931",
+          "code": "AI_APP_DISPLAY_SWITCH",
+          "type": "SWITCH",
+          "inputs": [
+            {
+              "id": "1774727295931_caseExpression",
+              "name": "caseExpression",
+              "type": "string",
+              "value": "{{$context.$app.$OraMessageHint}}"
+            }
+          ],
+          "convergenceTargetId": "end"
+        },
+        {
+          "metadata": {
+            "name": "InitSubtitle",
+            "answerInUserLanguage": true
+          },
+          "diagram": {
+            "x": 11744,
+            "y": 6316
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "id": "1774727305095",
+          "code": "INITSUBTITLE",
+          "type": "LLM",
+          "inputs": [
+            {
+              "id": "1774727305095_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "Generate an InitSubtitle prompt by concatenating the following attributes from {{$context.$nodes.GET_OPPORTUNITY.$output}}:\nInclude each attribute only if its value is present.\n\nFormat each included attribute as \"Label: Value\" with the exact attribute paths as shown.\n\nAccount: <CustomerAccount.PartyUniqueName> (10-15 spaces)\nProducts: <ListOfRevenues.InventoryItemId.Name> (10-15 spaces)\nAmount: <PrimaryRevenue.RevnAmount> formatted with thousands separators (e.g., 1,234,567) (10-15 spaces)\nStage: <SalesStage.StgOrderEnum_localizedValue> (10-15 spaces)\nClose Date: <EffectiveDate> (date only, omit time, format as YYYY-MM-DD)\n\nEnsure each included attribute is separated by exactly 10 to 15 spaces.\n\nOmit the label and value entirely if the value is missing or empty.\n\nFor Close Date, include only the date part (e.g., YYYY-MM-DD), excluding the time portion."
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "InitCommunications",
+            "answerInUserLanguage": true
+          },
+          "diagram": {
+            "x": 12194,
+            "y": 6316
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "id": "1774727310815",
+          "code": "INITCOMMUNICATIONS",
+          "type": "LLM",
+          "inputs": [
+            {
+              "id": "1774727310815_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "Generate a response based on the following engagement insights data: {{$context.$nodes.GET_OPPORTUNITY.$output}}. Keep the response concise and relevant."
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "FillParameters"
+          },
+          "diagram": {
+            "x": 12644,
+            "y": 6316
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "id": "1774727315132",
+          "code": "FILLPARAMETERS",
+          "type": "LLM",
+          "inputs": [
+            {
+              "id": "1774727315132_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "Generate a response based on the following engagement insights data: {{$context.$nodes.GET_OPPORTUNITY.$output}}. Keep the response concise and relevant."
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "Default"
+          },
+          "diagram": {
+            "x": 13094,
+            "y": 6316
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "aiAppOutputSpecification": {
+            "dataDisplay": {
+              "customNotes": ""
+            }
+          },
+          "id": "1774727317992",
+          "code": "DEFAULT",
+          "type": "LLM",
+          "inputs": [
+            {
+              "id": "1774727317992_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "Generate a response based on the following engagement insights data: {{$context.$nodes.GET_OPPORTUNITY.$output}}. Keep the response concise and relevant."
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "Display Panel Switch"
+          },
+          "diagram": {
+            "x": 10295,
+            "y": 6316
+          },
+          "outcomes": {
+            "default": "1774727308152",
+            "ACCOUNT_INSIGHTS": "1776410504497",
+            "ENGAGEMENT_PROGRESS": "1779251243232"
+          },
+          "id": "1774741960415",
+          "code": "DISPLAY_PANEL_SWITCH",
+          "type": "SWITCH",
+          "convergenceTargetId": "end",
+          "inputs": [
+            {
+              "id": "1774741960415_caseExpression",
+              "name": "caseExpression",
+              "type": "string",
+              "value": "{{$context.$app.$OraAppDisplayDiscriminator}}"
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "InitDisplay",
+            "chatHistoryEnabled": false,
+            "answerInUserLanguage": true
+          },
+          "diagram": {
+            "x": 10787,
+            "y": 6538
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "id": "1774727308152",
+          "code": "INITDISPLAY",
+          "type": "LLM",
+          "inputs": [
+            {
+              "id": "1774727308152_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "Generate a response based on the following engagement insights data: {{$context.$nodes.GET_OPPORTUNITY.$output}}. Keep the response concise and relevant."
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "get Account Insights",
+            "businessObjectCode": "ORA_CX_SALESFORCE_AIOUTCOMESTORE",
+            "functionName": "getOutcomeBy_AltKey"
+          },
+          "diagram": {
+            "x": 9803,
+            "y": 6538
+          },
+          "outcomes": {
+            "success": "1779295443538"
+          },
+          "id": "1776410504497",
+          "code": "GET_ACCOUNT_INSIGHTS",
+          "type": "BO_FUNCTION",
+          "inputs": [
+            {
+              "id": "1776410504497_ObjectType",
+              "name": "ObjectType",
+              "value": "ACCOUNT",
+              "required": true
+            },
+            {
+              "id": "1776410504497_ObjectAltKey",
+              "name": "ObjectAltKey",
+              "value": "{{$context.$nodes.GET_OPPORTUNITY.$output[0].CustomerAccount.PartyNumber}}",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "1779295443538",
+          "code": "GET_RECOMMENDATIONS",
+          "type": "BO_FUNCTION",
+          "metadata": {
+            "name": "Get Recommendations",
+            "businessObjectCode": "ORA_CX_SALESFORCE_AIOUTCOMESTORE",
+            "functionName": "getOutcomeBy_AltKey_Type"
+          },
+          "diagram": {
+            "x": 9821,
+            "y": 6760
+          },
+          "outcomes": {
+            "success": "1779295693014"
+          },
+          "inputs": [
+            {
+              "id": "1779295443538_ObjectType",
+              "name": "ObjectType",
+              "value": "OPPORTUNITY",
+              "required": false
+            },
+            {
+              "id": "1779295443538_ObjectAltKey",
+              "name": "ObjectAltKey",
+              "value": "{{$context.$nodes.GET_OPPORTUNITY.$output[0].OptyNumber}}",
+              "required": false
+            },
+            {
+              "id": "1779295443538_OutcomeType",
+              "name": "OutcomeType",
+              "value": "RECOMMENDATION",
+              "required": false
+            }
+          ]
+        },
+        {
+          "id": "1779295693014",
+          "code": "REFINE_RECOMMENDATIONS",
+          "type": "CODE",
+          "metadata": {
+            "name": "Refine Recommendations",
+            "sourceCode": "let result = [];\n\ntry {\n  const recommendationItems =\n    $context.$nodes?.GET_RECOMMENDATIONS?.$output?.items ||\n    $context.$nodes?.GET_RECOMMENDATIONS?.$output ||\n    [];\n\n  for (const item of recommendationItems) {\n    const payload = item?.payload;\n    if (!payload) continue;\n\n    const payloadObj =\n      typeof payload === \"string\"\n        ? JSON.parse(payload)\n        : payload;\n\n    const actions = payloadObj?.next?.actions || [];\n\n    for (const action of actions) {\n      result.push({\n        Type: action?.type || \"\",\n        Title: action?.label || \"\",\n        Task: action?.description || \"\"\n      });\n    }\n  }\n} catch (error) {\n  result = [];\n}\n\nreturn result;",
+            "returnType": "array"
+          },
+          "diagram": {
+            "x": 9821,
+            "y": 6982
+          },
+          "outcomes": {
+            "success": "1774757569284"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "metadata": {
+            "name": "Generate Account Insights",
+            "answerInUserLanguage": true
+          },
+          "diagram": {
+            "x": 9823.25,
+            "y": 7204
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "aiAppOutputSpecification": {
+            "dataDisplay": {
+              "layouts": [
+                "ORA_LAYOUT_CARD"
+              ],
+              "customNotes": "",
+              "enableCommunications": false,
+              "enableActions": true
+            }
+          },
+          "id": "1774757569284",
+          "code": "GENERATE_ACCOUNT_INSIGHTS",
+          "type": "LLM",
+          "inputs": [
+            {
+              "id": "1774757569284_systemPrompt",
+              "name": "systemPrompt",
+              "type": "string",
+              "value": "Output must return the oraInfoDisplay from the MessageListWidget and oraInsight actions.\nOutput must not include any additional text, explanations, or formatting other than oraInfoDisplay and oraInsight."
+            },
+            {
+              "id": "1774757569284_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "DIRECTIVE: Generate exactly one `oraInfoDisplay` block using `patternId: \"multiCardWidget\"` from {{$context.$nodes.GET_ACCOUNT_INSIGHTS.$output}}\n\nROOT CONFIGURATION:\n1. Generate a single sentence professional insight using only {{$context.$nodes.GET_ACCOUNT_INSIGHTS.$output}}.\n   * Create a concise headline that highlights interesting, problematic, or traceable entities across the list.\n   * If nothing stands out, generate a single-sentence informational headline.\n2. Generate a short summary using only {{$context.$nodes.GET_ACCOUNT_INSIGHTS.$output}}.\n   * Write 1 concise sentence describing the most useful and relevant information across the list.\n   * This summary must appear immediately below the heading.\n\nmultiCardWidget Generation Rule:\n- For `properties`:\n  - Use `multiCardWidget`\n  - Set `layoutMode` to `\"collapsed\"`\n  - Add `cards` for each row in {{$context.$nodes.GET_ACCOUNT_INSIGHTS.$output.items}}\n  - Based on {{$context.$nodes.GET_ACCOUNT_INSIGHTS.$output.items}}, create the cards as below:\n    subject: <Generate a short 3-4 words based on the title property in each row>\n    subtitle: <Generate 1 line professional short sentence based on the summary property in each row>\n    summary: <\n      if type attribute is \"INSIGHT\", based on the metrics, signals, highlights attributes present in each row, generate 2-3 bullet points in markdown format.\n      If the type attribute is \"SUMMARY\", generate up to 3 bullet points based on accountSummaryMarkdown, detailedSummaryMarkdown.\n      For productsOwned, create a separate bullet point with the list of products as a nested or next-level bullet point under the other bullet points.\n      Limit bullet points to a maximum of 3.\n    >\n    badgeText: <Based on actionableSignal attribute present in each row generate a BadgeText (InitCaps and Readable)>\n    variant: <Based on the urgency attribute in each row: map LOW to \"info\", MEDIUM to \"warning\", and RISK or HIGH to \"alert\">\n\n- Include bullet points highlighting key information extracted from the data only if data is available.\n- If no data is available, generate only:\n  - A professional title as the card widget's subject.\n  - A single short sentence describing the missing insights and requesting to try again later as new data may become available, to be used as the card widget's summary.\n  - Do not include any bullet points or card widget properties when data is missing.\n- Do not include any actions or links in the card widget.\n- Ensure the output is well-structured, professional, and easy to read, formatted to clearly associate each card widget property (subject, summary, timestamp, badgeText, variant) with its corresponding content.\n- The card for type \"SUMMARY\" must be rendered last in the cards list.\n- The summary property of the card for type \"SUMMARY\" should include the existing display logic (accountSummaryMarkdown, detailedSummaryMarkdown) except for productsOwned, which should be rendered as a nested bullet point under the other bullet points.\n\n\nFurthermore, If array of records from {{$context.$nodes.REFINE_RECOMMENDATIONS.$output.result}} is of structure {\n      \"Type\": \"\",\n      \"Title\": \"\",\n      \"Task\": \"\"\n    }\n    , generate a high priority actionable oraInsight for each record in the array {{$context.$nodes.REFINE_RECOMMENDATIONS.$output.result}}. For each record, create an actionable insight object with the following fields:\n- title: use Title property from each row\n- shortDescription: use Task property from each row\n- actionText: \"Review\"\n- priority: true\n- followUpCommand: \"ora.Invoke(invokeSuggestedTask, { \\\"opportunityId\\\": \"\"+{{$context.$variables.opportunityId}}, \\\"opportunityNumber\\\":\"\"+ {{$context.$nodes.GET_OPPORTUNITY.$output[0].OptyNumber}}, \\\"task\\\": <Task>, \\\"title\\\": <Title>,\\\"action\\\":\\\"invokeSuggestedTask\\\" })\". If there are no records of that structure in the {{$context.$nodes.REFINE_RECOMMENDATIONS.$output.result}}, do not generate the actionable oraInsight.\n\n\nAlways, generate a high priority actionable oraInsight(create an actionable insight object) with the following fields:\n\n- title: \"Engagement History\"\n- shortDescription: \"View historical customer engagements, activities, interactions, and opportunity-related relationship insights.\"\n- actionText: \"Review\"\n- priority: true\n- followUpCommand: \"ora.Invoke(viewEngagementHistory, {\\\"opportunityId\\\": \"\"+{{$context.$variables.opportunityId}},\\\"opportunityNumber\\\":\"\"+ {{$context.$nodes.GET_OPPORTUNITY.$output[0].OptyNumber}},\\\"action\\\":\\\"viewEngagementHistory\\\" })\"\n\nAlways, generate a high priority actionable oraInsight(create an actionable insight object) with the following fields:\n\n- title: \"Opportunity Contacts\"\n- shortDescription: \"Access and review stakeholders involved in driving opportunity progress and decisions.\"\n- actionText: \"Review\"\n- priority: true\n- followUpCommand: \"ora.Invoke(viewOpportunityContacts, {\\\"opportunityId\\\": \"\"+{{$context.$variables.opportunityId}},\\\"opportunityNumber\\\":\"\"+ {{$context.$nodes.GET_OPPORTUNITY.$output[0].OptyNumber}},\\\"action\\\":\\\"viewOpportunityContacts\\\" })\"\n\n\n\nAlways, generate a high priority actionable oraInsight(create an actionable insight object) with the following fields:\n\n- title: \"Recent Deal Insights\"\n- shortDescription: \"Analyze newly captured deal insights, updates, and customer opportunity information.\"\n- actionText: \"Review\"\n- priority: true\n- followUpCommand: \"ora.Invoke(viewRecentDealInsights, {\\\"opportunityId\\\": \"\"+{{$context.$variables.opportunityId}},\\\"opportunityNumber\\\":\"\"+ {{$context.$nodes.GET_OPPORTUNITY.$output[0].OptyNumber}},\\\"action\\\":\\\"viewRecentDealInsights\\\" })\""
+            }
+          ],
+          "outputSpecification": ""
+        },
+        {
+          "id": "1779251243232",
+          "code": "GENERATE_ENGAGEMENT_INSIGHTS_PAYLOAD",
+          "type": "CODE",
+          "metadata": {
+            "name": "Generate Engagement Insights Payload",
+            "sourceCode": "let result = \"\";\ntry {\n  // Use opportunityId from workflow variables\n  const opportunityId = $context.$variables?.opportunityId || \"\";\n\n  const filterString = \"opportunity.id = \" + opportunityId;\n\n  const payload = {\n    collection: {\n      filter: filterString\n    },\n    accessors: {\n      objectives: {\n        collection: {\n          sortBy: [\n            { \"objectiveDesignTime.displaySequence\": \"desc\" }\n          ]\n        },\n        accessors: {\n          highValueActivities: {\n            collection: {\n              sortBy: [\n                { \"highValueActivityDesignTime.displaySequence\": \"desc\" }\n              ]\n            },\n            fields: [\"highValueActivityNumber\", \"highValueActivityStatus\", \"justification\"],\n            accessors: {\n              highValueActivityDesignTime: {\n                fields: [\"name\"]\n              }\n            }\n          },\n          objectiveDesignTime: {\n            fields: [\"name\", \"description\"]\n          }\n        },\n        fields: [\"objectiveNumber\", \"objectiveStatus\", \"timeUpdated\"]\n      },\n      salesMotion: {\n        fields: [\"name\"]\n      }\n    }\n  };\n\n  result = JSON.stringify(payload);\n} catch (error) {\n  result = \"\";\n}\n\nreturn result;",
+            "returnType": "string"
+          },
+          "diagram": {
+            "x": 10253,
+            "y": 6538
+          },
+          "outcomes": {
+            "success": "1779251243233"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "1779251243233",
+          "code": "GET_ENGAGEMENT_INSIGHTS",
+          "type": "BO_FUNCTION",
+          "metadata": {
+            "name": "Get Engagement Insights",
+            "businessObjectCode": "ORA_CX_SALESFORCE_ENGAGEMENT_INSIGHTS",
+            "functionName": "filter_all_engagement_insights"
+          },
+          "diagram": {
+            "x": 10295,
+            "y": 6760
+          },
+          "outcomes": {
+            "success": "1776481148292"
+          },
+          "inputs": [
+            {
+              "id": "1774742630309_payload",
+              "name": "payload",
+              "value": "{{$context.$nodes.GENERATE_ENGAGEMENT_INSIGHTS_PAYLOAD.$output.result}}",
+              "required": true,
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "Refine Engagement Insights",
+            "sourceCode": "let result = {};\n\ntry {\n  const raw = $context.$nodes.GET_ENGAGEMENT_INSIGHTS.$output.items || \"\";\n  let engagementInsightsItems = [];\n\n  if (typeof raw === \"string\" && raw.trim() !== \"\") {\n    try {\n      engagementInsightsItems = JSON.parse(raw);\n    } catch (e) {\n      engagementInsightsItems = [];\n    }\n  } else if (Array.isArray(raw)) {\n    engagementInsightsItems = raw;\n  }\n\n  const complete = [];\n  const inProgress = [];\n  const notStarted = [];\n  const other = [];\n\n  let completeCount = 0;\n  let totalCount = 0;\n\n  const normalize = (s) => String(s || \"\").toLowerCase().replace(/[_\\s]/g, \"\");\n\n  for (const insightRaw of engagementInsightsItems) {\n    const insight =\n      typeof insightRaw === \"string\" && insightRaw.trim() !== \"\"\n        ? (() => {\n            try {\n              return JSON.parse(insightRaw);\n            } catch (e) {\n              return {};\n            }\n          })()\n        : insightRaw || {};\n\n    const objectives = insight?.objectives?.items || [];\n\n    for (const objective of objectives) {\n      const activities = objective?.highValueActivities?.items || [];\n\n      for (const activity of activities) {\n        const item = {\n          name: activity?.highValueActivityDesignTime?.name || \"\",\n          status: activity?.highValueActivityStatus || \"\",\n          justification: activity?.justification || \"\"\n        };\n\n        totalCount++;\n\n        const status = normalize(item.status);\n        if (status === \"complete\" || status === \"completed\") {\n          completeCount++;\n          complete.push(item);\n        } else if (status === \"inprogress\") {\n          inProgress.push(item);\n        } else if (status === \"notstarted\") {\n          notStarted.push(item);\n        } else {\n          other.push(item);\n        }\n      }\n    }\n  }\n\n  const topActivities = complete.concat(inProgress, notStarted, other).slice(0, 5);\n\n  result = {\n    topActivities,\n    completeCount,\n    totalCount,\n    progress: completeCount + \" of \" + totalCount\n  };\n} catch (error) {\n  result = {\n    topActivities: [],\n    completeCount: 0,\n    totalCount: 0,\n    progress: \"0 of 0\"\n  };\n}\n\nreturn result;",
+            "returnType": "object"
+          },
+          "diagram": {
+            "x": 10295,
+            "y": 6982
+          },
+          "outcomes": {
+            "success": "1774742708871"
+          },
+          "id": "1776481148292",
+          "code": "REFINE_ENGAGEMENT_INSIGHTS",
+          "type": "CODE",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "metadata": {
+            "name": "Generate Engagement Insight Display",
+            "answerInUserLanguage": true
+          },
+          "diagram": {
+            "x": 10273.25,
+            "y": 7204
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "aiAppOutputSpecification": {
+            "dataDisplay": {
+              "enableActions": true,
+              "layouts": [
+                "ORA_LAYOUT_MESSAGES_LIST"
+              ]
+            }
+          },
+          "id": "1774742708871",
+          "code": "GENERATE_ENGAGEMENT_INSIGHT_DISPLAY",
+          "type": "LLM",
+          "inputs": [
+            {
+              "id": "1774742708871_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "Generate a Message List Widget using the data from {{$context.$nodes.REFINE_ENGAGEMENT_INSIGHTS.$output.result.topActivities}}. Data represent the activities under each objective for the opportunity.\n- DO not include title in the Message List Widget\n- Include description: High Value Activity Progress {{$context.$nodes.REFINE_ENGAGEMENT_INSIGHTS.$output.result.progress}} \n\nFor each row:\n- title: <name from the current row>\n- badgeText: <Generate a single word or phrase from the status attribute of the current row, converting values like NOT_STARTED to \"Not Started\" and IN_PROGRESS to \"In Progress\" for readability>\n- priority: <If the Status is NOT_STARTED, set the priority as alert, if the priority is IN_PROGRESS, set the priority as info, if the priority is COMPLETED or COMPLETE, set the priority as success> \n\n\nAlso, generate a low priority actionable oraInsight action as below:\n\n- title: View Objective Progress\n- shortDescription: View Objective Progress\n- actionText: \"View Objective Progress\"\n- priority: false\n- followUpCommand: \"ora.Invoke(viewObjectiveProgress, {\\\"opportunityId\\\":\"\"+{{$context.$variables.opportunityId}},\\\"opportunityNumber\\\":\"\"+ {{$context.$nodes.GET_OPPORTUNITY.$output[0].OptyNumber}},\\\"action\\\":\\\"viewObjectiveProgress\\\"})\""
+            },
+            {
+              "id": "1774742708871_systemPrompt",
+              "name": "systemPrompt",
+              "type": "string",
+              "value": "output must return only the oraInfoDisplay from the MessageListWidget and oraInsight actions.\nDo not include any additional text, explanations, or formatting outside of this field.\n\nExclude any title content from the oraInfoDisplay field in the output."
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "Is Activity Present"
+          },
+          "diagram": {
+            "x": 5571.5,
+            "y": 6316
+          },
+          "outcomes": {
+            "true": "1776476001092",
+            "false": "1779839237110"
+          },
+          "id": "1776475146775",
+          "code": "IS_ACTIVITY_PRESENT",
+          "type": "CONDITION",
+          "convergenceTargetId": "end",
+          "inputs": [
+            {
+              "id": "1776475146775_condition",
+              "name": "condition",
+              "type": "string",
+              "value": "{{$context.$nodes.EXTRACT_OPPORTUNITYID.$output.result.activityNumber!= null}}"
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "Generate Appointment payload",
+            "sourceCode": "let result = {};\ntry {\n\n  const activityNumber = $context.$nodes.EXTRACT_OPPORTUNITYID.$output.result.activityNumber || null;\n\n  result = {\n    op: \"$eq\",\n    attribute: \"ActivityNumber\",\n    value: activityNumber\n  };\n} catch (error) {\n  // Return empty object on error\n  result = {};\n}\n\nreturn result;",
+            "returnType": "object"
+          },
+          "diagram": {
+            "x": 6113,
+            "y": 6538
+          },
+          "outcomes": {
+            "success": "1776475206177"
+          },
+          "id": "1776476001092",
+          "code": "GENERATE_APPOINTMENT_PAYLOAD",
+          "type": "CODE",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "metadata": {
+            "name": "Get Appointment Details",
+            "businessObjectCode": "ORA_CX_SALESFORCE_CXOBJECTSEARCHB",
+            "functionName": "SEARCH_OBJECTS"
+          },
+          "diagram": {
+            "x": 6119,
+            "y": 6760
+          },
+          "outcomes": {
+            "success": "1776475338688"
+          },
+          "id": "1776475206177",
+          "code": "GET_APPOINTMENT_DETAILS",
+          "type": "BO_FUNCTION",
+          "inputs": [
+            {
+              "id": "1776475206177_object",
+              "name": "object",
+              "value": "Activity",
+              "required": true
+            },
+            {
+              "id": "1776475206177_q",
+              "name": "q",
+              "value": "{{$context.$nodes.GENERATE_APPOINTMENT_PAYLOAD.$output.result}}",
+              "required": true
+            },
+            {
+              "id": "1776475206177_sort",
+              "name": "sort",
+              "value": "[{'attribute':'ActivityStartDate','direction':'ascending'}]",
+              "required": true
+            },
+            {
+              "id": "1776475206177_limit",
+              "name": "limit",
+              "value": "1",
+              "required": true
+            },
+            {
+              "id": "1776475206177_fields",
+              "name": "fields",
+              "value": "[\"ActivityId\",\"ActivityNumber\",\"ActivityStartDate\",\"ActivityEndDate\",\"SortDate\",\"Subject\",\"ActivityDescription\",\"ListOfContacts.ContactId.PartyName\",\"Location\",\"ActivityFunctionCode_localizedValue\",\"ActivityTypeCode_localizedValue\"]",
+              "required": true
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "Get Account Insights For Meeting",
+            "businessObjectCode": "ORA_CX_SALESFORCE_AIOUTCOMESTORE",
+            "functionName": "getOutcomeBy_AltKey_SubType"
+          },
+          "diagram": {
+            "x": 6095,
+            "y": 6982
+          },
+          "outcomes": {
+            "success": "1776477657850"
+          },
+          "id": "1776475338688",
+          "code": "GET_ACCOUNT_INSIGHTS_FOR_MEETING",
+          "type": "BO_FUNCTION",
+          "inputs": [
+            {
+              "id": "1776475338688_ObjectType",
+              "name": "ObjectType",
+              "value": "ACTIVITY",
+              "required": true
+            },
+            {
+              "id": "1776475338688_ObjectAltKey",
+              "name": "ObjectAltKey",
+              "value": "{{$context.$nodes.EXTRACT_OPPORTUNITYID.$output.result.activityNumber}}",
+              "required": true
+            },
+            {
+              "id": "1776475338688_OutcomeType",
+              "name": "OutcomeType",
+              "value": "SUMMARY",
+              "required": true
+            },
+            {
+              "id": "1776475338688_OutcomeSubType",
+              "name": "OutcomeSubType",
+              "value": "STATE_SUMMARY",
+              "required": true
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "Generate Response",
+            "answerInUserLanguage": true
+          },
+          "diagram": {
+            "x": 6119,
+            "y": 7204
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "aiAppOutputSpecification": {
+            "dataDisplay": {
+              "enableCommunications": true,
+              "enableActions": true
+            }
+          },
+          "id": "1776477657850",
+          "code": "GENERATE_RESPONSE",
+          "type": "LLM",
+          "inputs": [
+            {
+              "id": "1776477657850_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "Using the outputs from GET_APPOINTMENT_DETAILS Data - {{$context.$nodes.GET_APPOINTMENT_DETAILS.$output}} and \nGET_ACCOUNT_INSIGHTS_FOR_MEETING Data - {{$context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output}}, generate a detailed meeting \npreparation summary with the following structure:\n\n## Meeting Preparation\n- Use the 'Subject' field from the first element of GET_APPOINTMENT_DETAILS output. - Mardown header level 1\n- Use the 'detailedAgenda' from GET_ACCOUNT_INSIGHTS_FOR_MEETING node's items[0].payload.what.facts.agenda.detailedAgenda.\n\nTime: <Format 'ActivityStartDate' from GET_APPOINTMENT_DETAILS node into locale date and time with local timezone at end, e.g., \"Jan 20, 2026, Thursday 3:00PM PST\" or \n  \"January 20th, Thursday 3:00PM PST\".>\n- For location, use 'Location' from GET_APPOINTMENT_DETAILS if present; otherwise, use 'ActivityDescription' location if \n  available; if neither, omit location.\n\n#### About <{{$context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.accountInsights.name}}>\n- Industry: {{$context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.accountInsights.industry}}\n- Sentiment: {{\n  let s = $context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.accountInsights.sentiment;\n  s.charAt(0).toUpperCase()+s.slice(1)+\" sentiment: \" + $context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.accountInsights.sentimentDescription\n}}\n- Products: {{$context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.accountInsights.products}}\n\n\n#### \n{{\n  let opp = $context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.opportunityInsights;\n  let lead = $context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.leadInsights;\n  let data = opp || lead;\n  if(data){\n    let parts = [];\n    if(data.name) parts.push(data.name);\n    if(data.stage) parts.push(data.stage + (data.winProbability ? \"(\" + data.winProbability + \")\" : \"\"));\n    if(data.dealSize) parts.push(data.dealSize);\n    if(data.closeDate) parts.push(data.closeDate);\n    parts.join(\" | \");\n  }\n}} \n\n\n{{\n  let opp = $context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.opportunityInsights;\n  let lead = $context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.leadInsights;\n  let data = opp || lead;\n  if(data){\n    let details = [];\n    if(data.products) details.push(\"Products: \" + data.products);\n    if(data.keyStakeholder) details.push(\"Key Stakeholder: \" + data.keyStakeholder);\n    if(data.signals) details.push(\"Signals: \" + data.signals);\n    if(data.competitiveLandscape) details.push(\"Competitive Landscape: \" + data.competitiveLandscape);\n    details.join(\"\\n- \");\n  }\n}}\n\n#### Customer Attendees\n{{\n  let contacts = $context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.contactRelationship || [];\n  contacts.map(c => {\n    let sentiment = c.sentiment.charAt(0).toUpperCase() + c.sentiment.slice(1) + \" sentiment: \" + c.sentimentDescription;\n    let nameTitle = c.name + (c.jobTitle ? \" (\" + c.jobTitle + \")\" : \"\");\n    let influence = c.influenceLevel.charAt(0).toUpperCase() + c.influenceLevel.slice(1) + \" influence - \" + c.influenceDescription;\n    return `- ${nameTitle}\n  - ${sentiment}\n  - ${influence}\n  - Recent Engagement: ${c.recentEngagement || \"N/A\"}`;\n  }).join(\"\\n\")\n}}\n\n#### Pre-Meeting Checklist\n- {{$context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.meetingStrategyAndRecommendations.preMeetingChecklist.join(\"\\n- \")}}\n\n#### Key Talking Points\n{{\n  let points = $context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.meetingStrategyAndRecommendations.talkingPoints || [];\n  points.map((p,i) => `${i+1}. ${p}`).join(\"\\n\")\n}}\n\n#### Objection Handling\n- {{$context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.meetingStrategyAndRecommendations.objectionHandling.join(\"\\n- \")}}\n\n#### Intended Outcome\n- {{$context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.meetingStrategyAndRecommendations.intendedOutcome.join(\"\\n- \")}}\n\n#### Recent Engagement Summary\n{{$context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.recentEngagementSummary}}\n\nEnsure all markdown formatting is correct and omit any sections or fields if data is missing. Maintain proper spacing between sections without excessive blank lines."
+            },
+            {
+              "id": "1776477657850_systemPrompt",
+              "name": "systemPrompt",
+              "type": "string",
+              "value": "Use concise and clear language for each output section. Maintain all existing\nprompt template rules and expression formats as provided."
+            }
+          ]
+        },
+        {
+          "id": "1779839237110",
+          "code": "IS_ACTION_PRESENT",
+          "type": "CONDITION",
+          "convergenceTargetId": "end",
+          "metadata": {
+            "name": "Is Action Present"
+          },
+          "diagram": {
+            "x": 5322.5,
+            "y": 6538
+          },
+          "outcomes": {
+            "true": "1779839198181",
+            "false": "1774733322029"
+          },
+          "inputs": [
+            {
+              "id": "1779839237110_condition",
+              "name": "condition",
+              "type": "string",
+              "value": "{{$context.$nodes.EXTRACT_OPPORTUNITYID.$output.result.action!=null}}"
+            }
+          ]
+        },
+        {
+          "id": "1779839198181",
+          "code": "GET_INSIGHT_DATA_IN_SUMMARY",
+          "type": "BO_FUNCTION",
+          "metadata": {
+            "name": "Get Insight Data In Summary",
+            "businessObjectCode": "ORA_CX_SALESFORCE_ENGAGEMENT_INSIGHTS",
+            "functionName": "engagement_Insights_for_given_sourceObjectrec"
+          },
+          "diagram": {
+            "x": 5049.5,
+            "y": 6760
+          },
+          "outcomes": {
+            "success": "1779839198182"
+          },
+          "inputs": [
+            {
+              "id": "1776634066623_sourceObjectId",
+              "name": "sourceObjectId",
+              "value": "{{$context.$variables.opportunityId}}",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "1779839198182",
+          "code": "BUILD_PAYLOAD_FOR_SUMMARY_ASSISTANT",
+          "type": "CODE",
+          "metadata": {
+            "name": "Build Payload for Summary Assistant",
+            "sourceCode": "let result = {};\ntry {\n\n  // Initialize assistantPayload with required properties\n  const assistantPayload = {\n    opportunityId: $context.$nodes.EXTRACT_OPPORTUNITYID.$output.result.opportunityId || null,\n    opportunityNumber: $context.$nodes.GET_OPPORTUNITY.$output[0].OptyNumber || null,\n    task: $context.$nodes.EXTRACT_OPPORTUNITYID.$output.result.task || null,\n    title: $context.$nodes.EXTRACT_OPPORTUNITYID.$output.result.title || null\n  };\n\n  // Access GET_INSIGHT_DATA output safely\n  const insightDataOutput = $context.$nodes.GET_INSIGHT_DATA_IN_SUMMARY.$output.items || null;\n\n  // Determine if insightDataOutput is array or object\n  let insightRow = null;\n  if (Array.isArray(insightDataOutput)) {\n    insightRow = insightDataOutput.length > 0 ? insightDataOutput[0] : null;\n  } else if (insightDataOutput && typeof insightDataOutput === 'object') {\n    insightRow = insightDataOutput;\n  }\n\n  if (insightRow) {\n    // Extract properties from insightRow\n    assistantPayload.insightId = insightRow.id || null;\n    assistantPayload.insightNumber = insightRow.engagementInsightNumber || null;\n\n    // Parse additionalInsightData JSON string safely\n    let additionalInsightDataObj = {};\n    try {\n      additionalInsightDataObj = insightRow.additionalInsightData ? JSON.parse(insightRow.additionalInsightData) : {};\n    } catch (parseError) {\n      additionalInsightDataObj = {};\n    }\n\n  }\n\n  result = assistantPayload;\n} catch (error) {\n  // In case of error, return empty object\n  result = {};\n}\n\nreturn result;",
+            "returnType": "object"
+          },
+          "diagram": {
+            "x": 5013.5,
+            "y": 6982
+          },
+          "outcomes": {
+            "success": "1779839198183"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "1779839198183",
+          "code": "INVOKE_OPPORTUNITY_SUMMARY_ASSISTANT",
+          "type": "WORKFLOW",
+          "metadata": {
+            "name": "Invoke Opportunity Summary Assistant",
+            "workflowCode": "ORA_OPPORTUNITY_ASSISTANT_AGENT_TEAM"
+          },
+          "diagram": {
+            "x": 5009,
+            "y": 7204
+          },
+          "outcomes": {
+            "success": "1779839198184"
+          },
+          "inputs": [
+            {
+              "id": "1779839198183_message",
+              "name": "message",
+              "type": "string",
+              "value": "{{$context.$nodes.BUILD_PAYLOAD_FOR_SUMMARY_ASSISTANT.$output.result.title}}"
+            },
+            {
+              "id": "1779839198183_taskType",
+              "name": "taskType",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "id": "1779839198183_salesPlay",
+              "name": "salesPlay",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "id": "1779839198183_insightNumber",
+              "name": "insightNumber",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "id": "1779839198183_insightId",
+              "name": "insightId",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "id": "1779839198183_puid",
+              "name": "puid",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "id": "1779839198183_id",
+              "name": "id",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "id": "1779839198183_recommendationDetails",
+              "name": "recommendationDetails",
+              "type": "string",
+              "value": ""
+            }
+          ],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"input\": {\n      \"type\": \"string\"\n    },\n    \"output\": {\n      \"type\": \"string\"\n    },\n    \"error\": {\n      \"type\": \"null\"\n    },\n    \"followUpQuestions\": {\n      \"type\": \"array\",\n      \"items\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"string\"\n        }\n      ]\n    },\n    \"jobId\": {\n      \"type\": \"string\"\n    },\n    \"conversationId\": {\n      \"type\": \"string\"\n    },\n    \"traceId\": {\n      \"type\": \"string\"\n    },\n    \"status\": {\n      \"type\": \"string\"\n    },\n    \"supportingChunks\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"citations\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"nodes\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"waitingToolCode\": {\n      \"type\": \"null\"\n    },\n    \"workflowCode\": {\n      \"type\": \"string\"\n    },\n    \"workflowVersion\": {\n      \"type\": \"integer\"\n    },\n    \"workflowStatus\": {\n      \"type\": \"string\"\n    },\n    \"startDate\": {\n      \"type\": \"integer\"\n    },\n    \"endTime\": {\n      \"type\": \"integer\"\n    },\n    \"createDate\": {\n      \"type\": \"string\"\n    },\n    \"endDate\": {\n      \"type\": \"string\"\n    },\n    \"timeTaken\": {\n      \"type\": \"integer\"\n    },\n    \"inputTokenCount\": {\n      \"type\": \"integer\"\n    },\n    \"outputTokenCount\": {\n      \"type\": \"integer\"\n    }\n  },\n  \"required\": []\n}"
+        },
+        {
+          "id": "1779839198184",
+          "code": "REFINE_RESPONSE_FROM_SUMMARY_ASSISTANT",
+          "type": "CODE",
+          "metadata": {
+            "name": "Refine Response from Summary Assistant",
+            "sourceCode": "let result = { type: \"text\", message: {} };\ntry {\n  const assistantOutput = JSON.parse($context.$nodes.INVOKE_OPPORTUNITY_SUMMARY_ASSISTANT.$output.output);\n\n  if (assistantOutput && typeof assistantOutput === \"object\") {\n\n    const responseType = assistantOutput.type;\n    if (responseType === \"text\") {\n      result = { type: \"text\", message: { messageString: \"No Results found\" } };\n    } else {\n      const primaryText = assistantOutput.primaryText || \"\";\n      const secondaryText = assistantOutput.secondaryText || \"\";\n      const postback = assistantOutput.postback || \"\";\n\n      const messageString = `# ${primaryText}\\n## ${secondaryText}\\n${postback}`;\n\n      result = {\n        type: responseType,\n        message: {\n          primaryText: primaryText,\n          secondaryText: secondaryText,\n          postback: postback,\n          messageString: messageString\n        }\n      };\n    }\n  } else {\n    // If output is not object or missing, default to text with messageString \"No Results found\"\n    result = { type: \"text\", message: { messageString: \"No Results found\" } };\n  }\n} catch (error) {\n  result = { type: \"text\", message: { messageString: \"No Results found\" } };\n}\n\nreturn result;",
+            "returnType": "object"
+          },
+          "diagram": {
+            "x": 5000,
+            "y": 7426
+          },
+          "outcomes": {
+            "success": "1779839198185"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "1779839198185",
+          "code": "PREPARE_EMAIL_SUMMARY_CONTENT",
+          "type": "CODE",
+          "metadata": {
+            "name": "Prepare Email Summary Content",
+            "returnType": "object",
+            "sourceCode": "let retObj;\ntry {\n  let payload = [];\n  // TODO: Inferred 'messageString' from 'message.messageString' as per schema\n  let message = $context.$nodes.REFINE_RESPONSE_FROM_SUMMARY_ASSISTANT.$output.result.message.message || \"\";\n\n  retObj = {\n    draftFlag: true,\n    subject: payload.find(p => p.id === \"subject\")?.value || \"\",\n    body: message,\n    trackConversationFlag: true,\n    providerCode: \"EXCHANGE\",\n    toAddress: payload.find(p => p.id === \"email\")?.value || \"\",\n    ccAddress: payload.find(p => p.id === \"cc\")?.value || \"\",\n    conversationReferences: `ORA_MOO_OPTY.${payload.find(p => p.id === \"optyid\")?.value || \"\"}`,\n    msgTemplateObjectId: payload.find(p => p.id === \"optyid\")?.value || \"\",\n    messageTemplateObjTypeCd: \"ORA_MOO_OPTY\"\n  };\n} catch (error) {\n  retObj = {\n    draftFlag: true,\n    subject: \"\",\n    body: \"\",\n    trackConversationFlag: true,\n    providerCode: \"EXCHANGE\",\n    toAddress: \"\",\n    ccAddress: \"\",\n    conversationReferences: \"\",\n    msgTemplateObjectId: \"\",\n    messageTemplateObjTypeCd: \"ORA_MOO_OPTY\"\n  };\n}\n\nreturn retObj;"
+          },
+          "diagram": {
+            "x": 5040.5,
+            "y": 7648
+          },
+          "outcomes": {
+            "success": "1779839198186"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "1779839198186",
+          "code": "SUMMARY_ACTION_RESPONSE",
+          "type": "LLM",
+          "metadata": {
+            "name": "Summary Action Response",
+            "answerInUserLanguage": true
+          },
+          "diagram": {
+            "x": 5051,
+            "y": 7870
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "inputs": [
+            {
+              "id": "1776634457985_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "Based on {{$context.$nodes.REFINE_RESPONSE_FROM_SUMMARY_ASSISTANT.$output.result}}, which has the structure: {\n\"type\": <Type>, \"message\": { \"primaryText\": <primaryText>, \"secondaryText\": <secondaryText>, \"postback\": <postback> } }\n\nIf the type is \"text\", generate a professional single-line sentence stating that no data insights were found to process the action and no action and communication will be created.\n\nIf the type is \"chip\":\n- Format primaryText as a markdown Header Level 3 (###).\n- Format secondaryText as a markdown Header Level 4 (####).\n- Format postback as markdown content.\n\nAlso, If the type is \"chip\", Produce a PowerPoint communication with the following:\n  - Format primaryText as a markdown Header Level 3 (###).\n  - Format secondaryText as a markdown Header Level 4 (####).\n  - Format postback as markdown content.\n- Ensure the PowerPoint slides are well-organized and content is easily readable.\n- If the content is too long for one slide, split it into multiple slides to maintain clarity and readability. While splitting slide, make sure to have masterSlideIdx as 0 for every slide\n\nAdditionally, If the type is \"chip\", produce one email communication with the data format with html: {{$context.$nodes.REFINE_RESPONSE_FROM_SUMMARY_ASSISTANT.$output.result}}"
+            },
+            {
+              "id": "1776634457985_systemPrompt",
+              "name": "systemPrompt",
+              "type": "string",
+              "value": "You are an assistant that generates communication content based on user input.\nWhen both PowerPoint communication and email communication are requested, create each\nseparately and clearly separate their outputs. Do not mix content from PowerPoint and email\ncommunications in the same output. Ensure that each communication type is distinctly\nlabeled or formatted so the user can easily identify and use them independently.\n\nFollow these rules strictly to avoid any confusion between the two communication types.\n\nUse concise and clear language for each output section.\n\nMaintain all existing prompt template rules and expression formats as provided."
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "Engagement Insights for Source Object",
+            "businessObjectCode": "ORA_CX_SALESFORCE_AIOUTCOMESTORE",
+            "functionName": "getOutcomeBy_AltKey_Type"
+          },
+          "diagram": {
+            "x": 5552,
+            "y": 6760
+          },
+          "outcomes": {
+            "success": "1779257209721"
+          },
+          "id": "1774733322029",
+          "code": "ENGAGEMENT_INSIGHTS_FOR_SOURCE_OBJECT",
+          "type": "BO_FUNCTION",
+          "inputs": [
+            {
+              "id": "1774733322029_ObjectType",
+              "name": "ObjectType",
+              "value": "OPPORTUNITY",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "id": "1774733322029_ObjectAltKey",
+              "name": "ObjectAltKey",
+              "value": "{{$context.$nodes.GET_OPPORTUNITY.$output[0].OptyNumber}}",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "id": "1774733322029_OutcomeType",
+              "name": "OutcomeType",
+              "value": "SUMMARY",
+              "required": true,
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "id": "1779257209721",
+          "code": "REFINE_SUMMARY",
+          "type": "CODE",
+          "metadata": {
+            "name": "Refine Summary",
+            "sourceCode": "let result = \"\";\ntry {\n  // Access the first item safely\n  const firstItem = $context.$nodes?.ENGAGEMENT_INSIGHTS_FOR_SOURCE_OBJECT?.$output?.items?.[0];\n  if (firstItem && firstItem.payload) {\n    // Parse the payload JSON string\n    const payloadObj = JSON.parse(firstItem.payload);\n    result = payloadObj.what?.summary || \"\";\n  } else {\n    result = \"\";\n  }\n} catch (error) {\n  result = \"\";\n}\n\nreturn result;",
+            "returnType": "string"
+          },
+          "diagram": {
+            "x": 5598.5,
+            "y": 6982
+          },
+          "outcomes": {
+            "success": "1774727302869"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "metadata": {
+            "name": "Summary",
+            "answerInUserLanguage": true
+          },
+          "diagram": {
+            "x": 5598.5,
+            "y": 7204
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "id": "1774727302869",
+          "code": "SUMMARY",
+          "type": "LLM",
+          "inputs": [
+            {
+              "id": "1774727302869_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "Generate a concise executive-style customer engagement summary in markdown, in professional business language.\n\nFormat the output exactly like this:\n\n### A strong headline/title summarizing the engagement sentiment and opportunity status\n\n3 short bullet points.\n\nEach bullet should be business-readable, concise, and narrative-driven.\nFocus on renewal motion, expansion signals, customer engagement quality, stakeholder involvement, risks, and next steps.\nUse positive, natural enterprise sales language similar to executive account reviews.\nAvoid mentioning percentages directly unless critical.\nDo not mention “Sentiment: Neutral” explicitly.\nKeep the tone polished, strategic, and customer-success oriented.\nAvoid technical formatting or HTML.\n\nInput Data: `{{$context.$nodes.REFINE_SUMMARY.$output.result}}`\n"
+            },
+            {
+              "id": "1774727302869_systemPrompt",
+              "name": "systemPrompt",
+              "type": "string",
+              "value": ""
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "Get Insight Data For Query",
+            "businessObjectCode": "ORA_CX_SALESFORCE_ENGAGEMENT_INSIGHTS",
+            "functionName": "engagement_Insights_for_given_sourceObjectrec"
+          },
+          "diagram": {
+            "x": 11265.5,
+            "y": 6316
+          },
+          "outcomes": {
+            "success": "1776635302400"
+          },
+          "id": "1776635233152",
+          "code": "GET_INSIGHT_DATA_FOR_QUERY",
+          "type": "BO_FUNCTION",
+          "inputs": [
+            {
+              "id": "1776635233152_sourceObjectId",
+              "name": "sourceObjectId",
+              "value": "{{$context.$variables.opportunityId}}",
+              "required": true
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "Build Payload for Assistant Query",
+            "sourceCode": "let result = {};\nlet assistantPayload = {}; // ✅ FIX: define it\n\ntry {\n  const insightDataOutput = $context.$nodes.GET_INSIGHT_DATA_FOR_QUERY.$output.items || null;\n\n  let insightRow = null;\n\n  if (Array.isArray(insightDataOutput)) {\n    insightRow = insightDataOutput.length > 0 ? insightDataOutput[0] : null;\n  } else if (insightDataOutput && typeof insightDataOutput === 'object') {\n    insightRow = insightDataOutput;\n  }\n\n  if (insightRow) {\n    assistantPayload.insightId = insightRow.id || null;\n    assistantPayload.insightNumber = insightRow.engagementInsightNumber || null;\n\n    let additionalInsightDataObj = {};\n\n    if (insightRow.additionalInsightData) {\n      if (typeof insightRow.additionalInsightData === \"string\") {\n        try {\n          additionalInsightDataObj = JSON.parse(insightRow.additionalInsightData);\n        } catch (e) {\n          additionalInsightDataObj = {};\n        }\n      } else if (typeof insightRow.additionalInsightData === \"object\") {\n        additionalInsightDataObj = insightRow.additionalInsightData;\n      }\n    }\n\n    assistantPayload.salesPlay = additionalInsightDataObj?.salesPlays?.all || null;\n  }\n\n  result = assistantPayload;\n\n} catch (error) {\n  // Optional: expose error for debugging\n  result = { error: error.message };\n}\n\nreturn result;",
+            "returnType": "object"
+          },
+          "diagram": {
+            "x": 11237,
+            "y": 6538
+          },
+          "outcomes": {
+            "success": "1776238024056"
+          },
+          "id": "1776635302400",
+          "code": "BUILD_PAYLOAD_FOR_ASSISTANT_QUERY",
+          "type": "CODE",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "metadata": {
+            "name": "Opportunity Assistant Workflow",
+            "workflowCode": "ORA_OPPORTUNITY_ASSISTANT_AGENT_TEAM",
+            "answerInUserLanguage": true
+          },
+          "diagram": {
+            "x": 11250.5,
+            "y": 6760
+          },
+          "outcomes": {
+            "success": "1776636109804"
+          },
+          "id": "1776238024056",
+          "code": "OPPORTUNITY_ASSISTANT_WORKFLOW",
+          "type": "WORKFLOW",
+          "inputs": [
+            {
+              "id": "1776238024056_message",
+              "name": "message",
+              "type": "string",
+              "value": "{{$context.$system.$inputMessage}}"
+            },
+            {
+              "id": "1776238024056_taskType",
+              "name": "taskType",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "id": "1776238024056_salesPlay",
+              "name": "salesPlay",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "id": "1776238024056_insightNumber",
+              "name": "insightNumber",
+              "type": "string",
+              "value": "{{$context.$nodes.BUILD_PAYLOAD_FOR_ASSISTANT_QUERY.$output.result.insightNumber}}"
+            },
+            {
+              "id": "1776238024056_insightId",
+              "name": "insightId",
+              "type": "string",
+              "value": "{{$context.$nodes.BUILD_PAYLOAD_FOR_ASSISTANT_QUERY.$output.result.insightId}}"
+            },
+            {
+              "id": "1776238024056_puid",
+              "name": "puid",
+              "type": "string",
+              "value": "{{$context.$nodes.GET_OPPORTUNITY.$output[0].OptyNumber}}"
+            },
+            {
+              "id": "1776238024056_id",
+              "name": "id",
+              "type": "string",
+              "value": "{{$context.$variables.opportunityId}}"
+            },
+            {
+              "id": "1776238024056_recommendationDetails",
+              "name": "recommendationDetails",
+              "type": "string",
+              "value": "{{$context.$system.$inputMessage}}"
+            }
+          ],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"input\": {\n      \"type\": \"string\"\n    },\n    \"output\": {\n      \"type\": \"string\"\n    },\n    \"error\": {\n      \"type\": \"null\"\n    },\n    \"followUpQuestions\": {\n      \"type\": \"array\",\n      \"items\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"string\"\n        }\n      ]\n    },\n    \"jobId\": {\n      \"type\": \"string\"\n    },\n    \"conversationId\": {\n      \"type\": \"string\"\n    },\n    \"traceId\": {\n      \"type\": \"string\"\n    },\n    \"status\": {\n      \"type\": \"string\"\n    },\n    \"supportingChunks\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"citations\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"nodes\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"waitingToolCode\": {\n      \"type\": \"null\"\n    },\n    \"workflowCode\": {\n      \"type\": \"string\"\n    },\n    \"workflowVersion\": {\n      \"type\": \"integer\"\n    },\n    \"workflowStatus\": {\n      \"type\": \"string\"\n    },\n    \"startDate\": {\n      \"type\": \"integer\"\n    },\n    \"endTime\": {\n      \"type\": \"integer\"\n    },\n    \"createDate\": {\n      \"type\": \"string\"\n    },\n    \"endDate\": {\n      \"type\": \"string\"\n    },\n    \"timeTaken\": {\n      \"type\": \"integer\"\n    },\n    \"inputTokenCount\": {\n      \"type\": \"integer\"\n    },\n    \"outputTokenCount\": {\n      \"type\": \"integer\"\n    }\n  },\n  \"required\": []\n}"
+        },
+        {
+          "metadata": {
+            "name": "Generate Query Response",
+            "chatHistoryEnabled": true
+          },
+          "diagram": {
+            "x": 11265.5,
+            "y": 6982
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "id": "1776636109804",
+          "code": "GENERATE_QUERY_RESPONSE",
+          "type": "LLM",
+          "inputs": [
+            {
+              "id": "1776636109804_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "Based on {{$context.$nodes.OPPORTUNITY_ASSISTANT_WORKFLOW.$output.output}} generate Markdown output as follows:\n\n- If the \"primaryText\" property exists and is non-empty, \n\n- If the \"secondaryText\" property exists and is non-empty, \n\n- Format the output of \"postback\" property using markdown syntax with paragraphs and bullet lists so it renders correctly in the UI.\n\n\nIf {{$context.$nodes.OPPORTUNITY_ASSISTANT_WORKFLOW.$output.output}} is empty or undefined, generate a single professional sentence stating:\n\"There are no insights available at this moment.\"\n\nDo not output any other content or text."
+            }
+          ]
+        },
+        {
+          "id": "1779494594875",
+          "code": "DETERMIN_FORM_SUBMIT",
+          "type": "CODE",
+          "metadata": {
+            "name": "Determin Form Submit",
+            "sourceCode": "let result = false;\ntry {\n  const oraAction = $context.$app?.$OraAction || \"\";\n  // Check if $OraAction starts with '<oraFormSubmit'\n  result = oraAction.startsWith(\"<oraFormSubmit\");\n} catch (error) {\n  result = false;\n}\n\nreturn result;",
+            "returnType": "boolean"
+          },
+          "diagram": {
+            "x": 7973,
+            "y": 6316
+          },
+          "outcomes": {
+            "success": "1779494724274"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "1779494724274",
+          "code": "IS_FORM_SUBMIT",
+          "type": "CONDITION",
+          "convergenceTargetId": "end",
+          "metadata": {
+            "name": "Is Form Submit"
+          },
+          "diagram": {
+            "x": 7973,
+            "y": 6538
+          },
+          "outcomes": {
+            "false": "1774763498752",
+            "true": "1779494768162"
+          },
+          "inputs": [
+            {
+              "id": "1779494724274_condition",
+              "name": "condition",
+              "type": "string",
+              "value": "{{$context.$nodes.DETERMIN_FORM_SUBMIT.$output.result}}"
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "Retrieve the Opty Parameters",
+            "sourceCode": "let result = {};\ntry {\n  var payload = $context.$app.$OraAction;\n  var obj = payload;\n\n  if (typeof obj === \"string\") {\n    obj = obj.trim();\n    obj = JSON.parse(obj);      // first parse\n  }\n\n  if (typeof obj === \"string\") {\n    obj = JSON.parse(obj);      // second parse if it was double-encoded\n  }\n\n  result = {\n    opportunityId: obj.opportunityId,\n    opportunityNumber: obj.opportunityNumber,\n    task: obj.task,\n    title: obj.title,\n    action: obj.action \n  };\n} catch (error) {\n  result = {\n    opportunityId: null,\n    opportunityNumber: null,\n    task: null,\n    title: null,\n    action: null\n  };\n}\n\nreturn result;",
+            "returnType": "object"
+          },
+          "diagram": {
+            "x": 7742,
+            "y": 6760
+          },
+          "outcomes": {
+            "success": "1779226049003"
+          },
+          "id": "1774763498752",
+          "code": "RETRIEVE_THE_OPTY_PARAMETERS",
+          "type": "CODE",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "1779226049003",
+          "code": "DETERMINE_ACTION",
+          "type": "SWITCH",
+          "convergenceTargetId": "end",
+          "metadata": {
+            "name": "Determine Action"
+          },
+          "diagram": {
+            "x": 7748,
+            "y": 6982
+          },
+          "outcomes": {
+            "invokeSuggestedTask": "1776634066623",
+            "viewObjectiveProgress": "1779251262103",
+            "viewEngagementHistory": "1779312090277",
+            "viewOpportunityContacts": "1779316259450",
+            "viewRecentDealInsights": "1779493584557",
+            "editRecentDealInsights": "1779493716279"
+          },
+          "inputs": [
+            {
+              "id": "1779226049003_caseExpression",
+              "name": "caseExpression",
+              "type": "string",
+              "value": "{{$context.$nodes.RETRIEVE_THE_OPTY_PARAMETERS.$output.result.action}}"
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "Get Insight Data",
+            "businessObjectCode": "ORA_CX_SALESFORCE_ENGAGEMENT_INSIGHTS",
+            "functionName": "engagement_Insights_for_given_sourceObjectrec"
+          },
+          "diagram": {
+            "x": 6572,
+            "y": 7204
+          },
+          "outcomes": {
+            "success": "1776634143099"
+          },
+          "id": "1776634066623",
+          "code": "GET_INSIGHT_DATA",
+          "type": "BO_FUNCTION",
+          "inputs": [
+            {
+              "id": "1776634066623_sourceObjectId",
+              "name": "sourceObjectId",
+              "value": "{{$context.$variables.opportunityId}}",
+              "required": true
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "Build Payload for Assistant",
+            "sourceCode": "let result = {};\ntry {\n  // Access RETRIEVE_THE_OPTY_PARAMETERS output result safely\n  const opportunityParams = $context.$nodes.RETRIEVE_THE_OPTY_PARAMETERS.$output.result || {};\n\n  // Initialize assistantPayload with required properties\n  const assistantPayload = {\n    opportunityId: opportunityParams.opportunityId || null,\n    opportunityNumber: opportunityParams.opportunityNumber || null,\n    task: opportunityParams.task || null,\n    title: opportunityParams.title || null\n  };\n\n  // Access GET_INSIGHT_DATA output safely\n  const insightDataOutput = $context.$nodes.GET_INSIGHT_DATA.$output.items || null;\n\n  // Determine if insightDataOutput is array or object\n  let insightRow = null;\n  if (Array.isArray(insightDataOutput)) {\n    insightRow = insightDataOutput.length > 0 ? insightDataOutput[0] : null;\n  } else if (insightDataOutput && typeof insightDataOutput === 'object') {\n    insightRow = insightDataOutput;\n  }\n\n  if (insightRow) {\n    // Extract properties from insightRow\n    assistantPayload.insightId = insightRow.id || null;\n    assistantPayload.insightNumber = insightRow.engagementInsightNumber || null;\n\n    // Parse additionalInsightData JSON string safely\n    let additionalInsightDataObj = {};\n    try {\n      additionalInsightDataObj = insightRow.additionalInsightData ? JSON.parse(insightRow.additionalInsightData) : {};\n    } catch (parseError) {\n      additionalInsightDataObj = {};\n    }\n\n  }\n\n  result = assistantPayload;\n} catch (error) {\n  // In case of error, return empty object\n  result = {};\n}\n\nreturn result;",
+            "returnType": "object"
+          },
+          "diagram": {
+            "x": 6570.5,
+            "y": 7426
+          },
+          "outcomes": {
+            "success": "1776634265627"
+          },
+          "id": "1776634143099",
+          "code": "BUILD_PAYLOAD_FOR_ASSISTANT",
+          "type": "CODE",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "metadata": {
+            "name": "Invoke Opportunity Assistant",
+            "workflowCode": "ORA_OPPORTUNITY_ASSISTANT_AGENT_TEAM"
+          },
+          "diagram": {
+            "x": 6566,
+            "y": 7648
+          },
+          "outcomes": {
+            "success": "1776634390101"
+          },
+          "id": "1776634265627",
+          "code": "INVOKE_OPPORTUNITY_ASSISTANT",
+          "type": "WORKFLOW",
+          "inputs": [
+            {
+              "id": "1776634265627_message",
+              "name": "message",
+              "type": "string",
+              "value": "{{$context.$nodes.BUILD_PAYLOAD_FOR_ASSISTANT.$output.result.title}}"
+            },
+            {
+              "id": "1776634265627_taskType",
+              "name": "taskType",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "id": "1776634265627_salesPlay",
+              "name": "salesPlay",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "id": "1776634265627_insightNumber",
+              "name": "insightNumber",
+              "type": "string",
+              "value": "{{$context.$nodes.BUILD_PAYLOAD_FOR_ASSISTANT.$output.result.insightNumber}}"
+            },
+            {
+              "id": "1776634265627_insightId",
+              "name": "insightId",
+              "type": "string",
+              "value": "{{$context.$nodes.BUILD_PAYLOAD_FOR_ASSISTANT.$output.result.insightId}}"
+            },
+            {
+              "id": "1776634265627_puid",
+              "name": "puid",
+              "type": "string",
+              "value": "{{$context.$nodes.BUILD_PAYLOAD_FOR_ASSISTANT.$output.result.opportunityNumber}}"
+            },
+            {
+              "id": "1776634265627_id",
+              "name": "id",
+              "type": "string",
+              "value": "{{$context.$nodes.BUILD_PAYLOAD_FOR_ASSISTANT.$output.result.opportunityId}}"
+            },
+            {
+              "id": "1776634265627_recommendationDetails",
+              "name": "recommendationDetails",
+              "type": "string",
+              "value": "{{$context.$nodes.BUILD_PAYLOAD_FOR_ASSISTANT.$output.result.task}}"
+            }
+          ],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"input\": {\n      \"type\": \"string\"\n    },\n    \"output\": {\n      \"type\": \"string\"\n    },\n    \"error\": {\n      \"type\": \"null\"\n    },\n    \"followUpQuestions\": {\n      \"type\": \"array\",\n      \"items\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"string\"\n        }\n      ]\n    },\n    \"jobId\": {\n      \"type\": \"string\"\n    },\n    \"conversationId\": {\n      \"type\": \"string\"\n    },\n    \"traceId\": {\n      \"type\": \"string\"\n    },\n    \"status\": {\n      \"type\": \"string\"\n    },\n    \"supportingChunks\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"citations\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"nodes\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"waitingToolCode\": {\n      \"type\": \"null\"\n    },\n    \"workflowCode\": {\n      \"type\": \"string\"\n    },\n    \"workflowVersion\": {\n      \"type\": \"integer\"\n    },\n    \"workflowStatus\": {\n      \"type\": \"string\"\n    },\n    \"startDate\": {\n      \"type\": \"integer\"\n    },\n    \"endTime\": {\n      \"type\": \"integer\"\n    },\n    \"createDate\": {\n      \"type\": \"string\"\n    },\n    \"endDate\": {\n      \"type\": \"string\"\n    },\n    \"timeTaken\": {\n      \"type\": \"integer\"\n    },\n    \"inputTokenCount\": {\n      \"type\": \"integer\"\n    },\n    \"outputTokenCount\": {\n      \"type\": \"integer\"\n    }\n  },\n  \"required\": []\n}"
+        },
+        {
+          "metadata": {
+            "name": "Refine Response from Assistant",
+            "sourceCode": "let result = { type: \"text\", message: {} };\ntry {\n  const assistantOutput = JSON.parse($context.$nodes.INVOKE_OPPORTUNITY_ASSISTANT.$output.output);\n\n  if (assistantOutput && typeof assistantOutput === \"object\") {\n\n    const responseType = assistantOutput.type;\n    if (responseType === \"text\") {\n      result = { type: \"text\", message: { messageString: \"No Results found\" } };\n    } else {\n      const primaryText = assistantOutput.primaryText || \"\";\n      const secondaryText = assistantOutput.secondaryText || \"\";\n      const postback = assistantOutput.postback || \"\";\n\n      const messageString = `# ${primaryText}\\n## ${secondaryText}\\n${postback}`;\n\n      result = {\n        type: responseType,\n        message: {\n          primaryText: primaryText,\n          secondaryText: secondaryText,\n          postback: postback,\n          messageString: messageString\n        }\n      };\n    }\n  } else {\n    // If output is not object or missing, default to text with messageString \"No Results found\"\n    result = { type: \"text\", message: { messageString: \"No Results found\" } };\n  }\n} catch (error) {\n  result = { type: \"text\", message: { messageString: \"No Results found\" } };\n}\n\nreturn result;",
+            "returnType": "object"
+          },
+          "diagram": {
+            "x": 6557,
+            "y": 7870
+          },
+          "outcomes": {
+            "success": "1776634435728"
+          },
+          "id": "1776634390101",
+          "code": "REFINE_RESPONSE_FROM_ASSISTANT",
+          "type": "CODE",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "metadata": {
+            "name": "Prepare Email Content",
+            "returnType": "object",
+            "sourceCode": "let retObj;\ntry {\n  let payload = [];\n  // TODO: Inferred 'messageString' from 'message.messageString' as per schema\n  let message = $context.$nodes.REFINE_RESPONSE_FROM_ASSISTANT.$output.result.message.message || \"\";\n\n  retObj = {\n    draftFlag: true,\n    subject: payload.find(p => p.id === \"subject\")?.value || \"\",\n    body: message,\n    trackConversationFlag: true,\n    providerCode: \"EXCHANGE\",\n    toAddress: payload.find(p => p.id === \"email\")?.value || \"\",\n    ccAddress: payload.find(p => p.id === \"cc\")?.value || \"\",\n    conversationReferences: `ORA_MOO_OPTY.${payload.find(p => p.id === \"optyid\")?.value || \"\"}`,\n    msgTemplateObjectId: payload.find(p => p.id === \"optyid\")?.value || \"\",\n    messageTemplateObjTypeCd: \"ORA_MOO_OPTY\"\n  };\n} catch (error) {\n  retObj = {\n    draftFlag: true,\n    subject: \"\",\n    body: \"\",\n    trackConversationFlag: true,\n    providerCode: \"EXCHANGE\",\n    toAddress: \"\",\n    ccAddress: \"\",\n    conversationReferences: \"\",\n    msgTemplateObjectId: \"\",\n    messageTemplateObjTypeCd: \"ORA_MOO_OPTY\"\n  };\n}\n\nreturn retObj;"
+          },
+          "diagram": {
+            "x": 6572,
+            "y": 8092
+          },
+          "outcomes": {
+            "success": "1776634457985"
+          },
+          "id": "1776634435728",
+          "code": "PREPARE_EMAIL_CONTENT",
+          "type": "CODE",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "metadata": {
+            "name": "Action Response",
+            "answerInUserLanguage": true
+          },
+          "diagram": {
+            "x": 6572,
+            "y": 8314
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "aiAppOutputSpecification": {
+            "dataDisplay": {
+              "enableActions": true,
+              "enableCommunications": true
+            }
+          },
+          "id": "1776634457985",
+          "code": "ACTION_RESPONSE",
+          "type": "LLM",
+          "inputs": [
+            {
+              "id": "1776634457985_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "Based on {{$context.$nodes.REFINE_RESPONSE_FROM_ASSISTANT.$output.result}}, which has the structure: {\n\"type\": <Type>, \"message\": { \"primaryText\": <primaryText>, \"secondaryText\": <secondaryText>, \"postback\": <postback> } }\n\nIf the type is \"text\", generate a professional single-line sentence stating that no data insights were found to process the action and no action and communication will be created.\n\nIf the type is \"chip\":\n- Format primaryText as a markdown Header Level 3 (###).\n- Format secondaryText as a markdown Header Level 4 (####).\n- Format postback as markdown content.\n\nAlso, Produce a PowerPoint communication with the following:\ntitle: Download: {{$context.$nodes.BUILD_PAYLOAD_FOR_ASSISTANT.$output.result.title}}\n  - Format primaryText as a markdown Header Level 3 (###).\n  - Format secondaryText as a markdown Header Level 4 (####).\n  - Format postback as markdown content.\n- Ensure the PowerPoint slides are well-organized and content is easily readable.\n- If the content is too long for one slide, split it into multiple slides to maintain clarity and readability. While splitting slide, make sure to have masterSlideIdx as 0 for every slide\n\nAdditionally, produce one email communication with \ntitle: Email: {{$context.$nodes.BUILD_PAYLOAD_FOR_ASSISTANT.$output.result.title}},\nactionText: ‘Send Email’\ndescription: one sentence summarizing the email’s intent\ntargetAgent: 'ORA_OPPORTUNITY_DETAIL_AGENT',\nemailAddress: if {{$context.$nodes.GET_OPPORTUNITY.$output[0].PrConPartyId.PrimaryEmail.EmailAddress}} is present use it, else skip\nemailSubject: {{$context.$nodes.BUILD_PAYLOAD_FOR_ASSISTANT.$output.result.title}} + ‘ — ’ + {{$context.$nodes.GET_OPPORTUNITY.$output[0].Name}}\nand the data format with html: {{$context.$nodes.REFINE_RESPONSE_FROM_ASSISTANT.$output.result}}\nand Close:\n   Best regards,<br/>\nFull name from {{$context.$app.$OraUserContext}}"
+            },
+            {
+              "id": "1776634457985_systemPrompt",
+              "name": "systemPrompt",
+              "type": "string",
+              "value": "You are an assistant that generates communication content based on user input.\nWhen both PowerPoint communication and email communication are requested, create each\nseparately and clearly separate their outputs. Do not mix content from PowerPoint and email\ncommunications in the same output. Ensure that each communication type is distinctly\nlabeled or formatted so the user can easily identify and use them independently.\n\nFollow these rules strictly to avoid any confusion between the two communication types.\n\nUse concise and clear language for each output section.\n\nMaintain all existing prompt template rules and expression formats as provided."
+            }
+          ]
+        },
+        {
+          "id": "1779251262103",
+          "code": "GENERATE_INSIGHTS_ACTION_PAYLOAD",
+          "type": "CODE",
+          "metadata": {
+            "name": "Generate Insights Action Payload ",
+            "sourceCode": "let result = \"\";\ntry {\n\n    const opportunityId = $context.$variables?.opportunityId || \"\";\n\n  const filterString = \"opportunity.id = \" + opportunityId;\n\n  const payload = {\n    collection: {\n      filter: filterString\n    },\n    accessors: {\n      objectives: {\n        collection: {\n          sortBy: [\n            { \"objectiveDesignTime.displaySequence\": \"asc\" }\n          ]\n        },\n        accessors: {\n          highValueActivities: {\n            collection: {\n              sortBy: [\n                { \"highValueActivityDesignTime.displaySequence\": \"asc\" }\n              ]\n            },\n            fields: [\"highValueActivityNumber\", \"highValueActivityStatus\", \"justification\"],\n            accessors: {\n              highValueActivityDesignTime: {\n                fields: [\"name\"]\n              }\n            }\n          },\n          objectiveDesignTime: {\n            fields: [\"name\", \"description\"]\n          }\n        },\n        fields: [\"objectiveNumber\", \"objectiveStatus\", \"timeUpdated\"]\n      },\n      salesMotion: {\n        fields: [\"name\"]\n      }\n    }\n  };\n\n  return JSON.stringify(payload);\n} catch (error) {\n  result = \"\";\n}\n\nreturn result;",
+            "returnType": "string"
+          },
+          "diagram": {
+            "x": 7037,
+            "y": 7204
+          },
+          "outcomes": {
+            "success": "1779251262104"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "1779251262104",
+          "code": "GET_ENGAGEMENT_ACTION_INSIGHTS",
+          "type": "BO_FUNCTION",
+          "metadata": {
+            "name": "Get Engagement Action Insights",
+            "businessObjectCode": "ORA_CX_SALESFORCE_ENGAGEMENT_INSIGHTS",
+            "functionName": "filter_all_engagement_insights"
+          },
+          "diagram": {
+            "x": 7050.5,
+            "y": 7426
+          },
+          "outcomes": {
+            "success": "1779226418587"
+          },
+          "inputs": [
+            {
+              "id": "1774742630309_payload",
+              "name": "payload",
+              "value": "{{$context.$nodes.GENERATE_INSIGHTS_ACTION_PAYLOAD.$output.result}}",
+              "required": true,
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "id": "1779226418587",
+          "code": "REFINE_ALL_OBJECTIVS",
+          "type": "CODE",
+          "metadata": {
+            "name": "Refine All Objectivs",
+            "sourceCode": "let result = [];\ntry {\n  // Access the array of insights from GET_INSIGHTS_FOR_ACTION output\n  const insights = $context.$nodes.GET_ENGAGEMENT_ACTION_INSIGHTS.$output.items || [];\n\n  // Map each insight to extract objectives array safely\n  // TODO: Inferred 'objectives' property from user text 'objectives.items'\n  const objectives = insights.flatMap(insight => insight?.objectives?.items || []);\n\n  // Map each objective to the desired output structure\n  result = objectives.map(objectiveRecord => {\n    // Extract highValueActivities array safely\n    const highValueActivitiesArray = objectiveRecord?.highValueActivities?.items || [];\n\n    // Map highValueActivities to desired structure\n    const highValueActivities = highValueActivitiesArray.map(activity => ({\n      activityName: activity?.highValueActivityDesignTime?.name || \"\",\n      activityStatus: activity?.highValueActivityStatus || \"\",\n      activityJustification: activity?.justification || \"\"\n    }));\n\n    return {\n      objectiveNumber: objectiveRecord?.objectiveNumber || \"\",\n      objectiveName: objectiveRecord?.objectiveDesignTime?.name || \"\",\n      objectiveDescription: objectiveRecord?.objectiveDesignTime?.description || \"\",\n      objectiveStatus: objectiveRecord?.objectiveStatus || \"\",\n      highValueActivities: highValueActivities\n    };\n  });\n} catch (error) {\n  result = [];\n}\n\nreturn result;",
+            "returnType": "array"
+          },
+          "diagram": {
+            "x": 7065.5,
+            "y": 7648
+          },
+          "outcomes": {
+            "success": "1779226891641"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "1779226891641",
+          "code": "GENERATE_ACTIVITY_RESPONSE",
+          "type": "LLM",
+          "metadata": {
+            "name": "Generate Activity Response",
+            "modelConfiguration": {
+              "code": "ORA_LLM_MODEL_PROVIDER_CERT_BASIC_LLAMA_3_3_70B",
+              "modelName": "GPT OSS 120B (Basic)",
+              "provider": "CERT_BASIC",
+              "model": "ORA_LLM_MODEL_GPT_OSS_120B",
+              "modelProperties": {
+                "k": 0,
+                "max_tokens": 32000,
+                "p": 0.75
+              }
+            }
+          },
+          "diagram": {
+            "x": 7065.5,
+            "y": 7870
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "inputs": [
+            {
+              "id": "1779226891641_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "For each row in {{$context.$nodes.REFINE_ALL_OBJECTIVS.$output.result}}, generate a Multi Record Widget.\n\nThe widget's title should be the row's index + 1 followed by the row's \"objectiveName\" property.\nDo not generate description for the widget.\n\nThe widget rows should come from the row's \"highValueActivities\" array.\n\nDisplay the following columns in the widget:\n- Name: use highValueActivities[index].activityName\n- Justification: use highValueActivities[index].activityJustification\n- Status: convert highValueActivities[index].activityStatus to a readable single word or phrase, mapping values like \"NOT_STARTED\" to \"Not Started\" and \"IN_PROGRESS\" to \"In Progress\". Represent this as badge. If the priority is NOT_STARTED, set the priority as alert, if the priority is IN_PROGRESS, set the priority as info, if the priority is COMPLETED or COMPLETE, set the priority as success\n\nEnsure the output clearly reflects these widgets for all rows in the input data."
+            },
+            {
+              "id": "1779226891641_systemPrompt",
+              "name": "systemPrompt",
+              "type": "string",
+              "value": "Output must contains only oraInfoDisplay elements. Output Must not include description for the widget in oraInfoDisplay. No extra text."
+            }
+          ],
+          "aiAppOutputSpecification": {
+            "dataDisplay": {
+              "layouts": [
+                "ORA_LAYOUT_MULTIRECORD"
+              ],
+              "customNotes": "Do not generate description for the widget."
+            }
+          },
+          "outputSpecification": ""
+        },
+        {
+          "id": "1779312090277",
+          "code": "GET_ENGAGEMENTS",
+          "type": "BO_FUNCTION",
+          "metadata": {
+            "name": "Get Engagements",
+            "businessObjectCode": "ORA_CX_SALESFORCE_SALESFEEDS",
+            "functionName": "getOpportunityFeeds"
+          },
+          "diagram": {
+            "x": 7550,
+            "y": 7204
+          },
+          "outcomes": {
+            "success": "1779313181147"
+          },
+          "inputs": [
+            {
+              "id": "1779312090277_opportunityId",
+              "name": "opportunityId",
+              "value": "{{$context.$variables.opportunityId}}",
+              "required": true,
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "id": "1779313181147",
+          "code": "REFINE_ENGAGEMENTS",
+          "type": "CODE",
+          "metadata": {
+            "name": "Refine Engagements",
+            "sourceCode": "let result = [];\ntry {\n  const engagements = $context.$nodes?.GET_ENGAGEMENTS?.$output?.items || [];\n  const now = new Date();\n  const oneWeekAgo = new Date(now.getTime() - 0 * 24 * 60 * 60 * 1000);\n\n  // Filter engagements from last week\n  const lastWeekEngagements = engagements.filter(e => {\n    const publishedDate = e?.published ? new Date(e.published) : null;\n    return publishedDate && publishedDate >= oneWeekAgo && publishedDate <= now;\n  });\n\n  // If less than 5 last week engagements, get recent 5 engagements\n  let selectedEngagements = [];\n  if (lastWeekEngagements.length < 5) {\n    // Sort all engagements by published descending\n    const sortedEngagements = [...engagements].sort((a, b) => {\n      const dateA = a?.published ? new Date(a.published) : new Date(0);\n      const dateB = b?.published ? new Date(b.published) : new Date(0);\n      return dateB - dateA;\n    });\n    selectedEngagements = sortedEngagements.slice(0, 5);\n  } else {\n    // Sort last week engagements by published descending\n    selectedEngagements = [...lastWeekEngagements].sort((a, b) => {\n      const dateA = a?.published ? new Date(a.published) : new Date(0);\n      const dateB = b?.published ? new Date(b.published) : new Date(0);\n      return dateB - dateA;\n    });\n  }\n\n  // Process each selected engagement\n  for (const engagement of selectedEngagements) {\n    const payloadAttributes = engagement?.object?.payloadAttributes || [];\n    const rowObject = {};\n\n    // To keep track of keys and ensure latest occurrence is kept\n    // We'll process in order, so later keys overwrite earlier ones\n    for (const attr of payloadAttributes) {\n      if (!attr?.displayFlag) continue; // Include only if displayFlag is true\n      const key = attr.name;\n      if (!key) continue;\n\n      // Determine value by priority\n      let value = null;\n      if (attr.localizedValue !== undefined && attr.localizedValue !== null) {\n        value = attr.localizedValue;\n      } else if (attr.valueString !== undefined && attr.valueString !== null) {\n        value = attr.valueString;\n      } else if (attr.valueLong !== undefined && attr.valueLong !== null) {\n        value = attr.valueLong;\n      } else if (attr.valueClob !== undefined && attr.valueClob !== null) {\n        value = attr.valueClob;\n      } else if (attr.valueDateTime !== undefined && attr.valueDateTime !== null) {\n        // Return date time as is without formatting\n        value = attr.valueDateTime;\n      } else if (attr.uri !== undefined && attr.uri !== null) {\n        value = attr.uri;\n      }\n\n      if (value !== null) {\n        rowObject[key] = value; // overwrite if duplicate key\n      }\n    }\n\n    // Add the id property from engagement to the rowObject\n    if (engagement?.id !== undefined && engagement?.id !== null) {\n      rowObject.id = engagement.id;\n    }\n\n    // Include startTime and endTime as is if present\n    if (engagement?.startTime !== undefined && engagement?.startTime !== null) {\n      rowObject.startTime = engagement.startTime;\n    }\n    if (engagement?.endTime !== undefined && engagement?.endTime !== null) {\n      rowObject.endTime = engagement.endTime;\n    }\n\n    result.push(rowObject);\n  }\n} catch (error) {\n  result = [];\n}\n\nreturn result;\n",
+            "returnType": "array"
+          },
+          "diagram": {
+            "x": 7550,
+            "y": 7426
+          },
+          "outcomes": {
+            "success": "1779314148165"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "1779314148165",
+          "code": "GENERATE_ENGAGEMENT_RESPONSE",
+          "type": "LLM",
+          "metadata": {
+            "name": "Generate Engagement Response"
+          },
+          "diagram": {
+            "x": 7536.5,
+            "y": 7648
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "inputs": [
+            {
+              "id": "1779314148165_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "Create a MessageListWidget with {{$context.$nodes.REFINE_ENGAGEMENTS.$output.result}}\n\nwidget title as: <Generate a concise summary of how many engagements happened>\nwidget description as: Create 2 line professional sentence based on the complete data set\n\nMessageListWidget row properties:\n\ntitle: <Description from each row>\nsubtitle: <if ChannelTypeCd is ORA_SVC_PHONE, display a Phone icon, else if ChannelTypeCd is ORA_SVC_EMAIL, display an Email icon>  <ContactPartyName from each row> : <ResolutionCdMeaning from each row>\nsummary: <if ChannelTypeCd is ORA_SVC_PHONE CallNotes from each row, else if ChannelTypeCd is ORA_SVC_EMAIL EmailNotes from each row>\nstatus: <Convert StartTime into the following user-friendly format:\n\nMMM DD - h:mm A\n\nExample:\n2026-05-02T17:25:16.721Z\n\nshould render as:\n\nMay 02 - 5:25 PM\n\nRules:\n\nUse abbreviated month name\nUse 12-hour time format\nInclude AM/PM\nRemove seconds, year, and timezone\nPreserve leading zero for date\nReturn the formatted string as the field value>\nadditionalAction: \n          \"text\": if ChannelTypeCd is ORA_SVC_EMAIL \"View Email\" else  \"View Notes\",\n          \"command\": \"ora.Invoke(\\\"viewEngagementDetails\\\", {\\\"id\\\":\\\"<id from each row>\\\",\\\"type\\\":\\\"richText\\\",\\\"title\\\":\\\"<Description from each row>\\\",\\\"value\\\":\\\"< CallNotes from each row>\\\"})\"\n        }\n"
+            },
+            {
+              "id": "1779314148165_systemPrompt",
+              "name": "systemPrompt",
+              "type": "string",
+              "value": "Output must contain only oraInfoDisplay elements. No extra text should be included."
+            }
+          ],
+          "aiAppOutputSpecification": {
+            "dataDisplay": {
+              "enableActions": true,
+              "layouts": [
+                "ORA_LAYOUT_MESSAGES_LIST"
+              ]
+            }
+          }
+        },
+        {
+          "id": "1779316259450",
+          "code": "GET_CONTACTS",
+          "type": "BO_FUNCTION",
+          "metadata": {
+            "name": "Get Contacts",
+            "businessObjectCode": "ORA_CX_SALESFORCE_CONTACTS",
+            "functionName": "getAllContacts"
+          },
+          "diagram": {
+            "x": 8923.25,
+            "y": 7204
+          },
+          "outcomes": {
+            "success": "1780026715944"
+          },
+          "inputs": [
+            {
+              "id": "1779316259450_account_party_number",
+              "name": "account_party_number",
+              "value": "{{$context.$nodes.GET_OPPORTUNITY.$output[0].CustomerAccount.PartyNumber}}",
+              "required": true,
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "id": "1779493584557",
+          "code": "GET_DEALS_DATA_FOR_VIEW",
+          "type": "REFERENCE",
+          "metadata": {
+            "name": "Get Deals Data for View",
+            "referenceableBlockId": "DEALS_DATA_REFERENCE"
+          },
+          "diagram": {
+            "x": 8014.25,
+            "y": 7204
+          },
+          "outcomes": {
+            "success": "1779493565241"
+          },
+          "inputs": [
+            {
+              "id": "1779493584557_opportunityId",
+              "name": "opportunityId",
+              "type": "string",
+              "value": "{{$context.$variables.opportunityId}}"
+            }
+          ]
+        },
+        {
+          "id": "1779493565241",
+          "code": "PARSE_DEALS_DATA_FOR_VIEW",
+          "type": "CODE",
+          "metadata": {
+            "name": "Parse Deals Data for View",
+            "sourceCode": "let result = [];\ntry {\n  return $context.$nodes.GET_DEALS_DATA_FOR_VIEW.$output;\n} catch (error) {\n  result = [];\n}\n\nreturn result;",
+            "returnType": "array"
+          },
+          "diagram": {
+            "x": 8014.25,
+            "y": 7426
+          },
+          "outcomes": {
+            "success": "1779490270476"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "1779490270476",
+          "code": "GENERATE_RECENT_DEALS_RESPONSE",
+          "type": "LLM",
+          "metadata": {
+            "name": "Generate Recent Deals Response"
+          },
+          "diagram": {
+            "x": 7998.5,
+            "y": 7648
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "inputs": [
+            {
+              "id": "1779490270476_systemPrompt",
+              "name": "systemPrompt",
+              "type": "string",
+              "value": "Output must contain only oraInfoDisplay elements. No extra text should be included."
+            },
+            {
+              "id": "1779490270476_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "Generate a Read only Record Widget with the below Propeties\n\ntitle: Generate a short 6-word title from the meaningful display labels and values in {{$context.$nodes.PARSE_DEALS_DATA_FOR_VIEW.$output.result}}.\n\nRules:\n- Ignore placeholder values such as \"NA\", \"N\", \"null\", \"undefined\", empty strings, or values that look like abbreviations for missing data.\n- Do not include placeholder values in the title.\n- Use only real business meaning from the remaining fields.\n- If a field is missing or placeholder, infer a concise summary from the other available fields.\n- If there is not enough information to infer a specific title, use a neutral title based on the labels, not the placeholder values.\n\ndescription: Generate one clear sentence from the meaningful display labels and values in {{$context.$nodes.PARSE_DEALS_DATA_FOR_VIEW.$output.result}}.\n\nRules:\n- Ignore placeholder values such as \"NA\", \"N\", \"null\", \"undefined\", empty strings, or values that look like abbreviations for missing data.\n- Do not repeat placeholder values.\n- Infer a business-appropriate description from the remaining fields.\n- If data is insufficient, provide a neutral summary based on the labels only.\n- If there are no fields in {{$context.$nodes.PARSE_DEALS_DATA_FOR_VIEW.$output.result}}, do not generate description>\nfields: {{$context.$nodes.PARSE_DEALS_DATA_FOR_VIEW.$output.result}} (MUST not change the id property of fields. SHould use as it is)\n\nIf there are no fields in {{$context.$nodes.PARSE_DEALS_DATA_FOR_VIEW.$output.result}} , generate a Professional response mentioning there are no Recent Deal Insighst present for the opportunity.\n\nGenerate a low priority actionable insight with below properties only if {{$context.$nodes.PARSE_DEALS_DATA_FOR_VIEW.$output.result}} has data\n\n- title: \"Edit Deal Data\"\n- shortDescription: \"Edit deal insights, updates, and customer opportunity information.\"\n- actionText: \"Edit Deal Data\"\n- priority: false\n- followUpCommand: \"ora.Invoke(editRecentDealInsights, {\\\"opportunityId\\\": \"\"+{{$context.$variables.opportunityId}},\\\"opportunityNumber\\\":\"\"+ {{$context.$nodes.GET_OPPORTUNITY.$output[0].OptyNumber}}\",\\\"action\\\":\\\"editRecentDealInsights\\\"})\""
+            }
+          ],
+          "aiAppOutputSpecification": {
+            "dataDisplay": {
+              "enableActions": true,
+              "layouts": [
+                "ORA_LAYOUT_RECORD"
+              ]
+            }
+          }
+        },
+        {
+          "id": "1779493716279",
+          "code": "GET_DEALS_DATA_FOR_EDIT",
+          "type": "REFERENCE",
+          "metadata": {
+            "name": "Get Deals Data for Edit",
+            "referenceableBlockId": "DEALS_DATA_REFERENCE"
+          },
+          "diagram": {
+            "x": 8472.5,
+            "y": 7204
+          },
+          "outcomes": {
+            "success": "1779493745705"
+          },
+          "inputs": [
+            {
+              "id": "1779493716279_opportunityId",
+              "name": "opportunityId",
+              "type": "string",
+              "value": "{{$context.$variables.opportunityId}}"
+            }
+          ]
+        },
+        {
+          "id": "1779493745705",
+          "code": "PARSE_DEALS_DATA_FOR_EDIT",
+          "type": "CODE",
+          "metadata": {
+            "name": "Parse Deals Data for Edit",
+            "sourceCode": "let result = [];\ntry {\nreturn $context.$nodes?.GET_DEALS_DATA_FOR_EDIT?.$output;\n} catch (error) {\n  result = [];\n}\n\nreturn result;",
+            "returnType": "array"
+          },
+          "diagram": {
+            "x": 8472.5,
+            "y": 7426
+          },
+          "outcomes": {
+            "success": "1779491433035"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "1779491433035",
+          "code": "GENERATE_EDITABLE_DEAL_DATA",
+          "type": "LLM",
+          "metadata": {
+            "name": "Generate Editable Deal Data"
+          },
+          "diagram": {
+            "x": 8478.5,
+            "y": 7648
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "inputs": [
+            {
+              "id": "1779491433035_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "Generate an editable Record Widget with the below Propeties\n\ntitle: Generate a short 6-word title from the meaningful display labels and values in {{$context.$nodes.PARSE_DEALS_DATA_FOR_EDIT.$output.result}} .\n\nRules:\n- Ignore placeholder values such as \"NA\", \"N\", \"null\", \"undefined\", empty strings, or values that look like abbreviations for missing data.\n- Do not include placeholder values in the title.\n- Use only real business meaning from the remaining fields.\n- If a field is missing or placeholder, infer a concise summary from the other available fields.\n- If there is not enough information to infer a specific title, use a neutral title based on the labels, not the placeholder values.\n\ndescription: Generate one clear sentence from the meaningful display labels and values in {{$context.$nodes.PARSE_DEALS_DATA_FOR_EDIT.$output.result}} .\n\nRules:\n- Ignore placeholder values such as \"NA\", \"N\", \"null\", \"undefined\", empty strings, or values that look like abbreviations for missing data.\n- Do not repeat placeholder values.\n- Infer a business-appropriate description from the remaining fields.\n- If data is insufficient, provide a neutral summary based on the labels only.\n- If there are no fields in {{$context.$nodes.PARSE_DEALS_DATA_FOR_EDIT.$output.result}} , do not generate description>\nfields: {{$context.$nodes.PARSE_DEALS_DATA_FOR_EDIT.$output.result}} "
+            }
+          ],
+          "aiAppOutputSpecification": {
+            "dataDisplay": {
+              "enableActions": true,
+              "layouts": [
+                "ORA_LAYOUT_RECORD"
+              ]
+            }
+          }
+        },
+        {
+          "id": "1779494768162",
+          "code": "GET_FORM_VALUES",
+          "type": "CODE",
+          "metadata": {
+            "name": "Get Form Values",
+            "sourceCode": "let result = {};\n\ntry {\n  // Access the raw string from $context.$app.$OraAction\n  const rawString = $context?.$app?.$OraAction || \"\";\n\n  // Extract the JSON array string inside <oraFormSubmit ...>...</oraFormSubmit>\n  const regex = /<oraFormSubmit[^>]*>(\\[.*?\\])<\\/oraFormSubmit>/;\n  const match = rawString.match(regex);\n\n  if (match && match[1]) {\n    // Parse the JSON array\n    const parsedArray = JSON.parse(match[1]);\n\n    // Convert array into single object\n    result = parsedArray.reduce((acc, item) => {\n      if (item && typeof item.id === \"string\" && \"value\" in item) {\n        acc[item.id] = item.value;\n      }\n      return acc;\n    }, {});\n  }\n} catch (error) {\n  result = {};\n}\n\nreturn result;",
+            "returnType": "array"
+          },
+          "diagram": {
+            "x": 9371,
+            "y": 6760
+          },
+          "outcomes": {
+            "success": "1779556142574"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "1779556142574",
+          "code": "UPDATE_OPTY_DEALS_DATA",
+          "type": "BO_FUNCTION",
+          "metadata": {
+            "name": "Update Opty Deals Data",
+            "businessObjectCode": "ORA_CX_SALESFORCE_OBJECT_COMMON",
+            "functionName": "update_object",
+            "errorNodeId": "1779495396589"
+          },
+          "diagram": {
+            "x": 9371,
+            "y": 6982
+          },
+          "outcomes": {
+            "success": "1779495396589"
+          },
+          "inputs": [
+            {
+              "id": "1779556142574_Payload",
+              "name": "Payload",
+              "value": "{{$context.$nodes.GET_FORM_VALUES.$output.result}}",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "id": "1779556142574_object",
+              "name": "object",
+              "value": "opportunity",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "id": "1779556142574_objectPuid",
+              "name": "objectPuid",
+              "value": "{{$context.$nodes.GET_OPPORTUNITY.$output[0].OptyNumber}}",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "outputSpecification": ""
+        },
+        {
+          "id": "1779495396589",
+          "code": "GENERATE_CONFIRMATION",
+          "type": "LLM",
+          "metadata": {
+            "name": "Generate Confirmation"
+          },
+          "diagram": {
+            "x": 9454.586654137984,
+            "y": 7193.160580950255
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "inputs": [
+            {
+              "id": "1779495396589_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "Generate a professional sentence mentioning the deals data have been updated"
+            }
+          ]
+        },
+        {
+          "id": "1779493076786",
+          "code": "DEALS_DATA_REFERENCE",
+          "type": "REFERENCEABLEBLOCK",
+          "metadata": {
+            "name": "Deals Data Reference",
+            "dataPipeline": {
+              "rootNode": "start_1779493076786",
+              "pipelineNodes": [
+                {
+                  "id": "start_1779493076786",
+                  "code": "START",
+                  "type": "START",
+                  "metadata": {
+                    "description": "Start of data pipeline",
+                    "name": "Start"
+                  },
+                  "diagram": {
+                    "x": 13908.5,
+                    "y": 5090
+                  },
+                  "outcomes": {
+                    "success": "1779493139052"
+                  },
+                  "inputs": []
+                },
+                {
+                  "id": "1779493112719",
+                  "code": "PARALLEL_1",
+                  "type": "PARALLEL",
+                  "metadata": {
+                    "name": "Parallel"
+                  },
+                  "diagram": {
+                    "x": 13514,
+                    "y": 5463,
+                    "width": 790,
+                    "height": 348
+                  },
+                  "outcomes": {
+                    "0": "1779493112721",
+                    "1": "1779493112722"
+                  },
+                  "inputs": [],
+                  "convergenceTargetId": "1779493151425"
+                },
+                {
+                  "id": "1779493139052",
+                  "code": "GENERATE_DEAL_INSIGHTS_PAYLOAD",
+                  "type": "CODE",
+                  "metadata": {
+                    "name": "Generate Deal Insights Payload",
+                    "sourceCode": "let result = {};\ntry {\n  const opportunityId = $context.$input.opportunityId || \"\";\n\n  result = {\n    collection: {\n      filter: \"opportunity.id=\" + opportunityId\n    },\n    fields: [\"id\", \"engagementInsightNumber\", \"additionalInsightData\"]\n  };\n} catch (error) {\n  // Return empty object on error\n  result = {};\n}\n\nreturn result;",
+                    "returnType": "object"
+                  },
+                  "diagram": {
+                    "x": 13744,
+                    "y": 5241
+                  },
+                  "outcomes": {
+                    "success": "1779493112719"
+                  },
+                  "inputs": [],
+                  "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+                },
+                {
+                  "id": "1779493151425",
+                  "code": "BUILD_INSIGHTS_DATA_WIDGET",
+                  "type": "CODE",
+                  "metadata": {
+                    "name": "Build Insights Data Widget",
+                    "sourceCode": "let result = [];\ntry {\n  // Get the first item from GET_RECENT_DEAL_INSIGHTS output items array\n  const recentInsights = $context.$nodes.GET_RECENT_DEAL_INSIGHTS.$output.items || [];\n  const firstInsight = recentInsights.length > 0 ? recentInsights[0] : null;\n \n  // Get opportunities object from additionalInsightData.dataCapture\n  const parsedData = JSON.parse(firstInsight.additionalInsightData);\n  \n  const opportunities = parsedData.dataCapture.opportunities || {};\n\n  // Get metadata array from GET_OPTY_METADATA output\n  const metadataArray = $context.$nodes?.GET_OPTY_METADATA?.$output || [];\n\n  // Build a map from metadata field to metadata object for quick lookup\n  const metadataMap = new Map();\n  for (const meta of metadataArray) {\n    if (meta?.field) {\n      metadataMap.set(meta.field, meta);\n    }\n  }\n\n  // Iterate over each key in opportunities and build output object\n  for (const key of Object.keys(opportunities)) {\n    const value = opportunities[key];\n    // Find corresponding metadata by matching key with metadata field\n    // TODO: Inferred 'field' from user text 'key' in additionalInsightData.dataCapture.opportunities\n    // The key from opportunities is likely a field name or suffix, so we try exact match first\n    // If no exact match, try to find metadata where field ends with key (case sensitive)\n    let meta = metadataMap.get(key);\n    if (!meta) {\n      // Try to find metadata where field ends with key\n      meta = metadataArray.find(m => m?.field?.endsWith(key));\n    }\n\n    // If metadata found, use its properties, else fallback\n    const attributeType = meta?.attributeType || \"text\";\n    const displayLabel = meta?.displayLabel || key;\n    const isEnum = attributeType === \"Enum\";\n    const options = isEnum ? (meta?.enums || []) : undefined;\n\n    const outputObj = {\n      id: key,\n      type: isEnum ? \"select\" : \"text\",\n      label: displayLabel,\n      value: value\n    };\n\n    if (isEnum) {\n      outputObj.options = options;\n    }\n\n    result.push(outputObj);\n  }\n} catch (error) {\n  result = [];\n}\n\nreturn result;",
+                    "returnType": "array"
+                  },
+                  "diagram": {
+                    "x": 13759,
+                    "y": 5961
+                  },
+                  "outcomes": {
+                    "success": "1779493163158"
+                  },
+                  "inputs": [],
+                  "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+                },
+                {
+                  "id": "1779493163158",
+                  "code": "RETURN_DEALS_DATA",
+                  "type": "RETURN",
+                  "metadata": {
+                    "name": "Return Deals Data"
+                  },
+                  "diagram": {
+                    "x": 13759,
+                    "y": 6183
+                  },
+                  "outcomes": {},
+                  "inputs": [
+                    {
+                      "id": "1779493163158_returnValue",
+                      "name": "returnValue",
+                      "type": "string",
+                      "value": "{{$context.$nodes.BUILD_INSIGHTS_DATA_WIDGET.$output.result}} "
+                    }
+                  ]
+                },
+                {
+                  "id": "1779493112721",
+                  "code": "GET_OPTY_METADATA",
+                  "type": "BO_FUNCTION",
+                  "metadata": {
+                    "name": "Get Opty Metadata",
+                    "businessObjectCode": "ORA_CX_SALESFORCE_CXOBJECTSEARCHB",
+                    "functionName": "GET_OBJECT_METADATA"
+                  },
+                  "diagram": {
+                    "x": 13534,
+                    "y": 5704
+                  },
+                  "outcomes": {
+                    "success": "1779493151425"
+                  },
+                  "inputs": [
+                    {
+                      "id": "1779399615355_object",
+                      "name": "object",
+                      "value": "Opportunity",
+                      "required": true
+                    }
+                  ]
+                },
+                {
+                  "id": "1779493112722",
+                  "code": "GET_RECENT_DEAL_INSIGHTS",
+                  "type": "BO_FUNCTION",
+                  "metadata": {
+                    "name": "Get Recent Deal Insights",
+                    "businessObjectCode": "ORA_CX_SALESFORCE_ENGAGEMENT_INSIGHTS",
+                    "functionName": "filter_all_engagement_insights"
+                  },
+                  "diagram": {
+                    "x": 13984,
+                    "y": 5704
+                  },
+                  "outcomes": {
+                    "success": "1779493151425"
+                  },
+                  "inputs": [
+                    {
+                      "id": "1779398236029_payload",
+                      "name": "payload",
+                      "value": "{{$context.$nodes.GENERATE_DEAL_INSIGHTS_PAYLOAD.$output.result}}",
+                      "required": true,
+                      "type": "string"
+                    }
+                  ]
+                },
+                {
+                  "id": "end_1779493076786",
+                  "code": "END",
+                  "type": "END",
+                  "metadata": {
+                    "name": "End",
+                    "description": "End of data pipeline"
+                  },
+                  "outcomes": {},
+                  "inputs": []
+                }
+              ],
+              "variables": [
+                {
+                  "id": "1779493201560",
+                  "name": "opportunityId",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "diagram": {
+            "x": 13494,
+            "y": 5000,
+            "width": 830,
+            "height": 1290
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "inputs": []
+        },
+        {
+          "id": "1780026406289",
+          "code": "CONTACTS_RESPONSE",
+          "type": "LLM",
+          "metadata": {
+            "name": "Contacts Response"
+          },
+          "diagram": {
+            "x": 8980.588856129114,
+            "y": 7537.77371574145
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "inputs": [
+            {
+              "id": "1779942272413_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "Create a messagelistWidget with properties based on {{$context.$nodes.GET_CONTACTS.$output}}\n\nEach row:\ntitle: <ContactName from each row>\nsubtitle: <JobTitle from each row>\nsummary: <AccountUniqueName from each row>\nbadgeText: \"High Influence\"\npriority: \"success\"\nadditionalAction: \n          \"text\": \"Linked In\",\n          \"command\": \"ora.Invoke(\\\"launchLinkedIn\\\", {\\\"id\\\":\\\"linkedIn\\\",\\\"type\\\":\\\"html\\\",\\\"title\\\":\\\"Linked Profile\\\",\\\"html\\\":{\\\"pollIntervalMs\\\":30000,\\\"maxPollAttempts\\\":24,\\\"parameters\\\":{\\\"crmOrgId\\\":\\\"<$context.$nodes.GET_APP_FOREIGN.$output.parts[0].payload.result>\\\",\\\"contact\\\":\\\"<ContactName from each row>\\\",\\\"FirstName\\\":\\\"<FirstName from each row>\\\",\\\"LastName\\\":\\\"<LastName from each row>\\\",\\\"EmailAddress\\\":\\\"<EmailAddress from each row>\\\",\\\"PartyNumber\\\":\\\"<PartyNumber from each row>\\\",\\\"AccountName\\\":\\\"<AccountName from each row>\\\"}}})\"\n        "
+            },
+            {
+              "id": "1779942272413_systemPrompt",
+              "name": "systemPrompt",
+              "type": "string",
+              "value": "Widget row priority must be set to success.\nOutput must contain only oraInfoDisplay elements. No extra text should be included.\n\nDo not include widget title and description"
+            }
+          ],
+          "aiAppOutputSpecification": {
+            "dataDisplay": {
+              "enableActions": true,
+              "layouts": [
+                "ORA_LAYOUT_MESSAGES_LIST"
+              ]
+            }
+          }
+        },
+        {
+          "id": "1780026715944",
+          "code": "GET_APP_FOREIGN",
+          "type": "BO_FUNCTION",
+          "metadata": {
+            "name": "Get App Foreign ",
+            "businessObjectCode": "ORA_CX_SALESFORCE_SALESLINKEDIN",
+            "functionName": "getApplicationUniqueForeignId"
+          },
+          "diagram": {
+            "x": 8911.706052833242,
+            "y": 7351.075380131075
+          },
+          "outcomes": {
+            "success": "1780026406289"
+          },
+          "inputs": []
+        },
+        {
+          "id": "1780079529519",
+          "code": "GENERATE_PAYLOAD_FOR_EMAIL",
+          "type": "CODE",
+          "metadata": {
+            "name": "Generate Payload for email",
+            "returnType": "object",
+            "sourceCode": "let commPtoFill =  $context.$app.$OraCommParamsToFill;\nlet commNonTemplate = $context.$app.$OraCommNonTemplateParamList;\nlet message = $context.$system.$inputMessage;\n\n\nlet retObj = {}\nretObj.draftFlag = true;\nretObj.subject = commNonTemplate.find(com=>com.id ==\"subject\").value??\"No Subject\";\nretObj.body = message;\nretObj.trackConversationFlag = true;\nretObj.providerCode = \"EXCHANGE\";\nretObj.toAddress = commNonTemplate.find(com=>com.id ==\"email\").value??\"email@email.com\";\nretObj.conversationReferences=\"\";\nretObj.messageTemplateObjTypeCd =\"ORA_MOO_OPTY\";\nretObj.msgTemplateObjectId =\"\";\n\nreturn retObj;  "
+          },
+          "diagram": {
+            "x": 12724.732652940467,
+            "y": 7175.303098200399
+          },
+          "outcomes": {
+            "success": "1780079550781"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "1780079550781",
+          "code": "GENERATE_OUTLOOK_EMAIL",
+          "type": "BO_FUNCTION",
+          "metadata": {
+            "name": "Generate Outlook Email",
+            "businessObjectCode": "ORA_CX_SALESFORCE_OUTLOOKCONNECTORS",
+            "functionName": "sendEmail"
+          },
+          "diagram": {
+            "x": 12727.123725019874,
+            "y": 7421.643664119079
+          },
+          "outcomes": {
+            "success": "1780079968722"
+          },
+          "inputs": [
+            {
+              "id": "1780079550781_payload",
+              "name": "payload",
+              "value": "{{$context.$nodes.GENERATE_PAYLOAD_FOR_EMAIL.$output.result}}",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "outputSpecification": ""
+        },
+        {
+          "id": "1780079968722",
+          "code": "RETURN_OUTLOOK_URL",
+          "type": "RETURN",
+          "metadata": {
+            "name": "Return Outlook URL"
+          },
+          "diagram": {
+            "x": 12739.082004918839,
+            "y": 7620.151110441898
+          },
+          "outcomes": {},
+          "inputs": [
+            {
+              "id": "1780079968722_returnValue",
+              "name": "returnValue",
+              "type": "string",
+              "value": "<oraImmediateInsight>\n  {\n    \"followUpCommand\": \"ora.launchUrl( {{$context.$nodes.GENERATE_OUTLOOK_EMAIL.$output.webLink}} )\"\n  }\n</oraImmediateInsight>"
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "description": "End of data pipeline",
+            "name": "End"
+          },
+          "outcomes": {},
+          "code": "END",
+          "id": "end",
+          "inputs": [],
+          "type": "END"
+        }
+      ],
+      "rootNode": "start",
+      "variables": [
+        {
+          "id": "f469cb1e-494e-4aed-accf-5a31db5d28cb",
+          "name": "dealInsightsFields",
+          "type": "array",
+          "scope": "CONVERSATION"
+        },
+        {
+          "id": "e5bc47cc-cff0-43a9-b515-566711ec24b5",
+          "name": "opportunityId",
+          "type": "string",
+          "scope": "JOB"
+        }
+      ],
+      "errorHandlers": [
+        {
+          "type": "EMAIL",
+          "inputs": [
+            {
+              "name": "toList",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "ccList",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "subject",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "body",
+              "type": "string",
+              "value": ""
+            }
+          ]
+        }
+      ]
+    },
+    "dtRunProfiles": {
+      "activeProfileId": "1beadc37-6807-476d-b737-de0881442b0f",
+      "profiles": [
+        {
+          "id": "c174b760-d50d-4d68-9f76-36edc9072fbe",
+          "name": "Init Display",
+          "type": "agentic-app",
+          "agenticAppMode": "initDisplay",
+          "agenticAppAppContext": "{\"opportunityId\":\"300100648973318\",\"activityNumber\":\"CDRM_108368\"}",
+          "agenticAppInitialMessage": ""
+        },
+        {
+          "id": "5671b14d-265e-432d-b44d-df3940b75530",
+          "name": "Actions",
+          "type": "agentic-app",
+          "agenticAppMode": "initActions",
+          "agenticAppAppContext": "\"optyId=300100655409714\""
+        },
+        {
+          "id": "e8002305-030d-4077-b568-ded60c16b791",
+          "name": "Summary",
+          "type": "agentic-app",
+          "agenticAppMode": "summary",
+          "agenticAppInitialMessage": "",
+          "agenticAppAppContext": "{\"opportunityId\":+\"300100647959170\",+\"task\":+\"Engage+Liam+Chen+and+other+key+stakeholders+to+conduct+the+initial+discovery+call+to+understand+business+needs,+pain+points,+and+buying+intent.\",+\"title\":+\"Schedule+Initial+Discovery+Call\",+\"action\":+\"invokeSuggestedTask\"}"
+        },
+        {
+          "id": "d398ba6a-7d32-4548-8bf6-31e9b73a7ae8",
+          "name": "Invoke Action",
+          "type": "agentic-app",
+          "agenticAppMode": "invokeAction",
+          "restConfigJson": "{\n    \"OraAppContext\": \"{\\\"opportunityId\\\":\\\"300100655414158\\\"}\",\n    \"OraAction\": \"{ \\\"opportunityId\\\": 300100655414158, \\\"opportunityNumber\\\": CDRM_159598, \\\"task\\\": \\\"Set up a dedicated Digital Sales Room (DSR) for the opportunity, curate industry-specific and tailored content including customer stories and business outcomes, and share it with key stakeholders to reinforce trust and confidence in Oracle's solutions.\\\", \\\"title\\\": \\\"Deliver personalized Value Center\\\" }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010037454104\\\",\\\"guId\\\":\\\"352E980CE9686C4EF1E2CD35987EF86C\\\",\\\"fullName\\\":\\\"Matt Hooper\\\",\\\"userName\\\":\\\"MHoope\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptcduuqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
+          "inputMessage": "{\n    \"OraAppContext\": \"{\\\"opportunityId\\\":\\\"300100647729780\\\"}\",\n    \"OraAction\": \"{\\\"opportunityId\\\":\\\"300100647729780\\\",\\\"opportunityNumber\\\":\\\"CDRM_155563\\\",\\\"action\\\":\\\"viewObjectiveProgress\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010037454104\\\",\\\"guId\\\":\\\"352E980CE9686C4EF1E2CD35987EF86C\\\",\\\"fullName\\\":\\\"Matt Hooper\\\",\\\"userName\\\":\\\"MHoope\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptclqhqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
+          "invokeActionPayload": "{\n    \"OraAction\": \"{\\\"opportunityId\\\": \\\"300100648913150\\\", \\\"opportunityNumber\\\": \\\"CDRM_159570\\\", \\\"task\\\": \\\"Initiate outreach to potential executive sponsors to build internal champions for the solution.\\\", \\\"title\\\": \\\"Identify and Engage Executive Sponsors\\\"}\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010037454104\\\",\\\"guId\\\":\\\"352E980CE9686C4EF1E2CD35987EF86C\\\",\\\"fullName\\\":\\\"Matt Hooper\\\",\\\"userName\\\":\\\"MHoope\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptclqhqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
+          "agenticAppAppContext": " \"{\\\"opportunityId\\\":\\\"300100648568576\\\"}\"",
+          "agenticAppUserContext": "\"{\\\"panels\\\":[{\\\"containerId\\\":\\\"container-1774728319514\\\",\\\"panelId\\\":\\\"ACCOUNT_INSIGHTS\\\",\\\"agentCode\\\":\\\"ORA_OPPORTUNITY_DETAIL_AGENT\\\",\\\"panelName\\\":\\\"Account Insights\\\",\\\"title\\\":\\\"Blue Dart Account Insights\\\",\\\"widgets\\\":[{\\\"type\\\":\\\"multiCardWidget\\\",\\\"config\\\":{\\\"cards\\\":[{\\\"subject\\\":\\\"Engagement Risk\\\",\\\"subtitle\\\":\\\"Light engagement and minimal decision-maker coverage create near-term execution risk.\\\",\\\"summary\\\":\\\"- Only 1 decision-maker contact recorded, increasing risk.\\\\n- No recent calls/emails; last activity 12 days ago.\\\\n- 4 open activities with next task due June 4, 2026.\\\"},{\\\"subject\\\":\\\"Account Overview\\\",\\\"subtitle\\\":\\\"Next appointment on May 31, 2026; opportunity close expected Feb 16, 2027.\\\",\\\"summary\\\":\\\"- Engagement history shows no recent calls or touches, creating visibility gap.\\\\n- Active contract portfolio valued at $760.3K with 3 assets expiring next quarter.\\\\n- Key contacts Rahul Verma and Aarav Sharma have open opportunities valued at $146K combined.\\\"}]}}],\\\"communications\\\":[]},{\\\"containerId\\\":\\\"container-1774729191997\\\",\\\"panelId\\\":\\\"ENGAGEMENT_PROGRESS\\\",\\\"agentCode\\\":\\\"ORA_OPPORTUNITY_DETAIL_AGENT\\\",\\\"panelName\\\":\\\"Engagement Progress\\\",\\\"title\\\":\\\"Engagement Progress\\\",\\\"widgets\\\":[{\\\"type\\\":\\\"messageListWidget\\\",\\\"config\\\":{\\\"items\\\":[{\\\"title\\\":\\\"Align with Legal and Procurement Policies\\\"},{\\\"title\\\":\\\"Perform Risk Assessment\\\"},{\\\"title\\\":\\\"Conduct Compliance Requirements Review\\\"},{\\\"title\\\":\\\"Identify Key Decision Makers and Influencers\\\"},{\\\"title\\\":\\\"Validate Budget and Timeline\\\"}]}}],\\\"communications\\\":[]}]}\"",
+          "agenticAppInitialMessage": "Show Contacts of the opportunity"
+        },
+        {
+          "id": "f5067a62-248e-4e07-a90e-4fc1d68c7c8c",
+          "name": "Query",
+          "type": "rest",
+          "agenticAppMode": "query",
+          "agenticAppInitialMessage": "Who are the stake holders for the opportunity Seamless client-driven architecture",
+          "agenticAppAppContext": "opportunityId=300100655414158",
+          "agenticAppUserContext": "{\n    \"OraAppContext\": \"{\\\"opportunityId\\\":\\\"300100655414158\\\"}\",\n    \"OraAction\": \"{ \\\"opportunityId\\\": 300100655414158, \\\"opportunityNumber\\\": \\\"CDRM_159598\\\", \\\"task\\\": \\\"Set up a dedicated Digital Sales Room (DSR) for the opportunity, curate industry-specific and tailored content including customer stories and business outcomes, and share it with key stakeholders to reinforce trust and confidence in Oracle's solutions.\\\", \\\"title\\\": \\\"Deliver personalized Value Center\\\" }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010037454104\\\",\\\"guId\\\":\\\"352E980CE9686C4EF1E2CD35987EF86C\\\",\\\"fullName\\\":\\\"Matt Hooper\\\",\\\"userName\\\":\\\"MHoope\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptcduuqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}",
+          "restConfigJson": "{\n    \"OraAppContext\": \"{\\\"opportunityId\\\":\\\"300100648568576\\\"}\",\n    \"OraMessageHint\": \"Query\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010037454104\\\",\\\"guId\\\":\\\"352E980CE9686C4EF1E2CD35987EF86C\\\",\\\"fullName\\\":\\\"Matt Hooper\\\",\\\"userName\\\":\\\"MHoope\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptclqhqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"OraUiContext\": \"{\\\"panels\\\":[{\\\"containerId\\\":\\\"container-1774728319514\\\",\\\"panelId\\\":\\\"ACCOUNT_INSIGHTS\\\",\\\"agentCode\\\":\\\"ORA_OPPORTUNITY_DETAIL_AGENT\\\",\\\"panelName\\\":\\\"Account Insights\\\",\\\"title\\\":\\\"Blue Dart Account Insights\\\",\\\"widgets\\\":[{\\\"type\\\":\\\"multiCardWidget\\\",\\\"config\\\":{\\\"cards\\\":[{\\\"subject\\\":\\\"Engagement Risk\\\",\\\"subtitle\\\":\\\"Light engagement and minimal decision-maker coverage create near-term execution risk.\\\",\\\"summary\\\":\\\"- Only 1 decision-maker contact recorded, increasing risk.\\\\n- No recent calls/emails; last activity 12 days ago.\\\\n- 4 open activities with next task due June 4, 2026.\\\"},{\\\"subject\\\":\\\"Account Overview\\\",\\\"subtitle\\\":\\\"Next appointment on May 31, 2026; opportunity close expected Feb 16, 2027.\\\",\\\"summary\\\":\\\"- Engagement history shows no recent calls or touches, creating visibility gap.\\\\n- Active contract portfolio valued at $760.3K with 3 assets expiring next quarter.\\\\n- Key contacts Rahul Verma and Aarav Sharma have open opportunities valued at $146K combined.\\\"}]}}],\\\"communications\\\":[]},{\\\"containerId\\\":\\\"container-1774729191997\\\",\\\"panelId\\\":\\\"ENGAGEMENT_PROGRESS\\\",\\\"agentCode\\\":\\\"ORA_OPPORTUNITY_DETAIL_AGENT\\\",\\\"panelName\\\":\\\"Engagement Progress\\\",\\\"title\\\":\\\"Engagement Progress\\\",\\\"widgets\\\":[{\\\"type\\\":\\\"messageListWidget\\\",\\\"config\\\":{\\\"items\\\":[{\\\"title\\\":\\\"Align with Legal and Procurement Policies\\\"},{\\\"title\\\":\\\"Perform Risk Assessment\\\"},{\\\"title\\\":\\\"Conduct Compliance Requirements Review\\\"},{\\\"title\\\":\\\"Identify Key Decision Makers and Influencers\\\"},{\\\"title\\\":\\\"Validate Budget and Timeline\\\"}]}}],\\\"communications\\\":[]}]}\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\",\n    \"OraAgenticAppsParentConversationId\": \"dee93072-5e6a-4a4e-91a7-5b67f81ea82a\"\n}",
+          "inputMessage": "Show comtact of the opportunity"
+        },
+        {
+          "id": "75178ed4-ad9e-436c-9642-41decda096c0",
+          "name": "Subtitle",
+          "type": "rest",
+          "agenticAppMode": "query",
+          "restConfigJson": "{\n    \"OraAppContext\": \"{\\\"opportunityId\\\":\\\"300100666397907\\\"}\",\n    \"OraMessageHint\": \"InitSubtitle\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010032752109\\\",\\\"guId\\\":\\\"9D3259317858A6899ACB1F146A9A3FA0\\\",\\\"fullName\\\":\\\"Edwin Mitchell\\\",\\\"userName\\\":\\\"EMitch\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptcduuqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\"\n}"
+        },
+        {
+          "id": "1beadc37-6807-476d-b737-de0881442b0f",
+          "name": "Action",
+          "type": "rest",
+          "agenticAppMode": "query",
+          "restConfigJson": "{\n    \"OraAppContext\": \"{\\\"opportunityId\\\":\\\"300100648973100\\\"}\",\n    \"OraAction\": \"{\\\"opportunityId\\\": \\\"300100648973100\\\",\\\"opportunityNumber\\\":\\\"CDRM_159584\\\",\\\"action\\\":\\\"viewEngagementHistory\\\" }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010037454104\\\",\\\"guId\\\":\\\"352E980CE9686C4EF1E2CD35987EF86C\\\",\\\"fullName\\\":\\\"Matt Hooper\\\",\\\"userName\\\":\\\"MHoope\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptclqhqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
+        },
+        {
+          "id": "689eb9c8-d612-4a02-9a4c-4b7c169b9f62",
+          "name": "Linked In",
+          "type": "rest",
+          "agenticAppMode": "query",
+          "restConfigJson": "{\n    \"OraAppContext\": \"{\\\"opportunityId\\\":\\\"300100648901130\\\"}\",\n    \"OraAction\": \"{\\\"opportunityId\\\": \\\"300100648901130\\\",\\\"opportunityNumber\\\":\\\"CDRM_159557\\\",\\\"action\\\":\\\"viewOpportunityContacts\\\" }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010037454104\\\",\\\"guId\\\":\\\"352E980CE9686C4EF1E2CD35987EF86C\\\",\\\"fullName\\\":\\\"Matt Hooper\\\",\\\"userName\\\":\\\"MHoope\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptclqhqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
+        },
+        {
+          "id": "3a69d8c9-d448-4d61-abad-cf438d7f946d",
+          "name": "Email",
+          "type": "rest",
+          "agenticAppMode": "query",
+          "restConfigJson": "{\n    \"OraAppContext\": \"{\\\"opportunityId\\\":\\\"300100648973100\\\"}\",\n    \"OraAction\": \"{ \\\"opportunityId\\\": \\\"300100648973100\\\", \\\"opportunityNumber\\\":\\\"CDRM_159584\\\", \\\"task\\\": \\\"Schedule and conduct a discovery call with Xi Chen and other key stakeholders to understand business needs, pain points, and buying intent for the Fusion AI Data Platform solution.\\\", \\\"title\\\": \\\"Conduct Initial Discovery Call\\\",\\\"action\\\":\\\"invokeSuggestedTask\\\" }\",\n    \"OraMessageHint\": \"InvokeAction\",\n    \"OraUserContext\": \"{\\\"userId\\\":\\\"100010037454104\\\",\\\"guId\\\":\\\"352E980CE9686C4EF1E2CD35987EF86C\\\",\\\"fullName\\\":\\\"Matt Hooper\\\",\\\"userName\\\":\\\"MHoope\\\",\\\"isAuthenticated\\\":true,\\\"loginUrl\\\":\\\"https://cptclqhqy.fusionapps.ocs.oc-test.com:443/fscmUI/faces/FuseWelcome\\\",\\\"isAdmin\\\":true,\\\"idcsTimeOut\\\":30,\\\"locale\\\":\\\"en\\\"}\",\n    \"triggerType\": \"REST\",\n    \"aiAppOutputSpecification\": \"[\\\"infoDisplay\\\",\\\"actions\\\",\\\"enableCommunications\\\"]\"\n}"
+        }
+      ]
+    },
+    "diagram": {
+      "orientation": "vertical",
+      "commentNodes": []
+    },
+    "jsonSchemaName": "Workflow.spec",
+    "jsonSchemaVersion": "1",
+    "inputs": [],
+    "outputSpecification": "",
+    "agentsValueMappings": [],
+    "modelConfiguration": null,
+    "humanApprovalFlag": false,
+    "waitFlag": false,
+    "triggers": [
+      {
+        "type": "REST",
+        "inputs": [
+          {
+            "id": "1779252840558",
+            "name": "OraAction",
+            "type": "string"
+          },
+          {
+            "id": "1774741935344",
+            "name": "OraAppDisplayDiscriminator",
+            "type": "string"
+          }
+        ]
+      }
+    ],
+    "deletedTriggerTypes": [],
+    "costSavings": 0,
+    "timeSavings": 10,
+    "chatExpTPFileUploadEnabledFlag": false,
+    "chatExpThirdPartyDetails": [],
+    "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI"
+  },
+  "status": "DRAFT",
+  "version": 1,
+  "family": "CX",
+  "product": "SALES_FORCE_AUTOMATION",
+  "ownerName": null,
+  "customFlag": false,
+  "seededFlag": true,
+  "isTemplate": false,
+  "customizationPolicy": "FULL",
+  "hiddenFlag": false,
+  "useCaseId": "NA",
+  "accessModifier": "public",
+  "architecture": "data_pipeline",
+  "aiAppsCompatibleFlag": true,
+  "followupEnabledFlag": false,
+  "header": {
+    "ETag": "\"4\""
+  }
+}

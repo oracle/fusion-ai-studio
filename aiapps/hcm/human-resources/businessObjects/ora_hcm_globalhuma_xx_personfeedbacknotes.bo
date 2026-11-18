@@ -1,0 +1,112 @@
+{
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "name": "Person Feedback Notes",
+  "description": "Retrieves feedback notes and recommendations for a selected worker using the person ID. Returns note text, creation and update dates, visibility, hidden status, and worker and author details from the Human Resources feedback service.",
+  "objectCode": "ORA_HCM_GLOBALHUMA_XX_PERSONFEEDBACKNOTES",
+  "family": "HCM",
+  "product": "GLOBAL_HUMAN_RESOURCES",
+  "objectSource": "SPECTRA",
+  "restResourcePath": "/api/boss/data/objects/ora/hcmHrCore/feedback/v1/$en/personNotes",
+  "restResourceIdentifier": "-1",
+  "seededFlag": false,
+  "mandatoryFlag": false,
+  "objectProperties": {
+    "jsonSchemaName": "supportedObjectProperties",
+    "jsonSchemaVersion": 1,
+    "baseUrlTMKey": "",
+    "serviceNameOverride": "",
+    "tools": [
+      {
+        "name": "get_person_notes",
+        "description": "Retrieves up to 25 person notes for the given worker person ID where contextType is ORA_NO_CONTEXT or null. Returns note text, creation and update timestamps, hidden flag, visibility, worker ID, author ID and author display name.",
+        "operationId": "List_personNotes",
+        "operationType": "GET",
+        "resourcePath": "/api/boss/data/objects/ora/hcmHrCore/feedback/v1/$en/personNotes?%24fields=contextType%2Ctext%2CtimeCreated%2CtimeUpdated%2ChiddenFlag%2CvisibilityCode%2Cworker.id%2Cauthor.id%2Cauthor.names.displayName&%24filter=%28contextType%3D%27ORA_NO_CONTEXT%27%20or%20contextType%3Dnull%20%29and%20worker%5Bid%3D{personId}%5D&%24limit=25&%24offset=0",
+        "resourceType": "SPECTRA",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "personId",
+            "dataType": "integer",
+            "description": "Person ID of the worker whose notes are retrieved.",
+            "id": 2,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Sample response for get_person_notes with redacted field-name placeholders.",
+            "query": {
+              "items": [
+                {
+                  "contextType": "<contextType>",
+                  "text": "<text>",
+                  "timeCreated": "<timeCreated>",
+                  "timeUpdated": "<timeUpdated>",
+                  "hiddenFlag": "<hiddenFlag>",
+                  "visibilityCode": "<visibilityCode>",
+                  "$id": "<id>",
+                  "$context": {
+                    "etag": "<etag>",
+                    "links": {
+                      "$self": {
+                        "href": "<href>"
+                      }
+                    }
+                  },
+                  "author": {
+                    "id": "<id>",
+                    "$id": "<id>",
+                    "$context": {
+                      "etag": "<etag>",
+                      "links": {
+                        "$self": {
+                          "href": "<href>"
+                        }
+                      }
+                    },
+                    "names": {
+                      "items": [
+                        {
+                          "displayName": "<displayName>",
+                          "$id": "<id>",
+                          "$context": {
+                            "etag": "<etag>",
+                            "links": {
+                              "$self": {
+                                "href": "<href>"
+                              }
+                            }
+                          }
+                        }
+                      ],
+                      "hasMore": "<hasMore>"
+                    }
+                  },
+                  "worker": {
+                    "id": "<id>",
+                    "$id": "<id>",
+                    "$context": {
+                      "etag": "<etag>",
+                      "links": {
+                        "$self": {
+                          "href": "<href>"
+                        }
+                      }
+                    }
+                  }
+                }
+              ],
+              "hasMore": "<hasMore>"
+            },
+            "sampleType": "response"
+          }
+        ]
+      }
+    ]
+  }
+}

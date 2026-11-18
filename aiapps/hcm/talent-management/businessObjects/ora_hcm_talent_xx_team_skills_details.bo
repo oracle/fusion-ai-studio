@@ -1,0 +1,414 @@
+{
+  "supportedObjectId": "300100669108916",
+  "$context": {
+    "etag": "8"
+  },
+  "name": "Team Skills Details",
+  "description": "Retrieves team skill counts, worker public skills, skill descriptions, and skill aggregations using supplied person, manager, and skill identifiers.",
+  "objectCode": "ORA_HCM_TALENT_XX_TEAM_SKILLS_DETAILS",
+  "family": "HCM",
+  "product": "TALENT",
+  "objectSource": "ADF_BC",
+  "restResourcePath": "/hcmRestApi",
+  "restResourceIdentifier": "-1",
+  "seededFlag": false,
+  "mandatoryFlag": false,
+  "objectProperties": {
+    "jsonSchemaName": "supportedObjectProperties",
+    "jsonSchemaVersion": 1,
+    "tools": [
+      {
+        "name": "Skills_In_Team",
+        "description": "Retrieves skill names and IDs with achieved, developing, and total counts for the specified manager and skill type, ordered by achieved count in the requested direction and limited to the specified number of skills.",
+        "operationType": "POST",
+        "resourcePath": "/hcmRestApi/redwood/11.13.18.05/teamSkillsSearches",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "{\n  \"limit\": {limit},\n  \"offset\": 0,\n  \"sort\": [\n    {\n      \"name\": \"AchievedCount\",\n      \"direction\": \"{AchievedCountDirection}\"\n    }\n  ],\n  \"filters\": [\n    {\n      \"name\": \"SkillType\",\n      \"value\": \"{SkillType}\"\n    },\n    {\n      \"name\": \"Reports\",\n      \"value\": \"all\"\n    },\n    {\n      \"name\": \"ManagerId\",\n      \"value\": \"{ManagerId}\"\n    }\n  ]\n}",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "limit",
+            "dataType": "string",
+            "description": "Maximum number of skill-summary records to return.",
+            "id": 2,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "AchievedCountDirection",
+            "dataType": "string",
+            "description": "Sort direction for AchievedCount: ASC for the lowest counts or DESC for the highest counts.",
+            "id": 3,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "SkillType",
+            "dataType": "string",
+            "description": "Skill category to include: Core or Role.",
+            "id": 4,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "ManagerId",
+            "dataType": "string",
+            "description": "HCM person ID of the manager whose reporting population's skill counts should be returned.",
+            "id": 5,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Example response containing team skill counts. All scalar values are placeholders; no sample data is included.",
+            "query": {
+              "totalResults": "<total_results>",
+              "offset": "<offset>",
+              "hasMore": "<has_more>",
+              "limit": "<limit>",
+              "count": "<count>",
+              "items": [
+                {
+                  "SkillName": "<skill_name>",
+                  "SkillId": "<skill_id>",
+                  "AchievedCount": "<achieved_count>",
+                  "DevelopingCount": "<developing_count>",
+                  "TotalCount": "<total_count>"
+                }
+              ],
+              "query": "<query>"
+            },
+            "sampleType": "response"
+          }
+        ]
+      },
+      {
+        "name": "Person_Skills_In_Team",
+        "description": "Retrieves up to 10 direct reports for the specified manager and skill type, with each worker's name, person ID, assignment name, and achieved, developing, and total skill counts, ordered by achieved count in the requested direction.",
+        "operationType": "POST",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/personSkillsSearches",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "{\n  \"limit\": 10,\n  \"offset\": 0,\n  \"sort\": [\n    {\n      \"name\": \"AchievedCount\",\n      \"direction\": \"{AchievedCountDirection}\"\n    }\n  ],\n  \"filters\": [\n    {\n      \"name\": \"SkillType\",\n      \"value\": \"{SkillType}\"\n    },\n    {\n      \"name\": \"Reports\",\n      \"value\": \"all\"\n    },\n    {\n       \"name\": \"HasAttainment\",\n       \"value\": \"true\"\n    },\n    {\n      \"name\": \"ManagerId\",\n      \"value\": \"{ManagerId}\"\n    }\n  ]\n}",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "AchievedCountDirection",
+            "dataType": "string",
+            "description": "Sort direction for AchievedCount: ASC for the lowest counts or DESC for the highest counts.",
+            "id": 8,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "SkillType",
+            "dataType": "string",
+            "description": "Skill category to include: Core or Role.",
+            "id": 9,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "ManagerId",
+            "dataType": "string",
+            "description": "HCM person ID of the manager whose reporting population's skill counts should be returned.",
+            "id": 10,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Example response containing worker skill counts for the manager's reporting population. All scalar values are placeholders; no sample data is included.",
+            "query": {
+              "totalResults": "<total_results>",
+              "hasMore": "<has_more>",
+              "limit": "<limit>",
+              "offset": "<offset>",
+              "count": "<count>",
+              "items": [
+                {
+                  "DisplayName": "<display_name>",
+                  "PersonId": "<person_id>",
+                  "AssignmentName": "<assignment_name>",
+                  "AchievedCount": "<achieved_count>",
+                  "DevelopingCount": "<developing_count>",
+                  "TotalCount": "<total_count>"
+                }
+              ],
+              "query": "<query>"
+            },
+            "sampleType": "response"
+          }
+        ]
+      },
+      {
+        "name": "Get_Talent_Person_Public_Skills",
+        "description": "Retrieves public talent skill records for the worker with the specified person ID, including skill, proficiency, grouping, assignment, endorsement, and achievement details.",
+        "operationType": "GET",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentPersonPublicSkills?fields=*&finder=findByPersonId;PersonId={personId}&onlyData=true&orderBy=LastUpdateDate:desc&limit=50&offset=0",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "personId",
+            "dataType": "string",
+            "description": "HCM person ID of the worker whose public talent skill records should be returned.",
+            "id": 13,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Sample response for the person's public talent skills. All scalar values are placeholders; no sample data is included.",
+            "query": {
+              "items": [
+                {
+                  "ProfileId": "<profile_id>",
+                  "ProfileCode": "<profile_code>",
+                  "PersonId": "<person_id>",
+                  "PersonNumber": "<person_number>",
+                  "DisplayName": "<display_name>",
+                  "AssignmentName": "<assignment_name>",
+                  "SkillId": "<skill_id>",
+                  "ContentItemId": "<content_item_id>",
+                  "Skill": "<skill>",
+                  "ProficiencyLevelId": "<proficiency_level_id>",
+                  "NumericRating": "<numeric_rating>",
+                  "RatingName": "<rating_name>",
+                  "RatingDescription": "<rating_description>",
+                  "RequiredProficiencyLevelId": "<required_proficiency_level_id>",
+                  "RequiredNumericRating": "<required_numeric_rating>",
+                  "RequiredRatingDescription": "<required_rating_description>",
+                  "RequiredFlag": "<required_flag>",
+                  "AssignedByLoggedInPersonFlag": "<assigned_by_logged_in_person_flag>",
+                  "ConfirmationFlag": "<confirmation_flag>",
+                  "Group": "<group>",
+                  "GroupMeaning": "<group_meaning>",
+                  "EndorsementCount": "<endorsement_count>",
+                  "EndorsementConfirmationFlag": "<endorsement_confirmation_flag>",
+                  "EndorsementRequestFlag": "<endorsement_request_flag>",
+                  "EndorsedFlag": "<endorsed_flag>",
+                  "RatingModelEnabledFlag": "<rating_model_enabled_flag>",
+                  "HighestProficiencyLevelFlag": "<highest_proficiency_level_flag>",
+                  "EndorsementId": "<endorsement_id>",
+                  "SkillCenterAccessFlag": "<skill_center_access_flag>",
+                  "MarkSkillAsDevelopingFlag": "<mark_skill_as_developing_flag>",
+                  "DomainCode": "<domain_code>",
+                  "ItemDescription": "<item_description>",
+                  "DomainMeaning": "<domain_meaning>",
+                  "SkillCriteriaTypeCode": "<skill_criteria_type_code>",
+                  "AssignmentSource": "<assignment_source>",
+                  "ManagerEndorsementStatus": "<manager_endorsement_status>",
+                  "ManagerRatingLevelId": "<manager_rating_level_id>",
+                  "ManagerNumericRating": "<manager_numeric_rating>",
+                  "ManagerRatingDescription": "<manager_rating_description>",
+                  "SelfEndorsementStatus": "<self_endorsement_status>",
+                  "SelfRatingLevelId": "<self_rating_level_id>",
+                  "SelfNumericRating": "<self_numeric_rating>",
+                  "SelfRatingDescription": "<self_rating_description>",
+                  "LastUpdateDate": "<last_update_date>",
+                  "AssignedOn": "<assigned_on>",
+                  "ConfirmationDate": "<confirmation_date>",
+                  "DateAchieved": "<date_achieved>",
+                  "ManagerId": "<manager_id>",
+                  "AssignmentSupervisorId": "<assignment_supervisor_id>",
+                  "@context": {
+                    "key": "<key>"
+                  }
+                }
+              ],
+              "count": "<count>",
+              "hasMore": "<has_more>",
+              "limit": "<limit>",
+              "offset": "<offset>",
+              "links": [
+                {
+                  "rel": "<rel>",
+                  "href": "<href>",
+                  "name": "<name>",
+                  "kind": "<kind>"
+                },
+                {
+                  "rel": "<rel>",
+                  "href": "<href>",
+                  "name": "<name>",
+                  "kind": "<kind>"
+                },
+                {
+                  "rel": "<rel>",
+                  "href": "<href>",
+                  "name": "<name>",
+                  "kind": "<kind>"
+                }
+              ]
+            },
+            "sampleType": "response"
+          }
+        ]
+      },
+      {
+        "name": "Get_Team_Skills_Aggregations",
+        "description": "Retrieves achieved, developing, and total counts for each skill in the reporting population of the manager with the specified person ID.",
+        "operationType": "POST",
+        "resourcePath": "/hcmRestApi/redwood/11.13.18.05/teamSkillsAggregations",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "{\n  \"finder\": {\n    \"name\": \"GetSkillsSummary\",\n    \"parameters\": [\n      {\"name\": \"Reports\", \"value\": \"All\"},\n      {\"name\": \"ManagerId\", \"value\": \"{ManagerPersonId}\"}\n    ]\n  }\n}",
+        "useNativeAuthentication": false,
+        "customAuthenticationHeader": "application/json",
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "ManagerPersonId",
+            "dataType": "string",
+            "description": "HCM person ID of the manager whose reporting-population skill counts should be returned.",
+            "id": 16,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Sample response for team skills aggregation details. All scalar values are placeholders; no sample data is included.",
+            "query": {
+              "items": [
+                {
+                  "SkillName": "<skill_name>",
+                  "AchievedCount": "<achieved_count>",
+                  "DevelopingCount": "<developing_count>",
+                  "TotalCount": "<total_count>"
+                }
+              ],
+              "count": "<count>",
+              "hasMore": "<has_more>",
+              "limit": "<limit>",
+              "offset": "<offset>"
+            },
+            "sampleType": "response"
+          }
+        ]
+      },
+      {
+        "name": "Get_Direct_Person_Skill_Details",
+        "description": "Retrieves skill details for the specified skill type and name among the direct reports of the manager with the specified person ID, including worker names, assignment names, achieved and required skill levels, and endorsement counts.",
+        "operationType": "POST",
+        "resourcePath": "/hcmRestApi/redwood/11.13.18.05/personSkillDetailsSearches",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "{\n  \"limit\": 25,\n  \"offset\": 0,\n  \"sort\": [\n    {\n      \"name\": \"AchievedLevel\",\n      \"direction\": \"desc\"\n    }\n  ],\n  \"filters\": [\n    {\n      \"name\": \"SkillType\",\n      \"value\": \"{SkillType}\"\n    },\n    {\n      \"name\": \"Reports\",\n      \"value\": \"directs\"\n    },\n    {\n      \"name\": \"ManagerId\",\n      \"value\": {ManagerPersonId}\n    },\n    {\n      \"name\": \"SkillName\",\n      \"terms\": [\n        \"{SkillName}\"\n      ]\n    }\n  ]\n}",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "SkillType",
+            "dataType": "string",
+            "description": "Skill category used to filter direct-report skill results.",
+            "id": 19,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "ManagerPersonId",
+            "dataType": "string",
+            "description": "HCM person ID of the manager whose direct reports should be searched.",
+            "id": 20,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "SkillName",
+            "dataType": "string",
+            "description": "Skill name used to filter direct-report skill results.",
+            "id": 21,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Example direct-report skill-detail response for the selected skill. All scalar values are placeholders; no sample data is included.",
+            "query": {
+              "items": [
+                {
+                  "DisplayName": "<display_name>",
+                  "AssignmentName": "<assignment_name>",
+                  "AchievedLevel": "<achieved_level>",
+                  "RequiredLevel": "<required_level>",
+                  "EndorsementsCount": "<endorsements_count>"
+                }
+              ],
+              "count": "<count>",
+              "limit": "<limit>",
+              "offset": "<offset>"
+            },
+            "sampleType": "response"
+          }
+        ]
+      },
+      {
+        "name": "Get_Skill_Description",
+        "description": "Retrieves a skill description for the specified skill name and returns it in the response.",
+        "operationType": "POST",
+        "resourcePath": "/hcmRestApi/redwood/11.13.18.05/completions",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "{\n  \"key\": \"hcm.hrt.skill_description\",\n  \"params\": [\n    {\n      \"name\": \"SKILL_NAME\",\n      \"value\": \"{SkillName}\"\n    }\n  ]\n}",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "SkillName",
+            "dataType": "string",
+            "description": "Name of the skill for which a description should be generated.",
+            "id": 24,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Placeholder-only example response from the Skill Description completion API. All scalar values are placeholders; no sample data is included.",
+            "query": {
+              "id": "<id>",
+              "choices": [
+                {
+                  "index": "<index>",
+                  "text": "<text>"
+                }
+              ]
+            },
+            "sampleType": "response"
+          }
+        ]
+      }
+    ]
+  }
+}

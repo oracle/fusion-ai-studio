@@ -1,0 +1,742 @@
+{
+  "workflowId": "300100646778899",
+  "workflowCode": "ORA_MEETING_OVERVIEW",
+  "name": "Meeting Overview",
+  "description": "Compiles a concise meeting brief with the latest context, key updates, and suggested topics to cover next.",
+  "specification": {
+    "dataPipeline": {
+      "pipelineNodes": [
+        {
+          "metadata": {
+            "description": "Start of data pipeline",
+            "name": "Start"
+          },
+          "outcomes": {
+            "success": "1771921338047"
+          },
+          "diagram": {
+            "x": 6247,
+            "y": 5000
+          },
+          "code": "START",
+          "id": "start",
+          "inputs": [],
+          "type": "START"
+        },
+        {
+          "metadata": {
+            "businessObjectCode": "ORA_CX_SALESFORCE_CXOBJECTSEARCHB",
+            "errorNodeId": "1773392910342",
+            "functionName": "SEARCH_OBJECTS",
+            "processJson": true,
+            "name": "Fetch Appointments"
+          },
+          "outcomes": {
+            "success": "1776023732155"
+          },
+          "diagram": {
+            "x": 6125,
+            "y": 5206
+          },
+          "code": "FETCH_APPOINTMENTS",
+          "id": "1771921338047",
+          "inputs": [
+            {
+              "id": "1771921367917_1",
+              "name": "object",
+              "type": "string",
+              "value": "Activity"
+            },
+            {
+              "id": "1771921367918_2",
+              "name": "q",
+              "type": "string",
+              "value": "{        \"op\": \"$and\",        \"criteria\": [            {                \"op\": \"$in\",                \"attribute\": \"ActivityFunctionCode\",                \"values\": [                    \"APPOINTMENT\"                ]            },            {                \"op\": \"$wi\",                \"attribute\": \"SortDate\",                \"value1\": \"now/d\",                \"value2\": \"now/d+7d\"            },            {                \"op\": \"$eq\",                \"attribute\": \"RecordSet\",                \"value\": \"RECORDS_RESOURCE\"            },            {                \"op\": \"$ne\",                \"attribute\": \"ListOfContacts\",                \"value\": \"\"            }        ]    }"
+            },
+            {
+              "id": "1771921367919_3",
+              "name": "sort",
+              "type": "string",
+              "value": "[{'attribute':'ActivityStartDate','direction':'ascending'}]"
+            },
+            {
+              "id": "1771921367920_4",
+              "name": "limit",
+              "type": "integer",
+              "value": "4"
+            },
+            {
+              "id": "1771921367921_5",
+              "name": "fields",
+              "type": "string",
+              "value": "[\"ActivityId\",\"ActivityNumber\",\"ActivityStartDate\",\"ActivityEndDate\",\"SortDate\",\"Subject\",\"ActivityDescription\",\"ListOfContacts.ContactId.PartyName\",\"Location\",\"ActivityFunctionCode_localizedValue\",\"ActivityTypeCode_localizedValue\"]"
+            }
+          ],
+          "outputSpecification": "{}",
+          "type": "BO_FUNCTION"
+        },
+        {
+          "metadata": {
+            "name": "App Display Switch"
+          },
+          "outcomes": {
+            "summary": "1771921990311",
+            "InvokeAction": "1771950631429",
+            "initDisplay": "1771922058628",
+            "InitCommunications": "1771956311878",
+            "Query": "1772096562645",
+            "SendCommunication": ""
+          },
+          "diagram": {
+            "x": 6125,
+            "y": 6814
+          },
+          "code": "APP_DISPLAY_SWITCH",
+          "convergenceTargetId": "end",
+          "id": "1771921839568",
+          "inputs": [
+            {
+              "id": "1771921839570_1",
+              "name": "caseExpression",
+              "type": "string",
+              "value": "{{$context.$app.$OraMessageHint}}"
+            }
+          ],
+          "type": "SWITCH"
+        },
+        {
+          "metadata": {
+            "modelConfiguration": {
+              "modelProperties": {
+                "k": 0,
+                "max_tokens": 32000,
+                "p": 0.75
+              },
+              "code": "ORA_LLM_PREMIUM",
+              "model": "OPEN_AI_GPT_4_1_MINI",
+              "modelName": "GPT-4.1 mini",
+              "provider": "CERT_PREMIUM"
+            },
+            "name": "Generate Summary"
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "diagram": {
+            "x": 6350,
+            "y": 7036
+          },
+          "code": "GENERATE_SUMMARY",
+          "id": "1771921990311",
+          "inputs": [
+            {
+              "id": "1771921990312_1",
+              "name": "prompt",
+              "type": "string",
+              "value": "Provided with the appointment details for this week\ninput: {{$context.$variables.meetingDetails}}\nSummarize the sales rep’s appointments for this week in 1 ~ 2 sentences. Highlight total number of meetings, key accounts, primary objectives/themes, and any notable follow-ups or risks. Use the details provided (date/time, account, attendees, purpose, location/virtual, and notes) and keep the summary clear and executive-friendly."
+            }
+          ],
+          "type": "LLM"
+        },
+        {
+          "aiAppOutputSpecification": {
+            "dataDisplay": {
+              "layouts": [
+                "ORA_LAYOUT_MULTICARD"
+              ],
+              "enableActions": true,
+              "enableCommunications": true,
+              "customNotes": "<multiCardWidget>\n    <description>Displays multiple card-style alerts or updates in a single widget, using the same card metadata format repeated in an array.</description>\n    <schema>\n{\n    \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n    \"type\": \"object\",\n    \"required\": [\"cards\"],\n    \"properties\": {\n        \"layoutMode\": {\n            \"type\": \"string\",\n            \"enum\": [\"default\", \"collapsed\", \"single-col\"],\n            \"description\": \"Optional layout behavior. default preserves the normal responsive behavior, collapsed forces two cards per row, and single-col forces one card per row.\"\n        },\n        \"cards\": {\n            \"type\": \"array\",\n            \"description\": \"Array of card metadata objects. Use one entry per card.\",\n            \"items\": {\n                \"type\": \"object\",\n                \"required\": [\"subject\", \"summary\"],\n                \"properties\": {\n                    \"subject\": {\n                        \"type\": \"string\",\n                        \"description\": \"Clear, concise title (2-6 words typically)\"\n                    },\n                    \"subtitle\": {\n                        \"type\": \"string\",\n                        \"description\": \"Secondary line shown directly below the title\"\n                    },\n                    \"summary\": {\n                        \"type\": \"string\",\n                        \"description\": \"1-2 sentences of descriptive text (under 100 characters when possible)\"\n                    },\n                    \"status\": {\n                        \"type\": \"string\",\n                        \"description\": \"Bottom status text shown beneath the summary and above links\"\n                    },\n                    \"statusPriority\": {\n                        \"type\": \"string\",\n                        \"enum\": [\"alert\", \"warning\", \"medium\", \"success\"],\n                        \"description\": \"Color priority for the status text (alert: critical, warning: caution, medium: neutral, success: positive)\"\n                    },\n                    \"timestamp\": {\n                        \"type\": \"string\",\n                        \"description\": \"Human-readable relative time (e.g., '5 min ago', 'Yesterday')\"\n                    },\n                    \"badgeText\": {\n                        \"type\": \"string\",\n                        \"description\": \"Short label for categorization\"\n                    },\n                    \"link\": {\n                        \"type\": \"object\",\n                        \"properties\": {\n                            \"text\": {\n                                \"type\": \"string\",\n                                \"description\": \"Action-oriented button text (1-3 words)\"\n                            },\n                            \"action\": {\n                                \"type\": \"string\",\n                                \"description\": \"Identifier for what the link does (snake_case format)\"\n                            }\n                        }\n                    },\n                    \"additionalLink\": {\n                        \"type\": \"object\",\n                        \"properties\": {\n                            \"text\": {\n                                \"type\": \"string\",\n                                \"description\": \"Secondary action text (1-3 words)\"\n                            },\n                            \"action\": {\n                                \"type\": \"string\",\n                                \"description\": \"Identifier for the secondary action (snake_case format)\"\n                            }\n                        }\n                    },\n                    \"variant\": {\n                        \"type\": [\"string\", \"null\"],\n                        \"enum\": [\"error\", \"warning\", \"info\", null],\n                        \"description\": \"Visual styling variant (error: critical issues, warning: cautions, info: updates, null: neutral)\"\n                    }\n                }\n            }\n        }\n    }\n}\n    </schema>\n    <instructions>\nUse multiCardWidget when you need to show multiple standalone cards in a single widget.\n\n**Configuration Structure**\n\nlayoutMode (string, optional)\n\n- Controls the card grid layout.\n- Allowed values:\n  - default: preserve the normal responsive layout behavior\n  - collapsed: force two cards per row\n  - single-col: always show one card per row\n- IMPORTANT: default is the normal behavior and should usually be omitted instead of emitted explicitly.\n\ncards (array, required)\n\n- Provide one card metadata object per card.\n- Every card follows the same schema as cardWidget.\n- Keep the top-level oraInfoDisplay title/description shared for the whole set; only card-specific fields belong inside each cards[] entry.\n\nEach cards[] entry supports:\n\n- subject (string, required): clear, concise title\n- subtitle (string, optional): secondary line directly below the title\n- summary (string, required): 1-2 sentences of descriptive text\n- status (string, optional): bottom status text below the summary\n- statusPriority (string, optional): \"alert\", \"warning\", \"medium\", or \"success\"\n- timestamp (string, optional): human-readable relative time\n- badgeText (string, optional): short label for categorization\n- link (object, optional): primary action with text + action\n- additionalLink (object, optional): secondary action with text + action\n- variant (string, optional): \"error\", \"warning\", \"info\", or null\n\n**Important Rules**\n\n- Omit layoutMode unless the prompt explicitly asks for collapsed or single-col behavior.\n- Only use additionalLink when link is also present.\n- If status is present and statusPriority is omitted, the UI will treat it as medium.\n- Keep each card independently scannable.\n- Use multiCardWidget when the user needs several peer cards, not one table or one message list.\n- Do not add actions unless the user explicitly requests interactivity.\n    </instructions>\n    <examples>\n// Example 1: Two simple cards\n{\n    \"cards\": [\n        {\n            \"subject\": \"Pre-pricing alignment\",\n            \"subtitle\": \"ZenBank - Digital Channels Renewal (P1)\",\n            \"summary\": \"Align guardrails and next steps before the March 15 close.\",\n            \"status\": \"Last interaction raised budget concern\",\n            \"statusPriority\": \"warning\",\n            \"timestamp\": \"Today 3:00 PM\",\n            \"badgeText\": \"Today\",\n            \"variant\": \"info\"\n        },\n        {\n            \"subject\": \"Policy Reminder\",\n            \"summary\": \"Expense approvals are due by end of day.\",\n            \"timestamp\": \"Today\",\n            \"badgeText\": \"Reminder\"\n        }\n    ]\n}\n\n// Example 2: Multiple cards with actions\n{\n    \"cards\": [\n        {\n            \"subject\": \"System Alert\",\n            \"subtitle\": \"Web cluster / US-East\",\n            \"summary\": \"High CPU usage detected on web servers. Investigation in progress.\",\n            \"status\": \"Mitigation in progress\",\n            \"statusPriority\": \"alert\",\n            \"timestamp\": \"15 min ago\",\n            \"link\": {\n                \"text\": \"Details\",\n                \"action\": \"view_error_details\"\n            },\n            \"badgeText\": \"Alert\",\n            \"variant\": \"error\"\n        },\n        {\n            \"subject\": \"New Policy Update\",\n            \"subtitle\": \"Corporate travel and expense\",\n            \"summary\": \"Company travel policy has been updated with new guidelines.\",\n            \"status\": \"Review due this week\",\n            \"statusPriority\": \"medium\",\n            \"timestamp\": \"Yesterday\",\n            \"link\": {\n                \"text\": \"View Policy\",\n                \"action\": \"view_policy\"\n            },\n            \"additionalLink\": {\n                \"text\": \"Dismiss\",\n                \"action\": \"dismiss_notification\"\n            },\n            \"badgeText\": \"Policy\",\n            \"variant\": \"warning\"\n        }\n    ]\n}\n\n// Example 3: Explicit single-column layout\n{\n    \"layoutMode\": \"single-col\",\n    \"cards\": [\n        {\n            \"subject\": \"Critical Alert\",\n            \"summary\": \"Database failover triggered in the primary region.\",\n            \"timestamp\": \"5 min ago\",\n            \"badgeText\": \"Critical\",\n            \"variant\": \"error\"\n        },\n        {\n            \"subject\": \"Capacity Warning\",\n            \"summary\": \"API cluster is running above the recommended threshold.\",\n            \"timestamp\": \"12 min ago\",\n            \"badgeText\": \"Warning\",\n            \"variant\": \"warning\"\n        }\n    ]\n}\n    </examples>\n</multiCardWidget>"
+            }
+          },
+          "metadata": {
+            "name": "Generate Display Widget"
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "diagram": {
+            "x": 6800,
+            "y": 7036
+          },
+          "code": "GENERATE_DISPLAY_WIDGET",
+          "id": "1771922058628",
+          "inputs": [
+            {
+              "id": "1771922058630_1",
+              "name": "prompt",
+              "type": "string",
+              "value": "Input: {{$context.$variables.meetingDetails}}\nCurrent Date: {{$context.$system.$currentDate}}\n\nGenerate a multiCardWidget JSON output from the input data with these specifications\n\n- multiCardWidget Generation Rule:\n  - For properties:\n    - Do NOT return any title for the multiCardWidget.\n    - description: Generate 1-2 line professional summary on the scheduled meetings based on {{$context.$variables.meetingDetails}}.\n    - Use 'multiCardWidget'\n    - Set 'layoutMode' to \"single-col\"\n    - Add 'cards' for each row in {{$context.$variables.meetingDetails}}\n    - For each row, create a card with these fields:\n      - subject: use the current row's <Subject> string.\n      - subtitle: concatenate the following strings if present:\n        - <payload.what.facts.accountInsights.name>\n        - if <payload.what.facts.opportunityInsights.name> exists, append it prefixed by \" | \", else if <payload.what.facts.leadInsights.name> exists, append it prefixed by \" | \".\n      - summary: generate a one-line sentence from <payload.what.facts.meetingDetails.summary>.\n      - status: use <payload.what.facts.opportunityInsights.signals> string.\n      - badgeText: <duration> property.\n      - variant: if Urgency is CRITICAL, set as warning\n      - timestamp: <format ActivityStartDate based on Browser's locale settings on Date and Time . For example, Jan 30, 2026 3:00PM> | <ContactParties from the current row> \" and You\"\n      - link with :\n        - text: \"Prepare for Call\"\n        - add an \"action\" property:\n          - If <payload.what.facts.opportunityInsights.opportunityId> exists and is non-empty, set action to ora.Invoke(\"launchOpportunity\", {\"opportunityId\":\"\"+<opportunityId>,\"activityNumber\":\"\"+<ActivityNumber>}).\n          - Else if <payload.what.facts.accountInsights> exists with accountPartyId and accountPartyNumber present, set action to ora.Invoke(\"launchAccount\", {accountId:\"\"+accountPartyId,accountNumber:\"\"+accountPartyNumber,accountName:\"\"+name,activityNumber:<ActivityNumber>}).\n  - Use string values for all substitutions, defaulting to empty strings if missing.\n  - Sort all list items in ascending order by ActivityStartDate.\n\nRespond only with the multiCardWidget JSON output according to these rules."
+            },
+            {
+              "id": "1771922058628_systemPrompt",
+              "name": "systemPrompt",
+              "type": "string",
+              "value": "When generating output, return only the oraInfoDisplay field from the multiCardWidget.\nDo not include any additional text, explanations, or formatting outside of this field.\nEnsure the output is exactly the value of oraInfoDisplay and nothing else.\nExclude any title content from the oraInfoDisplay field in the output."
+            }
+          ],
+          "type": "LLM"
+        },
+        {
+          "metadata": {
+            "name": "Filter the selected Appointment",
+            "returnType": "object",
+            "sourceCode": "let allAppointments = $context.$variables.meetingDetails;\nlet context=\"\"\ntry{\ncontext = JSON.parse($context.$app.$OraAction)??\"\";\n}\ncatch(e){\ncontext=$context.$app.$OraAction;\n}\nlet currentAppt = allAppointments.find(a=>a?.activity?.ActivityNumber === context);\n\ncurrentAppt. recommendationDetails=\"You are a sales enablement assistant. Using the JSON payload below from Oracle CRM, generate concise, step-by-step preparation instructions for the assigned seller to get ready for the upcoming meeting. The output should be action-oriented, scannable, and suitable to share internally with the account team. Goals:    - Summarize the meeting basics (who, what, when, where) from the payload. Provide a clear pre-meeting checklist tailored to the account and opportunity context.   Include call logistics (Teams link, meeting ID and passcode), with a reminder to keep details internal and follow corporate security/privacy policies.    - Suggest 3–5 discovery questions aligned to the opportunity and customer profile.    - Recommend 2–3 next-step outcomes to secure during the meeting.     - Highlight potential stakeholders to invite or consult, if identifiable from the payload (contacts, owner, team, management chain).Flag any missing or unclear data the rep should confirm before the call.     Formatting requirements:    - Start with a brief Meeting Overview section and Follow with a Pre-Meeting Checklist (bulleted).  - Discovery Questions section (bulleted) - Add an Intended Outcomes section (bulleted).    - Add a Logistics & Security Notes section (bulleted).    - Close with a Data Gaps to Confirm section (bulleted).   - Keep the total length under 300 words. No tables. No external speculation beyond the fields provided.   - Tone: Professional, concise, and action-oriented.   - Avoid assumptions about deal stage beyond what’s in the payload.  Emphasize security, privacy, and compliance best practices.Oracle CRM Activity JSON: \"+ JSON.stringify(currentAppt);\n\nreturn currentAppt;"
+          },
+          "outcomes": {
+            "success": "1771951396503"
+          },
+          "diagram": {
+            "x": 5205.5,
+            "y": 7036
+          },
+          "code": "FILTER_THE_SELECTED_APPOINTMENT",
+          "id": "1771950631429",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "type": "CODE"
+        },
+        {
+          "metadata": {
+            "name": "Refine Top 2 Appointments",
+            "returnType": "array",
+            "sourceCode": "let appointments = $context.$variables.meetingDetails ;\nlet top2 = appointments.sort((a,b)=>a?.activity?.ActivityStartDate -  b?.activity?.ActivityStartDate).slice(0, 2);\nreturn top2;"
+          },
+          "outcomes": {
+            "success": "1771955892879"
+          },
+          "diagram": {
+            "x": 5900,
+            "y": 7036
+          },
+          "code": "REFINE_TOP_2_APPOINTMENTS",
+          "id": "1771956311878",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "type": "CODE"
+        },
+        {
+          "metadata": {
+            "name": "Query Response"
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "diagram": {
+            "x": 7250,
+            "y": 7036
+          },
+          "code": "QUERY_RESPONSE",
+          "id": "1772096562645",
+          "inputs": [
+            {
+              "id": "1772096562646_1",
+              "name": "prompt",
+              "type": "string",
+              "value": "Task:\n - Provided with the user query and the meeting data, Answer the user query in the below format.\n\nReturn the output in Markdown without code fences. Do not include any title for the answer. Provide a clear answer section first, then an insights section.\n\nOutput format:\n- Start with the answer content. Use bold for any key points where needed.\n- Then include a single section heading named “Additional insights”.\n- Under “Additional insights”, provide bullet-point insights.\n\nExample structure:\n**Answer**\n- Your primary answer content here, with any key points in **bold**.\n\nAdditional insights\n- Insight 1\n- Insight 2\n\n- **Note** :  If the user query cannot be answered with the available data, return only \"Data not available to answer the query\".\n- Do not invent answers. The answer should be based on the provided data. It is the source of truth.\n\nData source:\n {{$context.$variables.meetingDetails}}"
+            }
+          ],
+          "type": "LLM"
+        },
+        {
+          "metadata": {
+            "errorNodeId": "1771994591966",
+            "name": "Calling Assistant for the Talking Points",
+            "workflowCode": "ORA_OPPORTUNITY_ASSISTANT_AGENT_TEAM"
+          },
+          "outcomes": {
+            "success": "1772089875607"
+          },
+          "diagram": {
+            "x": 5165,
+            "y": 7258
+          },
+          "code": "CALLING_ASSISTANT_FOR_THE_TALKING_POINTS",
+          "id": "1771951396503",
+          "inputs": [
+            {
+              "id": "1772085612305_1",
+              "name": "message",
+              "type": "string",
+              "value": "{{$context.$nodes.FILTER_THE_SELECTED_APPOINTMENT.$output.result?.recommendationDetails}}"
+            },
+            {
+              "id": "1772085612306_2",
+              "name": "taskType",
+              "type": "string",
+              "value": "CREATE_MEETING_AGENDA"
+            },
+            {
+              "id": "1772085612307_3",
+              "name": "salesPlay",
+              "type": "string"
+            },
+            {
+              "id": "1772085612308_4",
+              "name": "insightNumber",
+              "type": "string",
+              "value": "{{$context.$nodes.FILTER_THE_SELECTED_APPOINTMENT.$output.result?.eInsightsNumber}}"
+            },
+            {
+              "id": "1772085612309_5",
+              "name": "insightId",
+              "type": "string",
+              "value": "{{$context.$nodes.FILTER_THE_SELECTED_APPOINTMENT.$output.result?.eInsightsId}}"
+            },
+            {
+              "id": "1772085612310_6",
+              "name": "puid",
+              "type": "string",
+              "value": "{{$context.$nodes.FILTER_THE_SELECTED_APPOINTMENT.$output.result?.activity?.OpportunityId?.OptyNumber}}"
+            },
+            {
+              "id": "1772085612311_7",
+              "name": "id",
+              "type": "string",
+              "value": "{{$context.$nodes.FILTER_THE_SELECTED_APPOINTMENT.$output.result?.activity?.OpportunityId?.OptyId}}"
+            },
+            {
+              "id": "1772085612312_8",
+              "name": "recommendationDetails",
+              "type": "string",
+              "value": "{{$context.$nodes.FILTER_THE_SELECTED_APPOINTMENT.$output.result?.recommendationDetails}}"
+            }
+          ],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"input\": {\n      \"type\": \"string\"\n    },\n    \"output\": {\n      \"type\": \"string\"\n    },\n    \"error\": {\n      \"type\": \"null\"\n    },\n    \"followUpQuestions\": {\n      \"type\": \"array\",\n      \"items\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"string\"\n        }\n      ]\n    },\n    \"jobId\": {\n      \"type\": \"string\"\n    },\n    \"conversationId\": {\n      \"type\": \"string\"\n    },\n    \"traceId\": {\n      \"type\": \"string\"\n    },\n    \"status\": {\n      \"type\": \"string\"\n    },\n    \"supportingChunks\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"citations\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"nodes\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"waitingToolCode\": {\n      \"type\": \"null\"\n    },\n    \"workflowCode\": {\n      \"type\": \"string\"\n    },\n    \"workflowVersion\": {\n      \"type\": \"integer\"\n    },\n    \"workflowStatus\": {\n      \"type\": \"string\"\n    },\n    \"startDate\": {\n      \"type\": \"integer\"\n    },\n    \"endTime\": {\n      \"type\": \"integer\"\n    },\n    \"createDate\": {\n      \"type\": \"string\"\n    },\n    \"endDate\": {\n      \"type\": \"string\"\n    },\n    \"timeTaken\": {\n      \"type\": \"integer\"\n    },\n    \"inputTokenCount\": {\n      \"type\": \"integer\"\n    },\n    \"outputTokenCount\": {\n      \"type\": \"integer\"\n    }\n  },\n  \"required\": []\n}",
+          "type": "WORKFLOW"
+        },
+        {
+          "aiAppOutputSpecification": {
+            "dataDisplay": {
+              "layouts": [],
+              "enableActions": false,
+              "enableCommunications": true
+            }
+          },
+          "metadata": {
+            "name": "Communication Response"
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "diagram": {
+            "x": 5900,
+            "y": 7258
+          },
+          "code": "COMMUNICATION_RESPONSE",
+          "id": "1771955892879",
+          "inputs": [
+            {
+              "id": "1771955892881_1",
+              "name": "prompt",
+              "type": "string",
+              "value": "Given this input: {{$context.$nodes.REFINE_TOP_2_APPOINTMENTS.$output.result}}\n\nTask:\n- For each of the appointment as input return the communication in the below format.\n\n   \"title\": \"Agenda for activity.Subject\", #Dynamically fill the meeting context from the data.\n  \"shortDescription\": one sentence summarizing the email’s intent,\n  \"actionText\": \"Send email\",\n  \"type\": \"email\",\n   targetAgent: ‘MEETING_OVERVIEW’\n\"content\": - emailBodyHtml (full HTML) Fill in as per the instruction given below.\n  - emailBodyHtml (full HTML)\n - To Address: mail id all the contacts from ListOfContacts. Return null if this attribute is not available.\n- Cc Address: Mail id all the resources from attribute ListOfResourcesForTheTeam. Return null if this attribute is not available.\n\n\n\nin the emailBodyHtml include\n - Greeting: “Hello {{RecipientName}},”\n - 1  sentence context referencing the opportunity name.\n- Date and Time of the appointment.\n  - An action-oriented intro: “Setting the agenda for the meeting”\n  - Bullet list (4 ~ 5 items) that sets the agenda based on the meeting_context, executive_context of the meeting.\n  - Signature: “Best regards, <SenderName>.  for Sender name use the Full name from {{$context.$app.$OraUserContext}}"
+            }
+          ],
+          "type": "LLM"
+        },
+        {
+          "metadata": {
+            "name": "format response",
+            "returnType": "object",
+            "sourceCode": "let res = $context.$nodes.CALLING_ASSISTANT_FOR_THE_TALKING_POINTS.$output.output??{};\nlet success = $context.$nodes.REFINE_TOP_2_APPOINTMENTS.$status;\ntry{ res = JSON.parse(res); } catch { success = \"ERROR\" }\nconst result = {\"postback\":res?.postback??\"\",\"success\":success};\nreturn result;"
+          },
+          "outcomes": {
+            "success": "1771993975123"
+          },
+          "diagram": {
+            "x": 5225,
+            "y": 7480
+          },
+          "code": "FORMAT_RESPONSE",
+          "id": "1772089875607",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+          "type": "CODE"
+        },
+        {
+          "metadata": {
+            "name": "If success"
+          },
+          "outcomes": {
+            "true": "1771953258380",
+            "false": "1771994591966"
+          },
+          "diagram": {
+            "x": 5225,
+            "y": 7702
+          },
+          "code": "IF_SUCCESS",
+          "convergenceTargetId": "end",
+          "id": "1771993975123",
+          "inputs": [
+            {
+              "id": "1771993975124_1",
+              "name": "condition",
+              "type": "string",
+              "value": "{{$context.$nodes.FORMAT_RESPONSE.$output.result?.success!=\"ERROR\"}}"
+            }
+          ],
+          "type": "CONDITION"
+        },
+        {
+          "aiAppOutputSpecification": {
+            "dataDisplay": {
+              "layouts": [],
+              "enableActions": false,
+              "enableCommunications": false
+            }
+          },
+          "metadata": {
+            "name": "invokeAction"
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "diagram": {
+            "x": 5000,
+            "y": 7924
+          },
+          "code": "INVOKEACTION",
+          "convergenceTargetId": "1771994009379",
+          "id": "1771953258380",
+          "inputs": [
+            {
+              "id": "1771953258380_1",
+              "name": "prompt",
+              "type": "string",
+              "value": "Return the data as Markdown using only H4 (####) and lower-level headings. Do not include triple backticks or any code fences. Remove unnecessary line breaks so paragraphs are continuous. If the data is empty or null, return: No Data Available\nInput data:\n {{$context.$nodes.FORMAT_RESPONSE.$output.result?.postback}} \n\n## return only in markdown and do not add any additional line breaks."
+            }
+          ],
+          "type": "LLM"
+        },
+        {
+          "metadata": {
+            "modelConfiguration": {
+              "modelProperties": {
+                "k": 0,
+                "max_tokens": 32000,
+                "p": 0.75
+              },
+              "code": "ORA_LLM_PREMIUM",
+              "model": "OPEN_AI_GPT_4_1_MINI",
+              "modelName": "GPT-4.1 mini",
+              "provider": "CERT_PREMIUM"
+            },
+            "name": "No Talking Point"
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "diagram": {
+            "x": 5450,
+            "y": 7924
+          },
+          "code": "NO_TALKING_POINT",
+          "id": "1771994591966",
+          "inputs": [
+            {
+              "id": "1771994591968_1",
+              "name": "prompt",
+              "type": "string",
+              "value": "You are given appointment/opportunity data. Produce a markdown response using only headings H4 (####) and above (no H5/H6 or lower). Follow this exact structure and formatting:\n\nInput: {{$context.$nodes.FILTER_THE_SELECTED_APPOINTMENT.$output.result}} \n\n\n- Section 1: #### Overview\n  - Bulleted list with:\n    - Subject: <Subject>\n    - Customer: <CustomerAccount.PartyUniqueName>\n    - Opportunity: <OpportunityId.Name>\n\n- Section 2: #### Opportunity Summary\n  - If OpportunitySummary is available, include its text as normal paragraph content under this heading.\n  - If not available, omit this section entirely.\n\n- Section 3: #### Attendees\n  - Create bullet points in this order:\n    - For each team resource in ListOfResourceForTheTeam:\n      - <PartyName> (<EmailAddress>)  [If EmailAddress missing, omit the parentheses entirely.]\n    - Then list each contact from ListOfContacts:\n      - <ContactFullName> (<EmailAddress>)  [If EmailAddress missing, omit the parentheses entirely.]\n  - If no contacts are available in ListOfContacts, add a single bullet: No Contact available for the appointment.\n- Section 4: #### Talking points\n  - add a single bullet: No Talking Point available for the appointment.\n\nRules:\n- Use only H4 (####) headings for sections; no other heading levels.\n- For all bullet items, use a single dash followed by a space (“- ”).\n- Do not include empty fields; if a value is missing, omit that specific bullet or parenthetical as instructed.\n- Preserve the order: Overview, Opportunity Summary (only if available), Attendees.\n- Do not add any extra sections, commentary, or formatting beyond what’s specified."
+            }
+          ],
+          "type": "LLM"
+        },
+        {
+          "metadata": {
+            "dataPipeline": {
+              "rootNode": "start_1776023732155",
+              "pipelineNodes": [
+                {
+                  "metadata": {
+                    "description": "Start of data pipeline",
+                    "name": "Start"
+                  },
+                  "diagram": {
+                    "x": 6274.5,
+                    "y": 5518
+                  },
+                  "outcomes": {
+                    "success": "1776024024093"
+                  },
+                  "id": "start_1776023732155",
+                  "code": "START",
+                  "type": "START",
+                  "inputs": []
+                },
+                {
+                  "metadata": {
+                    "name": "Get Meeting Insights",
+                    "businessObjectCode": "ORA_CX_SALESFORCE_AIOUTCOMESTORE",
+                    "functionName": "getOutcomeBy_AltKey_SubType"
+                  },
+                  "diagram": {
+                    "x": 6125,
+                    "y": 5669
+                  },
+                  "outcomes": {
+                    "success": "1776024497558"
+                  },
+                  "id": "1776024024093",
+                  "code": "GET_MEETING_INSIGHTS",
+                  "type": "BO_FUNCTION",
+                  "inputs": [
+                    {
+                      "id": "1776024024093_ObjectType",
+                      "name": "ObjectType",
+                      "value": "ACTIVITY",
+                      "required": true
+                    },
+                    {
+                      "id": "1776024024093_ObjectAltKey",
+                      "name": "ObjectAltKey",
+                      "value": "{{$context.$nodes.MEETING_LOOP.$currentItem.ActivityNumber}}",
+                      "required": true,
+                      "type": "string"
+                    },
+                    {
+                      "id": "1776024024093_OutcomeType",
+                      "name": "OutcomeType",
+                      "value": "SUMMARY",
+                      "required": true
+                    },
+                    {
+                      "id": "1776024024093_OutcomeSubType",
+                      "name": "OutcomeSubType",
+                      "value": "STATE_SUMMARY",
+                      "required": true
+                    }
+                  ]
+                },
+                {
+                  "metadata": {
+                    "name": "Populate Meeting Detail",
+                    "sourceCode": "let result = [];\ntry {\n  const meetingRow = $context.$nodes.MEETING_LOOP.$currentItem || {};\n  const insights = $context.$nodes.MEETING_LOOP.GET_MEETING_INSIGHTS.$output?.items || [];\n  const firstInsight = insights.length > 0 ? insights[0] : null;\n  let parsedPayload = {};\n  if (firstInsight && typeof firstInsight.payload === 'string') {\n    try {\n      parsedPayload = JSON.parse(firstInsight.payload);\n    } catch (e) {\n      parsedPayload = {};\n    }\n  }\n\n  // Check for payload.what.facts.opportunityInsights and opportunityId property\n  if (\n    parsedPayload?.what?.facts?.opportunityInsights &&\n    typeof parsedPayload.what.facts.opportunityInsights.opportunityId !== 'undefined'\n  ) {\n    const oppId = parsedPayload.what.facts.opportunityInsights.opportunityId;\n    if (oppId === null || typeof oppId !== 'string' || oppId.length <= 1) {\n      parsedPayload.what.facts.opportunityInsights.opportunityId = null;\n    }\n  }\n\n  // Extract ListOfContacts array safely\n  const listOfContacts = Array.isArray(meetingRow.ListOfContacts) ? meetingRow.ListOfContacts : [];\n\n  // Extract up to first 2 ContactId.PartyName values and join as comma and space separated string\n  const contactPartiesArray = listOfContacts\n    .map(contact => {\n      // TODO: Inferred 'ContactId' from user text 'ContactId'\n      // TODO: Inferred 'PartyName' from user text 'PartyName'\n      return contact?.ContactId?.PartyName || null;\n    })\n    .filter(name => name !== null)\n    .slice(0, 2);\n\n  const contactParties = contactPartiesArray.join(\", \"); // comma and space separator\n\n  // Create consolidatedMeeting with new ContactParties property as string\n  const consolidatedMeeting = { ...meetingRow, payload: parsedPayload, ContactParties: contactParties, Urgency: firstInsight.urgency };\n\n  const currentMeetingDetails = Array.isArray($context.$variables?.meetingDetails) ? $context.$variables.meetingDetails : [];\n  result = [...currentMeetingDetails, consolidatedMeeting];\n} catch (error) {\n  result = Array.isArray($context.$variables?.meetingDetails) ? $context.meetingDetails : [];\n}\n\nreturn result;",
+                    "returnType": "array"
+                  },
+                  "diagram": {
+                    "x": 6125,
+                    "y": 5891
+                  },
+                  "outcomes": {
+                    "success": "1776025080359"
+                  },
+                  "id": "1776024497558",
+                  "code": "POPULATE_MEETING_DETAIL",
+                  "type": "CODE",
+                  "inputs": [],
+                  "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+                },
+                {
+                  "metadata": {
+                    "name": "Set Meeting  Details"
+                  },
+                  "diagram": {
+                    "x": 6125,
+                    "y": 6113
+                  },
+                  "outcomes": {
+                    "success": "end_1776023732155"
+                  },
+                  "id": "1776025080359",
+                  "code": "SET_MEETING_DETAILS",
+                  "type": "SET_FIELDS",
+                  "inputs": [
+                    {
+                      "id": "1776025080359_meetingDetails",
+                      "name": "meetingDetails",
+                      "value": "{{$context.$nodes.MEETING_LOOP.POPULATE_MEETING_DETAIL.$output.result}}"
+                    }
+                  ]
+                },
+                {
+                  "metadata": {
+                    "name": "End",
+                    "description": "End of data pipeline"
+                  },
+                  "outcomes": {},
+                  "id": "end_1776023732155",
+                  "code": "END",
+                  "type": "END",
+                  "inputs": []
+                }
+              ]
+            },
+            "name": "Meeting Loop",
+            "loopType": "SEQUENTIAL"
+          },
+          "diagram": {
+            "x": 5975,
+            "y": 5428,
+            "width": 600,
+            "height": 792
+          },
+          "outcomes": {
+            "success": "1779920762667"
+          },
+          "id": "1776023732155",
+          "code": "MEETING_LOOP",
+          "type": "LOOP",
+          "inputs": [
+            {
+              "id": "1776023732155_collection",
+              "name": "collection",
+              "type": "string",
+              "value": "{{$context.$nodes.FETCH_APPOINTMENTS.$output}}"
+            }
+          ]
+        },
+        {
+          "id": "1779920762667",
+          "code": "SET_MEETING_OUTPUT",
+          "type": "CODE",
+          "metadata": {
+            "name": "Set Meeting Output",
+            "sourceCode": "let result = [];\ntry {\n  const meetingDetails = $context.$variables?.meetingDetails || [];\n  const currentDate = new Date($context.$system?.$currentDate || new Date().toISOString());\n\n  // Helper function to calculate difference in days between two dates\n  function diffDays(date1, date2) {\n    const utc1 = Date.UTC(date1.getFullYear(), date1.getMonth(), date1.getDate());\n    const utc2 = Date.UTC(date2.getFullYear(), date2.getMonth(), date2.getDate());\n    return Math.floor((utc2 - utc1) / (1000 * 60 * 60 * 24));\n  }\n\n  result = meetingDetails.map(meeting => {\n    const startDateStr = meeting.ActivityStartDate; // TODO: Inferred 'ActivityStartDate' from user text 'ActivityStartDate'\n    let duration = \"\";\n\n    if (startDateStr) {\n      const startDate = new Date(startDateStr);\n      const daysDiff = diffDays(currentDate, startDate);\n\n      if (daysDiff === 0) {\n        duration = \"Today\";\n      } else if (daysDiff === 1) {\n        duration = \"Tomorrow\";\n      } else if (daysDiff > 1) {\n        duration = `In ${daysDiff} days`;\n      } else {\n        // If startDate is in the past or invalid difference\n        duration = \"\";\n      }\n      if(meeting.Urgency == \"CRITICAL\"){\n        duration = \"Critical\";\n      }\n    }\n\n    return { ...meeting, duration };\n  });\n} catch (error) {\n  result = [];\n}\n\nreturn result;",
+            "returnType": "array"
+          },
+          "diagram": {
+            "x": 6125,
+            "y": 6370
+          },
+          "outcomes": {
+            "success": "1779920833461"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "1779920833461",
+          "code": "SET_UPDATED_MEETING_DETAILS",
+          "type": "SET_FIELDS",
+          "metadata": {
+            "name": "Set Updated Meeting Details"
+          },
+          "diagram": {
+            "x": 6123.5,
+            "y": 6592
+          },
+          "outcomes": {
+            "success": "1771921839568"
+          },
+          "inputs": [
+            {
+              "id": "1779920833461_meetingDetails",
+              "name": "meetingDetails",
+              "value": "{{$context.$nodes.SET_MEETING_OUTPUT.$output.result}}"
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "description": "End of data pipeline",
+            "name": "End"
+          },
+          "outcomes": {},
+          "code": "END",
+          "id": "end",
+          "inputs": [],
+          "type": "END"
+        }
+      ],
+      "rootNode": "start",
+      "variables": [
+        {
+          "id": "1771919811670",
+          "name": "meetingDetails",
+          "scope": "JOB",
+          "type": "array"
+        }
+      ],
+      "errorHandlers": [
+        {
+          "type": "EMAIL",
+          "inputs": [
+            {
+              "name": "toList",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "ccList",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "subject",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "body",
+              "type": "string",
+              "value": ""
+            }
+          ]
+        }
+      ]
+    },
+    "dtRunProfiles": {
+      "activeProfileId": "7adf3a08-0272-46b4-87fb-a3c7327cc60a",
+      "profiles": [
+        {
+          "id": "7adf3a08-0272-46b4-87fb-a3c7327cc60a",
+          "name": "Init Display",
+          "type": "agentic-app",
+          "agenticAppMode": "initDisplay"
+        }
+      ]
+    },
+    "diagram": {
+      "orientation": "vertical",
+      "commentNodes": []
+    },
+    "jsonSchemaName": "Workflow.spec",
+    "jsonSchemaVersion": "1",
+    "inputs": [],
+    "outputSpecification": "",
+    "agentsValueMappings": [],
+    "modelConfiguration": null,
+    "humanApprovalFlag": false,
+    "waitFlag": false,
+    "triggers": [
+      {
+        "type": "REST",
+        "inputs": [
+          {
+            "id": "1771919802454",
+            "name": "dummy",
+            "type": "string"
+          }
+        ]
+      }
+    ],
+    "costSavings": 0,
+    "timeSavings": 10,
+    "chatExpTPFileUploadEnabledFlag": false,
+    "chatExpThirdPartyDetails": [],
+    "policyIds": [],
+    "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI"
+  },
+  "status": "DRAFT",
+  "version": 1,
+  "family": "CX",
+  "product": "SALES_FORCE_AUTOMATION",
+  "ownerName": null,
+  "customFlag": false,
+  "seededFlag": true,
+  "isTemplate": false,
+  "customizationPolicy": "FULL",
+  "hiddenFlag": false,
+  "useCaseId": "NA",
+  "accessModifier": "public",
+  "architecture": "data_pipeline",
+  "aiAppsCompatibleFlag": true,
+  "followupEnabledFlag": false,
+  "followupPrompt": "Based on the following conversion: $param.system_context.chat_history generate $param.system_context.number_of_follow_up_questions\nfollow up questions only while strictly adhering to the JSON Schema format mentioned below. Remove the ```json markdown from the output.\nHere is the JSON Schema format the output should adhere to:\n[{\"question\": \"<put first question generated here>\"}, {\"question\": \"<put second question generated here>\"}, {\"question\": \"<put third question generated here>\"}",
+  "header": {
+    "ETag": "\"4\""
+  }
+}

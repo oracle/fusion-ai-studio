@@ -1,0 +1,787 @@
+{
+  "workflowId": "300100647771999",
+  "workflowCode": "ORA_SALES_REPRESENTATIVE_ACCOUNT_ADVISOR",
+  "name": "Sales Representative Account Advisor",
+  "description": "This workflow enables sales representatives to view and manage accounts associated with them by presenting a consolidated list along with key insights and summaries. It captures and organizes account-level signals, including indicators related to risk, expansion potential, and overall status, providing a structured view of each account and its associated details within the system.",
+  "specification": {
+    "dataPipeline": {
+      "pipelineNodes": [
+        {
+          "metadata": {
+            "description": "Start of data pipeline",
+            "name": "Start"
+          },
+          "outcomes": {
+            "success": "1779908352773"
+          },
+          "diagram": {
+            "x": 5797,
+            "y": 5000
+          },
+          "code": "START",
+          "id": "start",
+          "inputs": [],
+          "type": "START"
+        },
+        {
+          "id": "1779908352773",
+          "code": "IS_QUERY",
+          "type": "CONDITION",
+          "convergenceTargetId": "end",
+          "metadata": {
+            "name": "Is Query"
+          },
+          "diagram": {
+            "x": 5675,
+            "y": 5206
+          },
+          "outcomes": {
+            "true": "1779763648827",
+            "false": "1774828687397"
+          },
+          "inputs": [
+            {
+              "id": "1779908352773_condition",
+              "name": "condition",
+              "type": "string",
+              "value": "{{$context.$app.$OraMessageHint==\"Query\"}}"
+            }
+          ]
+        },
+        {
+          "id": "1779763648827",
+          "code": "INVOKE_CUSTOMER_INSIGHTS_CHAT_AGENT",
+          "type": "WORKFLOW",
+          "metadata": {
+            "name": "Invoke Customer Insights Chat Agent",
+            "workflowCode": "ORA_CUSTOMER_PORTFOLIO_CHAT_AGENT"
+          },
+          "diagram": {
+            "x": 5862.5,
+            "y": 5428
+          },
+          "outcomes": {
+            "success": "1779907539287"
+          },
+          "inputs": [
+            {
+              "id": "1779763648827_message",
+              "name": "message",
+              "type": "string",
+              "value": "{{$context.$system.$inputMessage}}"
+            },
+            {
+              "id": "1779763648827_action",
+              "name": "action",
+              "type": "object",
+              "value": ""
+            },
+            {
+              "id": "1779763648827_filterConfiguration",
+              "name": "filterConfiguration",
+              "type": "object",
+              "value": ""
+            }
+          ],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"input\": {\n      \"type\": \"string\"\n    },\n    \"output\": {\n      \"type\": \"string\"\n    },\n    \"error\": {\n      \"type\": \"null\"\n    },\n    \"followUpQuestions\": {\n      \"type\": \"array\",\n      \"items\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"string\"\n        }\n      ]\n    },\n    \"jobId\": {\n      \"type\": \"string\"\n    },\n    \"conversationId\": {\n      \"type\": \"string\"\n    },\n    \"traceId\": {\n      \"type\": \"string\"\n    },\n    \"status\": {\n      \"type\": \"string\"\n    },\n    \"supportingChunks\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"citations\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"nodes\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"waitingToolCode\": {\n      \"type\": \"null\"\n    },\n    \"workflowCode\": {\n      \"type\": \"string\"\n    },\n    \"workflowVersion\": {\n      \"type\": \"integer\"\n    },\n    \"workflowStatus\": {\n      \"type\": \"string\"\n    },\n    \"startDate\": {\n      \"type\": \"integer\"\n    },\n    \"endTime\": {\n      \"type\": \"integer\"\n    },\n    \"createDate\": {\n      \"type\": \"string\"\n    },\n    \"endDate\": {\n      \"type\": \"string\"\n    },\n    \"timeTaken\": {\n      \"type\": \"integer\"\n    },\n    \"inputTokenCount\": {\n      \"type\": \"integer\"\n    },\n    \"outputTokenCount\": {\n      \"type\": \"integer\"\n    }\n  },\n  \"required\": []\n}"
+        },
+        {
+          "id": "1779907539287",
+          "code": "REFINE_QUERY_DATA",
+          "type": "CODE",
+          "metadata": {
+            "name": "Refine Query Data",
+            "sourceCode": "let result = { isArray: false, data: {}, list: null };\n\ntry {\n  let nodeOutput = $context.$nodes.INVOKE_CUSTOMER_INSIGHTS_CHAT_AGENT?.$output;\n\n  // Parse top-level string if needed\n  if (typeof nodeOutput === \"string\") {\n    try {\n      nodeOutput = JSON.parse(nodeOutput);\n    } catch (e) {\n      nodeOutput = {};\n    }\n  }\n\n  let payload = nodeOutput && typeof nodeOutput === \"object\"\n    ? (nodeOutput.output ?? nodeOutput)\n    : {};\n\n  // Parse payload string if needed\n  if (typeof payload === \"string\") {\n    try {\n      payload = JSON.parse(payload);\n    } catch (e) {\n      payload = {};\n    }\n  }\n\n  const accountData = payload?.accountData;\n\n  if (Array.isArray(accountData)) {\n    result = {\n      isArray: true,\n      data: payload,\n      list: accountData\n    };\n  } else {\n    result = {\n      isArray: false,\n      data: payload,\n      list: null\n    };\n  }\n\n} catch (error) {\n  result = {\n    isArray: false,\n    data: {},\n    list: null\n  };\n}\n\nreturn result;",
+            "returnType": "object"
+          },
+          "diagram": {
+            "x": 5900,
+            "y": 5650
+          },
+          "outcomes": {
+            "success": "1779907689092"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "1779907689092",
+          "code": "IS_LIST",
+          "type": "CONDITION",
+          "convergenceTargetId": "end",
+          "metadata": {
+            "name": "Is List"
+          },
+          "diagram": {
+            "x": 5900,
+            "y": 5872
+          },
+          "outcomes": {
+            "true": "1779907730763",
+            "false": "1779921753836"
+          },
+          "inputs": [
+            {
+              "id": "1779907689092_condition",
+              "name": "condition",
+              "type": "string",
+              "value": "{{$context.$nodes.REFINE_QUERY_DATA.$output.result.isArray}}"
+            }
+          ]
+        },
+        {
+          "id": "1779907730763",
+          "code": "RESPONSE_WIDGET",
+          "type": "LLM",
+          "metadata": {
+            "name": "Response Widget"
+          },
+          "diagram": {
+            "x": 5675,
+            "y": 6094
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "inputs": [
+            {
+              "id": "1779907730763_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "Generate a messageListWidget based on {{$context.$nodes.REFINE_QUERY_DATA.$output.result.list}} . Do not include any raw data in the output"
+            }
+          ],
+          "aiAppOutputSpecification": {
+            "dataDisplay": {
+              "enableActions": true,
+              "layouts": [
+                "ORA_LAYOUT_MESSAGES_LIST"
+              ]
+            }
+          }
+        },
+        {
+          "id": "1779921753836",
+          "code": "QUERY_RESPONSE",
+          "type": "LLM",
+          "metadata": {
+            "description": "",
+            "name": "Query Response"
+          },
+          "diagram": {
+            "x": 6125,
+            "y": 6094
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "inputs": [
+            {
+              "id": "1779921753836_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "For the user query: `{{$context.$system.$inputMessage}}`\n\nUse this response content as the source of truth: `{{$context.$nodes.REFINE_QUERY_DATA.$output.result.data}}`\n\n\nStrict data rules:\n\nOnly use data, values, fields, accounts, actions, and insights that are explicitly present in the provided response content.\nDo not infer, calculate, summarize, or add any value unless it is directly supported by the provided response content.\nDo not invent facts, labels, opportunity names, IDs, amounts, dates, actions, or insights.\nIf a useful field is not present in the provided response content, omit it.\nPreserve the meaning of the original response.\nClean up formatting only when needed for readability.\n\nRules:\n- **Always** hightlight the main answer to the user query in Bold.\n- Do not include prefixes such as `Answer=`, `content=`, `Response=`, or similar labels.\n- Preserve the meaning of the original response.\n- Clean up formatting only when needed for readability.\n- Do not invent facts, values, opportunities, actions, or insights.\n- Do not wrap the response in code fences.\n- Do not include unrelated explanation.\n- Return the response with 1 ~ 3 widgets for easy display of the response. \n-  The supporting data / Additional insights should be added as markdown without the widget as a drop down\n- ** Do not ** repeat the same data n the widget and in additional insights. If it is include in the widget, remove the data from the additional insights\n\nWidget selection rules:\n- Choose the widget or widgets that best display the response for the user query.\n- If the response contains an `action` attribute, use it to enable an action on the widget.\n- When using an action, use the related opportunity name as the action text and Title of the widget. Choose available additional attributes or description as short desctiption.\n- If the response contains multiple opportunities, use a `Message List` or `Multi Record` widget.\n- If the user query asks for comparison, change, trend, increase, decrease, delta, or difference, use a `Change Widget`.\n- Use \"Card\" or \"Multi Card\" widget if the response needed 1 ~ 3 opportunities with few attributes.\n- If a visualization would make the answer easier to understand, add a `Chart` widget.\n- A `Chart` widget must always be additional. Do not use a chart as the only widget.\n- Always display the actual data in a non-chart widget when a chart is used."
+            }
+          ],
+          "aiAppOutputSpecification": {
+            "dataDisplay": {
+              "layouts": [
+                "ORA_LAYOUT_CARD",
+                "ORA_LAYOUT_MULTICARD",
+                "ORA_LAYOUT_MESSAGES_LIST",
+                "ORA_LAYOUT_CHART",
+                "ORA_LAYOUT_CHANGE_LIST",
+                "ORA_LAYOUT_RECORD",
+                "ORA_LAYOUT_MULTIRECORD"
+              ]
+            }
+          }
+        },
+        {
+          "metadata": {
+            "name": "Get Accounts",
+            "businessObjectCode": "ORA_CX_SALESFORCE_CXOBJECTSEARCHB",
+            "functionName": "SEARCH_OBJECTS"
+          },
+          "diagram": {
+            "x": 5225,
+            "y": 5428
+          },
+          "outcomes": {
+            "success": "1779817977133"
+          },
+          "id": "1774828687397",
+          "code": "GET_ACCOUNTS",
+          "type": "BO_FUNCTION",
+          "inputs": [
+            {
+              "id": "1774828687397_object",
+              "name": "object",
+              "value": "Account",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": "1774828687397_q",
+              "name": "q",
+              "value": "{\"op\": \"$and\",\"criteria\": [{\"op\": \"$eq\",\"attribute\": \"PartyRecordSet\",\"value\": \"MYSALESTEAMTERRACCTS\"}]}",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": "1774828687397_sort",
+              "name": "sort",
+              "value": "[{\"attribute\": \"AccountRollup.LastCompletedActivity\",\"direction\": \"descending\"}]",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": "1774828687397_limit",
+              "name": "limit",
+              "value": "25",
+              "required": false,
+              "type": "integer"
+            },
+            {
+              "id": "1774828687397_fields",
+              "name": "fields",
+              "value": "[\"PartyId\",\"PartyNumber\",\"PartyUniqueName\",\"AccountRollup\"]",
+              "required": false,
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "id": "1779817977133",
+          "code": "BUILD_PAYLOAD_FOR_INSIGHTS",
+          "type": "CODE",
+          "metadata": {
+            "name": "Build Payload for Insights",
+            "sourceCode": "let result = {};\ntry {\n  // Access the array of rows safely\n  const rows = $context.$nodes?.GET_ACCOUNTS?.$output || [];\n\n  // Extract PartyNumber from each row, filtering out null/undefined\n  const objectAltKeys = rows\n    .map(row => row.PartyNumber)\n    .filter(partyNumber => partyNumber !== undefined && partyNumber !== null);\n\n  // Build standardParameters as JSON string\n  const standardParameters = JSON.stringify({\n    objectType: \"ACCOUNT\",\n    objectAltKeys: objectAltKeys\n  });\n\n  // Build optionalParameters string as specified\n  const optionalParameters = \"outcomeType IN('SUMMARY', 'INSIGHT') and outcomeReferences[primaryRef='Y']\";\n\n  result = {\n    standardParameters: standardParameters,\n    optionalParameters: optionalParameters\n  };\n} catch (error) {\n  // Fallback empty object on error\n  result = {\n    standardParameters: JSON.stringify({ objectType: \"ACCOUNT\", objectAltKeys: [] }),\n    optionalParameters: \"outcomeType IN('SUMMARY', 'INSIGHT') and outcomeReferences[primaryRef='Y']\"\n  };\n}\n\nreturn result;",
+            "returnType": "object"
+          },
+          "diagram": {
+            "x": 5225,
+            "y": 5650
+          },
+          "outcomes": {
+            "success": "1779818182232"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "1779818182232",
+          "code": "GET_INSIGHTS_AND_SUMMARY",
+          "type": "BO_FUNCTION",
+          "metadata": {
+            "name": "Get Insights and Summary",
+            "businessObjectCode": "ORA_CX_SALESFORCE_AIOUTCOMESTORE",
+            "functionName": "getOutcomes"
+          },
+          "diagram": {
+            "x": 5225,
+            "y": 5872
+          },
+          "outcomes": {
+            "success": "1779818634632"
+          },
+          "inputs": [
+            {
+              "id": "1779818182232_Outcome_Standard_Parameters",
+              "name": "Outcome_Standard_Parameters",
+              "value": "{{$context.$nodes.BUILD_PAYLOAD_FOR_INSIGHTS.$output.result.standardParameters}}",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": "1779818182232_Outcome_Optional_Parameters",
+              "name": "Outcome_Optional_Parameters",
+              "value": "{{$context.$nodes.BUILD_PAYLOAD_FOR_INSIGHTS.$output.result.optionalParameters}}",
+              "required": false,
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "id": "1779818634632",
+          "code": "COMBINE_ACCOUNTS_DATA",
+          "type": "CODE",
+          "metadata": {
+            "name": "Combine Accounts Data",
+            "sourceCode": "let result = [];\n\ntry {\n  const accounts = Array.isArray($context.$nodes?.GET_ACCOUNTS?.$output)\n    ? $context.$nodes.GET_ACCOUNTS.$output\n    : [];\n\n  const insightsOutput = $context.$nodes?.GET_INSIGHTS_AND_SUMMARY?.$output;\n  const insightsAndSummary = Array.isArray(insightsOutput)\n    ? insightsOutput\n    : Array.isArray(insightsOutput?.items)\n      ? insightsOutput.items\n      : [];\n\n  const insightsMap = new Map();\n  const summaryMap = new Map();\n\n  for (const item of insightsAndSummary) {\n    const key = String(item?.primaryObjectAltKey || \"\").trim();\n    const outcomeType = String(item?.outcomeType || \"\").trim().toUpperCase();\n\n    if (!key) continue;\n\n    if (outcomeType === \"INSIGHT\") {\n      if (!insightsMap.has(key)) {\n        insightsMap.set(key, []);\n      }\n      insightsMap.get(key).push(item);\n    } else if (outcomeType === \"SUMMARY\") {\n      if (!summaryMap.has(key)) {\n        summaryMap.set(key, []);\n      }\n      summaryMap.get(key).push(item);\n    }\n  }\n\n  for (const account of accounts) {\n    const partyNumber = String(account?.PartyNumber || \"\").trim();\n    if (!partyNumber) continue;\n\n    result.push({\n      account: account,\n      accountInsights: insightsMap.get(partyNumber) || [],\n      accountSummary: summaryMap.get(partyNumber) || []\n    });\n  }\n} catch (error) {\n  result = [];\n}\n\nreturn result;",
+            "returnType": "array"
+          },
+          "diagram": {
+            "x": 5225,
+            "y": 6094
+          },
+          "outcomes": {
+            "success": "1779819003981"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "1779819003981",
+          "code": "SET_ACCOUNTS_DATA",
+          "type": "SET_FIELDS",
+          "metadata": {
+            "name": "Set Accounts Data"
+          },
+          "diagram": {
+            "x": 5225,
+            "y": 6316
+          },
+          "outcomes": {
+            "success": "1776662830088"
+          },
+          "inputs": [
+            {
+              "id": "1779819003981_AccountsContextArray",
+              "name": "AccountsContextArray",
+              "value": "{{$context.$nodes.COMBINE_ACCOUNTS_DATA.$output.result}}"
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "Prioritize Accounts",
+            "errorNodeId": "1774838637320",
+            "referenceableBlockId": "ACCOUNT_PRIORITIZATION_BLOCK"
+          },
+          "diagram": {
+            "x": 5225,
+            "y": 6538
+          },
+          "outcomes": {
+            "success": "1779821152791"
+          },
+          "id": "1776662830088",
+          "code": "PRIORITIZE_ACCOUNTS",
+          "type": "REFERENCE",
+          "inputs": [
+            {
+              "id": "1776662830088_listOfAccounts",
+              "name": "listOfAccounts",
+              "type": "array",
+              "value": "{{$context.$variables.AccountsContextArray}}"
+            }
+          ]
+        },
+        {
+          "id": "1779821152791",
+          "code": "REFINE_PRIORITIZED_ACCOUNTS",
+          "type": "CODE",
+          "metadata": {
+            "name": "Refine Prioritized Accounts",
+            "sourceCode": "let result = [];\ntry {\n  // Access the prioritized accounts output\n  let prioritizedOutput = $context.$nodes?.PRIORITIZE_ACCOUNTS?.$output || [];\n\n  // If output is a string, parse it to JSON\n  if (typeof prioritizedOutput === \"string\") {\n    try {\n      prioritizedOutput = JSON.parse(prioritizedOutput);\n    } catch (parseError) {\n      prioritizedOutput = [];\n    }\n  }\n\n  // Validate prioritizedOutput is an array\n  if (!Array.isArray(prioritizedOutput)) {\n    prioritizedOutput = [];\n  }\n\n  // Access the full list of account context objects from workflow variable\n  const allAccountsContext = $context.$variables?.AccountsContextArray || [];\n\n  // Create a map for quick lookup by PartyId\n  const accountMap = new Map();\n\n  for (const item of allAccountsContext) {\n    // Each item expected to have account, accountInsights, accountSummary\n    const account = item?.account;\n    const accountInsights = item?.accountInsights;\n    const accountSummary = item?.accountSummary;\n\n    const partyId = account?.PartyId;\n\n    if (partyId !== undefined && partyId !== null) {\n      accountMap.set(Number(partyId), { account, accountInsights, accountSummary });\n    }\n  }\n\n  // Combine prioritized results with base account data\n  for (const prioritizedRow of prioritizedOutput) {\n    const accountId = prioritizedRow?.accountId ?? prioritizedRow?.PartyId;\n    const partyId = Number(accountId);\n\n    const baseData = accountMap.get(partyId);\n\n    if (baseData) {\n      result.push({\n        account: baseData.account,\n        accountInsights: baseData.accountInsights,\n        accountSummary: baseData.accountSummary,\n        priorityOrder: prioritizedRow.priorityOrder,\n        priorityTier: prioritizedRow.priorityTier,\n        scoreRationale: prioritizedRow.scoreRationale,\n        recommendedAction: prioritizedRow.recommendedAction\n      });\n    }\n  }\n} catch (error) {\n  result = [];\n}\n\nreturn result;",
+            "returnType": "array"
+          },
+          "diagram": {
+            "x": 5223.5,
+            "y": 6760
+          },
+          "outcomes": {
+            "success": "1774838637320"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "metadata": {
+            "name": "AI App Display Switch"
+          },
+          "diagram": {
+            "x": 5225,
+            "y": 6982
+          },
+          "outcomes": {
+            "Summary": "1774838775497",
+            "InitDisplay": "1779821676858",
+            "Query": "",
+            "success": ""
+          },
+          "id": "1774838637320",
+          "code": "AI_APP_DISPLAY_SWITCH",
+          "type": "SWITCH",
+          "inputs": [
+            {
+              "id": "1774838637320_caseExpression",
+              "name": "caseExpression",
+              "type": "string",
+              "value": "{{$context.$app.$OraMessageHint}}"
+            }
+          ],
+          "convergenceTargetId": "end"
+        },
+        {
+          "metadata": {
+            "name": "Generate Summary"
+          },
+          "diagram": {
+            "x": 5450,
+            "y": 7204
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "id": "1774838775497",
+          "code": "GENERATE_SUMMARY",
+          "type": "LLM",
+          "inputs": [
+            {
+              "id": "1774838775497_systemPrompt",
+              "name": "systemPrompt",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "id": "1774838775497_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "Generate Accounts summary based on {{$context.$variables.AccountsContextArray}}"
+            }
+          ]
+        },
+        {
+          "id": "1779821676858",
+          "code": "GET_DISPLAY_ATTRIBUTES",
+          "type": "POLICY",
+          "metadata": {
+            "name": "Get Display Attributes",
+            "policyCode": "ORA_ACCOUNT_PRIORITIZATION_POLICY",
+            "functionCode": "IDENTIFYACCOUNTDISPLAYATTRIBUTES"
+          },
+          "diagram": {
+            "x": 5000,
+            "y": 7204
+          },
+          "outcomes": {
+            "success": "1774838779836"
+          },
+          "inputs": []
+        },
+        {
+          "metadata": {
+            "name": "Generate Widget Display"
+          },
+          "diagram": {
+            "x": 5000,
+            "y": 7426
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "aiAppOutputSpecification": {
+            "dataDisplay": {
+              "layouts": [
+                "ORA_LAYOUT_MESSAGES_LIST"
+              ]
+            }
+          },
+          "id": "1774838779836",
+          "code": "GENERATE_WIDGET_DISPLAY",
+          "type": "LLM",
+          "inputs": [
+            {
+              "id": "1774838779836_systemPrompt",
+              "name": "systemPrompt",
+              "type": "string",
+              "value": "You are an assistant that produces output strictly following the oraInfoDisplay structure.\nDo not add any extra text or explanation outside the oraInfoDisplay format.\nRespond concisely and precisely according to the user's requests, always\nusing the oraInfoDisplay format."
+            },
+            {
+              "id": "1774838779836_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "You are a specialized UI rendering assistant for **CX Sales Account Signal Explanations (Risk / Expansion / Renewal)**. Your task is to transform the input dataset {{$context.$nodes.REFINE_PRIORITIZED_ACCOUNTS.$output.result}} (an array of account records with account, accountInsights[], and accountSummary[]) into a valid oraInfoDisplay XML block using the messageListWidget pattern, following the oraInfoDisplay Knowledge Base.\n\n## ROOT CONFIGURATION\n1. title: A concise, clear conclusion expressing the section's meaning and impact; 1-6 lines max (15 words max).\n2. description: Brief context to help the user understand what to expect or do next; 1-6 lines max (30 words max).\n\n## STRICT MAPPING RULES (messageListWidget)\n\n### A) Normalize and group data\n- For each account record:\n  - accountName = account.PartyUniqueName\n  - partyNumber = account.PartyNumber\n  - Parse every accountInsights[i].payload JSON string into insightPayloadObj; if accountInsights is empty, treat as empty array.\n  - Parse the first available accountSummary[j].payload JSON string into summaryPayloadObj; if accountSummary is empty, treat as empty object.\n\n### B) Build messageListWidget.items[] (one item per account record)\nCreate exactly one items[] entry per account record, consolidating its insights and summary\n\n1) items[].title\n- Set to accountName.\n\n2) Determine signalBucket (RISK/EXPANSION/RENEWAL/NONE):\n- If any insightPayloadObj.what.facts.actionableSignal or outcomeSubtype contains \"RISK\", signalBucket = \"RISK\".\n- Else if any actionableSignal == \"EXPANSION\", signalBucket = \"EXPANSION\".\n- Else if summaryPayloadObj has a valid renewalDate, signalBucket = \"RENEWAL\".\n- Else signalBucket = \"NONE\".\n\n3) items[].status\n- Provide a concise, account-specific signal title aligned to signalBucket.\n- For rows in the Risk bucket, prefix the status text with the Warning symbol.\n- For rows in the Expansion bucket, prefix the status text with the (White Heavy Check Mark) symbol.\n- Keep all other instructions unchanged: do not repeat subtitle or summary wording.\n- Examples (style guidance):\n  - \"Expansion readiness: strong base, clear upsell path\"\n  - \"Risk signal: pipeline is thin despite recent wins\"\n  - \"Renewal approaching: engagement needed\"\n  - \"No actionable signal\"\n\n4) items[].subtitle: <Generate a dynamic subtitle from the first 3 entries in {{$context.$nodes.GET_DISPLAY_ATTRIBUTES.$output.attributes}}\n\nFor each attribute:\n\n(get the value of <normalizedFieldName> in each row and apply the <formattingRule>)\n\nJoin the formatted values using '|'.\n\nUse only the first 3 attributes. Do not add, remove, or modify any values.>\n\n5) items[].summary\n- One sentence explaining why this account appears here.\n- Include 1-2 compact evidence facts from insightPayloadObj.what.facts (e.g., pipelineValue, wonRevenue, activeSubscriptions/subscriptionTCV) or reasons.\n- Do not restate subtitle or status verbatim.\n\n6) items[].timestamp\n- Compute as 12 * SUM(all pipelineValue values across accountInsights payloads).\n- Parse pipelineValue currency strings (e.g., \"$215K\", \"$18.3M\") by stripping \"$\" and commas, multiplying by 1,000 for K, 1,000,000 for M, 1,000,000,000 for B.\n- If no pipeline values, sum = 0.\n- Output as a string formatted with currency symbol and units, prefixed with \"ARR\"; use \"K\" for thousands, \"M\" for millions, \"B\" for billions (e.g., \"ARR $215K\", \"ARR $18.3M\").\n\n7) items[].badgeText (renewal distance)\n- Source renewalDate = summaryPayloadObj.what.facts.accountDetails.renewalDate (ISO date) if present.\n- Compute daysToRenewal = floor((renewalDate - now) in days).\n- Compute monthsToRenewal = whole-month difference between now and renewalDate.\n- Format badgeText:\n  - If no renewalDate data is available, set badgeText to \"No Renewal Date\".\n  - Else if daysToRenewal < 0: \"Renewal overdue\".\n  - Else if daysToRenewal <= 31: \"Renews in {daysToRenewal} days\".\n  - Else: \"Renews in {monthsToRenewal} months\" (preferred).\n\n8) items[].priority (based on signalBucket)\n- If signalBucket == \"RISK\": \"alert\".\n- Else if signalBucket == \"EXPANSION\": \"medium\".\n- Else: \"warning\".\n\n## ACTION LOGIC\nFor each item in the list, create an `action` property set as `ora.Invoke(\"launchAccount\", {accountId:\"\" + (account.PartyId || \"\"),accountNumber:\"\" + (account.PartyNumber || \"\"),accountName:\"\" + (account.PartyUniqueName || \"\")})`, substituting each value as a string and using empty string if value is not present.\n\n## SCHEMA COMPLIANCE\n- Use only messageListWidget item properties: title, subtitle, summary, status, badgeText, priority, timestamp, and action.\n- Do not add custom fields or output raw URLs.\n\n## OUTPUT REQUIREMENTS\n- Output a single oraInfoDisplay XML block containing exactly one messageListWidget with an items array.\n- Do not emit bare XML tags (no angle brackets).\n\n## ADDITIONAL REQUIREMENT\n- Limit the output to exactly 5 items.\n- Prefer accounts closer to renewal by sorting items ascending by renewal date before limiting to 5."
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "dataPipeline": {
+              "rootNode": "start_1776660428960",
+              "pipelineNodes": [
+                {
+                  "metadata": {
+                    "description": "Start of data pipeline",
+                    "name": "Start"
+                  },
+                  "diagram": {
+                    "x": 6824.5,
+                    "y": 5090
+                  },
+                  "outcomes": {
+                    "success": "1779778887789"
+                  },
+                  "id": "start_1776660428960",
+                  "code": "START",
+                  "type": "START",
+                  "inputs": []
+                },
+                {
+                  "id": "1779778887789",
+                  "code": "GET_ATTRIBUTES_FOR_PRIORITIZATION",
+                  "type": "POLICY",
+                  "metadata": {
+                    "name": "Get Attributes For Prioritization",
+                    "policyCode": "ORA_ACCOUNT_PRIORITIZATION_POLICY",
+                    "functionCode": "IDENTIFYACCOUNTCONFIGURABLEATTRIBUTES"
+                  },
+                  "diagram": {
+                    "x": 6646.5,
+                    "y": 5241
+                  },
+                  "outcomes": {
+                    "success": "1779820304324"
+                  },
+                  "inputs": []
+                },
+                {
+                  "metadata": {
+                    "name": "Refine the top 5 Accounts",
+                    "sourceCode": "let result = [];\n\ntry {\n  const accounts = $context.$nodes.PRIORITIZE_ACCOUNT.$output || [];\n\n  result = accounts\n    .slice()\n    .sort((a, b) => {\n      const priorityA = a.priorityOrder ?? Number.MIN_SAFE_INTEGER;\n      const priorityB = b.priorityOrder ?? Number.MIN_SAFE_INTEGER;\n      return priorityB - priorityA;\n    })\n    .slice(0, 5);\n\n} catch (error) {\n  result = [];\n}\n\nreturn result;",
+                    "returnType": "array"
+                  },
+                  "diagram": {
+                    "x": 6675,
+                    "y": 5907
+                  },
+                  "outcomes": {
+                    "success": "1776661005607"
+                  },
+                  "id": "1776661527509",
+                  "code": "REFINE_THE_TOP_5_ACCOUNTS",
+                  "type": "CODE",
+                  "inputs": [],
+                  "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+                },
+                {
+                  "metadata": {
+                    "name": "Return Prioritized Accounts"
+                  },
+                  "diagram": {
+                    "x": 6673.5,
+                    "y": 6129
+                  },
+                  "outcomes": {},
+                  "id": "1776661005607",
+                  "code": "RETURN_PRIORITIZED_ACCOUNTS",
+                  "type": "RETURN",
+                  "inputs": [
+                    {
+                      "id": "1776661005607_returnValue",
+                      "name": "returnValue",
+                      "type": "string",
+                      "value": "{{$context.$nodes.REFINE_THE_TOP_5_ACCOUNTS.$output.result}} "
+                    }
+                  ]
+                },
+                {
+                  "id": "1779820304324",
+                  "code": "GET_PRIORITIZATION_RULES",
+                  "type": "POLICY",
+                  "metadata": {
+                    "name": "Get Prioritization Rules",
+                    "policyCode": "ORA_ACCOUNT_PRIORITIZATION_POLICY",
+                    "functionCode": "IDENTIFYPRIORITIZATIONRULE"
+                  },
+                  "diagram": {
+                    "x": 6675,
+                    "y": 5463
+                  },
+                  "outcomes": {
+                    "success": "1779820328179"
+                  },
+                  "inputs": []
+                },
+                {
+                  "id": "1779820328179",
+                  "code": "PRIORITIZE_ACCOUNT",
+                  "type": "LLM",
+                  "metadata": {
+                    "name": "Prioritize Account"
+                  },
+                  "diagram": {
+                    "x": 6675,
+                    "y": 5685
+                  },
+                  "outcomes": {
+                    "success": "1776661527509"
+                  },
+                  "inputs": [
+                    {
+                      "id": "1779820328179_systemPrompt",
+                      "name": "systemPrompt",
+                      "type": "string",
+                      "value": "Return ONLY valid raw JSON that strictly matches the required array schema/contract.\n\nRules:\n\n* Do not use markdown.\n* Do not wrap the response in code fences.\n* Do not include explanations, comments, notes, prefixes, or suffixes.\n* Do not include any text before or after the JSON.\n* The response must be directly parsable by a standard JSON parser.\n* Ensure all property names and string values use double quotes.\n* Do not include trailing commas.\n* Do not return null unless explicitly allowed by the schema.\n* Preserve the exact response structure and field names defined in the contract.\n* If no records exist, return an empty JSON array: []\n"
+                    },
+                    {
+                      "id": "1779820328179_prompt",
+                      "name": "prompt",
+                      "type": "string",
+                      "value": "You are the Account Prioritization Agent.\n\nAttributes for Prioritization:\n{{$context.$nodes.GET_ATTRIBUTES_FOR_PRIORITIZATION.$output}}\n\nAccounts:\n{{$context.$input.listOfAccounts}}\n\nPRIORITIZATION_RULES:\n{{$context.$nodes.GET_PRIORITIZATION_RULES.$output}}\n\nTASK:\nScore each Account using the prioritization rules. Use fields mentioned in Attributes for Prioritization output to assign the score. Treat missing expected fields as signal gaps.\n\nHard rules:\n\n* If Status is Closed Lost or Inactive, return priorityOrder 0 and priorityTier Low.\n* If ExpectAmount is missing or 0, return priorityOrder 0 and priorityTier Low.\n* Preserve the same order as Accounts.\n* Return one output object for every input Account.\n\nOUTPUT CONTRACT:\nReturn only a JSON array. Each object must contain exactly these fields:\n\n* PartyId: number\n* PartyNumber: string\n* priorityOrder: number from 0 to 100\n* scoreRationale: 2 to 3 concise sentences grounded in the provided data\n* recommendedAction: one specific next step for the rep, with a clear time horizon\n\nTIER MAPPING:\n\n* Critical: 80 to 100\n* High: 60 to 79\n* Medium: 35 to 59\n* Monitor: 15 to 34\n* Low: 0 to 14\n\nDo not return markdown, explanations, wrapper objects, extra fields, null values, topPositiveSignals, topRiskSignals, scoredAt, or any prose outside the JSON array.\n"
+                    }
+                  ]
+                },
+                {
+                  "metadata": {
+                    "name": "End",
+                    "description": "End of data pipeline"
+                  },
+                  "outcomes": {},
+                  "id": "end_1776660428960",
+                  "code": "END",
+                  "type": "END",
+                  "inputs": []
+                }
+              ],
+              "variables": [
+                {
+                  "id": "1776660475154",
+                  "name": "listOfAccounts",
+                  "type": "array"
+                }
+              ]
+            },
+            "description": "",
+            "name": "Account Prioritization Block"
+          },
+          "diagram": {
+            "x": 6525,
+            "y": 5000,
+            "width": 600,
+            "height": 1236
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "id": "1776660428960",
+          "code": "ACCOUNT_PRIORITIZATION_BLOCK",
+          "type": "REFERENCEABLEBLOCK",
+          "inputs": []
+        },
+        {
+          "metadata": {
+            "description": "End of data pipeline",
+            "name": "End"
+          },
+          "outcomes": {},
+          "code": "END",
+          "id": "end",
+          "inputs": [],
+          "type": "END"
+        }
+      ],
+      "rootNode": "start",
+      "variables": [
+        {
+          "id": "78c2ba0d-1341-4517-a17d-03d702e838d9",
+          "name": "AccountsContextArray",
+          "type": "array",
+          "scope": "JOB"
+        },
+        {
+          "id": "dc92362d-4471-4b44-a38a-c60178156665",
+          "name": "AccountSummaryArray",
+          "type": "array",
+          "scope": "JOB"
+        },
+        {
+          "id": "9a9cd288-3777-4f8f-ae5c-fee7c37a0570",
+          "name": "AccountInsightsArray",
+          "type": "array",
+          "scope": "JOB"
+        }
+      ],
+      "errorHandlers": [
+        {
+          "type": "EMAIL",
+          "inputs": [
+            {
+              "name": "toList",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "ccList",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "subject",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "body",
+              "type": "string",
+              "value": ""
+            }
+          ]
+        }
+      ]
+    },
+    "diagram": {
+      "orientation": "vertical",
+      "commentNodes": []
+    },
+    "dtRunProfiles": {
+      "activeProfileId": "b8786920-3cfc-4bd2-a3b2-3f324580449c",
+      "profiles": [
+        {
+          "id": "f6498de1-9408-421b-8e48-935181f98dfe",
+          "name": "Init Display",
+          "type": "agentic-app",
+          "agenticAppMode": "initDisplay"
+        },
+        {
+          "id": "b8786920-3cfc-4bd2-a3b2-3f324580449c",
+          "name": "Query",
+          "type": "agentic-app",
+          "agenticAppMode": "query",
+          "agenticAppInitialMessage": "Show my top 5 expansion accounts"
+        }
+      ]
+    },
+    "jsonSchemaName": "Workflow.spec",
+    "jsonSchemaVersion": "1",
+    "inputs": [],
+    "outputSpecification": "",
+    "agentsValueMappings": [],
+    "modelConfiguration": null,
+    "humanApprovalFlag": false,
+    "waitFlag": false,
+    "triggers": [
+      {
+        "type": "REST",
+        "inputs": []
+      }
+    ],
+    "deletedTriggerTypes": [],
+    "costSavings": 0,
+    "timeSavings": 10,
+    "chatExpTPFileUploadEnabledFlag": false,
+    "chatExpThirdPartyDetails": [],
+    "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI"
+  },
+  "status": "DRAFT",
+  "version": 1,
+  "family": "CX",
+  "product": "SALES_FORCE_AUTOMATION",
+  "ownerName": null,
+  "customFlag": false,
+  "seededFlag": true,
+  "isTemplate": false,
+  "customizationPolicy": "FULL",
+  "hiddenFlag": false,
+  "useCaseId": "NA",
+  "accessModifier": "public",
+  "architecture": "data_pipeline",
+  "aiAppsCompatibleFlag": true,
+  "followupEnabledFlag": false,
+  "header": {
+    "ETag": "\"4\""
+  }
+}

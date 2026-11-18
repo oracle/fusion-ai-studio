@@ -1,0 +1,1221 @@
+{
+  "workflowId": "300100647772000",
+  "workflowCode": "ORA_SALES_REPRESENTATIVE_ACCOUNT_DETAILS",
+  "name": "Sales Representative Account Details",
+  "description": "This workflow provides sales representatives with a consolidated view of the accounts they manage by presenting key information such as account summary, retention status, risk indicators, and growth or white space opportunities. It aggregates and organizes these signals to offer a structured representation of each account and its associated details within the system.",
+  "specification": {
+    "dataPipeline": {
+      "pipelineNodes": [
+        {
+          "metadata": {
+            "description": "Start of data pipeline",
+            "name": "Start"
+          },
+          "outcomes": {
+            "success": "1775861245471"
+          },
+          "diagram": {
+            "x": 6287.5,
+            "y": 5000
+          },
+          "code": "START",
+          "id": "start",
+          "inputs": [],
+          "type": "START"
+        },
+        {
+          "metadata": {
+            "name": "Parse AppContext",
+            "sourceCode": "let result = {};\ntry {\n  const appContext = $context.$app?.$OraAppContext || \"\";\n  if (!appContext) {\n    result = {};\n  } else {\n    const decoded = decodeURIComponent(appContext);\n    const jsonString = decoded.replace(/([\\w]+):/g, '\"$1\":');\n    const obj = JSON.parse(jsonString);\n    const accountId = obj.accountId || null;\n    const accountNumber = obj.accountNumber || null;\n    const activityNumber = obj.activityNumber || null;\n    result = { accountId, accountNumber, activityNumber };\n  }\n} catch (error) {\n  result = {};\n}\n\nreturn result;",
+            "returnType": "object"
+          },
+          "diagram": {
+            "x": 6165.5,
+            "y": 5206
+          },
+          "outcomes": {
+            "success": "1775861249327"
+          },
+          "id": "1775861245471",
+          "code": "PARSE_APPCONTEXT",
+          "type": "CODE",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "metadata": {
+            "name": "Set Account Variables"
+          },
+          "diagram": {
+            "x": 6165.5,
+            "y": 5428
+          },
+          "outcomes": {
+            "success": "1775948402188"
+          },
+          "id": "1775861249327",
+          "code": "SET_ACCOUNT_VARIABLES",
+          "type": "SET_FIELDS",
+          "inputs": [
+            {
+              "id": "1775861249327_accountNumber",
+              "name": "accountNumber",
+              "value": "{{$context.$nodes.PARSE_APPCONTEXT.$output.result.accountNumber}}"
+            },
+            {
+              "id": "1775861249327_accountId",
+              "name": "accountId",
+              "value": "{{$context.$nodes.PARSE_APPCONTEXT.$output.result.accountId}}"
+            }
+          ],
+          "outputSpecification": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"accountId\": { \"type\": [\"string\", \"null\"] },\n    \"accountName\": { \"type\": [\"string\", \"null\"] }\n  },\n  \"required\": [\"accountId\", \"accountName\"]\n}"
+        },
+        {
+          "metadata": {
+            "name": "Account Insights",
+            "businessObjectCode": "ORA_CX_SALESFORCE_AIOUTCOMESTORE",
+            "functionName": "getOutcomeBy_AltKey_Type"
+          },
+          "diagram": {
+            "x": 6165.5,
+            "y": 5650
+          },
+          "outcomes": {
+            "success": "1775948506237"
+          },
+          "id": "1775948402188",
+          "code": "ACCOUNT_INSIGHTS",
+          "type": "BO_FUNCTION",
+          "inputs": [
+            {
+              "id": "1775862383252_ObjectType",
+              "name": "ObjectType",
+              "value": "ACCOUNT",
+              "required": true
+            },
+            {
+              "id": "1775862383252_ObjectAltKey",
+              "name": "ObjectAltKey",
+              "value": "{{$context.$variables.accountNumber}}",
+              "required": true
+            },
+            {
+              "id": "1775862383252_OutcomeType",
+              "name": "OutcomeType",
+              "value": "INSIGHT",
+              "required": true
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "Retrieve Insights Array",
+            "sourceCode": "let result = [];\ntry {\n  const items = $context.$nodes?.ACCOUNT_INSIGHTS?.$output?.items || [];\n  result = items.reduce((insights, item) => {\n    const payloadStr = item?.payload;\n    if (typeof payloadStr === 'string') {\n      try {\n        const parsed = JSON.parse(payloadStr);\n        insights.push(parsed);\n      } catch (e) {\n      }\n    }\n    return insights;\n  }, []);\n} catch (error) {\n  result = [];\n}\nreturn result;",
+            "returnType": "array"
+          },
+          "diagram": {
+            "x": 6165.5,
+            "y": 5872
+          },
+          "outcomes": {
+            "success": "1775948846189"
+          },
+          "id": "1775948506237",
+          "code": "RETRIEVE_INSIGHTS_ARRAY",
+          "type": "CODE",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "metadata": {
+            "name": "Set Insights Array"
+          },
+          "diagram": {
+            "x": 6165.5,
+            "y": 6094
+          },
+          "outcomes": {
+            "success": "1776792384436"
+          },
+          "id": "1775948846189",
+          "code": "SET_INSIGHTS_ARRAY",
+          "type": "SET_FIELDS",
+          "inputs": [
+            {
+              "id": "1775948846189_insightsArray",
+              "name": "insightsArray",
+              "value": "{{$context.$nodes.RETRIEVE_INSIGHTS_ARRAY.$output.result}}"
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "Get Company News",
+            "businessObjectCode": "ORA_CX_SALESFORCE_AIOUTCOMESTORE",
+            "functionName": "getOutcomeBy_AltKey_Category"
+          },
+          "diagram": {
+            "x": 6165.5,
+            "y": 6316
+          },
+          "outcomes": {
+            "success": "1775863244448"
+          },
+          "id": "1776792384436",
+          "code": "GET_COMPANY_NEWS",
+          "type": "BO_FUNCTION",
+          "inputs": [
+            {
+              "id": "1776792384436_ObjectType",
+              "name": "ObjectType",
+              "value": "ACCOUNT",
+              "required": true
+            },
+            {
+              "id": "1776792384436_ObjectAltKey",
+              "name": "ObjectAltKey",
+              "value": "{{$context.$variables.accountNumber}}",
+              "required": true
+            },
+            {
+              "id": "1776792384436_OutcomeType",
+              "name": "OutcomeType",
+              "value": "SUMMARY",
+              "required": true
+            },
+            {
+              "id": "1776792384436_OutcomeSubType",
+              "name": "OutcomeSubType",
+              "value": "STATE_SUMMARY",
+              "required": true
+            },
+            {
+              "id": "1776792384436_Category",
+              "name": "Category",
+              "value": "COMMERCIAL",
+              "required": true
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "AI App Display Switch"
+          },
+          "diagram": {
+            "x": 6165.5,
+            "y": 6538
+          },
+          "outcomes": {
+            "InitDisplay": "1775863350304",
+            "Summary": "1776547944317",
+            "InitActions": "1779822892823",
+            "Query": "1779920630810"
+          },
+          "id": "1775863244448",
+          "code": "AI_APP_DISPLAY_SWITCH",
+          "type": "SWITCH",
+          "inputs": [
+            {
+              "id": "1775863244448_caseExpression",
+              "name": "caseExpression",
+              "type": "string",
+              "value": "{{$context.$app.$OraMessageHint}}"
+            }
+          ],
+          "outputSpecification": "{\"type\":\"string\"}",
+          "convergenceTargetId": "end"
+        },
+        {
+          "metadata": {
+            "name": "Display Panel Switch"
+          },
+          "diagram": {
+            "x": 5702,
+            "y": 6760
+          },
+          "outcomes": {
+            "RETENTION": "1775863428484",
+            "EXECUTION": "1775952550378"
+          },
+          "id": "1775863350304",
+          "code": "DISPLAY_PANEL_SWITCH",
+          "type": "SWITCH",
+          "convergenceTargetId": "end",
+          "inputs": [
+            {
+              "id": "1775863350304_caseExpression",
+              "name": "caseExpression",
+              "type": "string",
+              "value": "{{$context.$app.$OraAppDisplayDiscriminator}}"
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "Retention Risk Widget"
+          },
+          "diagram": {
+            "x": 5933,
+            "y": 6982
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "aiAppOutputSpecification": {
+            "dataDisplay": {
+              "layouts": []
+            }
+          },
+          "id": "1775863428484",
+          "code": "RETENTION_RISK_WIDGET",
+          "type": "LLM",
+          "inputs": [
+            {
+              "id": "1775863428484_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "Using: {{$context.$variables.insightsArray}}\n\nGenerate a structured insight output by combining signals from the why section and facts/summary from the what section.\n\nInput Guidelines:\n\n- Each object contains what and why sections\n- why.reasons contains signals (root causes)\n- what.summary and what.facts contain outcomes (impact/state)\n- Treat all data as belonging to one context\n- Do not output JSON\n\n---\n\nOutput Requirements:\n\n1. Short Explanation\n\n- Write one sentence expanding the headline\n- Combine signals (why) + outcomes (what)\n- Clearly connect cause to impact\n- Prefix the sentence with ⚠️ symbol and display the text in Orange color\n\n2. Header (Level 4 Markdown)\n\n- Generate a one-line headline describing the primary risk or situation\n- The headline must be derived from key signals in why.reasons\n- Focus on cause (not generic wording)\n- Format as: #### <Headline>\n\n3. Detailed Insight Section\n\n- Write 2 to 3 sentences describing the situation in more detail\n- Use:\n\n  - Signals from why.reasons (cause)\n  - Facts and summary from what (impact)\n- Follow with bullet points highlighting key details\n\nBullet Rules:\n\n- Use concise bullets\n- Include a mix of:\n\n  - Signals (from why.reasons)\n  - Metrics or facts (from what.facts if present)\n- Avoid duplication\n\n---\n\nStyle Constraints:\n\n- Professional and concise\n- No repetition\n- Do not mention field names like what, why, facts, reasons\n- No ALL CAPS\n- Focus on cause → impact storytelling\n\n---\n\nOutput Format:\n\n\n<1 sentence explanation with warning symbol and warning color>\n#### <Headline>\n\n<2–3 sentence detailed paragraph>\n\n- <bullet point 1>\n- <bullet point 2>\n- <bullet point 3>"
+            }
+          ],
+          "outputSpecification": ""
+        },
+        {
+          "metadata": {
+            "name": "Retrieve Account Summary",
+            "businessObjectCode": "ORA_CX_SALESFORCE_AIOUTCOMESTORE",
+            "functionName": "getOutcomeBy_AltKey_Type"
+          },
+          "diagram": {
+            "x": 5471,
+            "y": 6982
+          },
+          "outcomes": {
+            "success": "1775955196615"
+          },
+          "id": "1775952550378",
+          "code": "RETRIEVE_ACCOUNT_SUMMARY",
+          "type": "BO_FUNCTION",
+          "inputs": [
+            {
+              "id": "1775862387823_ObjectType",
+              "name": "ObjectType",
+              "value": "ACCOUNT",
+              "required": true
+            },
+            {
+              "id": "1775862387823_ObjectAltKey",
+              "name": "ObjectAltKey",
+              "value": "{{$context.$variables.accountNumber}}",
+              "required": true
+            },
+            {
+              "id": "1775862387823_OutcomeType",
+              "name": "OutcomeType",
+              "value": "SUMMARY",
+              "required": true
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "Account Summary Parameter",
+            "returnType": "array",
+            "sourceCode": "let result = [];\ntry {\n  const items = $context.$nodes?.RETRIEVE_ACCOUNT_SUMMARY?.$output?.items || [];\n  result = items.map(item => {\n    try {\n      return JSON.parse(item.payload);\n    } catch (parseError) {\n      return null;\n    }\n  }).filter(parsedItem => parsedItem !== null);\n} catch (error) {\n  result = [];\n}\nreturn result;"
+          },
+          "diagram": {
+            "x": 5477,
+            "y": 7204
+          },
+          "outcomes": {
+            "success": "1775955427534"
+          },
+          "id": "1775955196615",
+          "code": "ACCOUNT_SUMMARY_PARAMETER",
+          "type": "CODE",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "metadata": {
+            "name": "Set Account Summary Array"
+          },
+          "diagram": {
+            "x": 5477,
+            "y": 7426
+          },
+          "outcomes": {
+            "success": "1775863432863"
+          },
+          "id": "1775955427534",
+          "code": "SET_ACCOUNT_SUMMARY_ARRAY",
+          "type": "SET_FIELDS",
+          "inputs": [
+            {
+              "id": "1775955427534_summaryArray",
+              "name": "summaryArray",
+              "value": "{{$context.$nodes.ACCOUNT_SUMMARY_PARAMETER.$output.result}}"
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "Process Account Summary"
+          },
+          "diagram": {
+            "x": 5477,
+            "y": 7648
+          },
+          "outcomes": {
+            "success": "1776793783269"
+          },
+          "aiAppOutputSpecification": {
+            "dataDisplay": {
+              "layouts": []
+            }
+          },
+          "id": "1775863432863",
+          "code": "PROCESS_ACCOUNT_SUMMARY",
+          "type": "LLM",
+          "inputs": [
+            {
+              "id": "1775863432863_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "Use all rows in {{$context.$variables.summaryArray}} as a single consolidated input. Card generation logic:\n- Do not process rows independently.\n- Consolidate all rows first.\n- Based on the combined RollupMetrics across the full array, generate an array of rows that indicate:\n  - alert\n  - risk\n  - opportunity\nRules:\n- Use RollupMetrics as the primary source for identifying whether a card should be shown.\n- If RollupMetrics is unclear or incomplete, use the combined meaning of summaries, titles, and key fact signals across all rows.\n- Merge overlapping themes into consolidated cards.\n- Do not create duplicate cards for the same theme.\n- Each card should represent a distinct consolidated business signal.\nFor each consolidated card, generate:\n1. BadgeText - Determine severity based on urgency and business impact\n   - Use concise business labels such as:\n     - Needs Attention\n     - Opportunity\n     - High Risk\n     - Watchlist\n     - Positive Signal\n2. Subject - Generate a short, scannable title with count and type\n   - Examples:\n     - 1 Open Opportunity\n     - 2 Critical Service Requests\n     - 3 Expansion Signals\n     - 1 Engagement Risk\n3. Summary - Write 1 to 2 concise sentences\n   - Summarize what is happening, why it matters, and the likely business impact\n   - Use consolidated evidence from summaries, facts, and RollupMetrics\n   - Do not dump raw data\n4. Variant - Populate this property based on the severity category:\n   - Use \"warning\" for alerts\n   - Use \"error\" for risks\n   - Use \"info\" for opportunities\nEnsure each card includes this Variant property reflecting its severity classification."
+            },
+            {
+              "id": "1775863432863_systemPrompt",
+              "name": "systemPrompt",
+              "type": "string",
+              "value": "Return an array of rows with the mentioned properties"
+            }
+          ],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"array\",\n  \"items\": {\n    \"type\": \"object\",\n    \"properties\": {\n      \"BadgeText\": {\n        \"type\": \"string\"\n      },\n      \"Subject\": {\n        \"type\": \"string\"\n      },\n      \"Summary\": {\n        \"type\": \"string\"\n      },\n      \"Variant\": {\n        \"type\": \"string\"\n      }\n    },\n    \"required\": [\n      \"BadgeText\",\n      \"Subject\",\n      \"Summary\",\n      \"Variant\"\n    ],\n    \"additionalProperties\": false\n  }\n}"
+        },
+        {
+          "metadata": {
+            "name": "Refine Accounts",
+            "returnType": "object",
+            "sourceCode": "let result = {};\ntry {\n  // Access items array from GET_COMPANY_NEWS node output\n  const items = $context.$nodes?.GET_COMPANY_NEWS?.$output?.items || [];\n\n  if (items.length > 0) {\n    const firstItem = items[0];\n    const payloadStr = firstItem?.payload || \"\";\n\n    // Parse payload string as JSON safely\n    let payloadObj = {};\n    try {\n      payloadObj = JSON.parse(payloadStr);\n    } catch (parseError) {\n      // If parsing fails, keep payloadObj as empty object\n      payloadObj = {};\n    }\n\n    // Access nested property: payload.what.facts.accountSummary\n    // Use optional chaining for safety\n    const accountSummary = payloadObj?.what?.facts?.accountSummary || null;\n\n    result = { accountSummary };\n  } else {\n    // No items, return accountSummary as null\n    result = { accountSummary: null };\n  }\n} catch (error) {\n  // On error, return accountSummary as null\n  result = { accountSummary: null };\n}\n\nreturn result;"
+          },
+          "diagram": {
+            "x": 5477,
+            "y": 7870
+          },
+          "outcomes": {
+            "success": "1779840613365"
+          },
+          "id": "1776793783269",
+          "code": "REFINE_ACCOUNTS",
+          "type": "CODE",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "1779840613365",
+          "code": "GET_RUNTIME_SETTINGS",
+          "type": "WORKFLOW",
+          "metadata": {
+            "name": "Get Runtime Settings",
+            "workflowCode": "ORA_ACCOUNT_PRODUCT_INSIGHTS_AGENT"
+          },
+          "diagram": {
+            "x": 5477,
+            "y": 8092
+          },
+          "outcomes": {
+            "success": "1779841438282"
+          },
+          "inputs": [
+            {
+              "id": "1779840613365_message",
+              "name": "message",
+              "type": "string",
+              "value": "\"\""
+            },
+            {
+              "id": "1779840613365_action",
+              "name": "action",
+              "type": "object",
+              "value": "{\"name\": \"GET_RUNTIME_SETTINGS\"}"
+            },
+            {
+              "id": "1779840613365_commonConfiguration",
+              "name": "commonConfiguration",
+              "type": "object",
+              "value": ""
+            },
+            {
+              "id": "1779840613365_filterConfiguration",
+              "name": "filterConfiguration",
+              "type": "object",
+              "value": ""
+            }
+          ],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"input\": {\n      \"type\": \"string\"\n    },\n    \"output\": {\n      \"type\": \"string\"\n    },\n    \"error\": {\n      \"type\": \"null\"\n    },\n    \"followUpQuestions\": {\n      \"type\": \"array\",\n      \"items\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"string\"\n        }\n      ]\n    },\n    \"jobId\": {\n      \"type\": \"string\"\n    },\n    \"conversationId\": {\n      \"type\": \"string\"\n    },\n    \"traceId\": {\n      \"type\": \"string\"\n    },\n    \"status\": {\n      \"type\": \"string\"\n    },\n    \"supportingChunks\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"citations\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"nodes\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"waitingToolCode\": {\n      \"type\": \"null\"\n    },\n    \"workflowCode\": {\n      \"type\": \"string\"\n    },\n    \"workflowVersion\": {\n      \"type\": \"integer\"\n    },\n    \"workflowStatus\": {\n      \"type\": \"string\"\n    },\n    \"startDate\": {\n      \"type\": \"integer\"\n    },\n    \"endTime\": {\n      \"type\": \"integer\"\n    },\n    \"createDate\": {\n      \"type\": \"string\"\n    },\n    \"endDate\": {\n      \"type\": \"string\"\n    },\n    \"timeTaken\": {\n      \"type\": \"integer\"\n    },\n    \"inputTokenCount\": {\n      \"type\": \"integer\"\n    },\n    \"outputTokenCount\": {\n      \"type\": \"integer\"\n    }\n  },\n  \"required\": []\n}"
+        },
+        {
+          "id": "1779841438282",
+          "code": "GET_CONFIGURATION",
+          "type": "CODE",
+          "metadata": {
+            "name": "Get Configuration",
+            "sourceCode": "let result = {};\ntry {\n  // Access runtime settings output safely\n  let runtimeOutput = $context.$nodes?.GET_RUNTIME_SETTINGS?.$output?.output || {};\n\n  // If runtimeOutput is a string, attempt to parse it as JSON\n  if (typeof runtimeOutput === \"string\") {\n    try {\n      runtimeOutput = JSON.parse(runtimeOutput);\n    } catch (parseError) {\n      // If parsing fails, fallback to empty object\n      runtimeOutput = {};\n    }\n  }\n\n  // Extract filterConfiguration and commonConfiguration with fallback to empty objects\n  const filterConfiguration = runtimeOutput.filterConfiguration || {};\n  const commonConfiguration = runtimeOutput.commonConfiguration || {};\n\n  // Construct the action object with accountIds from workflow variable\n  const accountId = $context.$variables?.accountId || null;\n\n  result = {\n    action: {\n      name: \"GET_OWNED_PRODUCTS_BY_PRODUCT_HIERARCHY\",\n      config: {\n        accountIds: accountId\n      }\n    },\n    filterConfiguration: filterConfiguration,\n    commonConfiguration: commonConfiguration\n  };\n} catch (error) {\n  // Return empty object on error\n  result = {};\n}\n\nreturn result;\n",
+            "returnType": "object"
+          },
+          "diagram": {
+            "x": 5477,
+            "y": 8314
+          },
+          "outcomes": {
+            "success": "1779840679645"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "1779840679645",
+          "code": "GET_PRODUCT_INFORMATION",
+          "type": "WORKFLOW",
+          "metadata": {
+            "name": "Get Product Information",
+            "workflowCode": "ORA_ACCOUNT_PRODUCT_INSIGHTS_AGENT"
+          },
+          "diagram": {
+            "x": 5477,
+            "y": 8536
+          },
+          "outcomes": {
+            "success": "1779841882709"
+          },
+          "inputs": [
+            {
+              "id": "1779840679645_message",
+              "name": "message",
+              "type": "string",
+              "value": "\"\""
+            },
+            {
+              "id": "1779840679645_action",
+              "name": "action",
+              "type": "object",
+              "value": "{{$context.$nodes.GET_CONFIGURATION.$output.result.action}}"
+            },
+            {
+              "id": "1779840679645_commonConfiguration",
+              "name": "commonConfiguration",
+              "type": "object",
+              "value": "{{$context.$nodes.GET_CONFIGURATION.$output.result.commonConfiguration}}"
+            },
+            {
+              "id": "1779840679645_filterConfiguration",
+              "name": "filterConfiguration",
+              "type": "object",
+              "value": "{{$context.$nodes.GET_CONFIGURATION.$output.result.filterConfiguration}}"
+            }
+          ],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"input\": {\n      \"type\": \"string\"\n    },\n    \"output\": {\n      \"type\": \"string\"\n    },\n    \"error\": {\n      \"type\": \"null\"\n    },\n    \"followUpQuestions\": {\n      \"type\": \"array\",\n      \"items\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"string\"\n        }\n      ]\n    },\n    \"jobId\": {\n      \"type\": \"string\"\n    },\n    \"conversationId\": {\n      \"type\": \"string\"\n    },\n    \"traceId\": {\n      \"type\": \"string\"\n    },\n    \"status\": {\n      \"type\": \"string\"\n    },\n    \"supportingChunks\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"citations\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"nodes\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"waitingToolCode\": {\n      \"type\": \"null\"\n    },\n    \"workflowCode\": {\n      \"type\": \"string\"\n    },\n    \"workflowVersion\": {\n      \"type\": \"integer\"\n    },\n    \"workflowStatus\": {\n      \"type\": \"string\"\n    },\n    \"startDate\": {\n      \"type\": \"integer\"\n    },\n    \"endTime\": {\n      \"type\": \"integer\"\n    },\n    \"createDate\": {\n      \"type\": \"string\"\n    },\n    \"endDate\": {\n      \"type\": \"string\"\n    },\n    \"timeTaken\": {\n      \"type\": \"integer\"\n    },\n    \"inputTokenCount\": {\n      \"type\": \"integer\"\n    },\n    \"outputTokenCount\": {\n      \"type\": \"integer\"\n    }\n  },\n  \"required\": []\n}"
+        },
+        {
+          "id": "1779841882709",
+          "code": "GET_PRODUCTS",
+          "type": "CODE",
+          "metadata": {
+            "name": "Get products",
+            "sourceCode": "let result = [];\ntry {\n  // Access the output string from GET_PRODUCT_INFORMATION node\n  const outputString = $context.$nodes?.GET_PRODUCT_INFORMATION?.$output?.output || \"\";\n\n  // Parse the output string safely\n  const parsedOutput = JSON.parse(outputString);\n\n  // The parsed output is expected to be an array, get the first element's subscriptions\n  // Defensive checks for structure\n  if (Array.isArray(parsedOutput) && parsedOutput.length > 0) {\n    const firstEntry = parsedOutput[0];\n    if (firstEntry && Array.isArray(firstEntry.subscriptions)) {\n      result = firstEntry.subscriptions;\n    }\n  }\n} catch (error) {\n  // On error, return empty array\n  result = [];\n}\n\nreturn result;",
+            "returnType": "array"
+          },
+          "diagram": {
+            "x": 5477,
+            "y": 8758
+          },
+          "outcomes": {
+            "success": "1779842346045"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "1779842346045",
+          "code": "ADD_PRODUCTS_SUMMARY",
+          "type": "LLM",
+          "metadata": {
+            "name": "Add Products Summary"
+          },
+          "diagram": {
+            "x": 5477,
+            "y": 8980
+          },
+          "outcomes": {
+            "success": "1775957079972"
+          },
+          "inputs": [
+            {
+              "id": "1776795798277_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "Based on {{$context.$nodes.GET_PRODUCTS.$output.result}}, if there are no rows in it, return {{$context.$nodes.PROCESS_ACCOUNT_SUMMARY.$output}} as it is. No change is needed.\n\nif there are rows in {{$context.$nodes.PROCESS_ACCOUNT_SUMMARY.$output}}, then create one object based on the row as below:\n\n  subject: <Generate a short few words concise sentence based on PRODUCTGROUPNAME, TOTALVALUEAMOUNT, TOTALARR, {{$context.$nodes.GET_PRODUCTS.$output.result}}>\n  subtitle: <Generate 1 line professional short sentence showing the insight from {{$context.$nodes.GET_PRODUCTS.$output.result}}>\n  summary: <Consolidate the Products Owned from {{$context.$nodes.GET_PRODUCTS.$output.result}} and Display in 2 bullet points format it with markdown. Must be 2 bullet points only>\n  badgeText: <Consolidate Products Owned from {{$context.$nodes.GET_PRODUCTS.$output.result}} and Generate a badge text based on the count of products. For example, \"2 Products\">\n  variant: <info>\n\nOnce created, append this new object at the start of the rows to the output from {{$context.$nodes.PROCESS_ACCOUNT_SUMMARY.$output}}"
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "Execution Widget"
+          },
+          "diagram": {
+            "x": 5477,
+            "y": 9202
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "aiAppOutputSpecification": {
+            "dataDisplay": {
+              "layouts": [
+                "ORA_LAYOUT_CARD"
+              ],
+              "customNotes": "<multiCardWidget>\n    <description>Displays multiple card-style alerts or updates in a single widget, using the same card metadata format repeated in an array.</description>\n    <schema>\n{\n    \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n    \"type\": \"object\",\n    \"required\": [\"cards\"],\n    \"properties\": {\n        \"layoutMode\": {\n            \"type\": \"string\",\n            \"enum\": [\"default\", \"collapsed\", \"single-col\"],\n            \"description\": \"Optional layout behavior. default preserves the normal responsive behavior, collapsed forces two cards per row, and single-col forces one card per row.\"\n        },\n        \"cards\": {\n            \"type\": \"array\",\n            \"description\": \"Array of card metadata objects. Use one entry per card.\",\n            \"items\": {\n                \"type\": \"object\",\n                \"required\": [\"subject\", \"summary\"],\n                \"properties\": {\n                    \"subject\": {\n                        \"type\": \"string\",\n                        \"description\": \"Clear, concise title (2-6 words typically)\"\n                    },\n                    \"subtitle\": {\n                        \"type\": \"string\",\n                        \"description\": \"Secondary line shown directly below the title\"\n                    },\n                    \"summary\": {\n                        \"type\": \"string\",\n                        \"description\": \"1-2 sentences of descriptive text (under 100 characters when possible)\"\n                    },\n                    \"status\": {\n                        \"type\": \"string\",\n                        \"description\": \"Bottom status text shown beneath the summary and above links\"\n                    },\n                    \"statusPriority\": {\n                        \"type\": \"string\",\n                        \"enum\": [\"alert\", \"warning\", \"medium\", \"success\"],\n                        \"description\": \"Color priority for the status text (alert: critical, warning: caution, medium: neutral, success: positive)\"\n                    },\n                    \"timestamp\": {\n                        \"type\": \"string\",\n                        \"description\": \"Human-readable relative time (e.g., '5 min ago', 'Yesterday')\"\n                    },\n                    \"badgeText\": {\n                        \"type\": \"string\",\n                        \"description\": \"Short label for categorization\"\n                    },\n                    \"link\": {\n                        \"type\": \"object\",\n                        \"properties\": {\n                            \"text\": {\n                                \"type\": \"string\",\n                                \"description\": \"Action-oriented button text (1-3 words)\"\n                            },\n                            \"action\": {\n                                \"type\": \"string\",\n                                \"description\": \"Identifier for what the link does (snake_case format)\"\n                            }\n                        }\n                    },\n                    \"additionalLink\": {\n                        \"type\": \"object\",\n                        \"properties\": {\n                            \"text\": {\n                                \"type\": \"string\",\n                                \"description\": \"Secondary action text (1-3 words)\"\n                            },\n                            \"action\": {\n                                \"type\": \"string\",\n                                \"description\": \"Identifier for the secondary action (snake_case format)\"\n                            }\n                        }\n                    },\n                    \"variant\": {\n                        \"type\": [\"string\", \"null\"],\n                        \"enum\": [\"error\", \"warning\", \"info\", null],\n                        \"description\": \"Visual styling variant (error: critical issues, warning: cautions, info: updates, null: neutral)\"\n                    }\n                }\n            }\n        }\n    }\n}\n    </schema>\n    <instructions>\nUse multiCardWidget when you need to show multiple standalone cards in a single widget.\n\n**Configuration Structure**\n\nlayoutMode (string, optional)\n\n- Controls the card grid layout.\n- Allowed values:\n  - default: preserve the normal responsive layout behavior\n  - collapsed: force two cards per row\n  - single-col: always show one card per row\n- IMPORTANT: default is the normal behavior and should usually be omitted instead of emitted explicitly.\n\ncards (array, required)\n\n- Provide one card metadata object per card.\n- Every card follows the same schema as cardWidget.\n- Keep the top-level oraInfoDisplay title/description shared for the whole set; only card-specific fields belong inside each cards[] entry.\n\nEach cards[] entry supports:\n\n- subject (string, required): clear, concise title\n- subtitle (string, optional): secondary line directly below the title\n- summary (string, required): 1-2 sentences of descriptive text\n- status (string, optional): bottom status text below the summary\n- statusPriority (string, optional): \"alert\", \"warning\", \"medium\", or \"success\"\n- timestamp (string, optional): human-readable relative time\n- badgeText (string, optional): short label for categorization\n- link (object, optional): primary action with text + action\n- additionalLink (object, optional): secondary action with text + action\n- variant (string, optional): \"error\", \"warning\", \"info\", or null\n\n**Important Rules**\n\n- Omit layoutMode unless the prompt explicitly asks for collapsed or single-col behavior.\n- Only use additionalLink when link is also present.\n- If status is present and statusPriority is omitted, the UI will treat it as medium.\n- Keep each card independently scannable.\n- Use multiCardWidget when the user needs several peer cards, not one table or one message list.\n- Do not add actions unless the user explicitly requests interactivity.\n    </instructions>\n    <examples>\n// Example 1: Two simple cards\n{\n    \"cards\": [\n        {\n            \"subject\": \"Pre-pricing alignment\",\n            \"subtitle\": \"ZenBank - Digital Channels Renewal (P1)\",\n            \"summary\": \"Align guardrails and next steps before the March 15 close.\",\n            \"status\": \"Last interaction raised budget concern\",\n            \"statusPriority\": \"warning\",\n            \"timestamp\": \"Today 3:00 PM\",\n            \"badgeText\": \"Today\",\n            \"variant\": \"info\"\n        },\n        {\n            \"subject\": \"Policy Reminder\",\n            \"summary\": \"Expense approvals are due by end of day.\",\n            \"timestamp\": \"Today\",\n            \"badgeText\": \"Reminder\"\n        }\n    ]\n}\n\n// Example 2: Multiple cards with actions\n{\n    \"cards\": [\n        {\n            \"subject\": \"System Alert\",\n            \"subtitle\": \"Web cluster / US-East\",\n            \"summary\": \"High CPU usage detected on web servers. Investigation in progress.\",\n            \"status\": \"Mitigation in progress\",\n            \"statusPriority\": \"alert\",\n            \"timestamp\": \"15 min ago\",\n            \"link\": {\n                \"text\": \"Details\",\n                \"action\": \"view_error_details\"\n            },\n            \"badgeText\": \"Alert\",\n            \"variant\": \"error\"\n        },\n        {\n            \"subject\": \"New Policy Update\",\n            \"subtitle\": \"Corporate travel and expense\",\n            \"summary\": \"Company travel policy has been updated with new guidelines.\",\n            \"status\": \"Review due this week\",\n            \"statusPriority\": \"medium\",\n            \"timestamp\": \"Yesterday\",\n            \"link\": {\n                \"text\": \"View Policy\",\n                \"action\": \"view_policy\"\n            },\n            \"additionalLink\": {\n                \"text\": \"Dismiss\",\n                \"action\": \"dismiss_notification\"\n            },\n            \"badgeText\": \"Policy\",\n            \"variant\": \"warning\"\n        }\n    ]\n}\n\n// Example 3: Explicit single-column layout\n{\n    \"layoutMode\": \"single-col\",\n    \"cards\": [\n        {\n            \"subject\": \"Critical Alert\",\n            \"summary\": \"Database failover triggered in the primary region.\",\n            \"timestamp\": \"5 min ago\",\n            \"badgeText\": \"Critical\",\n            \"variant\": \"error\"\n        },\n        {\n            \"subject\": \"Capacity Warning\",\n            \"summary\": \"API cluster is running above the recommended threshold.\",\n            \"timestamp\": \"12 min ago\",\n            \"badgeText\": \"Warning\",\n            \"variant\": \"warning\"\n        }\n    ]\n}\n    </examples>\n</multiCardWidget>"
+            }
+          },
+          "id": "1775957079972",
+          "code": "EXECUTION_WIDGET",
+          "type": "LLM",
+          "inputs": [
+            {
+              "id": "1775957079972_systemPrompt",
+              "name": "systemPrompt",
+              "type": "string",
+              "value": "You are a specialized UI rendering assistant for Account Summary Insights."
+            },
+            {
+              "id": "1775957079972_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "DIRECTIVE: Generate exactly one `oraInfoDisplay` block using `patternId: \"multiCardWidget\"` from {{$context.$nodes.ADD_PRODUCTS_SUMMARY.$output}}\n\nROOT CONFIGURATION:\n\n1. Generate a single sentence professional insight using only {{$context.$variables.summaryArray}}.\n\n   * Create a concise headline that highlights interesting, problematic, or traceable entities across the list.\n   * If nothing stands out, generate a single-sentence informational headline.\n\n2. Generate a short summary using only {{$context.$nodes.ADD_PRODUCTS_SUMMARY.$output}}.\n\n   * Write 1 concise sentence describing the most useful and relevant information across the list.\n   * This summary must appear immediately below the heading.\n\nmultiCardWidget Generation Rule:\n\nFor `properties`:\n  - Use `multiCardWidget`\n  - Set `layoutMode` to `\"collapsed\"`\n  - Add `cards` for each row in {{$context.$nodes.ADD_PRODUCTS_SUMMARY.$output}}\n\n Based on {{$context.$nodes.ADD_PRODUCTS_SUMMARY.$output}}, Create the cards as below:\n\n  subject: <map from Subject attribute in each row>\n  subtitle: <Generate 1 line professional short sentence showing the insight>\n  summary: <map from Summary attribute in each row. Display in bullet points format it with markdown>\n  badgeText: <map from BadgeText attribute in each row>\n  variant: <map from Variant attribute in each row>\n\n\nSTRICT CONSTRAINTS:\n\n* Do not use {{$context.$variables.summaryArray}} to populate card fields.\n* Do not modify or rephrase subject, summary, BadgeText, or Variant.\n* Do not add timestamp or any additional properties.\n* Do not generate extra cards.\n* Do not include any additional narrative text before or between cards.\n* Only generate oraInfoDisplay blocks for rows from {{$context.$nodes.ADD_PRODUCTS_SUMMARY.$output}}.\n* Do NOT generate any additional oraInfoDisplay blocks for summaries, context, or {{$context.$variables.summaryArray}}.\n* Do NOT create any \"summary\", \"contextual\", or aggregated card.\n* {{$context.$variables.summaryArray}} must be used only for the heading, summary, and final bullet list.\n\nSTYLE CONSTRAINTS:\n\n* Professional and concise\n* No ALL CAPS\n* No internal field names\n* No technical explanations\n* No repetition\n* Business-friendly language only\n\nFINAL OUTPUT FORMAT:\n\n* Start with the headline\n* Follow with the 1–2 sentence summary\n* Then oraInfoDisplay card block\n* Do not wrap or explain the output"
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "Is Activity Present"
+          },
+          "diagram": {
+            "x": 6632,
+            "y": 6760
+          },
+          "outcomes": {
+            "true": "1776548013152",
+            "false": "1776792489554"
+          },
+          "id": "1776547944317",
+          "code": "IS_ACTIVITY_PRESENT",
+          "type": "CONDITION",
+          "convergenceTargetId": "end",
+          "inputs": [
+            {
+              "id": "1776547944317_condition",
+              "name": "condition",
+              "type": "string",
+              "value": "{{$context.$nodes.PARSE_APPCONTEXT.$output.result.activityNumber!= null}}"
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "Generate Appointment payload",
+            "sourceCode": "let result = {};\ntry {\n\n  const activityNumber = $context.$nodes.PARSE_APPCONTEXT.$output.result.activityNumber || null;\n\n  result = {\n    op: \"$eq\",\n    attribute: \"ActivityNumber\",\n    value: activityNumber\n  };\n} catch (error) {\n  // Return empty object on error\n  result = {};\n}\n\nreturn result;",
+            "returnType": "object"
+          },
+          "diagram": {
+            "x": 6401,
+            "y": 6982
+          },
+          "outcomes": {
+            "success": "1776548081661"
+          },
+          "id": "1776548013152",
+          "code": "GENERATE_APPOINTMENT_PAYLOAD",
+          "type": "CODE",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "metadata": {
+            "name": "Get Appointment Details",
+            "businessObjectCode": "ORA_CX_SALESFORCE_CXOBJECTSEARCHB",
+            "functionName": "SEARCH_OBJECTS"
+          },
+          "diagram": {
+            "x": 6407,
+            "y": 7204
+          },
+          "outcomes": {
+            "success": "1776548324814"
+          },
+          "id": "1776548081661",
+          "code": "GET_APPOINTMENT_DETAILS",
+          "type": "BO_FUNCTION",
+          "inputs": [
+            {
+              "id": "1776548081661_object",
+              "name": "object",
+              "value": "Activity",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": "1776548081661_q",
+              "name": "q",
+              "value": "{{$context.$nodes.GENERATE_APPOINTMENT_PAYLOAD.$output.result}}",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": "1776548081661_sort",
+              "name": "sort",
+              "value": "[{'attribute':'ActivityStartDate','direction':'ascending'}]",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": "1776548081661_limit",
+              "name": "limit",
+              "value": "1",
+              "required": false,
+              "type": "integer"
+            },
+            {
+              "id": "1776548081661_fields",
+              "name": "fields",
+              "value": "[\"ActivityId\",\"ActivityNumber\",\"ActivityStartDate\",\"ActivityEndDate\",\"SortDate\",\"Subject\",\"ActivityDescription\",\"ListOfContacts.ContactId.PartyName\",\"Location\",\"ActivityFunctionCode_localizedValue\",\"ActivityTypeCode_localizedValue\"]",
+              "required": false,
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "Get Account Insights For Meeting",
+            "businessObjectCode": "ORA_CX_SALESFORCE_AIOUTCOMESTORE",
+            "functionName": "getOutcomeBy_AltKey_SubType"
+          },
+          "diagram": {
+            "x": 6383,
+            "y": 7426
+          },
+          "outcomes": {
+            "success": "1776548407522"
+          },
+          "id": "1776548324814",
+          "code": "GET_ACCOUNT_INSIGHTS_FOR_MEETING",
+          "type": "BO_FUNCTION",
+          "inputs": [
+            {
+              "id": "1776548324814_ObjectType",
+              "name": "ObjectType",
+              "value": "ACTIVITY",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": "1776548324814_ObjectAltKey",
+              "name": "ObjectAltKey",
+              "value": "{{$context.$nodes.PARSE_APPCONTEXT.$output.result.activityNumber}}",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": "1776548324814_OutcomeType",
+              "name": "OutcomeType",
+              "value": "SUMMARY",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": "1776548324814_OutcomeSubType",
+              "name": "OutcomeSubType",
+              "value": "STATE_SUMMARY",
+              "required": false,
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "Generate Response"
+          },
+          "diagram": {
+            "x": 6407,
+            "y": 7648
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "id": "1776548407522",
+          "code": "GENERATE_RESPONSE",
+          "type": "LLM",
+          "inputs": [
+            {
+              "id": "1776548407522_systemPrompt",
+              "name": "systemPrompt",
+              "type": "string",
+              "value": "Use concise and clear language for each output section. Maintain all existing\nprompt template rules and expression formats as provided."
+            },
+            {
+              "id": "1776548407522_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "Using the outputs from GET_APPOINTMENT_DETAILS Data - {{$context.$nodes.GET_APPOINTMENT_DETAILS.$output}} and \nGET_ACCOUNT_INSIGHTS_FOR_MEETING Data - {{$context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output}}, generate a detailed meeting \npreparation summary with the following structure:\n\n## Meeting Preparation\n- Use the 'Subject' field from the first element of GET_APPOINTMENT_DETAILS output. - Mardown header level 1\n- Use the 'detailedAgenda' from GET_ACCOUNT_INSIGHTS_FOR_MEETING node's items[0].payload.what.facts.agenda.detailedAgenda.\n\nTime: <Format 'ActivityStartDate' from GET_APPOINTMENT_DETAILS node into locale date and time with local timezone at end, e.g., \"Jan 20, 2026, Thursday 3:00PM PST\" or \n  \"January 20th, Thursday 3:00PM PST\".>\n- For location, use 'Location' from GET_APPOINTMENT_DETAILS if present; otherwise, use 'ActivityDescription' location if \n  available; if neither, omit location.\n\n#### About <{{$context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.accountInsights.name}}>\n- Industry: {{$context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.accountInsights.industry}}\n- Sentiment: {{\n  let s = $context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.accountInsights.sentiment;\n  s.charAt(0).toUpperCase()+s.slice(1)+\" sentiment: \" + $context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.accountInsights.sentimentDescription\n}}\n- Products: {{$context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.accountInsights.products}}\n\n\n#### \n{{\n  let opp = $context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.opportunityInsights;\n  let lead = $context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.leadInsights;\n  let data = opp || lead;\n  if(data){\n    let parts = [];\n    if(data.name) parts.push(data.name);\n    if(data.stage) parts.push(data.stage + (data.winProbability ? \"(\" + data.winProbability + \")\" : \"\"));\n    if(data.dealSize) parts.push(data.dealSize);\n    if(data.closeDate) parts.push(data.closeDate);\n    parts.join(\" | \");\n  }\n}} \n\n\n{{\n  let opp = $context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.opportunityInsights;\n  let lead = $context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.leadInsights;\n  let data = opp || lead;\n  if(data){\n    let details = [];\n    if(data.products) details.push(\"Products: \" + data.products);\n    if(data.keyStakeholder) details.push(\"Key Stakeholder: \" + data.keyStakeholder);\n    if(data.signals) details.push(\"Signals: \" + data.signals);\n    if(data.competitiveLandscape) details.push(\"Competitive Landscape: \" + data.competitiveLandscape);\n    details.join(\"\\n- \");\n  }\n}}\n\n#### Customer Attendees\n{{\n  let contacts = $context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.contactRelationship || [];\n  contacts.map(c => {\n    let sentiment = c.sentiment.charAt(0).toUpperCase() + c.sentiment.slice(1) + \" sentiment: \" + c.sentimentDescription;\n    let nameTitle = c.name + (c.jobTitle ? \" (\" + c.jobTitle + \")\" : \"\");\n    let influence = c.influenceLevel.charAt(0).toUpperCase() + c.influenceLevel.slice(1) + \" influence - \" + c.influenceDescription;\n    return `- ${nameTitle}\n  - ${sentiment}\n  - ${influence}\n  - Recent Engagement: ${c.recentEngagement || \"N/A\"}`;\n  }).join(\"\\n\")\n}}\n\n#### Pre-Meeting Checklist\n- {{$context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.meetingStrategyAndRecommendations.preMeetingChecklist.join(\"\\n- \")}}\n\n#### Key Talking Points\n{{\n  let points = $context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.meetingStrategyAndRecommendations.talkingPoints || [];\n  points.map((p,i) => `${i+1}. ${p}`).join(\"\\n\")\n}}\n\n#### Objection Handling\n- {{$context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.meetingStrategyAndRecommendations.objectionHandling.join(\"\\n- \")}}\n\n#### Intended Outcome\n- {{$context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.meetingStrategyAndRecommendations.intendedOutcome.join(\"\\n- \")}}\n\n#### Recent Engagement Summary\n{{$context.$nodes.GET_ACCOUNT_INSIGHTS_FOR_MEETING.$output.items[0].payload.what.facts.recentEngagementSummary}}\n\nEnsure all markdown formatting is correct and omit any sections or fields if data is missing. Maintain proper spacing between sections without excessive blank lines."
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "name": "Refine Commercial",
+            "sourceCode": "let result = { accountNews: null, companyProfile: null };\ntry {\n  // Access the output from GET_COMPANY_NEWS node\n  const output = $context.$nodes?.GET_COMPANY_NEWS?.$output.items[0];\n  \n  // Access the payload property which is expected to be a JSON string\n  const payloadStr = output?.payload;\n  \n  if (typeof payloadStr === 'string') {\n    // Parse the JSON string safely\n    const payloadObj = JSON.parse(payloadStr);\n    \n    // Safely access nested properties\n    const accountNews = payloadObj?.what?.facts?.accountNews ?? null;\n    const companyProfile = payloadObj?.what?.facts?.companyProfile ?? null;\n    \n    result = { accountNews, companyProfile };\n  }\n} catch (error) {\n  // In case of error, return nulls\n  result = { accountNews: null, companyProfile: null };\n}\n\nreturn result;",
+            "returnType": "object"
+          },
+          "diagram": {
+            "x": 6881,
+            "y": 6982
+          },
+          "outcomes": {
+            "success": "1775863444348"
+          },
+          "id": "1776792489554",
+          "code": "REFINE_COMMERCIAL",
+          "type": "CODE",
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "metadata": {
+            "name": "Summary"
+          },
+          "diagram": {
+            "x": 6881,
+            "y": 7204
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "id": "1775863444348",
+          "code": "SUMMARY",
+          "type": "LLM",
+          "inputs": [
+            {
+              "id": "1775863444348_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "Using: {{$context.$variables.insightsArray}} and {{$context.$nodes.REFINE_COMMERCIAL.$output.result}}\nGenerate a concise, professional account insight summary.\n\nInput Guidelines:\n- Each item contains what and why sections\n- Use both sections as the source of truth\n- Treat all insights as belonging to one account\n- Do not output JSON\n- Do not mention internal fields such as schemaVersion, facts, or reasons\n\nOutput Requirements:\n1. Account Title\n- Generate a single, clear title reflecting the overall account situation\n- Consider themes such as risk, renewal posture, expansion potential, or a combination\n- Keep it short, professional, and insight-driven\n- Format as: ## Account Title\n- Include this section only if there is relevant data to generate a meaningful title\n\n2. Consolidated Why Summary\n- Generate a dynamic heading based on dominant themes across all why sections\n- Example: Why this account needs attention\n- Format as: #### Why Heading\n- Write a markdown bullet points of 2 to 3 sentences that synthesizes all why content, removes duplication, and highlights key drivers, signals, and supporting facts\n- Include this section only if why data is present; otherwise omit or generate a valid sentence based on available data\n\n3. Consolidated What Summary\n- Generate a dynamic heading based on dominant themes across all what sections\n- Example: What is happening across the account\n- Format as: #### What Heading\n- Write a markdown bullet points of 2 to 3 markdown bullet points that synthesizes all what content, removes duplication, and highlights key account conditions, risks, and opportunities\n- Include this section only if what data is present; otherwise omit or generate a valid sentence based on available data\n\n4. Additional Sections from REFINE_COMMERCIAL Output\n- For each property in {{$context.$nodes.REFINE_COMMERCIAL.$output.result}} (accountNews, companyProfile):\n  - If the property has value, create a section similar to the What Summary\n  - Generate a dynamic heading reflecting the content, e.g., \"Latest Account News\" or \"Company Profile Overview\"\n  - Write a concise 2 to 3 markdown bullet points synthesizing the content\n  - Format as: #### [Dynamic Heading]\n\nStyle Constraints:\n- Maintain a professional, concise, business tone\n- Avoid repetition across sections\n- Represent the output using markdown bullet points\n- Do not use ALL CAPS\n- Focus on insight synthesis\n\nFinal Output Format:\n- Include each section only if relevant data exists\n- ## Account Title\n- #### Why Heading\n- Represent the output using markdown bullet points\n- #### What Heading\n- Represent the output using markdown bullet points\n- #### Additional Sections as applicable\n- Represent the output using markdown bullet points\n\nIf any section lacks data, omit that section or generate a valid, concise sentence based on available insights."
+            },
+            {
+              "id": "1775863444348_systemPrompt",
+              "name": "systemPrompt",
+              "type": "string",
+              "value": "You are a concise insight summarization assistant for a Sales Representative in Sales Play."
+            }
+          ],
+          "outputSpecification": ""
+        },
+        {
+          "id": "1779822892823",
+          "code": "PAYLOAD_FOR_OPPORTUNITIES",
+          "type": "CODE",
+          "metadata": {
+            "name": "Payload for Opportunities",
+            "returnType": "object",
+            "sourceCode": "let result = {};\ntry {\n  const accountNumber = $context.$variables.accountNumber || \"\";\n\n  // Build the payload object as specified\n  result = {\n    entity: \"Opportunity\",\n    fields: [\"OptyId\", \"OptyNumber\"],\n    sort: [\n      {\n        attribute: \"LastUpdateDate\",\n        direction: \"descending\"\n      }\n    ],\n    q: {\n      op: \"$and\",\n      criteria: [\n        {\n          op: \"$eq\",\n          attribute: \"CustomerAccount.PartyNumber\",\n          value: accountNumber\n        },\n        {\n          op: \"$in\",\n          attribute: \"StatusCode\",\n          values: [\"OPEN\"]\n        }\n      ]\n    }\n  };\n} catch (error) {\n  // Return empty object on error\n  result = {};\n}\n\nreturn result;"
+          },
+          "diagram": {
+            "x": 5010.5,
+            "y": 6760
+          },
+          "outcomes": {
+            "success": "1779822987687"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "1779822987687",
+          "code": "GET_OPPORTUNITIES_FOR_ACCOUNT",
+          "type": "BO_FUNCTION",
+          "metadata": {
+            "name": "Get Opportunities for Account",
+            "businessObjectCode": "ORA_CX_SALESFORCE_CXOBJECTSEARCHB",
+            "functionName": "SEARCH_OBJECTS"
+          },
+          "diagram": {
+            "x": 5000,
+            "y": 6982
+          },
+          "outcomes": {
+            "success": "1779823162698"
+          },
+          "inputs": [
+            {
+              "id": "1779822987687_object",
+              "name": "object",
+              "value": "{{$context.$nodes.PAYLOAD_FOR_OPPORTUNITIES.$output.result.entity}}",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": "1779822987687_q",
+              "name": "q",
+              "value": "{{$context.$nodes.PAYLOAD_FOR_OPPORTUNITIES.$output.result.q}}",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": "1779822987687_sort",
+              "name": "sort",
+              "value": "{{$context.$nodes.PAYLOAD_FOR_OPPORTUNITIES.$output.result.sort}}",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": "1779822987687_limit",
+              "name": "limit",
+              "value": "25",
+              "required": false,
+              "type": "integer"
+            },
+            {
+              "id": "1779822987687_fields",
+              "name": "fields",
+              "value": "{{$context.$nodes.PAYLOAD_FOR_OPPORTUNITIES.$output.result.fields}}",
+              "required": false,
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "id": "1779823162698",
+          "code": "PAYLOAD_FOR_RECOMMENDATIONS",
+          "type": "CODE",
+          "metadata": {
+            "name": "Payload for Recommendations",
+            "sourceCode": "let result = {};\ntry {\n  // Access the array of opportunity rows safely\n  const opportunityRows = $context.$nodes?.GET_OPPORTUNITIES_FOR_ACCOUNT?.$output || [];\n\n  // Extract OptyNumber from each row to build objectAltKeys array\n  const objectAltKeys = opportunityRows\n    .map(row => row?.OptyNumber)\n    .filter(optyNumber => typeof optyNumber === 'string');\n\n  // Build standardParameters JSON string\n  const standardParameters = JSON.stringify({\n    objectType: \"OPPORTUNITY\",\n    objectAltKeys: objectAltKeys\n  });\n\n  // Build optionalParameters string as specified\n  const optionalParameters = \"outcomeType = 'RECOMMENDATION' and outcomeReferences[primaryRef='Y']\";\n\n  // Assign to result object\n  result = {\n    standardParameters: standardParameters,\n    optionalParameters: optionalParameters\n  };\n} catch (error) {\n  // Fallback empty object on error\n  result = {\n    standardParameters: JSON.stringify({ objectType: \"OPPORTUNITY\", objectAltKeys: [] }),\n    optionalParameters: \"outcomeType = 'RECOMMENDATION' and outcomeReferences[primaryRef='Y']\"\n  };\n}\n\nreturn result;",
+            "returnType": "object"
+          },
+          "diagram": {
+            "x": 5009,
+            "y": 7204
+          },
+          "outcomes": {
+            "success": "1779823426670"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "1779823426670",
+          "code": "GET_RECOMMENDATIONS",
+          "type": "BO_FUNCTION",
+          "metadata": {
+            "name": "Get Recommendations",
+            "businessObjectCode": "ORA_CX_SALESFORCE_AIOUTCOMESTORE",
+            "functionName": "getOutcomes",
+            "errorNodeId": "1779838342584"
+          },
+          "diagram": {
+            "x": 5010.5,
+            "y": 7426
+          },
+          "outcomes": {
+            "success": "1779838098943"
+          },
+          "inputs": [
+            {
+              "id": "1779823426670_Outcome_Standard_Parameters",
+              "name": "Outcome_Standard_Parameters",
+              "value": "{{$context.$nodes.PAYLOAD_FOR_RECOMMENDATIONS.$output.result.standardParameters}}",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": "1779823426670_Outcome_Optional_Parameters",
+              "name": "Outcome_Optional_Parameters",
+              "value": "{{$context.$nodes.PAYLOAD_FOR_RECOMMENDATIONS.$output.result.optionalParameters}}",
+              "required": false,
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "id": "1779838098943",
+          "code": "REFINE_RECOMMENDATIONS",
+          "type": "CODE",
+          "metadata": {
+            "name": "Refine Recommendations",
+            "sourceCode": "let result = [];\ntry {\n  const recommendationItems = $context.$nodes?.GET_RECOMMENDATIONS?.$output?.items || [];\n  for (const item of recommendationItems) {\n    const payload = item?.payload;\n\n    if (!payload) continue;\n\n    const payloadObj =\n      typeof payload === \"string\"\n        ? JSON.parse(payload)\n        : payload;\n\n    const actions = payloadObj?.next?.actions || [];\n    const opportunityId = item?.primaryObjectKey || null; \n    for (const action of actions) {\n      result.push({\n        Type: action?.type || \"\",\n        Title: action?.label || \"\",\n        Task: action?.description || \"\",\n        opportunityId: opportunityId\n      });\n    }\n  }\n} catch (error) {\n  result = [];\n}\nreturn result;",
+            "returnType": "array"
+          },
+          "diagram": {
+            "x": 5010.5,
+            "y": 7648
+          },
+          "outcomes": {
+            "success": "1779838342584"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "id": "1779838342584",
+          "code": "GENERATE_ACTIONS",
+          "type": "LLM",
+          "metadata": {
+            "name": "Generate Actions"
+          },
+          "diagram": {
+            "x": 5010.5,
+            "y": 7870
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "inputs": [
+            {
+              "id": "1779838342584_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "If there are rows in {{$context.$nodes.REFINE_RECOMMENDATIONS.$output.result}}, generate a high priority actionable oraInsight for each record in the array {{$context.$nodes.REFINE_RECOMMENDATIONS.$output.result}}. For each record, create an actionable insight object with the following fields:\n- title: use Title property from each row\n- shortDescription: use Task property from each row\n- actionText: \"Review\"\n- priority: true\n- followUpCommand: \"ora.Invoke(launchOpportunity,{\\\"opportunityId\\\":\"\"+<opportunityId in each row>,\\\"task\\\":<Task in each row>,\\\"title\\\":<Title in each row>,\\\"action\\\":\\\"invokeSuggestedTask\\\"})\""
+            }
+          ],
+          "aiAppOutputSpecification": {
+            "dataDisplay": {
+              "enableActions": true
+            }
+          }
+        },
+        {
+          "id": "1779920630810",
+          "code": "CONSTUCT_ADVISOR_PARAMETER",
+          "type": "CODE",
+          "metadata": {
+            "name": "Constuct Advisor Parameter",
+            "sourceCode": "let result = {};\n\ntry {\n  // Access accountNumber from workflow variables\n  const accountNumber = $context.$variables?.accountNumber || \"\";\n\n  // Construct the result JSON as requested\n  result = {\n    action: {\n      config: {\n        accountNumber: accountNumber\n      }\n    }\n  };\n} catch (error) {\n  // Return empty object on error\n  result = {};\n}\n\nreturn result;",
+            "returnType": "object"
+          },
+          "diagram": {
+            "x": 7331,
+            "y": 6760
+          },
+          "outcomes": {
+            "success": "1775965233292"
+          },
+          "inputs": [],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
+        },
+        {
+          "metadata": {
+            "name": "Invoke Account Advisor",
+            "workflowCode": "ORA_ACCOUNT_ADVISOR_TEAM"
+          },
+          "diagram": {
+            "x": 7331,
+            "y": 6982
+          },
+          "outcomes": {
+            "success": "1775964695425"
+          },
+          "id": "1775965233292",
+          "code": "INVOKE_ACCOUNT_ADVISOR",
+          "type": "WORKFLOW",
+          "inputs": [
+            {
+              "id": "1775965233292_message",
+              "name": "message",
+              "type": "string",
+              "value": "{{$context.$system.$inputMessage}}"
+            },
+            {
+              "id": "1775965233292_action",
+              "name": "action",
+              "type": "object",
+              "value": "{{$context.$nodes.CONSTUCT_ADVISOR_PARAMETER.$output.result.action}}"
+            }
+          ],
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"input\": {\n      \"type\": \"string\"\n    },\n    \"output\": {\n      \"type\": \"string\"\n    },\n    \"error\": {\n      \"type\": \"null\"\n    },\n    \"followUpQuestions\": {\n      \"type\": \"array\",\n      \"items\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"string\"\n        }\n      ]\n    },\n    \"jobId\": {\n      \"type\": \"string\"\n    },\n    \"conversationId\": {\n      \"type\": \"string\"\n    },\n    \"traceId\": {\n      \"type\": \"string\"\n    },\n    \"status\": {\n      \"type\": \"string\"\n    },\n    \"supportingChunks\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"citations\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"nodes\": {\n      \"type\": \"array\",\n      \"items\": {}\n    },\n    \"waitingToolCode\": {\n      \"type\": \"null\"\n    },\n    \"workflowCode\": {\n      \"type\": \"string\"\n    },\n    \"workflowVersion\": {\n      \"type\": \"integer\"\n    },\n    \"workflowStatus\": {\n      \"type\": \"string\"\n    },\n    \"startDate\": {\n      \"type\": \"integer\"\n    },\n    \"endTime\": {\n      \"type\": \"integer\"\n    },\n    \"createDate\": {\n      \"type\": \"string\"\n    },\n    \"endDate\": {\n      \"type\": \"string\"\n    },\n    \"timeTaken\": {\n      \"type\": \"integer\"\n    },\n    \"inputTokenCount\": {\n      \"type\": \"integer\"\n    },\n    \"outputTokenCount\": {\n      \"type\": \"integer\"\n    }\n  },\n  \"required\": []\n}"
+        },
+        {
+          "metadata": {
+            "name": "Query Response"
+          },
+          "diagram": {
+            "x": 7331,
+            "y": 7204
+          },
+          "outcomes": {
+            "success": "end"
+          },
+          "id": "1775964695425",
+          "code": "QUERY_RESPONSE",
+          "type": "LLM",
+          "inputs": [
+            {
+              "id": "1775964695425_systemPrompt",
+              "name": "systemPrompt",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "id": "1775964695425_prompt",
+              "name": "prompt",
+              "type": "string",
+              "value": "Return only the response from {{$context.$nodes.INVOKE_ACCOUNT_ADVISOR.$output}}. \nExclude other text."
+            }
+          ]
+        },
+        {
+          "metadata": {
+            "description": "End of data pipeline",
+            "name": "End"
+          },
+          "outcomes": {},
+          "code": "END",
+          "id": "end",
+          "inputs": [],
+          "type": "END"
+        }
+      ],
+      "rootNode": "start",
+      "variables": [
+        {
+          "id": "b6c7eebb-466e-416b-bf68-a667abc2f8e8",
+          "name": "summaryArray",
+          "type": "array",
+          "scope": "JOB",
+          "typeSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"schemaVersion\": {\n      \"type\": \"string\",\n      \"pattern\": \"^\\\\d+\\\\.\\\\d+$\"\n    },\n    \"what\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"title\": {\n          \"type\": \"string\"\n        },\n        \"summary\": {\n          \"type\": \"string\"\n        },\n        \"facts\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"opportunity_engagement\": {\n              \"type\": \"object\",\n              \"properties\": {\n                \"summary\": {\n                  \"type\": \"string\"\n                },\n                \"sentiment\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"summary\": {\n                      \"type\": \"string\"\n                    }\n                  },\n                  \"required\": [\n                    \"summary\"\n                  ],\n                  \"additionalProperties\": false\n                },\n                \"product_focus\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"summary\": {\n                      \"type\": \"string\"\n                    },\n                    \"details\": {\n                      \"type\": \"string\"\n                    }\n                  },\n                  \"required\": [\n                    \"summary\",\n                    \"details\"\n                  ],\n                  \"additionalProperties\": false\n                },\n                \"industry_focus\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"summary\": {\n                      \"type\": \"string\"\n                    },\n                    \"details\": {\n                      \"type\": \"string\"\n                    }\n                  },\n                  \"required\": [\n                    \"summary\",\n                    \"details\"\n                  ],\n                  \"additionalProperties\": false\n                },\n                \"signals\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"summary\": {\n                      \"type\": \"string\"\n                    },\n                    \"details\": {\n                      \"type\": \"string\"\n                    }\n                  },\n                  \"required\": [\n                    \"summary\",\n                    \"details\"\n                  ],\n                  \"additionalProperties\": false\n                }\n              },\n              \"required\": [\n                \"summary\",\n                \"sentiment\",\n                \"product_focus\",\n                \"industry_focus\",\n                \"signals\"\n              ],\n              \"additionalProperties\": false\n            },\n            \"contact_engagement\": {\n              \"type\": \"object\",\n              \"properties\": {\n                \"summary\": {\n                  \"type\": \"string\"\n                },\n                \"sentiment\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"summary\": {\n                      \"type\": \"string\"\n                    }\n                  },\n                  \"required\": [\n                    \"summary\"\n                  ],\n                  \"additionalProperties\": false\n                },\n                \"product_focus\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"summary\": {\n                      \"type\": \"string\"\n                    },\n                    \"details\": {\n                      \"type\": \"string\"\n                    }\n                  },\n                  \"required\": [\n                    \"summary\",\n                    \"details\"\n                  ],\n                  \"additionalProperties\": false\n                },\n                \"industry_focus\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"summary\": {\n                      \"type\": \"string\"\n                    },\n                    \"details\": {\n                      \"type\": \"string\"\n                    }\n                  },\n                  \"required\": [\n                    \"summary\",\n                    \"details\"\n                  ],\n                  \"additionalProperties\": false\n                },\n                \"signals\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"summary\": {\n                      \"type\": \"string\"\n                    },\n                    \"details\": {\n                      \"type\": \"string\"\n                    }\n                  },\n                  \"required\": [\n                    \"summary\",\n                    \"details\"\n                  ],\n                  \"additionalProperties\": false\n                }\n              },\n              \"required\": [\n                \"summary\",\n                \"sentiment\",\n                \"product_focus\",\n                \"industry_focus\",\n                \"signals\"\n              ],\n              \"additionalProperties\": false\n            },\n            \"direct_account_engagement\": {\n              \"type\": \"object\",\n              \"properties\": {\n                \"summary\": {\n                  \"type\": \"string\"\n                },\n                \"sentiment\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"summary\": {\n                      \"type\": \"string\"\n                    }\n                  },\n                  \"required\": [\n                    \"summary\"\n                  ],\n                  \"additionalProperties\": false\n                },\n                \"product_focus\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"summary\": {\n                      \"type\": \"string\"\n                    },\n                    \"details\": {\n                      \"type\": \"string\"\n                    }\n                  },\n                  \"required\": [\n                    \"summary\",\n                    \"details\"\n                  ],\n                  \"additionalProperties\": false\n                },\n                \"industry_focus\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"summary\": {\n                      \"type\": \"string\"\n                    },\n                    \"details\": {\n                      \"type\": \"string\"\n                    }\n                  },\n                  \"required\": [\n                    \"summary\",\n                    \"details\"\n                  ],\n                  \"additionalProperties\": false\n                },\n                \"signals\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"summary\": {\n                      \"type\": \"string\"\n                    },\n                    \"details\": {\n                      \"type\": \"string\"\n                    }\n                  },\n                  \"required\": [\n                    \"summary\",\n                    \"details\"\n                  ],\n                  \"additionalProperties\": false\n                }\n              },\n              \"required\": [\n                \"summary\",\n                \"sentiment\",\n                \"product_focus\",\n                \"industry_focus\",\n                \"signals\"\n              ],\n              \"additionalProperties\": false\n            }\n          },\n          \"required\": [\n            \"opportunity_engagement\",\n            \"contact_engagement\",\n            \"direct_account_engagement\"\n          ],\n          \"additionalProperties\": false\n        }\n      },\n      \"required\": [\n        \"title\",\n        \"summary\",\n        \"facts\"\n      ],\n      \"additionalProperties\": false\n    }\n  },\n  \"required\": [\n    \"schemaVersion\",\n    \"what\"\n  ],\n  \"additionalProperties\": false\n}"
+        },
+        {
+          "id": "612bba3d-3720-4371-8b81-1240697432ab",
+          "name": "insightsArray",
+          "type": "array",
+          "scope": "JOB",
+          "typeSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"schemaVersion\": {\n      \"type\": \"string\"\n    },\n    \"what\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"summary\": {\n          \"type\": \"string\"\n        },\n        \"title\": {\n          \"type\": \"string\"\n        },\n        \"facts\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"actionableSignal\": {\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"actionableSignal\"\n          ],\n          \"additionalProperties\": false\n        }\n      },\n      \"required\": [\n        \"summary\",\n        \"title\",\n        \"facts\"\n      ],\n      \"additionalProperties\": false\n    },\n    \"why\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"summary\": {\n          \"type\": \"string\"\n        },\n        \"reasons\": {\n          \"type\": \"array\",\n          \"items\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"label\": {\n                \"type\": \"string\"\n              },\n              \"type\": {\n                \"type\": \"string\"\n              },\n              \"value\": {\n                \"type\": \"string\"\n              }\n            },\n            \"required\": [\n              \"label\",\n              \"type\",\n              \"value\"\n            ],\n            \"additionalProperties\": false\n          }\n        }\n      },\n      \"required\": [\n        \"summary\",\n        \"reasons\"\n      ],\n      \"additionalProperties\": false\n    }\n  },\n  \"required\": [\n    \"schemaVersion\",\n    \"what\",\n    \"why\"\n  ],\n  \"additionalProperties\": false\n}"
+        },
+        {
+          "id": "53226eb3-780f-414b-af63-ade0a5f562e7",
+          "name": "accountNumber",
+          "type": "string",
+          "scope": "JOB"
+        },
+        {
+          "id": "19e12a56-42f9-4e78-a37a-606b934f60ae",
+          "name": "accountId",
+          "type": "string",
+          "scope": "JOB"
+        }
+      ],
+      "errorHandlers": [
+        {
+          "type": "EMAIL",
+          "inputs": [
+            {
+              "name": "toList",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "ccList",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "subject",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "body",
+              "type": "string",
+              "value": ""
+            }
+          ]
+        }
+      ]
+    },
+    "dtRunProfiles": {
+      "activeProfileId": "f3e9bcc8-f46e-43ca-a95b-7e079112cab9",
+      "profiles": [
+        {
+          "id": "80b03f6b-062e-4a91-b2e1-409d6320eab7",
+          "name": "Init Display",
+          "type": "agentic-app",
+          "agenticAppMode": "initDisplay",
+          "agenticAppInitialMessage": "{    \n    \"OraAppDisplayDiscriminator\": \"RETENTION\"\n}",
+          "agenticAppAppContext": "{accountId:\"100106927271046\",accountNumber:\"MTRX-011\",accountName:\"BlackRock\"}"
+        },
+        {
+          "id": "297d254f-73fd-4457-8389-1d9fd592e018",
+          "name": "Summary",
+          "type": "agentic-app",
+          "agenticAppMode": "summary",
+          "agenticAppAppContext": "{\"accountId\":\"300100656444911\",\"accountNumber\":\"CDRM_1166255\",\"accountName\":\"Emirates+Airlines\"}"
+        },
+        {
+          "id": "03dfd90f-e6c7-4a78-a8c8-02a4fd143e43",
+          "name": "Query",
+          "type": "agentic-app",
+          "agenticAppMode": "query",
+          "agenticAppAppContext": "{accountId:300100655723073,accountNumber:\"CDRM_1166238\"}",
+          "agenticAppInitialMessage": "What open opportunities exist for Blackrock"
+        },
+        {
+          "id": "f3e9bcc8-f46e-43ca-a95b-7e079112cab9",
+          "name": "Init Actions",
+          "type": "agentic-app",
+          "agenticAppMode": "initActions",
+          "agenticAppAppContext": "{accountId:\"100106927271044\",accountNumber:\"MTRX-001\",accountName:\"BlackRock\"}"
+        }
+      ]
+    },
+    "diagram": {
+      "orientation": "vertical",
+      "commentNodes": []
+    },
+    "jsonSchemaName": "Workflow.spec",
+    "jsonSchemaVersion": "1",
+    "inputs": [],
+    "outputSpecification": "",
+    "agentsValueMappings": [],
+    "modelConfiguration": null,
+    "humanApprovalFlag": false,
+    "waitFlag": false,
+    "triggers": [
+      {
+        "type": "REST",
+        "inputs": []
+      }
+    ],
+    "deletedTriggerTypes": [],
+    "costSavings": 0,
+    "timeSavings": 10,
+    "chatExpTPFileUploadEnabledFlag": false,
+    "chatExpThirdPartyDetails": [],
+    "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI"
+  },
+  "status": "DRAFT",
+  "version": 1,
+  "family": "CX",
+  "product": "SALES_FORCE_AUTOMATION",
+  "ownerName": null,
+  "customFlag": false,
+  "seededFlag": true,
+  "isTemplate": false,
+  "customizationPolicy": "FULL",
+  "hiddenFlag": false,
+  "useCaseId": "NA",
+  "accessModifier": "public",
+  "architecture": "data_pipeline",
+  "aiAppsCompatibleFlag": true,
+  "followupEnabledFlag": false,
+  "followupPrompt": "Based on the following conversion: $param.system_context.chat_history generate $param.system_context.number_of_follow_up_questions\nfollow up questions only while strictly adhering to the JSON Schema format mentioned below. Remove the ```json markdown from the output.\nHere is the JSON Schema format the output should adhere to:\n[{\"question\": \"<put first question generated here>\"}, {\"question\": \"<put second question generated here>\"}, {\"question\": \"<put third question generated here>\"}",
+  "header": {
+    "ETag": "\"3\""
+  }
+}
