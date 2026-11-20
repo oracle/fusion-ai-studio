@@ -1,0 +1,2031 @@
+<!-- Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl -->
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Technical documentation for Oracle AI Agent Studio for Fusion Applications — agents, workflows, tools and Agentic Apps.">
+      
+      
+      
+        <link rel="canonical" href="https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/delivered-apps/">
+      
+      
+        <link rel="prev" href="../best-practices/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Delivered Agentic Apps - Oracle AI Agent Studio Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/redwood.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#delivered-fusion-agentic-applications" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Oracle AI Agent Studio Documentation" class="md-header__button md-logo" aria-label="Oracle AI Agent Studio Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Oracle AI Agent Studio Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Delivered Agentic Apps
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Agentic Apps
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Oracle AI Agent Studio Documentation" class="md-nav__button md-logo" aria-label="Oracle AI Agent Studio Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Oracle AI Agent Studio Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentic Apps
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agentic Apps
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design Principles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../anatomy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Anatomy of an App
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Agent Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts & Lifecycle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Build
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../builder-ui/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Using the Builder UI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configure-agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Template Builder
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pro-code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pro-Code (AI Studio Skill)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../widgets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Information Display Widgets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Actions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../communications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Communications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ask-oracle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ask Oracle Advisors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../autonomy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Autonomous Outcomes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../app-context/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    App Context
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../app-settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    App Settings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../message-hints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Message Hints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../context-variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Context Variables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output-tags/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Output Tags & Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operate
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operate
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing with ATLAS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../best-practices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Best Practices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Delivered Agentic Apps
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Delivered Agentic Apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-they-have-in-common" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What they have in common
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#catalog-by-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Catalog by release
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Catalog by release">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#release-26b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Release 26B
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#release-26c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Release 26C
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#release-26d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Release 26D
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extending-delivered-apps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extending delivered apps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-they-have-in-common" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What they have in common
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#catalog-by-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Catalog by release
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Catalog by release">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#release-26b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Release 26B
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#release-26c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Release 26C
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#release-26d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Release 26D
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extending-delivered-apps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extending delivered apps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="delivered-fusion-agentic-applications">Delivered Fusion Agentic Applications<a class="headerlink" href="#delivered-fusion-agentic-applications" title="Permanent link">&para;</a></h1>
+<p>Oracle delivers prebuilt <strong>Fusion Agentic Applications</strong> alongside the apps you build yourself. This catalog covers <strong>Releases 26B, 26C and 26D</strong></p>
+<h2 id="what-they-have-in-common">What they have in common<a class="headerlink" href="#what-they-have-in-common" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Characteristic</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Outcome-driven coordination</strong></td>
+<td>Teams of agents deliver complete business results, not isolated tasks</td>
+</tr>
+<tr>
+<td><strong>Adaptive user experience</strong></td>
+<td>The UX adapts to the user and the work at hand</td>
+</tr>
+<tr>
+<td><strong>Autonomous actions</strong></td>
+<td>Routine actions run on their own; exceptions and judgment calls go to people</td>
+</tr>
+<tr>
+<td><strong>Native Fusion foundation</strong></td>
+<td>Built on the Fusion data model, security, business rules, approvals and audit</td>
+</tr>
+</tbody>
+</table>
+<h2 id="catalog-by-release">Catalog by release<a class="headerlink" href="#catalog-by-release" title="Permanent link">&para;</a></h2>
+<p>Each feature links to the release readiness note referenced by Oracle’s feature list.</p>
+<h3 id="release-26b">Release 26B<a class="headerlink" href="#release-26b" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Pillar</th>
+<th>Product area</th>
+<th>Delivered feature / readiness note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SCM</td>
+<td>Inventory Management</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/scm/26b/inv26b/26B-inventory-wn-f46409.htm">AI Agentic App: Cost Accounting Close Workspace</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Inventory Management</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/scm/26b/inv26b/26B-inventory-wn-f43846.htm">AI Agentic App: Warehouse Operations Workspace</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Maintenance</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/scm/26b/maint26b/26B-maintenance-wn-f46392.htm">AI Agentic App: Maintenance Operations Workspace</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Manufacturing</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/scm/26b/mfg26b/26B-mfg-wn-f45772.htm">AI Agentic App: Production Shift Operations Workspace</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Order Management</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/scm/26b/order26b/26B-order-mgmt-wn-f46279.htm">AI Agentic App: Sales Order Command Center</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Procurement</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/scm/26b/proc26b/26B-procurement-wn-f42881.htm">AI Agentic App: Sourcing Command Center</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Product Lifecycle Management</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/scm/26b/plm26b/26B-plm-wn-f44463.htm">AI Agentic App: Design-to-Source Workspace</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Product Lifecycle Management</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/scm/26b/plm26b/26B-plm-wn-f44464.htm">AI Agentic App: Product Readiness Workspace</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Transportation Management</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/logistics/26b/otm26b/26B-otm-wn-f43787.htm">AI Agentic App: Logistics Execution Command Center</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Warehouse Management</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/logistics/26b/wms26b/26B-wms-wn-f44026.htm">AI Agentic App: Logistics Execution Command Center</a></td>
+</tr>
+<tr>
+<td>HCM</td>
+<td>Human Resources</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/hcm/26b/hure-26b/26B-hr-wn-f50070.htm">Manager Concierge Workspace</a></td>
+</tr>
+<tr>
+<td>HCM</td>
+<td>Learning and Development</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/hcm/26b/lear-26b/26B-learning-wn-f47274.htm">Team Learning and Development Workspace for Managers</a></td>
+</tr>
+<tr>
+<td>Sales</td>
+<td>Sales Force Automation</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/sales/26b/sfau-26b/26B-sf-automation-wn-f44409.htm">Sales Orchestration Setup Experience</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="release-26c">Release 26C<a class="headerlink" href="#release-26c" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Pillar</th>
+<th>Product area</th>
+<th>Delivered feature / readiness note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ERP</td>
+<td>Financials: ERP Agents</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/erp/26c/fins26c/26C-fin-wn-f49306.htm">Collector Workspace Agent for Prioritized Work Queue and Guided Resolution</a></td>
+</tr>
+<tr>
+<td>ERP</td>
+<td>Financials: ERP Agents</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/erp/26c/fins26c/26C-fin-wn-f50687.htm">Ledger Agentic Application</a></td>
+</tr>
+<tr>
+<td>ERP</td>
+<td>Project Management</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/erp/26c/ppm26c/26C-ppm-wn-f51222.htm">Project Planning Workspace for Project Initiation and Budget Planning</a></td>
+</tr>
+<tr>
+<td>ERP</td>
+<td>Risk Common (Classic)</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/erp/26c/risk26c/26C-risk-wn-f49543.htm">Agentic AI App: Security Command Center</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Demand Management</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/scm/26c/demand26c/26C-demand-wn-f45791.htm">AI Agentic App: Inventory Planning Command Center</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Inventory Management</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/scm/26c/inv26c/26C-inventory-wn-f50922.htm">AI Agentic App: Cost Accounting Close Workspace - Enhanced Reasoning and Insights</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Inventory Management</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/scm/26c/inv26c/26C-inventory-wn-f46491.htm">AI Agentic App: Warehouse Operations Workspace - Use Improved Stockout and Outbound Recommendations</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Manufacturing</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/scm/26c/mfg26c/26C-mfg-wn-f44511.htm">AI Agentic App: Batch Process Manufacturing Workspace</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Manufacturing</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/scm/26c/mfg26c/26C-mfg-wn-f44525.htm">AI Agentic App: Kanban Administration Workspace</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Manufacturing</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/scm/26c/mfg26c/26C-mfg-wn-f44539.htm">AI Agentic App: Production Readiness Workspace</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Manufacturing</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/scm/26c/mfg26c/26C-mfg-wn-f49850.htm">AI Agentic App: Production Shift Operations Workspace - Use Enhanced Advisors</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Order Management</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/scm/26c/order26c/26C-order-mgmt-wn-f46432.htm">Sales Order Command Center</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Procurement</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/scm/26c/proc26c/26C-procurement-wn-f46293.htm">AI Agentic App: Supplier Qualification Workspace</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Procurement Common</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/scm/26c/ssproc26c/26C-ssproc-wn-f46551.htm">Initiate Procurement Activities with Intake Requests</a></td>
+</tr>
+<tr>
+<td>HCM</td>
+<td>Opportunity Marketplace</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/hcm/26c/opma-26c/26C-opportunity-marketplace-wn-f50138.htm">Career Advancement Command Center</a></td>
+</tr>
+<tr>
+<td>HCM</td>
+<td>Recruiting</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/hcm/26c/recr-26c/26C-recruiting-wn-f50108.htm">Hiring Workspace for Store Managers</a></td>
+</tr>
+<tr>
+<td>HCM</td>
+<td>Talent Management</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/hcm/26c/tama-26c/26C-talent-mgmt-wn-f47280.htm">AI Agentic App: Team Talent Calibration and Review Workspace</a></td>
+</tr>
+<tr>
+<td>Sales</td>
+<td>Sales Force Automation</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/sales/26c/sfau-26c/26C-sf-automation-wn-f47270.htm">Contract Compliance Workspace</a></td>
+</tr>
+<tr>
+<td>Service</td>
+<td>Service Center</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/service/26c/bsvc-26c/26C-b2b-service-wn-f46334.htm">Operations Dashboard for Customer Service Managers</a></td>
+</tr>
+<tr>
+<td>Industry</td>
+<td>Permitting and Licensing</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/public-sector/26c/pscd26c/26C-pscd-wn-f49430.htm">AI Agent: Code Enforcement Incident Workspace</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="release-26d">Release 26D<a class="headerlink" href="#release-26d" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Pillar</th>
+<th>Product area</th>
+<th>Delivered feature / readiness note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ERP</td>
+<td>Financials: ERP Agents</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/erp/26d/fins26d/26D-fin-wn-f51329.htm">Billing Operations Workspace for billing readiness and dispute resolution</a></td>
+</tr>
+<tr>
+<td>ERP</td>
+<td>Financials: ERP Agents</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/erp/26d/fins26d/26D-fin-wn-f51249.htm">Payables Period Close Workspace</a></td>
+</tr>
+<tr>
+<td>ERP</td>
+<td>Project Management</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/erp/26d/ppm26d/26D-ppm-wn-f50631.htm">Project Planning Workspace for project initiation and budget planning</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Demand Management</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/scm/26d/demand26d/26D-demand-wn-f50202.htm">Business Growth Planning Workspace</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Manufacturing</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/scm/26d/mfg26d/26D-mfg-wn-f50431.htm">Get substitution recommendations for high-risk, unreleased batches using the Batch Conformance Guide</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Manufacturing</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/scm/26d/mfg26d/26D-mfg-wn-f44543.htm">Product Genealogy Workspace</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Order Management</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/scm/26d/order26d/26D-order-mgmt-wn-f50454.htm">Sales Order Command Center</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Procurement</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/scm/26d/proc26d/26D-procurement-wn-f51980.htm">Award and create purchase documents in the Sourcing Command Center</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Quality Management</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/scm/26d/plm26d/26D-plm-wn-f50528.htm">Quality Assurance Workspace</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Sales and Operations Planning</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/scm/26d/sop26d/26D-sales-ops-wn-f50211.htm">Inventory Planning Command Center - Inventory Budget Advisor</a></td>
+</tr>
+<tr>
+<td>SCM</td>
+<td>Warehouse Management</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/logistics/26d/wms26d/26D-wms-wn-f51823.htm">AI Agentic App: Warehouse Execution Command Center</a></td>
+</tr>
+<tr>
+<td>HCM</td>
+<td>Benefits</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/hcm/26d/benf-26d/26D-benefits-wn-f51263.htm">Benefits Administration Command Center</a></td>
+</tr>
+<tr>
+<td>HCM</td>
+<td>Human Resources</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/hcm/26d/hure-26d/26D-hr-wn-f50764.htm">HCM Professional Concierge Workspace</a></td>
+</tr>
+<tr>
+<td>HCM</td>
+<td>Learning and Development</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/hcm/26d/lear-26d/26D-learning-wn-f51886.htm">Agentic Course Designer</a></td>
+</tr>
+<tr>
+<td>HCM</td>
+<td>Learning and Development</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/hcm/26d/lear-26d/26D-learning-wn-f51885.htm">Agentic Course Player</a></td>
+</tr>
+<tr>
+<td>HCM</td>
+<td>Learning and Development</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/hcm/26d/lear-26d/26D-learning-wn-f51274.htm">Enhancements to Team Learning and Development Workspace for Managers</a></td>
+</tr>
+<tr>
+<td>HCM</td>
+<td>Oracle Me Employee Experience</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/hcm/26d/meex-26d/26D-employee-experience-wn-f51150.htm">Use Grow Coach Workspace and Ask Oracle in Grow to receive learning guidance</a></td>
+</tr>
+<tr>
+<td>HCM</td>
+<td>Talent Management</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/hcm/26d/tama-26d/26D-talent-mgmt-wn-f50984.htm">AI Agentic App: Team Talent Calibration and Review Workspace Enhancements For Additional Rating Actions, Data Sources, and Talent Snapshot</a></td>
+</tr>
+<tr>
+<td>HCM</td>
+<td>Talent Management</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/hcm/26d/tama-26d/26D-talent-mgmt-wn-f51548.htm">Identify Coaching Insights for your Team Using Manager Coaching Workspace</a></td>
+</tr>
+<tr>
+<td>Service</td>
+<td>Help Desk</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/service/26d/shde-26d/26D-helpdesk-wn-f50676.htm">Use 'My Help Workspace for Employees' to provide efficiency through an Agentic App experience</a></td>
+</tr>
+<tr>
+<td>Service</td>
+<td>Service Center</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/service/26d/bsvc26d/26D-b2b-service-wn-f50599.htm">Service Execution Workspace</a></td>
+</tr>
+<tr>
+<td>Service</td>
+<td>Service Center</td>
+<td><a href="https://docs.oracle.com/en/cloud/saas/readiness/service/26d/bsvc26d/26D-b2b-service-wn-f51413.htm">Service Operations Workspace</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="extending-delivered-apps">Extending delivered apps<a class="headerlink" href="#extending-delivered-apps" title="Permanent link">&para;</a></h2>
+<p>You can use the <a href="../builder-ui/">Agentic Application Builder</a> to extend delivered Agentic Applications or build new apps around processes that need a particular combination of agents. Agents can come from Oracle, partners or your own team, and the <strong>Oracle AI Agent Marketplace</strong> also offers reusable agents, workflows, connectors, templates and agentic applications.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../best-practices/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Best Practices">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Best Practices
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "content.tabs.link", "toc.follow"], "search": null, "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/native.df432b4dbd0d.js"></script>
+      
+    
+  </body>
+</html>

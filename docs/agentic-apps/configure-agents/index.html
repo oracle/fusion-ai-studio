@@ -1,0 +1,2213 @@
+<!-- Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl -->
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Technical documentation for Oracle AI Agent Studio for Fusion Applications — agents, workflows, tools and Agentic Apps.">
+      
+      
+      
+        <link rel="canonical" href="https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/configure-agents/">
+      
+      
+        <link rel="prev" href="../builder-ui/">
+      
+      
+        <link rel="next" href="../templates/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Configure Agents - Oracle AI Agent Studio Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/redwood.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#configure-agents-for-agentic-apps" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Oracle AI Agent Studio Documentation" class="md-header__button md-logo" aria-label="Oracle AI Agent Studio Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Oracle AI Agent Studio Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Configure Agents
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Agentic Apps
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Oracle AI Agent Studio Documentation" class="md-nav__button md-logo" aria-label="Oracle AI Agent Studio Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Oracle AI Agent Studio Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentic Apps
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agentic Apps
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design Principles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../anatomy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Anatomy of an App
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Agent Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts & Lifecycle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Build
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../builder-ui/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Using the Builder UI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure Agents
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-build-the-workflow-to-respond-to-message-hints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1 — Build the workflow to respond to message hints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-2-expose-the-agent-and-set-up-the-app-experience-section" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 2 — Expose the agent and set up the App Experience section
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 2 — Expose the agent and set up the App Experience section">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-turn-on-expose-to-agentic-apps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Turn on Expose to Agentic Apps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-configure-the-app-experience-section-on-each-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Configure the App Experience section on each node
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-write-a-clear-team-description" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Write a clear team description
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-configure-the-agent-in-the-app-builder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3 — Configure the agent in the App Builder
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 3 — Configure the agent in the App Builder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#agent-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agent Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#include-in-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Include in Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#include-in-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Include in Actions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initial-graphics-display-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initial Graphics Display Instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#include-in-communications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Include in Communications
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#active" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Active
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#panels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Panels
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dynamic-title-and-subtitle-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dynamic Title and Subtitle Agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#layered-prompts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layered prompts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Layered prompts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stage-specific-prompt-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage-specific prompt examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#end-to-end-configuration-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        End-to-end configuration checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shared-startup-panels-and-deterministic-outputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shared startup panels and deterministic outputs
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Template Builder
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pro-code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pro-Code (AI Studio Skill)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../widgets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Information Display Widgets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Actions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../communications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Communications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ask-oracle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ask Oracle Advisors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../autonomy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Autonomous Outcomes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../app-context/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    App Context
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../app-settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    App Settings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../message-hints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Message Hints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../context-variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Context Variables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output-tags/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Output Tags & Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operate
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operate
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing with ATLAS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../best-practices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Best Practices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../delivered-apps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Delivered Agentic Apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-build-the-workflow-to-respond-to-message-hints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1 — Build the workflow to respond to message hints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-2-expose-the-agent-and-set-up-the-app-experience-section" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 2 — Expose the agent and set up the App Experience section
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 2 — Expose the agent and set up the App Experience section">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-turn-on-expose-to-agentic-apps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Turn on Expose to Agentic Apps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-configure-the-app-experience-section-on-each-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Configure the App Experience section on each node
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-write-a-clear-team-description" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Write a clear team description
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-configure-the-agent-in-the-app-builder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3 — Configure the agent in the App Builder
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 3 — Configure the agent in the App Builder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#agent-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agent Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#include-in-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Include in Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#include-in-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Include in Actions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initial-graphics-display-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initial Graphics Display Instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#include-in-communications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Include in Communications
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#active" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Active
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#panels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Panels
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dynamic-title-and-subtitle-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dynamic Title and Subtitle Agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#layered-prompts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layered prompts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Layered prompts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stage-specific-prompt-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage-specific prompt examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#end-to-end-configuration-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        End-to-end configuration checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shared-startup-panels-and-deterministic-outputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shared startup panels and deterministic outputs
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="configure-agents-for-agentic-apps">Configure Agents for Agentic Apps<a class="headerlink" href="#configure-agents-for-agentic-apps" title="Permanent link">&para;</a></h1>
+<p>An agent team takes part in an Agentic App through configuration on <strong>two surfaces</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Surface</th>
+<th>Scope</th>
+<th>Decides</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>AI Agent Studio</strong> (agent team editor)</td>
+<td><strong>Global.</strong> Changes affect every app that uses the team.</td>
+<td>What the agent is <em>capable</em> of producing: exposure, widgets, actions, communications, house-style instructions</td>
+</tr>
+<tr>
+<td><strong>Agentic App Builder</strong> (Agent Editor)</td>
+<td><strong>Local.</strong> Applies to one slot in one app.</td>
+<td>What the agent <em>contributes</em> to this app: summary, actions and display prompts, communications, panels</td>
+</tr>
+</tbody>
+</table>
+<p>The same team can be reused in many apps, and each app can use a different subset of its capabilities.</p>
+<div class="admonition warning">
+<p class="admonition-title">Order matters</p>
+<p>Always configure AI Agent Studio <strong>first</strong>. The App Builder can only use capabilities that were enabled in the agent team. Skipping this step causes most "why isn't this working?" problems.</p>
+</div>
+<h2 id="part-1-build-the-workflow-to-respond-to-message-hints">Part 1 — Build the workflow to respond to message hints<a class="headerlink" href="#part-1-build-the-workflow-to-respond-to-message-hints" title="Permanent link">&para;</a></h2>
+<p>Every call from the app carries a <a href="../message-hints/">message hint</a> in <code>$context.$app.$OraMessageHint</code>. The standard pattern is <strong>one workflow per agent</strong> with a <strong>Switch</strong> node that branches on the hint and sends each value to its own handler node.</p>
+<pre class="mermaid"><code>flowchart LR
+    IN([Request]) --&gt; SW{Switch on&lt;br/&gt;$OraMessageHint}
+    SW --&gt;|Summary| N1[LLM: summary]
+    SW --&gt;|InitDisplay| N2[Agent: initial display]
+    SW --&gt;|InitActions| N3[LLM: actions]
+    SW --&gt;|InitCommunications| N4[LLM: comms]
+    SW --&gt;|Query| N5[Agent: query&lt;br/&gt;&lt;small&gt;+ $chatHistory&lt;/small&gt;]
+    SW --&gt;|InvokeAction| N6[Agent: execute action&lt;br/&gt;&lt;small&gt;uses $OraAction&lt;/small&gt;]
+    SW --&gt;|AdditionalContent| N7[LLM: panel content&lt;br/&gt;&lt;small&gt;by $OraPanelName&lt;/small&gt;]</code></pre>
+<p>Use <strong>Workflow</strong> as the team type. It gives you structured input, a prompt per request type, and predictable latency within the 60-second budget. See <a href="../architecture/#agent-team-type-workflow-vs-supervisor">Architecture</a>.</p>
+<div class="admonition danger">
+<p class="admonition-title">Context is not passed automatically</p>
+<p>Internal nodes do <strong>not</strong> automatically receive the user's message or chat history. Pass <code>$context.$system.$inputMessage</code> (and <code>$context.$system.$chatHistory</code> for queries) to every node that needs them. A missing variable is the most common reason an agent "ignores what the user said".</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">End terminal paths on Agent or LLM nodes</p>
+<p>For generated prose and displays, prefer an <strong>Agent</strong> or <strong>LLM</strong> terminal node where its response behavior is needed. Use deterministic Code/Return endings for strict JSON contracts such as starter queries when appropriate.</p>
+</div>
+<h2 id="part-2-expose-the-agent-and-set-up-the-app-experience-section">Part 2 — Expose the agent and set up the App Experience section<a class="headerlink" href="#part-2-expose-the-agent-and-set-up-the-app-experience-section" title="Permanent link">&para;</a></h2>
+<h3 id="step-1-turn-on-expose-to-agentic-apps">Step 1: Turn on <em>Expose to Agentic Apps</em><a class="headerlink" href="#step-1-turn-on-expose-to-agentic-apps" title="Permanent link">&para;</a></h3>
+<p>At the bottom of the agent team's <strong>Details</strong> panel, switch on <strong>Expose to Agentic Apps</strong>. This is the master switch.</p>
+<ul>
+<li><strong>On:</strong> the team appears in the App Builder's agent picker, and an <strong>App Experience</strong> section is added to every Agent and LLM node in the workflow.</li>
+<li><strong>Off:</strong> the team won't appear properly in the App Builder, whatever else you configure.</li>
+</ul>
+<h3 id="step-2-configure-the-app-experience-section-on-each-node">Step 2: Configure the App Experience section on each node<a class="headerlink" href="#step-2-configure-the-app-experience-section-on-each-node" title="Permanent link">&para;</a></h3>
+<p>Open each Agent/LLM node that produces app content, then go to the <strong>App Experience</strong> section:</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Enable Actions for the widgets</strong></td>
+<td>Lets the node emit <code>&lt;oraInsight&gt;</code> blocks (actions). If this is off, no prompt can produce actions.</td>
+</tr>
+<tr>
+<td><strong>Enable Communications for the widgets</strong></td>
+<td>Lets the node emit <code>&lt;oraComms&gt;</code> blocks (suggested emails/messages)</td>
+</tr>
+<tr>
+<td><strong>Select the widgets you want to use</strong></td>
+<td>Which of the eleven <a href="../widgets/">widget types</a> the node may render. <strong>Select at least one</strong> to turn on information displays.</td>
+</tr>
+<tr>
+<td><strong>Instructions</strong></td>
+<td>General formatting rules and guidance on when to use each selected widget. This is the agent's "house style" in every app. Put app-specific instructions in the App Builder, not here.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="step-3-write-a-clear-team-description">Step 3: Write a clear team description<a class="headerlink" href="#step-3-write-a-clear-team-description" title="Permanent link">&para;</a></h3>
+<p>The orchestrator uses the team <strong>description</strong> to filter and route requests, especially Ask Oracle queries. Describe capabilities in specific verbs and nouns:</p>
+<table>
+<thead>
+<tr>
+<th>Weak</th>
+<th>Strong</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Handles finance requests."</td>
+<td>"Analyzes spend variance against budget by cost center and quarter, flags anomalies above threshold, and recommends approver actions."</td>
+</tr>
+</tbody>
+</table>
+<h2 id="part-3-configure-the-agent-in-the-app-builder">Part 3 — Configure the agent in the App Builder<a class="headerlink" href="#part-3-configure-the-agent-in-the-app-builder" title="Permanent link">&para;</a></h2>
+<p>In the App Builder, click the agent card to open the <strong>Agent Editor</strong>: the per-app controls for this agent.</p>
+<h3 id="agent-code">Agent Code<a class="headerlink" href="#agent-code" title="Permanent link">&para;</a></h3>
+<p>Search for and select the agent team. <strong>Only teams with <em>Expose to Agentic Apps</em> turned on are listed.</strong> Check the description shown under the field to confirm you picked the right team.</p>
+<h3 id="include-in-summary">Include in Summary<a class="headerlink" href="#include-in-summary" title="Permanent link">&para;</a></h3>
+<p>Shows an <strong>Initial Summary Prompt</strong>, which is sent with the <code>Summary</code> hint.</p>
+<blockquote>
+<p><em>Summarize the key spend variance metrics and any anomalies detected in 1–2 sentences.</em></p>
+</blockquote>
+<h3 id="include-in-actions">Include in Actions<a class="headerlink" href="#include-in-actions" title="Permanent link">&para;</a></h3>
+<p>Shows an <strong>Initial Actions Prompt</strong>, which is sent with <code>InitActions</code>. State the conditions that justify an action and how to word it.</p>
+<blockquote>
+<p><em>Suggest actions when budget variance exceeds 10% or a milestone is at risk of slipping. Keep titles short and start with a verb.</em></p>
+</blockquote>
+<div class="admonition warning">
+<p class="admonition-title">Upstream dependency</p>
+<p><strong>Include in actions?</strong> only works if <strong>Enable Actions for the widgets</strong> is on in the App Experience section. If it is off, ticking the box here does nothing. This is the most common configuration mistake across the two products.</p>
+</div>
+<h3 id="initial-graphics-display-instructions">Initial Graphics Display Instructions<a class="headerlink" href="#initial-graphics-display-instructions" title="Permanent link">&para;</a></h3>
+<p>The prompt behind the agent's startup display (<code>InitDisplay</code>). Name the widget and limit the size of the output.</p>
+<blockquote>
+<p><em>Show the top 5 items by impact score using the message list widget. Each row: item name, impact value, one-line reason.</em></p>
+</blockquote>
+<h3 id="include-in-communications">Include in Communications<a class="headerlink" href="#include-in-communications" title="Permanent link">&para;</a></h3>
+<p>Lets the agent suggest the app's communications (<code>InitCommunications</code>). For agent-generated communications, <strong>Enable Communications for the widgets</strong> must also be on in AI Agent Studio.</p>
+<h3 id="active">Active<a class="headerlink" href="#active" title="Permanent link">&para;</a></h3>
+<p>The <strong>Active</strong> property, located after <strong>Include in Communications?</strong>, controls whether the App panel is available to the signed-in user. Configure an expression that checks whether the user has the required role or permission. When the condition evaluates to <code>true</code>, the panel is available; when it evaluates to <code>false</code>, the panel is unavailable.</p>
+<p>For example, make an approval panel available only to users with the approver role, or a restricted reporting panel available only to users with the required reporting permission. Use the role or permission identifier configured in your environment.</p>
+<p>This setting applies to the individual panel. App-level access is configured separately through <a href="../app-settings/#security-roles">Security Roles</a>. Test the panel with users who satisfy the condition and users who do not.</p>
+<h3 id="panels">Panels<a class="headerlink" href="#panels" title="Permanent link">&para;</a></h3>
+<p>Panels are extra content sections that load <strong>on demand</strong> when the user focuses on this agent's section.</p>
+<ol>
+<li>Click <strong>+ Add Panel</strong> at the bottom of the Agent Editor.</li>
+<li><strong>Name</strong>: internal identifier in snake_case, e.g. <code>variance_details</code></li>
+<li><strong>Heading</strong>: title shown to users</li>
+<li><strong>Prompt</strong>: what the panel should contain</li>
+</ol>
+<p>At runtime the agent receives the <code>AdditionalContent</code> hint, with the panel's name in <code>$context.$app.$OraPanelName</code>. Branch on that value to pick the right handler.</p>
+<h3 id="dynamic-title-and-subtitle-agent">Dynamic Title and Subtitle Agent<a class="headerlink" href="#dynamic-title-and-subtitle-agent" title="Permanent link">&para;</a></h3>
+<p>The <strong>Dynamic Title and Subtitle Agent</strong> field is set at app level in <strong>App Settings</strong>, not per agent. The nominated agent receives <code>InitTitle</code> and <code>InitSubtitle</code> at startup and returns a title and short tagline.</p>
+<h2 id="layered-prompts">Layered prompts<a class="headerlink" href="#layered-prompts" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Where</th>
+<th>Contains</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent/LLM node prompts</td>
+<td>AI Agent Studio</td>
+<td>Domain reasoning, tool use, data access</td>
+</tr>
+<tr>
+<td><strong>Instructions</strong></td>
+<td>App Experience section</td>
+<td>Formatting rules and widget usage shared by all apps</td>
+</tr>
+<tr>
+<td><strong>Summary / Actions / Display / Panel prompts</strong></td>
+<td>App Builder Agent Editor</td>
+<td>What this agent should contribute to this specific app</td>
+</tr>
+</tbody>
+</table>
+<p>Don't repeat the same instruction across layers. Duplicates drift apart and conflict.</p>
+<h3 id="stage-specific-prompt-examples">Stage-specific prompt examples<a class="headerlink" href="#stage-specific-prompt-examples" title="Permanent link">&para;</a></h3>
+<p>Route to a separate handler before applying these instructions. Include the app-supplied input explicitly so the node receives the panel's current instructions.</p>
+<div class="highlight"><span class="filename">InitDisplay handler prompt</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>App context: {{ $context.$app.$OraAppContext }}
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Startup panel: {{ $context.$app.$OraAppDisplayDiscriminator }}
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Current user: {{ $context.$app.$OraUserContext.fullName }}
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>App-supplied input: {{ $context.$system.$inputMessage }}
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>Retrieve succession coverage for the current manager's direct reports.
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>Return an oraInfoDisplay using the messageListWidget. Highlight missing plans
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>and gaps in ready-now coverage. Use only retrieved records.
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>Add an action or communication suggestion only when a useful follow-up exists.
+</code></pre></div>
+<p><code>InitDisplay</code> can return actions and communications alongside displays when the node's App Experience settings allow them. Keep dedicated <code>InitActions</code> and <code>InitCommunications</code> handlers for requests using those hints; each handler should return the output for its own stage.</p>
+<div class="highlight"><span class="filename">Query handler prompt</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Current question: {{ $context.$system.$inputMessage }}
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Conversation: {{ $context.$system.$chatHistory }}
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>App context: {{ $context.$app.$OraAppContext }}
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>Additional query context: {{ $context.$app.$OraAskOracleContext }}
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>Attachments: {{ $context.$app.$OraAttachments }}
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>Answer the question using the available data. Resolve follow-up references
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>from the conversation. Include displays, actions, or communications when useful.
+</code></pre></div>
+<p>Only pass attachments to a handler equipped to read them. For action and form handlers, inspect the received input as described in <a href="../actions/#receiving-action-commands">Actions</a> and <a href="../widgets/#record-widget">Record widget</a>.</p>
+<h2 id="end-to-end-configuration-checklist">End-to-end configuration checklist<a class="headerlink" href="#end-to-end-configuration-checklist" title="Permanent link">&para;</a></h2>
+<p><strong>In AI Agent Studio</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Team type is <strong>Workflow</strong>, and the description lists the team's capabilities clearly</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Expose to Agentic Apps</strong> is on, and App Experience sections appear on the nodes</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Each content-producing node has <strong>Enable Actions</strong>, <strong>Enable Communications</strong> and <strong>Select the widgets you want to use</strong> set as needed</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> The <strong>Instructions</strong> field holds general formatting and widget guidance</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> A <strong>Switch</strong> on <code>$OraMessageHint</code> has a handler for each hint the app will send</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <code>$inputMessage</code> and <code>$chatHistory</code> are passed explicitly where needed</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Terminal nodes match their output contracts; strict JSON branches return JSON only</li>
+</ul>
+<p><strong>In the App Builder</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> The agent is placed in the right layout slot, with <strong>Agent Code</strong> selected</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Include in summary?</strong> and its prompt (if applicable)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Include in actions?</strong> and its prompt, with specific triggers</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Initial Graphics Display Instructions</strong> name the widget and limit the output</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Include in Communications?</strong> (if applicable)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Panels added for any extra content</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Dynamic Title and Subtitle Agent</strong> set (if this agent supplies the subtitle)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Preview: the section fills at startup, actions appear, and clicks reach <code>InvokeAction</code></li>
+</ul>
+<p>See <a href="../troubleshooting/">Troubleshooting</a> for symptom-to-cause tables.</p>
+<h2 id="shared-startup-panels-and-deterministic-outputs">Shared startup panels and deterministic outputs<a class="headerlink" href="#shared-startup-panels-and-deterministic-outputs" title="Permanent link">&para;</a></h2>
+<p>A workflow reused by several top-level panels receives a separate <code>InitDisplay</code> request for each panel. Match <code>$context.$app.$OraAppDisplayDiscriminator</code> to the panel value shown in Builder, and keep each panel's graphics instructions and widget override aligned. Additional focus panels continue to use <code>AdditionalContent</code> and <code>$OraPanelName</code>.</p>
+<p>See <a href="../builder-ui/#multiple-top-level-panels-sharing-one-agent">Multiple top-level panels sharing one agent</a> for per-panel configuration, startup instruction precedence, and a routing example.</p>
+<p>Use Agent/LLM terminal nodes for generated displays and prose when their response behavior is needed. A deterministic Code or Return branch is appropriate for strict JSON such as <code>InitSampleQueries</code>; do not force structured lookup output through an LLM merely to follow a general terminal-node recommendation.</p>
+<p>For autonomous operations, declare workflow capabilities and implement their <code>InvokeCapability</code> or direct-trigger routes as described in <a href="../autonomy/">Autonomous Outcomes</a>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../builder-ui/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Using the Builder UI">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Using the Builder UI
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../templates/" class="md-footer__link md-footer__link--next" aria-label="Next: Template Builder">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Template Builder
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "content.tabs.link", "toc.follow"], "search": null, "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/native.df432b4dbd0d.js"></script>
+      
+    
+  </body>
+</html>

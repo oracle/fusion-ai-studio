@@ -1,0 +1,16 @@
+Oracle Sans is an Oracle typeface. All rights remain with its respective owners.
+These files are not covered by any project source-code license.
+
+Source: Oracle's public website font assets, downloaded November 12, 2026.
+
+OracleSansVF.woff2:
+https://www.oracle.com/asset/web/fonts/oraclesansvf.woff2
+
+OracleSansVF-Italic.woff2:
+https://www.oracle.com/asset/web/fonts/oraclesansvf-it.woff2
+
+The original font files are bundled without modification for local serving.
+Font-face declarations use the source variable weight range, 275–800.
+
+Redwood palette reference:
+https://static.oracle.com/cdn/apex/24.2.0/themes/theme_42/24.2/css/Redwood.min.css

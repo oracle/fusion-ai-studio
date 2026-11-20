@@ -1,0 +1,2329 @@
+<!-- Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl -->
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Technical documentation for Oracle AI Agent Studio for Fusion Applications — agents, workflows, tools and Agentic Apps.">
+      
+      
+      
+        <link rel="canonical" href="https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/ask-oracle/">
+      
+      
+        <link rel="prev" href="../communications/">
+      
+      
+        <link rel="next" href="../autonomy/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Ask Oracle Advisors - Oracle AI Agent Studio Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/redwood.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ask-oracle-advisors" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Oracle AI Agent Studio Documentation" class="md-header__button md-logo" aria-label="Oracle AI Agent Studio Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Oracle AI Agent Studio Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Ask Oracle Advisors
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Agentic Apps
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Oracle AI Agent Studio Documentation" class="md-nav__button md-logo" aria-label="Oracle AI Agent Studio Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Oracle AI Agent Studio Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentic Apps
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agentic Apps
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design Principles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../anatomy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Anatomy of an App
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Agent Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts & Lifecycle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Build
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../builder-ui/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Using the Builder UI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configure-agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Template Builder
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pro-code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pro-Code (AI Studio Skill)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../widgets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Information Display Widgets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Actions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../communications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Communications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ask Oracle Advisors
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ask Oracle Advisors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#who-answers-two-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who answers? Two modes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#request-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-to-pass-into-the-query-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What to pass into the Query node
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What to pass into the Query node">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-chathistory-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why $chatHistory matters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#routing-depends-on-descriptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Routing depends on descriptions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#response-composition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response composition
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-focus-scoping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Section focus scoping
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tone-and-summary-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tone and summary behavior
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-in-the-builder-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure in the Builder UI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#starter-queries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Starter queries
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Starter queries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-starter-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static starter questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dynamic-starter-queries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dynamic starter queries
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ask-oracle-query-value-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ask Oracle Query Value Filters
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ask Oracle Query Value Filters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-a-filter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure a filter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow-request-and-response" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow request and response
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#values-with-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Values with metadata
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-users-see-after-choosing-a-value" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What users see after choosing a value
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#starter-question-placeholders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Starter-question placeholders
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-the-lookup-experience" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test the lookup experience
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pitfalls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pitfalls
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../autonomy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Autonomous Outcomes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../app-context/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    App Context
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../app-settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    App Settings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../message-hints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Message Hints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../context-variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Context Variables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output-tags/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Output Tags & Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operate
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operate
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing with ATLAS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../best-practices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Best Practices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../delivered-apps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Delivered Agentic Apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#who-answers-two-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who answers? Two modes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#request-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-to-pass-into-the-query-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What to pass into the Query node
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What to pass into the Query node">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-chathistory-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why $chatHistory matters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#routing-depends-on-descriptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Routing depends on descriptions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#response-composition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response composition
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-focus-scoping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Section focus scoping
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tone-and-summary-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tone and summary behavior
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-in-the-builder-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure in the Builder UI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#starter-queries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Starter queries
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Starter queries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-starter-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static starter questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dynamic-starter-queries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dynamic starter queries
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ask-oracle-query-value-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ask Oracle Query Value Filters
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ask Oracle Query Value Filters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-a-filter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure a filter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow-request-and-response" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow request and response
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#values-with-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Values with metadata
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-users-see-after-choosing-a-value" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What users see after choosing a value
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#starter-question-placeholders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Starter-question placeholders
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-the-lookup-experience" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test the lookup experience
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pitfalls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pitfalls
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="ask-oracle-advisors">Ask Oracle - Advisors<a class="headerlink" href="#ask-oracle-advisors" title="Permanent link">&para;</a></h1>
+<p><strong>Ask Oracle</strong> is the conversational layer of every Agentic App: one persistent input bar at the top of the page where users can ask anything at any time. Answers come from the app's specialist agents and can include rich widgets, actions and communications as well as text.</p>
+<h2 id="who-answers-two-modes">Who answers? Two modes<a class="headerlink" href="#who-answers-two-modes" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Dedicated Query agent</label><label for="__tabbed_1_2">Orchestrator dispatch</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Assign an agent team to the <strong>Ask Oracle</strong> static slot (stored as <code>queryAgent</code>). <strong>Every</strong> question goes to it.</p>
+<ul>
+<li>You control routing, prompt, tone and response style.</li>
+<li>Best when you want one consistent voice, or when one team owns the whole domain.</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p>Leave the slot empty. The <strong>Agentic App Orchestrator</strong> compares each question's intent with every panel agent's <strong>description</strong> and capabilities, then routes the question to the best match.</p>
+<ul>
+<li>Different questions can go to different specialists, like an expert panel available around the clock.</li>
+<li>Best when the app has several specialist panel agents.</li>
+</ul>
+</div>
+</div>
+</div>
+<h2 id="request-flow">Request flow<a class="headerlink" href="#request-flow" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>sequenceDiagram
+    autonumber
+    actor U as User
+    participant App as Ask Oracle bar
+    participant O as Orchestrator
+    participant A as Selected agent workflow
+    U-&gt;&gt;App: Types a question
+    App-&gt;&gt;O: Request with $OraMessageHint = "Query"
+    O-&gt;&gt;A: Route (queryAgent, or best description match, or section scope)
+    A-&gt;&gt;A: Switch on hint → Query LLM/Agent node&lt;br/&gt;($inputMessage, $chatHistory, …)
+    A--&gt;&gt;App: Text + optional oraInfoDisplay / oraInsight / oraComms
+    App--&gt;&gt;U: New section at top of page</code></pre>
+<ol>
+<li>The user submits a question; it becomes the input message.</li>
+<li>The framework sets the hint to <code>Query</code>.</li>
+<li>The orchestrator routes the question. In a single-agent app this step is trivial.</li>
+<li>The chosen agent's workflow branches on the hint and runs its Query node.</li>
+<li>The response appears as a <strong>new section at the top of the page</strong>.</li>
+</ol>
+<div class="admonition info">
+<p class="admonition-title">Placement and pinning</p>
+<p>A new answer <strong>replaces</strong> the previous Ask Oracle section unless the user has <strong>pinned</strong> it. Pinned sections stay, and new answers appear above them. This stops the page from growing without limit while keeping what the user chose to keep. The chat panel also remembers prompts, uploaded files, generated artifacts, sources and suggested actions for the session.</p>
+</div>
+<h2 id="what-to-pass-into-the-query-node">What to pass into the Query node<a class="headerlink" href="#what-to-pass-into-the-query-node" title="Permanent link">&para;</a></h2>
+<p>Context is <strong>not</strong> passed automatically. Wire it into the Query node's prompt yourself.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Required?</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>$context.$system.$inputMessage</code></td>
+<td><strong>Required</strong></td>
+<td>The user's question</td>
+</tr>
+<tr>
+<td><code>$context.$system.$chatHistory</code></td>
+<td><strong>Required</strong></td>
+<td>Previous turns. Without it, follow-up questions fail.</td>
+</tr>
+<tr>
+<td><code>$context.$app.$OraUserContext</code></td>
+<td>Optional</td>
+<td>User identity, for personalized or user-scoped answers</td>
+</tr>
+<tr>
+<td><code>$context.$app.$OraAppContext</code></td>
+<td>Optional</td>
+<td>The entity the app is scoped to (from the URL or navigation)</td>
+</tr>
+<tr>
+<td><code>$context.$app.$OraAttachments</code></td>
+<td>Optional</td>
+<td>Files the user uploaded (needs the MultiFileProcessor tool)</td>
+</tr>
+<tr>
+<td><code>$context.$app.$OraAgentList</code></td>
+<td>Optional</td>
+<td>The app's other agents, useful for a dedicated Query agent</td>
+</tr>
+</tbody>
+</table>
+<h3 id="why-chathistory-matters">Why <code>$chatHistory</code> matters<a class="headerlink" href="#why-chathistory-matters" title="Permanent link">&para;</a></h3>
+<p>Each question is a separate, stateless LLM call. Consider:</p>
+<ol>
+<li><em>"Show me the top talent we're at risk of losing."</em></li>
+<li><em>"And what about next quarter?"</em></li>
+</ol>
+<p>Without <code>$chatHistory</code>, the second question has no subject and gets a generic or off-target answer. With it, the model knows the conversation is about retention risk.</p>
+<div class="highlight"><span class="filename">Query node prompt pattern</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>You are the Talent Retention Advisor.
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Conversation so far:
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>{{$context.$system.$chatHistory}}
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>New question from the user:
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>{{$context.$system.$inputMessage}}
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>The current user is {{$context.$app.$OraUserContext}}.
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>Answer concisely using the retention data available to you. If the question is a
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>follow-up, use the conversation to resolve pronouns, time references and implied subjects.
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>When comparing trends, include a chartWidget; for prioritized lists, a messageListWidget.
+</code></pre></div>
+<h2 id="routing-depends-on-descriptions">Routing depends on descriptions<a class="headerlink" href="#routing-depends-on-descriptions" title="Permanent link">&para;</a></h2>
+<p>In orchestrator mode, the team <strong>description</strong> decides which agent answers. Use specific verbs, nouns and dimensions.</p>
+<div class="admonition tip">
+<p class="admonition-title">One-question routing test</p>
+<p>Ask the app a question that clearly belongs to one agent. If the wrong agent answers, <strong>rewrite the description, not the prompt</strong>, and ask the same question again. If the right agent now answers, routing was the cause.</p>
+</div>
+<h2 id="response-composition">Response composition<a class="headerlink" href="#response-composition" title="Permanent link">&para;</a></h2>
+<p>A Query response can combine:</p>
+<table>
+<thead>
+<tr>
+<th>Output</th>
+<th>Tag</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Information display</td>
+<td><code>&lt;oraInfoDisplay&gt;</code></td>
+<td>A widget alongside the text. Detail goes in the widget; the text sums up the insight.</td>
+</tr>
+<tr>
+<td>Actionable insight</td>
+<td><code>&lt;oraInsight&gt;</code></td>
+<td>Something the user can act on</td>
+</tr>
+<tr>
+<td>Communication</td>
+<td><code>&lt;oraComms&gt;</code></td>
+<td>A suggested email or text</td>
+</tr>
+</tbody>
+</table>
+<p>The Query prompt decides whether these appear, and the App Experience section sets which ones are allowed.</p>
+<div class="admonition important">
+<p class="admonition-title">Two steps for widgets in answers</p>
+<ol>
+<li>Select the widget type under <strong>Select the widgets you want to use</strong> in the node's <strong>App Experience</strong> section.</li>
+<li>Tell the Query prompt to use it.</li>
+</ol>
+<p>If either step is missing, the widget never appears.</p>
+</div>
+<h2 id="section-focus-scoping">Section focus scoping<a class="headerlink" href="#section-focus-scoping" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Where the user is</th>
+<th>Ask Oracle talks to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Main app page</td>
+<td>The <code>queryAgent</code>, or orchestrator dispatch across all agents</td>
+</tr>
+<tr>
+<td>Section Focus View</td>
+<td><strong>Only</strong> the agents behind that section</td>
+</tr>
+</tbody>
+</table>
+<p>The framework handles scoping for you. You only need each panel agent's workflow to handle the <code>Query</code> hint.</p>
+<h2 id="tone-and-summary-behavior">Tone and summary behavior<a class="headerlink" href="#tone-and-summary-behavior" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Tone</strong> is set in the Query prompt, e.g. <em>"concise and analytical"</em> or <em>"friendly and conversational"</em>. A Compliance agent shouldn't sound like a Talent agent.</li>
+<li><strong>Summary-first or direct answer.</strong> Quick lookups ("who owns Deal X?") work best as direct answers. Analytical questions ("how did Region 2 do this quarter?") benefit from a one-line summary above the display. Add or omit a summary instruction in the prompt.</li>
+</ul>
+<h2 id="configure-in-the-builder-ui">Configure in the Builder UI<a class="headerlink" href="#configure-in-the-builder-ui" title="Permanent link">&para;</a></h2>
+<ol>
+<li>In the Builder canvas, click the <strong>Ask Oracle</strong> static container.</li>
+<li>Click <strong>Assign Custom Agent</strong> (or <strong>+ Add Agent</strong>) and choose the agent team.</li>
+<li>Save. This sets <code>queryAgent</code>.</li>
+</ol>
+<p>The assigned agent must have <strong>Expose to Agentic Apps</strong> turned on and a <code>Query</code> branch in its workflow that passes <code>$inputMessage</code> and <code>$chatHistory</code>.</p>
+<h2 id="starter-queries">Starter queries<a class="headerlink" href="#starter-queries" title="Permanent link">&para;</a></h2>
+<p>In <strong>Builder View</strong>, select Ask Oracle settings. Under <strong>Custom Query Agent Code</strong>, configure <strong>Starter Queries</strong> using <strong>Static</strong> or <strong>Dynamic</strong>, Suggestions seed the input; selecting one does not submit it or change query routing.</p>
+<h3 id="static-starter-questions">Static starter questions<a class="headerlink" href="#static-starter-questions" title="Permanent link">&para;</a></h3>
+<p>Add categories under <strong>Starter Queries</strong>, then add questions inside each category. The documented limits are <strong>6 categories</strong> and <strong>10 questions per category</strong>. Questions are filtered as the user types.</p>
+<h3 id="dynamic-starter-queries">Dynamic starter queries<a class="headerlink" href="#dynamic-starter-queries" title="Permanent link">&para;</a></h3>
+<p>Under <strong>Starter Queries</strong>, select <strong>Dynamic</strong> and select the workflow that supplies suggestions. This replaces the static list. The workflow receives <code>InitSampleQueries</code> at initial app load and on context changes. The popup shows loading while waiting. Return strict JSON:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">"recommended"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">"displayName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Recommended"</span><span class="p">,</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nt">"samples"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">      </span><span class="s2">"Show me the highest-risk accounts"</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">      </span><span class="s2">"Which renewals need attention?"</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="p">]</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="nt">"followUps"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="nt">"displayName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Follow-ups"</span><span class="p">,</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="nt">"samples"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">      </span><span class="s2">"What should I handle first today?"</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="p">]</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="p">}</span>
+</code></pre></div>
+<p>Each top-level key is a category ID, in above example <code>followUps</code> and <code>recommended</code> are category IDs; <code>samples</code> contains strings. Return only JSON, without Markdown fences, widgets, actions, or communications. Return <code>{}</code> when no suggestions are useful. Use <code>$OraAppContext</code> and <code>$OraUserContext</code> when suggestions depend on the current scope or user, and retrieve evidence first when questions depend on live records. A deterministic Code or Return handler can produce this JSON from retrieved data or approved static rules. One non-empty category produces a list; multiple categories add tabs.</p>
+<h2 id="ask-oracle-query-value-filters">Ask Oracle Query Value Filters<a class="headerlink" href="#ask-oracle-query-value-filters" title="Permanent link">&para;</a></h2>
+<p>Query value filters let users look up values while composing an Ask Oracle question. When at least one filter is configured, the input displays <strong>Type # to lookup common values</strong>. A dedicated workflow supplies the options for the selected category and search text.</p>
+<h3 id="configure-a-filter">Configure a filter<a class="headerlink" href="#configure-a-filter" title="Permanent link">&para;</a></h3>
+<p>Add a filter with a stable unique <strong>Category ID</strong>, a user-facing <strong>Display Name</strong>, and one configured <strong>Workflow</strong>. App Builder generates the filter row ID. With filters configured, typing <code>#</code> at the beginning of a query or after a space opens the category picker.</p>
+<h3 id="workflow-request-and-response">Workflow request and response<a class="headerlink" href="#workflow-request-and-response" title="Permanent link">&para;</a></h3>
+<p>Route <code>$context.$app.$OraMessageHint = QueryFilterValues</code> to a lookup handler. Read <code>$context.$app.$OraQueryFilter</code> for the selected category and picker search text:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span><span class="nt">"categoryId"</span><span class="p">:</span><span class="s2">"supplier"</span><span class="p">,</span><span class="nt">"searchString"</span><span class="p">:</span><span class="s2">"ac"</span><span class="p">}</span>
+</code></pre></div>
+<p>The app calls the workflow when the value picker opens and when its search text changes. The first lookup uses an empty search string; return useful initial options. Use <code>categoryId</code> to choose the data source or field when one workflow serves several filters, and apply <code>searchString</code> as a prefix filter where possible. Keep option names concise. The string-array response contract is:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">[</span><span class="s2">"Acme Components"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Acme Parts"</span><span class="p">]</span>
+</code></pre></div>
+<p>Return only the JSON array; each string becomes a picker option. Return <code>[]</code> when no values match. Keep this branch separate from the normal <code>Query</code> answer handler and the <code>InitSampleQueries</code> starter-question handler.</p>
+<div class="highlight"><span class="filename">QueryFilterValues handler prompt</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Category: {{ $context.$app.$OraQueryFilter.categoryId }}
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>Search text: {{ $context.$app.$OraQueryFilter.searchString }}
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>Look up authorized values for this category matching the search text.
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>Return only a JSON array of matching strings, or [] when none match.
+</code></pre></div>
+<h3 id="values-with-metadata">Values with metadata<a class="headerlink" href="#values-with-metadata" title="Permanent link">&para;</a></h3>
+<p>Use strings when the visible name is all the query workflow needs. To pass a stable record ID or additional machine-readable context with a selection, return an object with <code>name</code> and <code>metadata</code>. Strings and objects can be mixed in one response:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">[</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="s2">"Acme Components"</span><span class="p">,</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="p">{</span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"Acme Parts"</span><span class="p">,</span><span class="nt">"metadata"</span><span class="p">:{</span><span class="nt">"supplierId"</span><span class="p">:</span><span class="s2">"SUP-1042"</span><span class="p">,</span><span class="nt">"region"</span><span class="p">:</span><span class="s2">"west"</span><span class="p">}}</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="p">]</span>
+</code></pre></div>
+<p><code>name</code> must be a string. <code>metadata</code> must be a JSON object and can contain nested objects and arrays. For example, it can carry a supplier ID plus related record identifiers without adding them to the visible name.</p>
+<p>When the user selects the object above, the submitted query preserves the category, name, and metadata:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>#{supplier:"Acme Parts", {"supplierId":"SUP-1042","region":"west"}}
+</code></pre></div>
+<p>For a plain string selection, the submitted tag contains the category and name only:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>#{supplier:"Acme Components"}
+</code></pre></div>
+<p>The Ask Oracle workflow and model receive the metadata. It is hidden from the input, chat transcript, outcome history, and other user-facing query text. Do not include secrets or information the receiving workflow and model should not access.</p>
+<h3 id="what-users-see-after-choosing-a-value">What users see after choosing a value<a class="headerlink" href="#what-users-see-after-choosing-a-value" title="Permanent link">&para;</a></h3>
+<p>Ask Oracle inserts the selection as a highlighted tag in the input. The tag displays only the selected string or object <code>name</code>, without the category name or metadata. For example, the metadata-bearing selection above appears as <strong>Acme Parts</strong> within the user's question.</p>
+<ul>
+<li>Clicking or keyboard-activating the tag reopens its value picker so the user can change the selection.</li>
+<li>Deleting part of a tag removes the whole tag, preventing a partially broken lookup.</li>
+<li>A selection with metadata looks the same as a plain string selection; the extra context travels with the submitted query.</li>
+</ul>
+<h3 id="starter-question-placeholders">Starter-question placeholders<a class="headerlink" href="#starter-question-placeholders" title="Permanent link">&para;</a></h3>
+<p>Use <code>#{categoryId}</code> in static questions or dynamic samples to insert a lookup placeholder. Registered categories show the filter display name and become editable tags when selected. Unknown categories stay plain text. Clicking or keyboard-activating a tag opens its picker; deleting part of a tag removes the whole tag.</p>
+<h3 id="test-the-lookup-experience">Test the lookup experience<a class="headerlink" href="#test-the-lookup-experience" title="Permanent link">&para;</a></h3>
+<p>Preview static or dynamic starters, context refresh, empty and filtered lookups, tag editing, and a question containing a registered placeholder. In Workflow Builder, use <strong>QueryFilterValues</strong> run mode and supply <strong>Category ID</strong> and <strong>Search String</strong>. Test <code>InitSampleQueries</code> separately from Query; its output is a suggestion list, not an answer.</p>
+<p>Test both string-only and metadata-bearing options. Confirm that each tag shows only the selected name, that it can be reopened or removed as a whole, and that the receiving query workflow gets the expected metadata without displaying it in user-facing query text.</p>
+<h2 id="pitfalls">Pitfalls<a class="headerlink" href="#pitfalls" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Follow-ups get generic answers</td>
+<td>Wire <code>$context.$system.$chatHistory</code> into the Query node</td>
+</tr>
+<tr>
+<td>Wrong agent answers</td>
+<td>Make the team description more specific, then re-test the same question</td>
+</tr>
+<tr>
+<td>Agent missing from the Ask Oracle picker</td>
+<td>Turn on <strong>Expose to Agentic Apps</strong></td>
+</tr>
+<tr>
+<td>Text only, no widgets</td>
+<td>Select the widgets <strong>and</strong> ask for them in the prompt</td>
+</tr>
+<tr>
+<td>Answer ignores the user or the scoped entity</td>
+<td>Pass <code>$OraUserContext</code> / <code>$OraAppContext</code></td>
+</tr>
+<tr>
+<td>Two answers overwrite each other</td>
+<td>This is expected. Pin sections to keep them.</td>
+</tr>
+<tr>
+<td>Simple questions are slow</td>
+<td>Remove unnecessary LLM/tool calls from the Query branch; stay well under 60 s</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../communications/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Communications">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Communications
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../autonomy/" class="md-footer__link md-footer__link--next" aria-label="Next: Autonomous Outcomes">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Autonomous Outcomes
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "content.tabs.link", "toc.follow"], "search": null, "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/native.df432b4dbd0d.js"></script>
+      
+    
+  </body>
+</html>
