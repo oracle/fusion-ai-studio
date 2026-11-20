@@ -2,103 +2,103 @@
 <!-- Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/</loc>
+         <loc>https://oracle.github.io/fusion-ai-studio/</loc>
          <lastmod>2026-11-20</lastmod>
     </url>
     <url>
-         <loc>https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/</loc>
+         <loc>https://oracle.github.io/fusion-ai-studio/agentic-apps/</loc>
          <lastmod>2026-11-20</lastmod>
     </url>
     <url>
-         <loc>https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/actions/</loc>
+         <loc>https://oracle.github.io/fusion-ai-studio/agentic-apps/actions/</loc>
          <lastmod>2026-11-20</lastmod>
     </url>
     <url>
-         <loc>https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/anatomy/</loc>
+         <loc>https://oracle.github.io/fusion-ai-studio/agentic-apps/anatomy/</loc>
          <lastmod>2026-11-20</lastmod>
     </url>
     <url>
-         <loc>https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/app-context/</loc>
+         <loc>https://oracle.github.io/fusion-ai-studio/agentic-apps/app-context/</loc>
          <lastmod>2026-11-20</lastmod>
     </url>
     <url>
-         <loc>https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/app-settings/</loc>
+         <loc>https://oracle.github.io/fusion-ai-studio/agentic-apps/app-settings/</loc>
          <lastmod>2026-11-20</lastmod>
     </url>
     <url>
-         <loc>https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/architecture/</loc>
+         <loc>https://oracle.github.io/fusion-ai-studio/agentic-apps/architecture/</loc>
          <lastmod>2026-11-20</lastmod>
     </url>
     <url>
-         <loc>https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/ask-oracle/</loc>
+         <loc>https://oracle.github.io/fusion-ai-studio/agentic-apps/ask-oracle/</loc>
          <lastmod>2026-11-20</lastmod>
     </url>
     <url>
-         <loc>https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/autonomy/</loc>
+         <loc>https://oracle.github.io/fusion-ai-studio/agentic-apps/autonomy/</loc>
          <lastmod>2026-11-20</lastmod>
     </url>
     <url>
-         <loc>https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/best-practices/</loc>
+         <loc>https://oracle.github.io/fusion-ai-studio/agentic-apps/best-practices/</loc>
          <lastmod>2026-11-20</lastmod>
     </url>
     <url>
-         <loc>https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/builder-ui/</loc>
+         <loc>https://oracle.github.io/fusion-ai-studio/agentic-apps/builder-ui/</loc>
          <lastmod>2026-11-20</lastmod>
     </url>
     <url>
-         <loc>https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/communications/</loc>
+         <loc>https://oracle.github.io/fusion-ai-studio/agentic-apps/communications/</loc>
          <lastmod>2026-11-20</lastmod>
     </url>
     <url>
-         <loc>https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/configure-agents/</loc>
+         <loc>https://oracle.github.io/fusion-ai-studio/agentic-apps/configure-agents/</loc>
          <lastmod>2026-11-20</lastmod>
     </url>
     <url>
-         <loc>https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/context-variables/</loc>
+         <loc>https://oracle.github.io/fusion-ai-studio/agentic-apps/context-variables/</loc>
          <lastmod>2026-11-20</lastmod>
     </url>
     <url>
-         <loc>https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/core-concepts/</loc>
+         <loc>https://oracle.github.io/fusion-ai-studio/agentic-apps/core-concepts/</loc>
          <lastmod>2026-11-20</lastmod>
     </url>
     <url>
-         <loc>https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/delivered-apps/</loc>
+         <loc>https://oracle.github.io/fusion-ai-studio/agentic-apps/delivered-apps/</loc>
          <lastmod>2026-11-20</lastmod>
     </url>
     <url>
-         <loc>https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/design-principles/</loc>
+         <loc>https://oracle.github.io/fusion-ai-studio/agentic-apps/design-principles/</loc>
          <lastmod>2026-11-20</lastmod>
     </url>
     <url>
-         <loc>https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/message-hints/</loc>
+         <loc>https://oracle.github.io/fusion-ai-studio/agentic-apps/message-hints/</loc>
          <lastmod>2026-11-20</lastmod>
     </url>
     <url>
-         <loc>https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/output-tags/</loc>
+         <loc>https://oracle.github.io/fusion-ai-studio/agentic-apps/output-tags/</loc>
          <lastmod>2026-11-20</lastmod>
     </url>
     <url>
-         <loc>https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/pro-code/</loc>
+         <loc>https://oracle.github.io/fusion-ai-studio/agentic-apps/pro-code/</loc>
          <lastmod>2026-11-20</lastmod>
     </url>
     <url>
-         <loc>https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/quickstart/</loc>
+         <loc>https://oracle.github.io/fusion-ai-studio/agentic-apps/quickstart/</loc>
          <lastmod>2026-11-20</lastmod>
     </url>
     <url>
-         <loc>https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/templates/</loc>
+         <loc>https://oracle.github.io/fusion-ai-studio/agentic-apps/templates/</loc>
          <lastmod>2026-11-20</lastmod>
     </url>
     <url>
-         <loc>https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/testing/</loc>
+         <loc>https://oracle.github.io/fusion-ai-studio/agentic-apps/testing/</loc>
          <lastmod>2026-11-20</lastmod>
     </url>
     <url>
-         <loc>https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/troubleshooting/</loc>
+         <loc>https://oracle.github.io/fusion-ai-studio/agentic-apps/troubleshooting/</loc>
          <lastmod>2026-11-20</lastmod>
     </url>
     <url>
-         <loc>https://YOUR-GITHUB-USER.github.io/ai-agent-studio-docs/agentic-apps/widgets/</loc>
+         <loc>https://oracle.github.io/fusion-ai-studio/agentic-apps/widgets/</loc>
          <lastmod>2026-11-20</lastmod>
     </url>
 </urlset>
