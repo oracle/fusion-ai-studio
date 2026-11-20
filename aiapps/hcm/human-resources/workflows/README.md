@@ -510,4 +510,23 @@ Skill-search dependencies are provided by the existing `Team Skill Search` and `
 | **Input Parameters** | `assignmentId` (string) - Optional assignment identifier. When supplied together with the required personId, this assignment is used directly. When omitted, the workflow retrieves the primary assignment using personId.<br>`personId` (string) - Manager person identifier used to resolve the primary assignment and retrieve direct reports. |
 | **Output Parameters** | Requires personId. Uses the supplied assignmentId when present; otherwise retrieves the primary assignment using personId, then retrieves direct reports for that assignment. Returns direct-report records with available person, assignment, reporting-relationship, photo, and report-count fields. Returns an empty collection when no reports are retrieved. This shared workflow is used by Team Skill Details and Team Skills Summary. |
 
+#### Workflow : EPM Forecast Signal Insights
+
+| Workflow Name | EPM Forecast Signal Insights |
+|---------------|---------------|
+| **Code** | XX_EPM_FORECAST_SIGNAL_INSIGHTS |
+| **Description** | This workflow retrieves signals for a specified application within an EPM instance, provides detailed signal information, and supports an Explain action to help users understand each signal and initiate actions toward the desired outcome. |
+| **Exposed to Agentic Apps** | Yes |
+| **Input Parameters** | No Input Parameters|
+
+
+#### Workflow : EPM Forecast Signals Helper Workflow
+
+| Workflow Name | EPM Forecast Signals Helper Workflow |
+|---------------|---------------|
+| **Code** | XX_EPM_FORECAST_SIGNALS_HELPER_WORKFLOW |
+| **Description** | Retrieves employee, job requisition, and job offer information through three independent EPM Insights capabilities. |
+| **Exposed to Agentic Apps** | Yes |
+| **Input Parameters** | No Input Parameters|
+
 <!-- END GENERATED WORKFLOWS -->

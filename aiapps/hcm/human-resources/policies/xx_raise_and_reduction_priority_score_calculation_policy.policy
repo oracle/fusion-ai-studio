@@ -1,0 +1,73 @@
+{
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "id": "300100662776109",
+  "name": "Raise and Reduction Priority Score Calculation Policy",
+  "description": "Defines the formulas, input variables, weights, and priority thresholds for calculating employee Raise and Reduction Priority Scores, enabling consistent, data-driven compensation and workforce planning decisions.",
+  "type": "POLICY",
+  "code": "XX_RAISE_AND_REDUCTION_PRIORITY_SCORE_CALCULATION_POLICY",
+  "status": "DRAFT",
+  "version": "4",
+  "specification": {
+    "functions": [
+      {
+        "id": "function-1794482411007-spp6l9",
+        "name": "scoreCalculation",
+        "description": "Extracts the scoring formulas, input variables, weights, and priority thresholds from the provided Raise and Reduction Priority Score Calculation Policy. Calculates Raise Priority and Reduction Priority scores using the supplied employee data and returns the calculated scores with their corresponding priority classifications.",
+        "functionCode": "SCORECALCULATION",
+        "prompt": "Analyze the provided policy document and identify the Raise Priority and Reduction Priority scoring models. Dynamically extract the required variables, formulas, weights, and interpretation thresholds. Calculate both scores using the supplied employee data, following the policy-defined rules. Do not hardcode or assume values. Return the calculated scores and their corresponding priority classifications in structured JSON format. If required inputs are missing, return null for the affected score.\n\nCurrent scoring contract: Use only Performance, Potential, Retention, UnderMarket, OverMarket, and Impact as scoring inputs. Raise Priority = (0.23 * Performance + 0.13 * Potential + 0.15 * Retention + 0.12 * UnderMarket + 0.05 * Impact) / 0.68. Reduction Priority = (0.24 * (1 - Performance) + 0.12 * OverMarket + 0.16 * (1 - Impact)) / 0.52. The denominators renormalize the remaining original weights to total 1 for each model. Productivity (including ProductivityIndex), Criticality (including StrategicCriticality), and SkillScarcity (including Scarcity) are excluded from both models and must never be required, inferred, or reintroduced from source documents. Retain the existing 0-1 input validation, independent missingInputs handling, four-decimal rounding, and priority thresholds (0.8 Very High, 0.6 High, 0.4 Medium, 0.2 Low, otherwise Very Low Priority).",
+        "javascriptCode": "function scoreCalculation(Performance, Potential, Retention, UnderMarket, OverMarket, Impact) {     \"use strict\";     function parseValue(value) {         if (typeof value !== \"number\" && typeof value !== \"string\") {             return null;         }         if (typeof value === \"string\" && value.trim() === \"\") {             return null;         }         var parsed = Number(value);         if (!Number.isFinite(parsed) || parsed < 0 || parsed > 1) {             return null;         }         return parsed;     }     function classify(score) {         if (score >= 0.8) {             return \"Very High Priority\";         }         if (score >= 0.6) {             return \"High Priority\";         }         if (score >= 0.4) {             return \"Medium Priority\";         }         if (score >= 0.2) {             return \"Low Priority\";         }         return \"Very Low Priority\";     }     function makeResult(names, values, calculate) {         var missingInputs = [];         var parsedValues = {};         for (var i = 0; i < names.length; i += 1) {             var name = names[i];             var parsed = parseValue(values[name]);             if (parsed === null) {                 missingInputs.push(name);             } else {                 parsedValues[name] = parsed;             }         }         if (missingInputs.length > 0) {             return { score: null, priority: null, missingInputs: missingInputs };         }         var roundedScore = Math.round(calculate(parsedValues) * 10000) / 10000;         return { score: roundedScore, priority: classify(roundedScore), missingInputs: missingInputs };     }     var values = {         Performance: Performance,         Potential: Potential,         Retention: Retention,         UnderMarket: UnderMarket,         OverMarket: OverMarket,         Impact: Impact     };     var raisePriority = makeResult(         [\"Performance\", \"Potential\", \"Retention\", \"UnderMarket\", \"Impact\"],         values,         function (v) {             return ((v.Performance * 0.23) + (v.Potential * 0.13) + (v.Retention * 0.15) + (v.UnderMarket * 0.12) + (v.Impact * 0.05)) / 0.68;         }     );     var reductionPriority = makeResult(         [\"Performance\", \"OverMarket\", \"Impact\"],         values,         function (v) {             return (((1 - v.Performance) * 0.24) + (v.OverMarket * 0.12) + ((1 - v.Impact) * 0.16)) / 0.52;         }     );     return { raisePriority: raisePriority, reductionPriority: reductionPriority }; }",
+        "inputParameters": [
+          {
+            "name": "Performance",
+            "type": "string",
+            "description": "Employee performance rating normalized to a value between 0 and 1."
+          },
+          {
+            "name": "Potential",
+            "type": "string",
+            "description": "Employee growth and leadership potential."
+          },
+          {
+            "name": "Retention",
+            "type": "string",
+            "description": "Likelihood that the employee should be retained due to business needs or attrition risk."
+          },
+          {
+            "name": "UnderMarket",
+            "type": "string",
+            "description": "Degree to which the employee is paid below the market benchmark."
+          },
+          {
+            "name": "OverMarket",
+            "type": "string",
+            "description": "Degree to which the employee is paid above the market benchmark."
+          },
+          {
+            "name": "Impact",
+            "type": "string",
+            "description": "Overall organizational or business impact of the employee."
+          }
+        ],
+        "returnParameter": {
+          "name": "result",
+          "type": "object",
+          "description": ""
+        }
+      }
+    ],
+    "policyTemplateCode": "XX_RAISE_AND_REDUCTION_PRIORITY_SCORE_CALCULATION_POLICY_TEMPLATE",
+    "roles": []
+  },
+  "metadata": {
+    "testCases": [],
+    "policyDocuments": []
+  },
+  "customizedParentCode": "",
+  "customizationPolicy": "",
+  "seededFlag": false,
+  "customizationParent": null,
+  "customizedSpecifications": {
+    "items": [],
+    "hasMore": false
+  }
+}
