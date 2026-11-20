@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "channel": "external",
+  "releases": {
+    "2610": {
+      "builds": {
+        "2610.56.263202129": {
+          "url": "https://github.com/oracle/fusion-ai-studio/releases/download/aistudio-2610.56.263202129/aistudio-skill.zip",
+          "sha256": "9785e7be2efd56bd7f7392e62029ded6c753f38e53cc09e10c98c7d82e168059",
+          "metadataVerified": false,
+          "publishedAt": "2026-11-20T05:46:39Z"
+        }
+      },
+      "latest": "2610.56.263202129"
+    }
+  },
+  "currentMajor": 2610
+}

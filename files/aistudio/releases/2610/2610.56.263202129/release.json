@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "version": "2610.56.263202129",
+  "releaseMajor": 2610,
+  "tag": "aistudio-2610.56.263202129",
+  "releaseUrl": "https://github.com/oracle/fusion-ai-studio/releases/tag/aistudio-2610.56.263202129",
+  "assets": {
+    "aistudio-skill.zip": {
+      "url": "https://github.com/oracle/fusion-ai-studio/releases/download/aistudio-2610.56.263202129/aistudio-skill.zip",
+      "sha256": "9785e7be2efd56bd7f7392e62029ded6c753f38e53cc09e10c98c7d82e168059",
+      "sizeBytes": 1334221
+    },
+    "aistudio-skill.zip.sha256": {
+      "url": "https://github.com/oracle/fusion-ai-studio/releases/download/aistudio-2610.56.263202129/aistudio-skill.zip.sha256"
+    }
+  },
+  "compatibilityMetadataPresent": false,
+  "versionMetadataPresent": true
+}
