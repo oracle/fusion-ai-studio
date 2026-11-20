@@ -1,0 +1,69 @@
+{
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "supportedObjectId": "300100662848956",
+  "$context": {
+    "etag": "2"
+  },
+  "name": "EPM Data Sources",
+  "description": "Provides access to live EPM data sources listed in the EPM Instance Directory. Supports retrieving and filtering available sources by name or code.",
+  "objectCode": "ORA_HCM_GLOBALHUMA_XX_EPM_DATA_SOURCES",
+  "family": "HCM",
+  "product": "GLOBAL_HUMAN_RESOURCES",
+  "objectSource": "SPECTRA",
+  "restResourcePath": "/api/boss/data/objects/ora/commonFusionAI/agents/v1/$en/objectSpecifications",
+  "restResourceIdentifier": "-1",
+  "seededFlag": false,
+  "mandatoryFlag": false,
+  "objectProperties": {
+    "jsonSchemaName": "supportedObjectProperties",
+    "jsonSchemaVersion": 1,
+    "baseUrlTMKey": "",
+    "serviceNameOverride": "",
+    "tools": [
+      {
+        "name": "listEpmInstance",
+        "description": "Searches the EPM Instance for live EPM data sources matching the provided name and EPM-prefixed code, and returns the matching instances.",
+        "operationType": "GET",
+        "resourcePath": "/api/boss/data/objects/ora/commonFusionAI/agents/v1/$en/objectSpecifications?$limit=25&$offset=0&$fields=id,name,code,specification&$filter=type='ORACLE_NON_FUSIONAPPS_DS' AND name LIKE '%{name}%' AND code LIKE '%EPM%'",
+        "resourceType": "SPECTRA",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "name",
+            "dataType": "string",
+            "description": "Enter the EPM instance name, or part of it, to filter the available live EPM data sources. This is a required search input.",
+            "id": 2,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "sample response",
+            "query": [
+              {
+                "id": "XX",
+                "name": "WMSENV",
+                "code": "FAI_NONFA_DATASOURCE_APP_WMSENV",
+                "specification": "{}",
+                "$id": "XX",
+                "$context": {
+                  "etag": "1",
+                  "links": {
+                    "$self": {
+                      "href": "<env>/api/boss/data/objects/ora/commonFusionAI/agents/v1/$en/objectSpecifications/XX"
+                    }
+                  }
+                }
+              }
+            ],
+            "sampleType": "response"
+          }
+        ]
+      }
+    ]
+  }
+}

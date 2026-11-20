@@ -1162,3 +1162,92 @@ Description : Searches for active jobs matching the specified search term within
 |---------------|---------------|
 | `setId` | Reference data-set ID used to scope the active-job search. Use the configured value for the applicable reference data set. |
 | `SearchTerm` | Search text matched against active job names, job codes, and job-family names. |
+
+## Business Object : Forecast Signals
+
+| **Name** | Forecast Signals |
+|---------------|---------------|
+| **Code** | `ORA_HCM_GLOBALHUMA_XX_FORECAST_SIGNALS` |
+| **Description** | Represents forecast signals for an application, supporting the listing of signals and retrieval of details for an individual signal. |
+
+### Functions
+
+#### Function : listSignals
+
+Description : Lists forecast signals for the specified Planning application, returning the available signals and paging information.
+
+| **Parameter Name** | **Description** |
+|---------------|---------------|
+| `application` | The code identifying the Planning application whose forecast signals you want to list. Provide it as a required path value when requesting signals. |
+| `status` | Filters forecast signals by status. Provide this required value in the request body when listing signals for a Planning application. |
+
+#### Function : getSignalDetails
+
+Description : Retrieves details for an individual forecast signal in the specified application using its signal ID. The response may include the signal type, status, entity, scenario, and version.
+
+| **Parameter Name** | **Description** |
+|---------------|---------------|
+| `application` | The code identifying the Planning application whose forecast signals you want to list. Provide it as a required path value when requesting signals. |
+| `signalID` | The ID of the forecast signal whose details you want to retrieve. Provide it as a required path input when calling the signal details operation. |
+
+#### Function : listApplications
+
+Description : Retrieves a collection of applications, including their names, types, storage details, and server URLs.
+
+No input parameters required.
+
+## Business Object : OTBI Report Helper
+
+| **Name** | OTBI Report Helper |
+|---------------|---------------|
+| **Code** | `ORA_HCM_GLOBALHUMA_XX_OTBI_REPORT_HELPER` |
+| **Description** | Supports OTBI report data access by obtaining an authenticated session, submitting SQL queries, and continuing asynchronous query execution. This Business Object represents the report-query execution resource rather than a collection of business records. |
+
+### Functions
+
+#### Function : get_authentication_token
+
+Description : Starts an authenticated BI session for the logged-in user by calling the OTBI session logon resource. The returned authentication token supports subsequent report query operations.
+
+No input parameters required.
+
+#### Function : request_query_execution
+
+Description : Submits an OTBI report SQL query for execution using the authenticated session, execution mode, and batch size. Returns a query ID for the execution request.
+** Always ensure that the Operation Payload is passed as an Object and not as a string 
+
+
+| **Parameter Name** | **Description** |
+|---------------|---------------|
+| `sqlQuery` | The SQL query that defines the OTBI report data to retrieve. Provide it when submitting a report query for execution. |
+| `asyncFlag` | Indicates whether the OTBI query should run asynchronously: use true for asynchronous execution or false for synchronous execution. Provide this required value when submitting the query. |
+| `batchSize` | The required batchSize input sets the maximum number of query records fetched in each call. Provide it when submitting the OTBI report query. |
+| `sessionId` | The required session identifier for the authenticated session. Provide it when submitting an OTBI query so the request can use that session. |
+
+#### Function : fetch_next
+
+Description : Fetches the next set of rows for an asynchronous OTBI logical SQL query using the session and query identifiers. Represents the fetch-next action on the report-query execution resource.
+
+
+| **Parameter Name** | **Description** |
+|---------------|---------------|
+| `sessionId` | The required session identifier for the authenticated session. Provide it when submitting an OTBI query so the request can use that session. |
+| `queryId` | The identifier of the asynchronous OTBI query whose next set of rows you want to fetch. Provide it as a required input along with the session ID. |
+
+
+## Business Object : EPM Data Sources
+
+| **Name** | EPM Data Sources |
+|---------------|---------------|
+| **Code** | `ORA_HCM_GLOBALHUMA_XX_EPM_DATA_SOURCES` |
+| **Description** | Provides access to live EPM data sources listed in the EPM Instance Directory. Supports retrieving and filtering available sources by name or code. |
+
+### Functions
+
+#### Function : listEpmInstance
+
+Description : Searches the EPM Instance for live EPM data sources matching the provided name and EPM-prefixed code, and returns the matching instances.
+
+| **Parameter Name** | **Description** |
+|---------------|---------------|
+| `name` | Enter the EPM instance name, or part of it, to filter the available live EPM data sources. This is a required search input. |

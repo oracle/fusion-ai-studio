@@ -1,0 +1,230 @@
+{
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "name": "Forecast Signals",
+  "description": "Represents forecast signals for an application, supporting the listing of signals and retrieval of details for an individual signal.",
+  "objectCode": "ORA_HCM_GLOBALHUMA_XX_FORECAST_SIGNALS",
+  "family": "HCM",
+  "product": "GLOBAL_HUMAN_RESOURCES",
+  "objectSource": "NonFusionOracleSource",
+  "restResourcePath": "/",
+  "restResourceIdentifier": "{epmInstance}",
+  "seededFlag": false,
+  "mandatoryFlag": false,
+  "objectProperties": {
+    "jsonSchemaName": "supportedObjectProperties",
+    "jsonSchemaVersion": 1,
+    "baseUrlTMKey": "",
+    "serviceNameOverride": "",
+    "parameters": [
+      {
+        "name": "epmInstance",
+        "dataType": "string",
+        "description": "Oracle Data Source Application runtime value.",
+        "isToken": true,
+        "required": true
+      }
+    ],
+    "tools": [
+      {
+        "name": "listSignals",
+        "description": "Lists forecast signals for the specified Planning application, returning the available signals and paging information.",
+        "operationType": "POST",
+        "resourcePath": "/HyperionPlanning/rest/v3/applications/{application}/signals?offset=0&limit=5",
+        "resourceType": "NonFusionOracleSource",
+        "bodyTemplate": "{\n    \"status\": {status}\n}",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "application",
+            "dataType": "string",
+            "description": "The code identifying the Planning application whose forecast signals you want to list. Provide it as a required path value when requesting signals.",
+            "id": 2,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": "EPBCS"
+          },
+          {
+            "name": "status",
+            "dataType": "string",
+            "description": "Filters forecast signals by status. Provide this required value in the request body when listing signals for a Planning application.",
+            "id": 3,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": "OPEN"
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "sample request payload",
+            "query": [
+              {
+                "signalId": "0c000b50-25f1-48f9-0000-0094e77552c8",
+                "signalType": "Workforce Optimization Signal",
+                "status": "OPEN",
+                "priority": "High",
+                "planningContext": {
+                  "Product": "No Product",
+                  "Entity": "Sales US",
+                  "Market": "CW_Investment",
+                  "Version": "OEP_Working",
+                  "Currency": "USD",
+                  "Plan Element": "OFS_Direct Input",
+                  "Period": "YearTotal"
+                },
+                "insight": "FY27 forecast for Total Workforce Investment (Not working) decreases 4.99% versus FY26 actual, outside materiality, led by Contractor Workforce and AI Learning & Upskilling.",
+                "links": [
+                  {
+                    "href": "https://phoenix992216.appsdev.fusionappsdphx1.oraclevcn.com:40857/HyperionPlanning/rest/v3/applications/EPBCS/signals/0c000b50-25f1-48f9-0000-0094e77552c8",
+                    "action": "GET",
+                    "rel": "related"
+                  }
+                ]
+              }
+            ],
+            "sampleType": "response"
+          },
+          {
+            "description": "Illustrative paged Signals list response with mock values; not captured from the live API.",
+            "query": {
+              "items": [
+                {
+                  "id": "123e4567-e89b-42d3-a456-426614174000",
+                  "signalType": "Forecast Variance",
+                  "status": "OPEN",
+                  "entity": "Sales US",
+                  "scenario": "Forecast",
+                  "version": "Working",
+                  "period": "Nov-26",
+                  "insight": "Forecast revenue is 8 percent below plan for Sales US.",
+                  "evidence": {
+                    "account": "Revenue",
+                    "forecastValue": 920000,
+                    "planValue": 1000000,
+                    "variance": -80000,
+                    "variancePercent": -8
+                  },
+                  "approvedCommentary": "",
+                  "links": []
+                }
+              ],
+              "totalResults": 1,
+              "hasMore": false,
+              "limit": 25,
+              "offset": 0,
+              "count": 1
+            },
+            "sampleType": "response"
+          }
+        ]
+      },
+      {
+        "name": "getSignalDetails",
+        "description": "Retrieves details for an individual forecast signal in the specified application using its signal ID. The response may include the signal type, status, entity, scenario, and version.",
+        "operationType": "GET",
+        "resourcePath": "/HyperionPlanning/rest/v3/applications/{application}/signals/{signalID}",
+        "resourceType": "NonFusionOracleSource",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "application",
+            "dataType": "string",
+            "description": "The application code identifies the EPBCS application containing the signal. Provide it as a required path input when retrieving signal details.",
+            "id": 7,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": "EPBCS"
+          },
+          {
+            "name": "signalID",
+            "dataType": "string",
+            "description": "The ID of the forecast signal whose details you want to retrieve. Provide it as a required path input when calling the signal details operation.",
+            "id": 8,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "headers": {
+          "Accept": "application/json"
+        },
+        "sampleQueries": [
+          {
+            "description": "Illustrative signal detail response with mock values; not captured from the live API.",
+            "query": {
+              "id": "123e4567-e89b-42d3-a456-426614174000",
+              "signalType": "Forecast Variance",
+              "status": "OPEN",
+              "entity": "Sales US",
+              "scenario": "Forecast",
+              "version": "Working",
+              "period": "Nov-26",
+              "insight": "Forecast revenue is 8 percent below plan for Sales US.",
+              "evidence": {
+                "account": "Revenue",
+                "forecastValue": 920000,
+                "planValue": 1000000,
+                "variance": -80000,
+                "variancePercent": -8
+              },
+              "approvedCommentary": "",
+              "links": []
+            },
+            "sampleType": "response"
+          }
+        ]
+      },
+      {
+        "name": "listApplications",
+        "description": "Retrieves a collection of applications, including their names, types, storage details, and server URLs.",
+        "operationType": "GET",
+        "resourcePath": "/HyperionPlanning/rest/v3/applications",
+        "resourceType": "NonFusionOracleSource",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [],
+        "sampleQueries": [
+          {
+            "description": "This response represents a collection of applications, with each item showing details such as name, type, appStorage, appType, and server URLs. It also includes response links and a top-level type.",
+            "query": {
+              "links": [
+                {
+                  "href": "< href >",
+                  "action": "< action >",
+                  "rel": "< rel >"
+                }
+              ],
+              "items": [
+                {
+                  "name": "< name >",
+                  "type": "< type >",
+                  "dpEnabled": "< dpEnabled >",
+                  "unicode": "< unicode >",
+                  "appStorage": "< appStorage >",
+                  "appType": "< appType >",
+                  "webBotDetails": "< webBotDetails >",
+                  "helpServerUrl": "< helpServerUrl >",
+                  "workpaceServerUrl": "< workpaceServerUrl >",
+                  "theme": "< theme >",
+                  "adminMode": "< adminMode >",
+                  "hybrid": "< hybrid >",
+                  "oglApplicationId": "< oglApplicationId >",
+                  "oglServerUrl": "< oglServerUrl >",
+                  "seededAliasTableSupported": "< seededAliasTableSupported >"
+                }
+              ],
+              "type": "< type >"
+            },
+            "sampleType": "response"
+          }
+        ]
+      }
+    ],
+    "credentialId": "{epmInstance}"
+  }
+}

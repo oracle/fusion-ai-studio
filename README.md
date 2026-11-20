@@ -19,6 +19,7 @@ The repository now follows a **release-based branching model**. You will see **`
 
 | **Date**| **Operation** | **File/folder** | **Description**|
 |--------------|---------------|---------------|---------------|
+| 2026-11-20| Added |`aiapps/hcm/human-resources` | Added new business objects, workflows, apps, policy templates and policies for EPM Workforce Strategy and Planning Workspace in human resources|
 | 2026-11-13| Added |`aiapps/hcm/human-resources` | Added new business objects and workflows to the human resources area|
 | 2026-11-13| Added |`aiapps/hcm/talent-management` | Added new business objects and workflows to the talent management area|
 | 2026-11-13| Added |`aiapps/hcm/succession-management` | Added new function to business object in the succession management area|
@@ -145,6 +146,20 @@ You can find the online documentation for Oracle Fusion AI Agent Studio at [offi
 
 ##### 13th November 2026
 -----
+
+Added new business objects, workflows, apps, policy templates for EPM Workforce Strategy and Planning Workspace in folder `aiapps/hcm/human-resources`
+
+- Agentic Application : Workforce Strategy and Planning Workspace
+- Workflows : EPM Forecast Signal Insights, EPM Forecast Signals Helper Workflow
+- Business Objects: Forecast Signals, OTBI Report Helper
+- Policy Templates: Strategic Workforce Planning Policy Template, Raise and Reduction Priority Score Calculation Policy Template
+
+Instructions for using `Workforce Strategy and Planning Workspace` are available in the `how-to-use-workforce-strategy-and-planning-workspace` guide, located in the `how-to` folder.
+
+
+##### 13th November 2026
+-----
+
 Added workflows, business objects in HCM family related to human resources in folder `aiapps/hcm/human-resources`
 
 - Workflows : Direct Report Details, Worker Addresses, Worker Citizenships, Worker Driver Licenses, Worker Email Addresses, Worker Passports, Worker Phone Numbers, Worker Visas and Permits, Worker Family and Emergency Contacts, Worker Employment History, Worker Organization Search, Worker Other Communication Accounts

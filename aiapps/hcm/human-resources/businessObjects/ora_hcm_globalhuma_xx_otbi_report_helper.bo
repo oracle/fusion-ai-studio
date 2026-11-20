@@ -1,0 +1,155 @@
+{
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "name": "OTBI Report Helper",
+  "description": "Supports OTBI report data access by obtaining an authenticated session, submitting SQL queries, and continuing asynchronous query execution. This Business Object represents the report-query execution resource rather than a collection of business records.",
+  "objectCode": "ORA_HCM_GLOBALHUMA_XX_OTBI_REPORT_HELPER",
+  "family": "HCM",
+  "product": "GLOBAL_HUMAN_RESOURCES",
+  "objectSource": "ADF_BC",
+  "restResourcePath": "/crmRestApi/biResources/11.13.18.05",
+  "restResourceIdentifier": "identifier_not_known",
+  "seededFlag": false,
+  "mandatoryFlag": false,
+  "objectProperties": {
+    "jsonSchemaName": "supportedObjectProperties",
+    "jsonSchemaVersion": 1,
+    "baseUrlTMKey": "",
+    "serviceNameOverride": "",
+    "tools": [
+      {
+        "name": "get_authentication_token",
+        "description": "Starts an authenticated BI session for the logged-in user by calling the OTBI session logon resource. The returned authentication token supports subsequent report query operations.",
+        "operationType": "GET",
+        "resourcePath": "/crmRestApi/biResources/11.13.18.05/sawSession/logon",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [],
+        "headers": {
+          "Connection": "keep-alive"
+        },
+        "sampleQueries": [
+          {
+            "description": "Illustrative request for performing a BI session logon.",
+            "query": {}
+          }
+        ]
+      },
+      {
+        "name": "request_query_execution",
+        "description": "Submits an OTBI report SQL query for execution using the authenticated session, execution mode, and batch size. Returns a query ID for the execution request.\n** Always ensure that the Operation Payload is passed as an Object and not as a string **",
+        "operationType": "POST",
+        "resourcePath": "/crmRestApi/biResources/11.13.18.05/sqlQuery",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "{\n  \"sqlQuery\": \"{sqlQuery}\",\n  \"executionOptions\": {\n    \"async\": {asyncFlag},\n    \"refresh\": true,\n    \"presentationInfo\": true,\n    \"maxRowsPerPage\": \"{batchSize}\"\n  },\n  \"sessionId\": \"{sessionId}\",\n  \"outputFormat\": \"CollectionDataFormat\"\n}",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "sqlQuery",
+            "dataType": "string",
+            "description": "The SQL query that defines the OTBI report data to retrieve. Provide it when submitting a report query for execution.",
+            "id": 5,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "asyncFlag",
+            "dataType": "boolean",
+            "description": "Indicates whether the OTBI query should run asynchronously: use true for asynchronous execution or false for synchronous execution. Provide this required value when submitting the query.",
+            "id": 6,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": "true"
+          },
+          {
+            "name": "batchSize",
+            "dataType": "number",
+            "description": "The required batchSize input sets the maximum number of query records fetched in each call. Provide it when submitting the OTBI report query.",
+            "id": 7,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": "100"
+          },
+          {
+            "name": "sessionId",
+            "dataType": "string",
+            "description": "The required session identifier for the authenticated session. Provide it when submitting an OTBI query so the request can use that session.",
+            "id": 8,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "headers": {
+          "Rest-Framework-Version": "9"
+        },
+        "sampleQueries": [
+          {
+            "description": "Illustrative request for running a logical SQL query payload.\n** Always ensure that the payload is passed as an object and not directly as a string. **",
+            "query": {
+              "sqlQuery": "SET VARIABLE PREFERRED_CURRENCY='User Preferred Currency 1';SELECT 0 s_0, \"Compensation - Workforce Assignment Salary Real Time\".\"Worker\".\"Person Number\" s_1, \"Compensation - Workforce Assignment Salary Real Time\".\"Worker\".\"Employee Display Name\" s_2, \"Compensation - Workforce Assignment Salary Real Time\".\"Assignment Details\".\"Assignment Number\" s_3, \"Compensation - Workforce Assignment Salary Real Time\".\"Department\".\"Department Name\" s_4, \"Compensation - Workforce Assignment Salary Real Time\".\"Job\".\"Job Name\" s_5, DESCRIPTOR_IDOF(\"Compensation - Workforce Assignment Salary Real Time\".\"Job\".\"Job Name\") s_6, \"Compensation - Workforce Assignment Salary Real Time\".\"Grade\".\"Grade Name\" s_7, \"Compensation - Workforce Assignment Salary Real Time\".\"Location\".\"Worker Location Name\" s_8, \"Compensation - Workforce Assignment Salary Real Time\".\"Location\".\"Country\" s_9, DESCRIPTOR_IDOF(\"Compensation - Workforce Assignment Salary Real Time\".\"Location\".\"Country\") s_10, \"Compensation - Workforce Assignment Salary Real Time\".\"Business Unit\".\"Business Unit Name\" s_11, DESCRIPTOR_IDOF(\"Compensation - Workforce Assignment Salary Real Time\".\"Business Unit\".\"Business Unit Name\") s_12, \"Compensation - Workforce Assignment Salary Real Time\".\"Legal Employer\".\"Name\" s_13, \"Compensation - Workforce Assignment Salary Real Time\".\"Amounts in User Preferred Currency\".\"Annualized Salary (User Preferred Currency)\" s_14 FROM \"Compensation - Workforce Assignment Salary Real Time\" WHERE UPPER(\"Compensation - Workforce Assignment Salary Real Time\".\"Location\".\"Country\") LIKE '%UNITED STATES%' AND \"Compensation - Workforce Assignment Salary Real Time\".\"Amounts in User Preferred Currency\".\"Annualized Salary (User Preferred Currency)\" IS NOT NULL AND \"Compensation - Workforce Assignment Salary Real Time\".\"Amounts in User Preferred Currency\".\"Annualized Salary (User Preferred Currency)\" > 80000 ORDER BY 15 DESC NULLS LAST",
+              "executionOptions": {
+                "async": true,
+                "refresh": true,
+                "presentationInfo": true,
+                "maxRowsPerPage": 10000
+              },
+              "sessionId": "ue26pphtonogescg4345s2fkm1osha0trvt2sihocnl62tsgzOr07UFe9Wrj4M0",
+              "outputFormat": "CollectionDataFormat"
+            },
+            "sampleType": "request"
+          }
+        ]
+      },
+      {
+        "name": "fetch_next",
+        "description": "Fetches the next set of rows for an asynchronous OTBI logical SQL query using the session and query identifiers. Represents the fetch-next action on the report-query execution resource.",
+        "operationType": "POST",
+        "resourcePath": "/crmRestApi/biResources/11.13.18.05/fetchNext",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "{\n  \"sessionId\" : {sessionId},\n  \"queryId\" : {queryId}\n}",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "sessionId",
+            "dataType": "string",
+            "description": "The authenticated session token for the logged-in user. Provide it as a required input when fetching the next set of rows for a query.",
+            "id": 12,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "queryId",
+            "dataType": "string",
+            "description": "The identifier of the asynchronous OTBI query whose next set of rows you want to fetch. Provide it as a required input along with the session ID.",
+            "id": 13,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Illustrative request for running a logical SQL query payload.",
+            "query": {
+              "sessionId": "222gk13hljth74e6486ktljn02g9r8rf88np5qjda1p8mc1lzOr07UFe9WaTpOo",
+              "queryId": "RSXS56_1"
+            },
+            "sampleType": "request"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "id": "300100662273480",
+  "name": "Strategic Workforce Planning Policy",
+  "description": "This policy defines the framework for strategic workforce planning, ensuring workforce investments, hiring, retention, restructuring, and location strategies align with business objectives and labor market conditions.\nThe policy document serves as the authoritative source for workforce planning inputs, role strategy data, and location market data. It includes structured tables covering role criticality, compensation guidelines, reduction sensitivity, labor costs, hiring difficulty, talent availability, attrition risks, and location-specific workforce considerations.\nThe policy enables consistent extraction of structured workforce and location market information to support data-driven workforce planning, analysis, and strategic decision-making.",
+  "type": "POLICY",
+  "code": "XX_STRATEGIC_WORKFORCE_PLANNING_POLICY",
+  "status": "DRAFT",
+  "version": "4",
+  "specification": {
+    "functions": [
+      {
+        "id": "function-1794479639804-eal85e",
+        "name": "roleStrategyData",
+        "description": "Extracts structured workforce planning data from all relevant data tables under the Workforce Planning Inputs section of a policy document and returns the records as an array of JSON objects.",
+        "functionCode": "ROLESTRATEGYDATA",
+        "prompt": "Locate the \"Workforce Planning Inputs\" section in the provided policy document. Extract all records from its data tables into an array of JSON objects. Dynamically derive JSON keys from the table column headers. Preserve original values, maintain row order, merge tables spanning multiple pages, and use null for missing values. Exclude explanatory and reference tables. Return only the JSON array.",
+        "javascriptCode": "function roleStrategyData() {   \"use strict\";   return [     { role: \"AI Research Scientist\", roleFamily: \"Engineering\", strategicCriticality: 5, defaultMaximumRaisePercentage: 15, reductionSensitivity: \"High\" },     { role: \"Principal Software Engineer\", roleFamily: \"Engineering\", strategicCriticality: 5, defaultMaximumRaisePercentage: 12, reductionSensitivity: \"High\" },     { role: \"Cyber Security Architect\", roleFamily: \"Security\", strategicCriticality: 5, defaultMaximumRaisePercentage: 15, reductionSensitivity: \"High\" },     { role: \"Product Manager\", roleFamily: \"Product\", strategicCriticality: 4, defaultMaximumRaisePercentage: 10, reductionSensitivity: \"Medium\" },     { role: \"Data Scientist\", roleFamily: \"Analytics\", strategicCriticality: 4, defaultMaximumRaisePercentage: 10, reductionSensitivity: \"Medium\" },     { role: \"HR Business Partner\", roleFamily: \"Human Resources\", strategicCriticality: 3, defaultMaximumRaisePercentage: 8, reductionSensitivity: \"Medium\" },     { role: \"Financial Analyst\", roleFamily: \"Finance\", strategicCriticality: 3, defaultMaximumRaisePercentage: 7, reductionSensitivity: \"Medium\" },     { role: \"Customer Support Specialist\", roleFamily: \"Operations\", strategicCriticality: 2, defaultMaximumRaisePercentage: 5, reductionSensitivity: \"Low\" },     { role: \"Administrative Assistant\", roleFamily: \"Administration\", strategicCriticality: 1, defaultMaximumRaisePercentage: 4, reductionSensitivity: \"Low\" }   ]; }",
+        "inputParameters": [],
+        "returnParameter": {
+          "name": "result",
+          "type": "array",
+          "description": ""
+        }
+      },
+      {
+        "id": "function-1794479682463-ximz0z",
+        "name": "locationMarketData",
+        "description": "Extracts structured location-specific workforce and labor market data from all relevant data tables under the Location Market Data section of a policy document and returns the records as an array of JSON objects.",
+        "functionCode": "LOCATIONMARKETDATA",
+        "prompt": "Locate the \"Location Market Data\" section in the provided policy document. Extract all records from its data tables into an array of JSON objects. Dynamically derive JSON keys from the table column headers. Preserve original values, maintain row order, merge tables spanning multiple pages, and use null for missing values. Exclude explanatory and reference tables. Return only the JSON array.",
+        "javascriptCode": "function locationMarketData() {   \"use strict\";   return [     { location: \"Bangalore\", country: \"India\", geo: \"APAC\", currency: \"INR\", costOfLaborIndex: 65, hiringDifficulty: 4, talentAvailability: \"High\", attritionRisk: \"Medium\" },     { location: \"Hyderabad\", country: \"India\", geo: \"APAC\", currency: \"INR\", costOfLaborIndex: 60, hiringDifficulty: 3, talentAvailability: \"High\", attritionRisk: \"Medium\" },     { location: \"Singapore\", country: \"Singapore\", geo: \"APAC\", currency: \"SGD\", costOfLaborIndex: 125, hiringDifficulty: 4, talentAvailability: \"Medium\", attritionRisk: \"Medium\" },     { location: \"London\", country: \"United Kingdom\", geo: \"EMEA\", currency: \"GBP\", costOfLaborIndex: 145, hiringDifficulty: 4, talentAvailability: \"Medium\", attritionRisk: \"High\" },     { location: \"Dublin\", country: \"Ireland\", geo: \"EMEA\", currency: \"EUR\", costOfLaborIndex: 130, hiringDifficulty: 3, talentAvailability: \"Medium\", attritionRisk: \"Medium\" },     { location: \"New York\", country: \"USA\", geo: \"Americas\", currency: \"USD\", costOfLaborIndex: 180, hiringDifficulty: 5, talentAvailability: \"Medium\", attritionRisk: \"High\" },     { location: \"Austin\", country: \"USA\", geo: \"Americas\", currency: \"USD\", costOfLaborIndex: 140, hiringDifficulty: 3, talentAvailability: \"High\", attritionRisk: \"Medium\" },     { location: \"Mexico City\", country: \"Mexico\", geo: \"Americas\", currency: \"MXN\", costOfLaborIndex: 70, hiringDifficulty: 2, talentAvailability: \"High\", attritionRisk: \"Low\" }   ]; }",
+        "inputParameters": [],
+        "returnParameter": {
+          "name": "result",
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "policyTemplateCode": "XX_STRATEGIC_WORKFORCE_PLANNING_POLICY_TEMPLATE",
+    "roles": []
+  },
+  "metadata": {
+    "testCases": [],
+    "policyDocuments": []
+  },
+  "customizedParentCode": "",
+  "customizationPolicy": "",
+  "seededFlag": false,
+  "customizationParent": null,
+  "customizedSpecifications": {
+    "items": [],
+    "hasMore": false
+  }
+}
