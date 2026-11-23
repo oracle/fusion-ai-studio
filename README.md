@@ -1,21 +1,11 @@
-### ⚠️ Important Update: Repository Structure and Release Branching
 
-The repository has been **restructured to simplify cloning, pulling updates, and consuming AI Studio and AI Apps skills**. Previously, users had to manually download, extract, and organize the **AI Studio Skills** and **AI Apps Skills** ZIP files. With the new structure, skills,  oracle authored template applications and workflows are organized directly within the repository, eliminating these additional steps.
+##### Fusion AI Agent Studio documentation
 
-##### Release Branches
+Explore the [**Fusion AI Agent Studio documentation**](https://oracle.github.io/fusion-ai-studio/) for guidance on **agentic applications, workflows, Fusion Claw, and other platform capabilities**. Use these resources to learn what's available and get started building with Fusion AI Agent Studio.
 
-The repository now follows a **release-based branching model**. You will see **`release-26C`** as the current release branch. As new releases become available, a dedicated branch will be created for each release (for example, `release-27A`, `release-27B`, etc.).
+##### Change Log Summary
 
-##### What This Means for Users
-
-* Use standard **`git clone`** and **`git pull`** operations to access and update AI Studio skills and AI Studio Apps skills.
-* Select the **release branch** corresponding to the product release you are using.
-* Access AI Studio skill and oracle authored template applications and workflows directly from the **`aiapps`** folder without the previous manual extraction and organization steps.
-
-> **Important:** If you have a local copy based on the previous repository structure, please review the new structure before pulling the latest changes. **Local artifacts created in the `src` folder will not be impacted.**
-
-
-### Change Log Summary
+For a detailed list of changes, see [Change Log Details](#change-log-details)
 
 | **Date**| **Operation** | **File/folder** | **Description**|
 |--------------|---------------|---------------|---------------|
@@ -36,6 +26,20 @@ The repository now follows a **release-based branching model**. You will see **`
 | 2026-07-25| Updated |`aiapps/hcm/human-resources` | Updated the descriptions and business object code reference in `xx_worker_card.wf`|
 | 2026-07-25| Updated |`aiapps/hcm/absences` | Updated the descriptions and workflow `xx_team_upcoming_absences.wf`|
 ---------------
+
+
+##### Release Branches
+
+The repository now follows a **release-based branching model**. You will see **`release-26C`** as the current release branch. As new releases become available, a dedicated branch will be created for each release (for example, `release-27A`, `release-27B`, etc.).
+
+##### What This Means for Users
+
+* Use standard **`git clone`** and **`git pull`** operations to access and update AI Studio skills and AI Studio Apps skills.
+* Select the **release branch** corresponding to the product release you are using.
+* Access AI Studio skill and oracle authored template applications and workflows directly from the **`aiapps`** folder without the previous manual extraction and organization steps.
+
+> **Important:** If you have a local copy based on the previous repository structure, please review the new structure before pulling the latest changes. **Local artifacts created in the `src` folder will not be impacted.**
+
 
 # Oracle Fusion AI Agent Studio Sample Apps and Workflows
 
@@ -144,7 +148,7 @@ You can find the online documentation for Oracle Fusion AI Agent Studio at [offi
 
 ### Change Log Details
 
-##### 13th November 2026
+##### 20th November 2026
 -----
 
 Added new business objects, workflows, apps, policy templates for EPM Workforce Strategy and Planning Workspace in folder `aiapps/hcm/human-resources`
