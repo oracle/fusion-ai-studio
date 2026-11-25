@@ -22,7 +22,7 @@
           "inputs": [],
           "type": "START",
           "diagram": {
-            "x": 6584.5,
+            "x": 6635.5,
             "y": 5000
           }
         },
@@ -32,12 +32,12 @@
           "type": "CODE",
           "metadata": {
             "name": "Extract Person Context",
-            "sourceCode": "$context.$variables.contextData = null;\nconst maxContextLength = 16384;\n\nconst parseContextObject = function (value) {\n  if (value === null || value === undefined || value === \"\") return null;\n  if (typeof value === \"string\") {\n    if (!value.trim()) return null;\n    if (value.length > maxContextLength) throw new Error(\"Invalid person context\");\n    try { value = JSON.parse(value); } catch (e) { throw new Error(\"Invalid person context\"); }\n    if (value === null) return null;\n  }\n  if (!value || typeof value !== \"object\" || Array.isArray(value)) throw new Error(\"Invalid person context\");\n  let serialized;\n  try { serialized = JSON.stringify(value); } catch (e) { throw new Error(\"Invalid person context\"); }\n  if (typeof serialized !== \"string\" || serialized.length > maxContextLength) throw new Error(\"Invalid person context\");\n  let count = 0;\n  function safeKeys(object, depth) {\n    if (++count > 1000 || depth > 12) return false;\n    if (!object || typeof object !== \"object\") return true;\n    return Object.keys(object).every(function (key) {\n      return [\"__proto__\", \"constructor\", \"prototype\"].indexOf(key) === -1 && safeKeys(object[key], depth + 1);\n    });\n  }\n  if (!safeKeys(value, 0)) throw new Error(\"Invalid person context\");\n  return value;\n};\nconst normalizePersonId = function (value) {\n  if (value === null || value === undefined || value === \"\") return null;\n  if (typeof value === \"number\") {\n    if (!Number.isSafeInteger(value) || value <= 0) throw new Error(\"Invalid person context\");\n    return value;\n  }\n  if (typeof value !== \"string\") throw new Error(\"Invalid person context\");\n  const trimmed = value.trim();\n  if (!trimmed) return null;\n  if (!/^[1-9][0-9]{0,19}$/.test(trimmed) || !Number.isSafeInteger(Number(trimmed))) throw new Error(\"Invalid person context\");\n  return trimmed;\n};\nconst appContext = parseContextObject($context?.$app?.$OraAppContext);\nconst appPersonId = normalizePersonId(appContext?.personId);\nconst passedPersonId = appPersonId === null\n  ? normalizePersonId($context?.$triggers?.REST?.$input?.personId)\n  : null;\nconst selectedPersonId = appPersonId !== null ? appPersonId : passedPersonId;\nconst userContext = selectedPersonId === null\n  ? parseContextObject($context?.$app?.$OraUserContext)\n  : null;\nconst loggedInPersonId = normalizePersonId(userContext?.userId);\n\nif (selectedPersonId === null && loggedInPersonId === null) throw new Error(\"Invalid person context\");\n\nreturn {\n  personId: selectedPersonId !== null ? selectedPersonId : loggedInPersonId\n};",
+            "sourceCode": "$context.$variables.contextData = null;\nconst maxContextLength = 16384;\n\nconst parseContextObject = function (value) {\n  if (value === null || value === undefined || value === \"\") return null;\n  if (typeof value === \"string\") {\n    if (!value.trim()) return null;\n    if (value.length > maxContextLength) throw new Error(\"Invalid person context\");\n    try { value = JSON.parse(value); } catch (e) { throw new Error(\"Invalid person context\"); }\n    if (value === null) return null;\n  }\n  if (!value || typeof value !== \"object\" || Array.isArray(value)) throw new Error(\"Invalid person context\");\n  let serialized;\n  try { serialized = JSON.stringify(value); } catch (e) { throw new Error(\"Invalid person context\"); }\n  if (typeof serialized !== \"string\" || serialized.length > maxContextLength) throw new Error(\"Invalid person context\");\n  let count = 0;\n  function safeKeys(object, depth) {\n    if (++count > 1000 || depth > 12) return false;\n    if (!object || typeof object !== \"object\") return true;\n    return Object.keys(object).every(function (key) {\n      return [\"__proto__\", \"constructor\", \"prototype\"].indexOf(key) === -1 && safeKeys(object[key], depth + 1);\n    });\n  }\n  if (!safeKeys(value, 0)) throw new Error(\"Invalid person context\");\n  return value;\n};\nconst normalizePersonId = function (value) {\n  if (value === null || value === undefined || value === \"\") return null;\n  if (typeof value === \"number\") {\n    if (!Number.isSafeInteger(value) || value <= 0) throw new Error(\"Invalid person context\");\n    return String(value);\n  }\n  if (typeof value !== \"string\") throw new Error(\"Invalid person context\");\n  const trimmed = value.trim();\n  if (!trimmed) return null;\n  if (!/^[1-9][0-9]{0,29}$/.test(trimmed)) throw new Error(\"Invalid person context\");\n  return trimmed;\n};\nconst appContext = parseContextObject($context?.$app?.$OraAppContext);\nconst appPersonId = normalizePersonId(appContext?.personId);\nconst passedPersonId = appPersonId === null\n  ? normalizePersonId($context?.$triggers?.REST?.$input?.personId)\n  : null;\nconst selectedPersonId = appPersonId !== null ? appPersonId : passedPersonId;\nconst userContext = selectedPersonId === null\n  ? parseContextObject($context?.$app?.$OraUserContext)\n  : null;\nconst loggedInPersonId = normalizePersonId(userContext?.userId);\n\nif (selectedPersonId === null && loggedInPersonId === null) throw new Error(\"Invalid person context\");\n\nreturn {\n  personId: selectedPersonId !== null ? selectedPersonId : loggedInPersonId\n};",
             "returnType": "object",
             "errorNodeId": "RETURN_PERSON_CONTEXT_REQUIRED"
           },
           "diagram": {
-            "x": 6462.5,
+            "x": 6513.5,
             "y": 5206
           },
           "outcomes": {
@@ -55,7 +55,7 @@
             "name": "Switch Message Hint"
           },
           "diagram": {
-            "x": 6462.5,
+            "x": 6513.5,
             "y": 5428
           },
           "outcomes": {
@@ -80,11 +80,11 @@
           "metadata": {
             "name": "Parse Payload",
             "returnType": "object",
-            "sourceCode": "const maxPayloadLength = 16384;\n\nconst parseObject = function (value) {\n  if (typeof value === \"string\") {\n    if (!value.length || value.length > maxPayloadLength) return null;\n    try { value = JSON.parse(value); } catch (e) { return null; }\n  }\n  if (!value || typeof value !== \"object\" || Array.isArray(value)) return null;\n  let serialized;\n  try { serialized = JSON.stringify(value); } catch (e) { return null; }\n  if (typeof serialized !== \"string\" || serialized.length > maxPayloadLength) return null;\n  let count = 0;\n  function safeKeys(object, depth) {\n    if (++count > 1000 || depth > 12) return false;\n    if (!object || typeof object !== \"object\") return true;\n    return Object.keys(object).every(function (key) {\n      return [\"__proto__\", \"constructor\", \"prototype\"].indexOf(key) === -1 && safeKeys(object[key], depth + 1);\n    });\n  }\n  return safeKeys(value, 0) ? value : null;\n};\nconst normalizePersonId = function (value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? value : null;\n  if (typeof value !== \"string\") return null;\n  const trimmed = value.trim();\n  return /^[1-9][0-9]{0,19}$/.test(trimmed) && Number.isSafeInteger(Number(trimmed)) ? trimmed : null;\n};\nconst actionContext = parseObject($context?.$app?.$OraAction);\nconst allowedKeys = [\"actionId\", \"personId\"];\nlet actionId = actionContext && Object.keys(actionContext).every(function (key) { return allowedKeys.indexOf(key) !== -1; }) &&\n  actionContext.actionId === \"selectDirect\" ? \"selectDirect\" : null;\n\nif (actionId && normalizePersonId(actionContext?.personId) === null) actionId = null;\n\nreturn {\n  actionId: actionId,\n  personId: actionId ? normalizePersonId(actionContext?.personId) : null\n};",
+            "sourceCode": "const maxPayloadLength = 16384;\n\nconst parseObject = function (value) {\n  if (typeof value === \"string\") {\n    if (!value.length || value.length > maxPayloadLength) return null;\n    try { value = JSON.parse(value); } catch (e) { return null; }\n  }\n  if (!value || typeof value !== \"object\" || Array.isArray(value)) return null;\n  let serialized;\n  try { serialized = JSON.stringify(value); } catch (e) { return null; }\n  if (typeof serialized !== \"string\" || serialized.length > maxPayloadLength) return null;\n  let count = 0;\n  function safeKeys(object, depth) {\n    if (++count > 1000 || depth > 12) return false;\n    if (!object || typeof object !== \"object\") return true;\n    return Object.keys(object).every(function (key) {\n      return [\"__proto__\", \"constructor\", \"prototype\"].indexOf(key) === -1 && safeKeys(object[key], depth + 1);\n    });\n  }\n  return safeKeys(value, 0) ? value : null;\n};\nconst normalizePersonId = function (value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : null;\n  if (typeof value !== \"string\") return null;\n  const trimmed = value.trim();\n  return /^[1-9][0-9]{0,29}$/.test(trimmed) ? trimmed : null;\n};\nconst actionContext = parseObject($context?.$app?.$OraAction);\nconst allowedKeys = [\"actionId\", \"personId\"];\nlet actionId = actionContext && Object.keys(actionContext).every(function (key) { return allowedKeys.indexOf(key) !== -1; }) &&\n  actionContext.actionId === \"selectDirect\" ? \"selectDirect\" : null;\n\nif (actionId && normalizePersonId(actionContext?.personId) === null) actionId = null;\n\nreturn {\n  actionId: actionId,\n  personId: actionId ? normalizePersonId(actionContext?.personId) : null\n};",
             "errorNodeId": "RETURN_DIRECT_REQUEST_ERROR"
           },
           "diagram": {
-            "x": 6237.5,
+            "x": 6288.5,
             "y": 5650
           },
           "outcomes": {
@@ -114,7 +114,7 @@
           ],
           "convergenceTargetId": "RETURN_DIRECT_REQUEST_ERROR",
           "diagram": {
-            "x": 6237.5,
+            "x": 6288.5,
             "y": 5872
           }
         },
@@ -127,7 +127,7 @@
             "name": "Switch Action"
           },
           "diagram": {
-            "x": 6012.5,
+            "x": 6063.5,
             "y": 6094
           },
           "outcomes": {
@@ -150,7 +150,7 @@
             "name": "Validate Request Get Direct Action Assignment",
             "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
             "returnType": "object",
-            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"personId\");\nreturn checked;",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"personId\");\nreturn checked;",
             "errorNodeId": "HR_REQUEST_REJECTED"
           },
           "outcomes": {
@@ -159,7 +159,7 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 6012.5,
+            "x": 6063.5,
             "y": 6316
           }
         },
@@ -175,7 +175,7 @@
             "description": "Reads the current relationship source under the existing native-authenticated BO contract; this does not establish permission for other panels."
           },
           "diagram": {
-            "x": 6012.5,
+            "x": 6063.5,
             "y": 6538
           },
           "outcomes": {
@@ -187,7 +187,7 @@
               "name": "personId",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_DIRECT_ACTION_ASSIGNMENT.$output.result.personId}}",
               "required": true,
-              "type": "integer"
+              "type": "string"
             }
           ],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"AssignmentId\": {\n            \"type\": \"string\"\n          },\n          \"@context\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"key\": {\n                \"type\": \"string\"\n              }\n            },\n            \"required\": [\n              \"key\"\n            ],\n            \"additionalProperties\": false\n          }\n        },\n        \"required\": [\n          \"AssignmentId\",\n          \"@context\"\n        ],\n        \"additionalProperties\": false\n      }\n    },\n    \"count\": {\n      \"type\": \"number\"\n    },\n    \"hasMore\": {\n      \"type\": \"boolean\"\n    },\n    \"limit\": {\n      \"type\": \"number\"\n    },\n    \"offset\": {\n      \"type\": \"number\"\n    },\n    \"links\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"rel\": {\n            \"type\": \"string\"\n          },\n          \"href\": {\n            \"type\": \"string\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          },\n          \"kind\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"rel\",\n          \"href\",\n          \"name\",\n          \"kind\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  },\n  \"required\": [\n    \"items\",\n    \"count\",\n    \"hasMore\",\n    \"limit\",\n    \"offset\",\n    \"links\"\n  ],\n  \"additionalProperties\": false\n}"
@@ -199,7 +199,7 @@
           "metadata": {
             "name": "Validate Direct Action Assignment",
             "description": "Validates the source worker assignment; the selected target still needs a fresh relationship membership check.",
-            "sourceCode": "function identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const trimmed = value.trim();\n  return /^[1-9][0-9]{0,19}$/.test(trimmed) ? trimmed : \"\";\n}\nfunction response(value) {\n  for (let i = 0; i < 4 && typeof value === \"string\"; i += 1) {\n    if (value.length > 1000000) return null;\n    try { value = JSON.parse(value); } catch (error) { return null; }\n  }\n  if (!value || typeof value !== \"object\" || Array.isArray(value) ||\n      value.error || value.timeout || value.isError || Number(value.statusCode || value.status || 0) >= 400) return null;\n  return value;\n}\nconst rejected = { valid: false, personId: \"\", assignmentId: \"\" };\nconst personId = identifier($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId);\nconst data = response($context.$nodes.GET_DIRECT_ACTION_ASSIGNMENT.$output);\nif (!personId || !data || !Array.isArray(data.items) || data.items.length === 0) return rejected;\n// Keep the existing first-primary-assignment choice, validating the row before using it.\nconst row = data.items[0];\nif (!row || typeof row !== \"object\" || Array.isArray(row)) return rejected;\nconst assignmentId = identifier(row.AssignmentId);\nif (!assignmentId || (Object.prototype.hasOwnProperty.call(row, \"PersonId\") && identifier(row.PersonId) !== personId)) return rejected;\nreturn { valid: true, personId: personId, assignmentId: assignmentId };\n",
+            "sourceCode": "function identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const trimmed = value.trim();\n  return /^[1-9][0-9]{0,29}$/.test(trimmed) ? trimmed : \"\";\n}\nfunction response(value) {\n  for (let i = 0; i < 4 && typeof value === \"string\"; i += 1) {\n    if (value.length > 1000000) return null;\n    try { value = JSON.parse(value); } catch (error) { return null; }\n  }\n  if (!value || typeof value !== \"object\" || Array.isArray(value) ||\n      value.error || value.timeout || value.isError || Number(value.statusCode || value.status || 0) >= 400) return null;\n  return value;\n}\nconst rejected = { valid: false, personId: \"\", assignmentId: \"\" };\nconst personId = identifier($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId);\nconst data = response($context.$nodes.GET_DIRECT_ACTION_ASSIGNMENT.$output);\nif (!personId || !data || !Array.isArray(data.items) || data.items.length === 0) return rejected;\n// Keep the existing first-primary-assignment choice, validating the row before using it.\nconst row = data.items[0];\nif (!row || typeof row !== \"object\" || Array.isArray(row)) return rejected;\nconst assignmentId = identifier(row.AssignmentId);\nif (!assignmentId || (Object.prototype.hasOwnProperty.call(row, \"PersonId\") && identifier(row.PersonId) !== personId)) return rejected;\nreturn { valid: true, personId: personId, assignmentId: assignmentId };\n",
             "returnType": "object",
             "errorNodeId": "RETURN_DIRECT_REQUEST_ERROR"
           },
@@ -209,7 +209,7 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 6012.5,
+            "x": 6063.5,
             "y": 6760
           }
         },
@@ -234,7 +234,7 @@
           ],
           "convergenceTargetId": "RETURN_DIRECT_REQUEST_ERROR",
           "diagram": {
-            "x": 6012.5,
+            "x": 6063.5,
             "y": 6982
           }
         },
@@ -246,7 +246,7 @@
             "name": "Validate Request Get Direct Action Top Page",
             "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
             "returnType": "object",
-            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\nfunction page(value,name,min,max) {\n  if(typeof value!==\"number\" && typeof value!==\"string\") reject(name);\n  if(typeof value===\"string\" && !/^[0-9]{1,7}$/.test(value.trim())) reject(name);\n  const number=Number(value);if(!Number.isSafeInteger(number)||number<min||number>max) reject(name);return number;\n}\n\nconst checked={};\nchecked[\"managerPersonId\"]=id(($context.$nodes.VALIDATE_DIRECT_ACTION_ASSIGNMENT.$output.result.personId),\"managerPersonId\");\nchecked[\"managerAssignmentId\"]=id(($context.$nodes.VALIDATE_DIRECT_ACTION_ASSIGNMENT.$output.result.assignmentId),\"managerAssignmentId\");\nchecked[\"limit\"]=page(\"5\",\"limit\",1,500);\nchecked[\"offset\"]=page(\"0\",\"offset\",0,1000000);\nreturn checked;",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\nfunction page(value,name,min,max) {\n  if(typeof value!==\"number\" && typeof value!==\"string\") reject(name);\n  if(typeof value===\"string\" && !/^[0-9]{1,7}$/.test(value.trim())) reject(name);\n  const number=Number(value);if(!Number.isSafeInteger(number)||number<min||number>max) reject(name);return number;\n}\n\nconst checked={};\nchecked[\"managerPersonId\"]=id(($context.$nodes.VALIDATE_DIRECT_ACTION_ASSIGNMENT.$output.result.personId),\"managerPersonId\");\nchecked[\"managerAssignmentId\"]=id(($context.$nodes.VALIDATE_DIRECT_ACTION_ASSIGNMENT.$output.result.assignmentId),\"managerAssignmentId\");\nchecked[\"limit\"]=page(\"5\",\"limit\",1,500);\nchecked[\"offset\"]=page(\"0\",\"offset\",0,1000000);\nreturn checked;",
             "errorNodeId": "HR_REQUEST_REJECTED"
           },
           "outcomes": {
@@ -255,7 +255,7 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 5787.5,
+            "x": 5838.5,
             "y": 7204
           }
         },
@@ -277,7 +277,7 @@
             {
               "id": "get_direct_action_top_page_managerAssignmentId",
               "name": "managerAssignmentId",
-              "type": "integer",
+              "type": "string",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_DIRECT_ACTION_TOP_PAGE.$output.result.managerAssignmentId}}",
               "required": true
             },
@@ -298,14 +298,14 @@
             {
               "id": "get_direct_action_top_page_managerPersonId",
               "name": "managerPersonId",
-              "type": "integer",
+              "type": "string",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_DIRECT_ACTION_TOP_PAGE.$output.result.managerPersonId}}",
               "required": true
             }
           ],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"DisplayName\": {\n            \"type\": \"string\"\n          },\n          \"PersonDisplayName\": {\n            \"type\": \"string\"\n          },\n          \"PersonId\": {\n            \"type\": \"string\"\n          },\n          \"PersonNumber\": {\n            \"type\": \"string\"\n          },\n          \"AssignmentId\": {\n            \"type\": \"string\"\n          },\n          \"AssignmentNumber\": {\n            \"type\": \"string\"\n          },\n          \"AssignmentName\": {\n            \"type\": \"string\"\n          },\n          \"DirectReportsCount\": {\n            \"type\": \"string\"\n          },\n          \"AllReportsCount\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"DisplayName\",\n          \"PersonDisplayName\",\n          \"PersonId\",\n          \"PersonNumber\",\n          \"AssignmentId\",\n          \"AssignmentNumber\",\n          \"AssignmentName\",\n          \"DirectReportsCount\",\n          \"AllReportsCount\"\n        ],\n        \"additionalProperties\": false\n      }\n    },\n    \"count\": {\n      \"type\": \"string\"\n    },\n    \"hasMore\": {\n      \"type\": \"string\"\n    },\n    \"limit\": {\n      \"type\": \"string\"\n    },\n    \"offset\": {\n      \"type\": \"string\"\n    }\n  },\n  \"required\": [\n    \"items\",\n    \"count\",\n    \"hasMore\",\n    \"limit\",\n    \"offset\"\n  ],\n  \"additionalProperties\": false\n}",
           "diagram": {
-            "x": 5787.5,
+            "x": 5838.5,
             "y": 7426
           }
         },
@@ -317,7 +317,7 @@
             "name": "Validate Request Get Direct Action Additional Page",
             "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
             "returnType": "object",
-            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\nfunction page(value,name,min,max) {\n  if(typeof value!==\"number\" && typeof value!==\"string\") reject(name);\n  if(typeof value===\"string\" && !/^[0-9]{1,7}$/.test(value.trim())) reject(name);\n  const number=Number(value);if(!Number.isSafeInteger(number)||number<min||number>max) reject(name);return number;\n}\n\nconst checked={};\nchecked[\"managerPersonId\"]=id(($context.$nodes.VALIDATE_DIRECT_ACTION_ASSIGNMENT.$output.result.personId),\"managerPersonId\");\nchecked[\"managerAssignmentId\"]=id(($context.$nodes.VALIDATE_DIRECT_ACTION_ASSIGNMENT.$output.result.assignmentId),\"managerAssignmentId\");\nchecked[\"limit\"]=page(\"100\",\"limit\",1,500);\nchecked[\"offset\"]=page(\"5\",\"offset\",0,1000000);\nreturn checked;",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\nfunction page(value,name,min,max) {\n  if(typeof value!==\"number\" && typeof value!==\"string\") reject(name);\n  if(typeof value===\"string\" && !/^[0-9]{1,7}$/.test(value.trim())) reject(name);\n  const number=Number(value);if(!Number.isSafeInteger(number)||number<min||number>max) reject(name);return number;\n}\n\nconst checked={};\nchecked[\"managerPersonId\"]=id(($context.$nodes.VALIDATE_DIRECT_ACTION_ASSIGNMENT.$output.result.personId),\"managerPersonId\");\nchecked[\"managerAssignmentId\"]=id(($context.$nodes.VALIDATE_DIRECT_ACTION_ASSIGNMENT.$output.result.assignmentId),\"managerAssignmentId\");\nchecked[\"limit\"]=page(\"100\",\"limit\",1,500);\nchecked[\"offset\"]=page(\"5\",\"offset\",0,1000000);\nreturn checked;",
             "errorNodeId": "HR_REQUEST_REJECTED"
           },
           "outcomes": {
@@ -326,7 +326,7 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 5787.5,
+            "x": 5838.5,
             "y": 7648
           }
         },
@@ -348,7 +348,7 @@
             {
               "id": "get_direct_action_additional_page_managerAssignmentId",
               "name": "managerAssignmentId",
-              "type": "integer",
+              "type": "string",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_DIRECT_ACTION_ADDITIONAL_PAGE.$output.result.managerAssignmentId}}",
               "required": true
             },
@@ -369,15 +369,15 @@
             {
               "id": "get_direct_action_additional_page_managerPersonId",
               "name": "managerPersonId",
-              "type": "integer",
+              "type": "string",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_DIRECT_ACTION_ADDITIONAL_PAGE.$output.result.managerPersonId}}",
               "required": true
             }
           ],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"DisplayName\": {\n            \"type\": \"string\"\n          },\n          \"PersonDisplayName\": {\n            \"type\": \"string\"\n          },\n          \"PersonId\": {\n            \"type\": \"string\"\n          },\n          \"PersonNumber\": {\n            \"type\": \"string\"\n          },\n          \"AssignmentId\": {\n            \"type\": \"string\"\n          },\n          \"AssignmentNumber\": {\n            \"type\": \"string\"\n          },\n          \"AssignmentName\": {\n            \"type\": \"string\"\n          },\n          \"DirectReportsCount\": {\n            \"type\": \"string\"\n          },\n          \"AllReportsCount\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"DisplayName\",\n          \"PersonDisplayName\",\n          \"PersonId\",\n          \"PersonNumber\",\n          \"AssignmentId\",\n          \"AssignmentNumber\",\n          \"AssignmentName\",\n          \"DirectReportsCount\",\n          \"AllReportsCount\"\n        ],\n        \"additionalProperties\": false\n      }\n    },\n    \"count\": {\n      \"type\": \"string\"\n    },\n    \"hasMore\": {\n      \"type\": \"string\"\n    },\n    \"limit\": {\n      \"type\": \"string\"\n    },\n    \"offset\": {\n      \"type\": \"string\"\n    }\n  },\n  \"required\": [\n    \"items\",\n    \"count\",\n    \"hasMore\",\n    \"limit\",\n    \"offset\"\n  ],\n  \"additionalProperties\": false\n}",
           "diagram": {
-            "x": 5787.5,
-            "y": 9922
+            "x": 5838.5,
+            "y": 9549
           }
         },
         {
@@ -387,7 +387,7 @@
           "metadata": {
             "name": "Validate Direct Selection Membership",
             "description": "Accepts only a target present in the fresh initial or additional direct-report page for the source worker.",
-            "sourceCode": "function identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const trimmed = value.trim();\n  return /^[1-9][0-9]{0,19}$/.test(trimmed) ? trimmed : \"\";\n}\nfunction response(value) {\n  for (let i = 0; i < 4 && typeof value === \"string\"; i += 1) {\n    if (value.length > 1000000) return null;\n    try { value = JSON.parse(value); } catch (error) { return null; }\n  }\n  if (!value || typeof value !== \"object\" || Array.isArray(value) ||\n      value.error || value.timeout || value.isError || Number(value.statusCode || value.status || 0) >= 400) return null;\n  return value;\n}\nconst rejected = { valid: false, personId: \"\" };\nconst action = $context.$nodes.PARSE_PAYLOAD.$output.result;\nconst source = $context.$nodes.VALIDATE_DIRECT_ACTION_ASSIGNMENT.$output.result;\nconst targetId = identifier(action && action.personId);\nif (!source || source.valid !== true || !action || action.actionId !== \"selectDirect\" || !targetId) return rejected;\nconst pages = [\n  response($context.$nodes.GET_DIRECT_ACTION_TOP_PAGE.$output),\n  response($context.$nodes.GET_DIRECT_ACTION_ADDITIONAL_PAGE.$output)\n];\nlet member = false;\nfor (let pageIndex = 0; pageIndex < pages.length; pageIndex += 1) {\n  const page = pages[pageIndex];\n  if (!page || !Array.isArray(page.items)) return rejected;\n  if (page.offset !== undefined && String(page.offset) !== (pageIndex === 0 ? \"0\" : \"5\")) return rejected;\n  for (const row of page.items) {\n    if (!row || typeof row !== \"object\" || Array.isArray(row)) return rejected;\n    const personId = identifier(row.PersonId);\n    if (!personId) return rejected;\n    if (personId === targetId) member = true;\n  }\n}\n// Membership in these fresh relationship pages does not grant access to other panels.\nreturn member ? { valid: true, personId: targetId } : rejected;\n",
+            "sourceCode": "function identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const trimmed = value.trim();\n  return /^[1-9][0-9]{0,29}$/.test(trimmed) ? trimmed : \"\";\n}\nfunction response(value) {\n  for (let i = 0; i < 4 && typeof value === \"string\"; i += 1) {\n    if (value.length > 1000000) return null;\n    try { value = JSON.parse(value); } catch (error) { return null; }\n  }\n  if (!value || typeof value !== \"object\" || Array.isArray(value) ||\n      value.error || value.timeout || value.isError || Number(value.statusCode || value.status || 0) >= 400) return null;\n  return value;\n}\nconst rejected = { valid: false, personId: \"\" };\nconst action = $context.$nodes.PARSE_PAYLOAD.$output.result;\nconst source = $context.$nodes.VALIDATE_DIRECT_ACTION_ASSIGNMENT.$output.result;\nconst targetId = identifier(action && action.personId);\nif (!source || source.valid !== true || !action || action.actionId !== \"selectDirect\" || !targetId) return rejected;\nconst pages = [\n  response($context.$nodes.GET_DIRECT_ACTION_TOP_PAGE.$output),\n  response($context.$nodes.GET_DIRECT_ACTION_ADDITIONAL_PAGE.$output)\n];\nlet member = false;\nfor (let pageIndex = 0; pageIndex < pages.length; pageIndex += 1) {\n  const page = pages[pageIndex];\n  if (!page || !Array.isArray(page.items)) return rejected;\n  if (page.offset !== undefined && String(page.offset) !== (pageIndex === 0 ? \"0\" : \"5\")) return rejected;\n  for (const row of page.items) {\n    if (!row || typeof row !== \"object\" || Array.isArray(row)) return rejected;\n    const personId = identifier(row.PersonId);\n    if (!personId) return rejected;\n    if (personId === targetId) member = true;\n  }\n}\n// Membership in these fresh relationship pages does not grant access to other panels.\nreturn member ? { valid: true, personId: targetId } : rejected;\n",
             "returnType": "object",
             "errorNodeId": "RETURN_DIRECT_REQUEST_ERROR"
           },
@@ -397,8 +397,8 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 5787.5,
-            "y": 10144
+            "x": 5838.5,
+            "y": 9771
           }
         },
         {
@@ -422,8 +422,8 @@
           ],
           "convergenceTargetId": "end",
           "diagram": {
-            "x": 5787.5,
-            "y": 10366
+            "x": 5838.5,
+            "y": 9993
           }
         },
         {
@@ -434,7 +434,7 @@
             "name": "Prepare Safe Refresh With Context",
             "description": "Enforces the permitted data and output contract for this HR panel.",
             "returnType": "object",
-            "sourceCode": "function reject() { throw new Error(\"The response did not match the permitted HR display contract.\"); }\n\nlet blocks=[],visibleText=\"\";\nconst id = String($context.$nodes.VALIDATE_DIRECT_ACTION_MEMBERSHIP.$output.result.personId); if (!/^\\d{1,18}$/.test(id)) reject();\nblocks=[{type:\"oraImmediateInsight\",payload:{followUpCommand:'ora.Invoke(\"actionSwitchAppContext\", '+JSON.stringify({personId:id})+')'}}]; visibleText=\"The app will refresh with the selected person and reload all sections.\";\n\n// Keep internal identifiers and executable commands outside the model context.\nconst references = {};\nlet referenceIndex = 0;\nfunction protect(value,key,parent) {\n  if (typeof value === \"string\" && ([\"action\",\"drillDownAction\",\"followUpCommand\",\"image\"].includes(key) || (key === \"id\" && /\\d/.test(value)) || (key === \"value\" && parent && [\"hidden\",\"system\"].includes(parent.type)))) {\n    const token = \"HR_REF_\" + (++referenceIndex);\n    references[token] = value;\n    return token;\n  }\n  if (Array.isArray(value)) return value.map(function(v) { return protect(v,\"\",null); });\n  if (value && typeof value === \"object\") {\n    const result = {};\n    Object.keys(value).forEach(function(k) { if ([\"__proto__\",\"prototype\",\"constructor\"].includes(k)) reject(); result[k] = protect(value[k],k,value); });\n    return result;\n  }\n  if (typeof value === \"string\" && /HR_REF_\\d+/.test(value)) reject();\n  return value;\n}\nconst contract = {blocks:blocks,text:visibleText};\nconst modelContract = protect(contract,\"\",null);\nconst modelJson = JSON.stringify(modelContract);\nif (modelJson.length > 1000000) reject();\nreturn {modelJson:modelJson,contract:modelContract,references:references};\n",
+            "sourceCode": "function reject() { throw new Error(\"The response did not match the permitted HR display contract.\"); }\n\nlet blocks=[],visibleText=\"\";\nconst id = String($context.$nodes.VALIDATE_DIRECT_ACTION_MEMBERSHIP.$output.result.personId); if (!/^[1-9][0-9]{0,29}$/.test(id)) reject();\nblocks=[{type:\"oraImmediateInsight\",payload:{followUpCommand:'ora.Invoke(\"actionSwitchAppContext\", '+JSON.stringify({personId:id})+')'}}]; visibleText=\"The app will refresh with the selected person and reload all sections.\";\n\n// Keep internal identifiers and executable commands outside the model context.\nconst references = {};\nlet referenceIndex = 0;\nfunction protect(value,key,parent) {\n  if (typeof value === \"string\" && ([\"action\",\"drillDownAction\",\"followUpCommand\",\"image\"].includes(key) || (key === \"id\" && /\\d/.test(value)) || (key === \"value\" && parent && [\"hidden\",\"system\"].includes(parent.type)))) {\n    const token = \"HR_REF_\" + (++referenceIndex);\n    references[token] = value;\n    return token;\n  }\n  if (Array.isArray(value)) return value.map(function(v) { return protect(v,\"\",null); });\n  if (value && typeof value === \"object\") {\n    const result = {};\n    Object.keys(value).forEach(function(k) { if ([\"__proto__\",\"prototype\",\"constructor\"].includes(k)) reject(); result[k] = protect(value[k],k,value); });\n    return result;\n  }\n  if (typeof value === \"string\" && /HR_REF_\\d+/.test(value)) reject();\n  return value;\n}\nconst contract = {blocks:blocks,text:visibleText};\nconst modelContract = protect(contract,\"\",null);\nconst modelJson = JSON.stringify(modelContract);\nif (modelJson.length > 1000000) reject();\nreturn {modelJson:modelJson,contract:modelContract,references:references};\n",
             "errorNodeId": "HR_RESPONSE_REJECTED"
           },
           "outcomes": {
@@ -442,8 +442,8 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5675,
-            "y": 10588
+            "x": 5726,
+            "y": 10215
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -469,8 +469,8 @@
             "description": "Renders the prepared data contract; deterministic validation is required before returning it."
           },
           "diagram": {
-            "x": 5675,
-            "y": 10810
+            "x": 5726,
+            "y": 10437
           },
           "outcomes": {
             "success": "CHECK_SAFE_REFRESH_WITH_CONTEXT"
@@ -509,8 +509,8 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5675,
-            "y": 11032
+            "x": 5726,
+            "y": 10659
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -530,8 +530,8 @@
           ],
           "outcomes": {},
           "diagram": {
-            "x": 5750,
-            "y": 11254
+            "x": 5818,
+            "y": 10881
           }
         },
         {
@@ -552,8 +552,8 @@
             }
           ],
           "diagram": {
-            "x": 6125,
-            "y": 10588
+            "x": 6176,
+            "y": 10215
           }
         },
         {
@@ -564,7 +564,7 @@
             "name": "Validate Request Get Primary Assignment",
             "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
             "returnType": "object",
-            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"personId\");\nreturn checked;",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"personId\");\nreturn checked;",
             "errorNodeId": "HR_REQUEST_REJECTED"
           },
           "outcomes": {
@@ -573,7 +573,7 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 5787.5,
+            "x": 5838.5,
             "y": 5650
           }
         },
@@ -588,7 +588,7 @@
             "errorNodeId": "RETURN_DIRECT_REQUEST_ERROR"
           },
           "diagram": {
-            "x": 5787.5,
+            "x": 5838.5,
             "y": 5872
           },
           "outcomes": {
@@ -600,7 +600,7 @@
               "name": "personId",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_PRIMARY_ASSIGNMENT.$output.result.personId}}",
               "required": true,
-              "type": "integer"
+              "type": "string"
             }
           ],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"AssignmentId\": {\n            \"type\": \"string\"\n          },\n          \"@context\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"key\": {\n                \"type\": \"string\"\n              }\n            },\n            \"required\": [\n              \"key\"\n            ],\n            \"additionalProperties\": false\n          }\n        },\n        \"required\": [\n          \"AssignmentId\",\n          \"@context\"\n        ],\n        \"additionalProperties\": false\n      }\n    },\n    \"count\": {\n      \"type\": \"number\"\n    },\n    \"hasMore\": {\n      \"type\": \"boolean\"\n    },\n    \"limit\": {\n      \"type\": \"number\"\n    },\n    \"offset\": {\n      \"type\": \"number\"\n    },\n    \"links\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"rel\": {\n            \"type\": \"string\"\n          },\n          \"href\": {\n            \"type\": \"string\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          },\n          \"kind\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"rel\",\n          \"href\",\n          \"name\",\n          \"kind\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  },\n  \"required\": [\n    \"items\",\n    \"count\",\n    \"hasMore\",\n    \"limit\",\n    \"offset\",\n    \"links\"\n  ],\n  \"additionalProperties\": false\n}"
@@ -612,7 +612,7 @@
           "metadata": {
             "name": "Validate Get Primary Assignment",
             "description": "Normalizes a positive decimal assignment ID and checks its person association when supplied before any report request.",
-            "sourceCode": "function identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const trimmed = value.trim();\n  return /^[1-9][0-9]{0,19}$/.test(trimmed) ? trimmed : \"\";\n}\nfunction response(value) {\n  for (let i = 0; i < 4 && typeof value === \"string\"; i += 1) {\n    if (value.length > 1000000) return null;\n    try { value = JSON.parse(value); } catch (error) { return null; }\n  }\n  if (!value || typeof value !== \"object\" || Array.isArray(value) ||\n      value.error || value.timeout || value.isError || Number(value.statusCode || value.status || 0) >= 400) return null;\n  return value;\n}\nconst rejected = { valid: false, personId: \"\", assignmentId: \"\" };\nconst personId = identifier($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId);\nconst data = response($context.$nodes.GET_PRIMARY_ASSIGNMENT.$output);\nif (!personId || !data || !Array.isArray(data.items) || data.items.length === 0) return rejected;\n// Keep the existing first-primary-assignment choice, validating the row before using it.\nconst row = data.items[0];\nif (!row || typeof row !== \"object\" || Array.isArray(row)) return rejected;\nconst assignmentId = identifier(row.AssignmentId);\nif (!assignmentId || (Object.prototype.hasOwnProperty.call(row, \"PersonId\") && identifier(row.PersonId) !== personId)) return rejected;\nreturn { valid: true, personId: personId, assignmentId: assignmentId };\n",
+            "sourceCode": "function identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const trimmed = value.trim();\n  return /^[1-9][0-9]{0,29}$/.test(trimmed) ? trimmed : \"\";\n}\nfunction response(value) {\n  for (let i = 0; i < 4 && typeof value === \"string\"; i += 1) {\n    if (value.length > 1000000) return null;\n    try { value = JSON.parse(value); } catch (error) { return null; }\n  }\n  if (!value || typeof value !== \"object\" || Array.isArray(value) ||\n      value.error || value.timeout || value.isError || Number(value.statusCode || value.status || 0) >= 400) return null;\n  return value;\n}\nconst rejected = { valid: false, personId: \"\", assignmentId: \"\" };\nconst personId = identifier($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId);\nconst data = response($context.$nodes.GET_PRIMARY_ASSIGNMENT.$output);\nif (!personId || !data || !Array.isArray(data.items) || data.items.length === 0) return rejected;\n// Keep the existing first-primary-assignment choice, validating the row before using it.\nconst row = data.items[0];\nif (!row || typeof row !== \"object\" || Array.isArray(row)) return rejected;\nconst assignmentId = identifier(row.AssignmentId);\nif (!assignmentId || (Object.prototype.hasOwnProperty.call(row, \"PersonId\") && identifier(row.PersonId) !== personId)) return rejected;\nreturn { valid: true, personId: personId, assignmentId: assignmentId };\n",
             "returnType": "object",
             "errorNodeId": "RETURN_DIRECT_REQUEST_ERROR"
           },
@@ -622,7 +622,7 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 5562.5,
+            "x": 5613.5,
             "y": 6094
           }
         },
@@ -647,7 +647,7 @@
             }
           ],
           "diagram": {
-            "x": 5562.5,
+            "x": 5613.5,
             "y": 6316
           },
           "convergenceTargetId": "end"
@@ -660,7 +660,7 @@
             "name": "Validate Request Get Direct Reports Count",
             "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
             "returnType": "object",
-            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"personId\");\nchecked[\"assignmentId\"]=id(($context.$nodes.VALIDATE_DIRECT_DISPLAY_ASSIGNMENT.$output.result.assignmentId),\"assignmentId\");\nreturn checked;",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"personId\");\nchecked[\"assignmentId\"]=id(($context.$nodes.VALIDATE_DIRECT_DISPLAY_ASSIGNMENT.$output.result.assignmentId),\"assignmentId\");\nreturn checked;",
             "errorNodeId": "HR_REQUEST_REJECTED"
           },
           "outcomes": {
@@ -669,7 +669,7 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 5562.5,
+            "x": 5613.5,
             "y": 6538
           }
         },
@@ -684,7 +684,7 @@
             "description": "Retrieves authorized Organization data through the existing native-auth standard REST function; no search index dependency."
           },
           "diagram": {
-            "x": 5562.5,
+            "x": 5613.5,
             "y": 6760
           },
           "outcomes": {
@@ -694,13 +694,13 @@
             {
               "id": "1780300414457_personId",
               "name": "personId",
-              "type": "integer",
+              "type": "string",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_DIRECT_REPORTS_COUNT.$output.result.personId}}"
             },
             {
               "id": "1780300414457_assignmentId",
               "name": "assignmentId",
-              "type": "integer",
+              "type": "string",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_DIRECT_REPORTS_COUNT.$output.result.assignmentId}}"
             }
           ],
@@ -714,7 +714,7 @@
             "name": "Validate Request Get All Reports Count",
             "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
             "returnType": "object",
-            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"personId\");\nchecked[\"assignmentId\"]=id(($context.$nodes.VALIDATE_DIRECT_DISPLAY_ASSIGNMENT.$output.result.assignmentId),\"assignmentId\");\nreturn checked;",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"personId\");\nchecked[\"assignmentId\"]=id(($context.$nodes.VALIDATE_DIRECT_DISPLAY_ASSIGNMENT.$output.result.assignmentId),\"assignmentId\");\nreturn checked;",
             "errorNodeId": "HR_REQUEST_REJECTED"
           },
           "outcomes": {
@@ -723,7 +723,7 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 5562.5,
+            "x": 5613.5,
             "y": 6982
           }
         },
@@ -738,7 +738,7 @@
             "description": "Retrieves authorized Organization data through the existing native-auth standard REST function; no search index dependency."
           },
           "diagram": {
-            "x": 5337.5,
+            "x": 5388.5,
             "y": 7204
           },
           "outcomes": {
@@ -748,13 +748,13 @@
             {
               "id": "1780300420011_personId",
               "name": "personId",
-              "type": "integer",
+              "type": "string",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_ALL_REPORTS_COUNT.$output.result.personId}}"
             },
             {
               "id": "1780300420011_assignmentId",
               "name": "assignmentId",
-              "type": "integer",
+              "type": "string",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_ALL_REPORTS_COUNT.$output.result.assignmentId}}"
             }
           ],
@@ -768,7 +768,7 @@
             "name": "Validate Request Get Top Direct Report Details",
             "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
             "returnType": "object",
-            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\nfunction page(value,name,min,max) {\n  if(typeof value!==\"number\" && typeof value!==\"string\") reject(name);\n  if(typeof value===\"string\" && !/^[0-9]{1,7}$/.test(value.trim())) reject(name);\n  const number=Number(value);if(!Number.isSafeInteger(number)||number<min||number>max) reject(name);return number;\n}\n\nconst checked={};\nchecked[\"managerPersonId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"managerPersonId\");\nchecked[\"managerAssignmentId\"]=id(($context.$nodes.VALIDATE_DIRECT_DISPLAY_ASSIGNMENT.$output.result.assignmentId),\"managerAssignmentId\");\nchecked[\"limit\"]=page(\"5\",\"limit\",1,500);\nchecked[\"offset\"]=page(\"0\",\"offset\",0,1000000);\nreturn checked;",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\nfunction page(value,name,min,max) {\n  if(typeof value!==\"number\" && typeof value!==\"string\") reject(name);\n  if(typeof value===\"string\" && !/^[0-9]{1,7}$/.test(value.trim())) reject(name);\n  const number=Number(value);if(!Number.isSafeInteger(number)||number<min||number>max) reject(name);return number;\n}\n\nconst checked={};\nchecked[\"managerPersonId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"managerPersonId\");\nchecked[\"managerAssignmentId\"]=id(($context.$nodes.VALIDATE_DIRECT_DISPLAY_ASSIGNMENT.$output.result.assignmentId),\"managerAssignmentId\");\nchecked[\"limit\"]=page(\"5\",\"limit\",1,500);\nchecked[\"offset\"]=page(\"0\",\"offset\",0,1000000);\nreturn checked;",
             "errorNodeId": "HR_REQUEST_REJECTED"
           },
           "outcomes": {
@@ -777,7 +777,7 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 5337.5,
+            "x": 5388.5,
             "y": 7426
           }
         },
@@ -798,7 +798,7 @@
             {
               "id": "GET_TOP_DIRECT_REPORT_DETAILS_assignment",
               "name": "managerAssignmentId",
-              "type": "integer",
+              "type": "string",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_TOP_DIRECT_REPORT_DETAILS.$output.result.managerAssignmentId}}",
               "required": true
             },
@@ -819,13 +819,13 @@
             {
               "id": "GET_TOP_DIRECT_REPORT_DETAILS_managerPersonId",
               "name": "managerPersonId",
-              "type": "integer",
+              "type": "string",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_TOP_DIRECT_REPORT_DETAILS.$output.result.managerPersonId}}"
             }
           ],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"DisplayName\": {\n            \"type\": \"string\"\n          },\n          \"PersonDisplayName\": {\n            \"type\": \"string\"\n          },\n          \"PersonId\": {\n            \"type\": \"string\"\n          },\n          \"PersonNumber\": {\n            \"type\": \"string\"\n          },\n          \"AssignmentId\": {\n            \"type\": \"string\"\n          },\n          \"AssignmentNumber\": {\n            \"type\": \"string\"\n          },\n          \"AssignmentName\": {\n            \"type\": \"string\"\n          },\n          \"DirectReportsCount\": {\n            \"type\": \"string\"\n          },\n          \"AllReportsCount\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"DisplayName\",\n          \"PersonDisplayName\",\n          \"PersonId\",\n          \"PersonNumber\",\n          \"AssignmentId\",\n          \"AssignmentNumber\",\n          \"AssignmentName\",\n          \"DirectReportsCount\",\n          \"AllReportsCount\"\n        ],\n        \"additionalProperties\": false\n      }\n    },\n    \"count\": {\n      \"type\": \"string\"\n    },\n    \"hasMore\": {\n      \"type\": \"string\"\n    },\n    \"limit\": {\n      \"type\": \"string\"\n    },\n    \"offset\": {\n      \"type\": \"string\"\n    }\n  },\n  \"required\": [\n    \"items\",\n    \"count\",\n    \"hasMore\",\n    \"limit\",\n    \"offset\"\n  ],\n  \"additionalProperties\": false\n}",
           "diagram": {
-            "x": 5337.5,
+            "x": 5388.5,
             "y": 7648
           }
         },
@@ -837,7 +837,7 @@
             "name": "Validate Request Get Person Details",
             "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
             "returnType": "object",
-            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"personId\");\nreturn checked;",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"personId\");\nreturn checked;",
             "errorNodeId": "HR_REQUEST_REJECTED"
           },
           "outcomes": {
@@ -846,8 +846,8 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 5337.5,
-            "y": 9922
+            "x": 5388.5,
+            "y": 9549
           }
         },
         {
@@ -860,8 +860,8 @@
             "functionName": "GetWorkerDetailsByPersonId"
           },
           "diagram": {
-            "x": 5337.5,
-            "y": 10144
+            "x": 5388.5,
+            "y": 9771
           },
           "outcomes": {
             "success": "1780300511340"
@@ -872,7 +872,7 @@
               "name": "personId",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_PERSON_DETAILS.$output.result.personId}}",
               "required": false,
-              "type": "integer"
+              "type": "string"
             }
           ],
           "outputSpecification": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"PersonId\": {\n      \"type\": \"string\"\n    },\n    \"PersonNumber\": {\n      \"type\": \"string\"\n    },\n    \"LastName\": {\n      \"type\": \"string\"\n    },\n    \"FirstName\": {\n      \"type\": \"string\"\n    },\n    \"Title\": {\n      \"type\": \"string\"\n    },\n    \"PreNameAdjunct\": {\n      \"type\": \"string\"\n    },\n    \"Suffix\": {\n      \"type\": \"string\"\n    },\n    \"MiddleNames\": {\n      \"type\": \"string\"\n    },\n    \"Honors\": {\n      \"type\": \"string\"\n    },\n    \"KnownAs\": {\n      \"type\": \"string\"\n    },\n    \"DisplayName\": {\n      \"type\": \"string\"\n    },\n    \"ListName\": {\n      \"type\": \"string\"\n    },\n    \"OrderName\": {\n      \"type\": \"string\"\n    },\n    \"WorkEmail\": {\n      \"type\": \"string\"\n    },\n    \"Username\": {\n      \"type\": \"string\"\n    },\n    \"links\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"rel\": {\n            \"type\": \"string\"\n          },\n          \"href\": {\n            \"type\": \"string\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          },\n          \"kind\": {\n            \"type\": \"string\"\n          }\n        },\n        \"additionalProperties\": true\n      }\n    }\n  },\n  \"additionalProperties\": true,\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\"\n}"
@@ -886,8 +886,8 @@
             "workflowCode": "XX_WORKER_MNGR_HIERARCHY_BY_PERSON"
           },
           "diagram": {
-            "x": 5337.5,
-            "y": 10366
+            "x": 5388.5,
+            "y": 9993
           },
           "outcomes": {
             "success": "1780300541407"
@@ -918,8 +918,8 @@
             "sourceCode": "const maxHierarchyLength = 65536;\nconst rawHierarchy = $context?.$nodes?.GET_PERSON_HIERARCHY?.$output?.output;\nlet parsedHierarchy = null;\n\nif (typeof rawHierarchy === \"string\" && rawHierarchy.length > 0 && rawHierarchy.length <= maxHierarchyLength) {\n  try {\n    parsedHierarchy = JSON.parse(rawHierarchy);\n  } catch (e) {\n    parsedHierarchy = null;\n  }\n} else if (rawHierarchy && typeof rawHierarchy === \"object\") {\n  parsedHierarchy = rawHierarchy;\n}\n\nconst hierarchy = parsedHierarchy && Array.isArray(parsedHierarchy.result)\n  ? parsedHierarchy.result.slice(0, 100)\n  : [];\n\nconst normalizeName = function (value) {\n  if (typeof value !== \"string\") return null;\n  const normalized = value.replace(/[\\u0000-\\u001F\\u007F]/g, \" \").trim();\n  return normalized ? normalized.slice(0, 240) : null;\n};\n\nconst names = [];\nfor (let index = 0; index < hierarchy.length; index += 1) {\n  const name = normalizeName(hierarchy[index]?.DisplayName);\n  if (name) names.push(name);\n}\n\nconst currentName = normalizeName($context?.$nodes?.GET_PERSON_DETAILS?.$output?.DisplayName);\nif (currentName) names.push(currentName);\n\nreturn names.join(\" > \");"
           },
           "diagram": {
-            "x": 5225,
-            "y": 10588
+            "x": 5276,
+            "y": 10215
           },
           "outcomes": {
             "success": "PREPARE_TOP_DIRECT_COUNT_INPUTS"
@@ -934,7 +934,7 @@
           "metadata": {
             "name": "Prepare Top Direct Count Inputs",
             "returnType": "object",
-            "sourceCode": "function identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const trimmed = value.trim();\n  return /^[1-9][0-9]{0,19}$/.test(trimmed) ? trimmed : \"\";\n}\nfunction text(value) {\n  return value == null ? \"\" : String(value).trim();\n}\nfunction response(value) {\n  for (let i = 0; i < 4 && typeof value === \"string\"; i += 1) {\n    try { value = JSON.parse(value); }\n    catch (error) { throw new Error(\"Invalid Organization response\"); }\n  }\n  if (!value || typeof value !== \"object\" || Array.isArray(value) ||\n      value.error || value.timeout || value.isError ||\n      Number(value.statusCode || value.status || 0) >= 400) {\n    throw new Error(\"Organization data request failed\");\n  }\n  return value;\n}\nfunction rows(value, allowMore) {\n  const data = response(value);\n  if (!Array.isArray(data.items) ||\n      (!allowMore && String(data.hasMore).toLowerCase() === \"true\")) {\n    throw new Error(\"Incomplete Organization response\");\n  }\n  return data.items;\n}\nfunction count(value) {\n  const number = Number(value);\n  if (value == null || text(value) === \"\" ||\n      !Number.isSafeInteger(number) || number < 0) {\n    throw new Error(\"Invalid Organization report count\");\n  }\n  return String(number);\n}\nconst details = rows($context.$nodes.GET_TOP_DIRECT_REPORT_DETAILS.$output, true);\nconst seen = {};\nreturn {\n  items: details.map(function (row) {\n    const personId = identifier(row && row.PersonId);\n    if (!personId || seen[personId]) {\n      throw new Error(\"Invalid or duplicate direct report identity\");\n    }\n    seen[personId] = true;\n    return {\n      PersonId: personId,\n      DisplayName: text(row.DisplayName),\n      DirectReportsCount: count(row.DirectReportsCount),\n      AllReportsCount: count(row.AllReportsCount)\n    };\n  })\n};",
+            "sourceCode": "function identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const trimmed = value.trim();\n  return /^[1-9][0-9]{0,29}$/.test(trimmed) ? trimmed : \"\";\n}\nfunction text(value) {\n  return value == null ? \"\" : String(value).trim();\n}\nfunction response(value) {\n  for (let i = 0; i < 4 && typeof value === \"string\"; i += 1) {\n    try { value = JSON.parse(value); }\n    catch (error) { throw new Error(\"Invalid Organization response\"); }\n  }\n  if (!value || typeof value !== \"object\" || Array.isArray(value) ||\n      value.error || value.timeout || value.isError ||\n      Number(value.statusCode || value.status || 0) >= 400) {\n    throw new Error(\"Organization data request failed\");\n  }\n  return value;\n}\nfunction rows(value, allowMore) {\n  const data = response(value);\n  if (!Array.isArray(data.items) ||\n      (!allowMore && String(data.hasMore).toLowerCase() === \"true\")) {\n    throw new Error(\"Incomplete Organization response\");\n  }\n  return data.items;\n}\nfunction count(value) {\n  const number = Number(value);\n  if (value == null || text(value) === \"\" ||\n      !Number.isSafeInteger(number) || number < 0) {\n    throw new Error(\"Invalid Organization report count\");\n  }\n  return String(number);\n}\nconst details = rows($context.$nodes.GET_TOP_DIRECT_REPORT_DETAILS.$output, true);\nconst seen = {};\nreturn {\n  items: details.map(function (row) {\n    const personId = identifier(row && row.PersonId);\n    if (!personId || seen[personId]) {\n      throw new Error(\"Invalid or duplicate direct report identity\");\n    }\n    seen[personId] = true;\n    return {\n      PersonId: personId,\n      DisplayName: text(row.DisplayName),\n      DirectReportsCount: count(row.DirectReportsCount),\n      AllReportsCount: count(row.AllReportsCount)\n    };\n  })\n};",
             "description": "Validates ordered native REST report rows and carries their counts into enrichment.",
             "errorNodeId": "RETURN_DIRECT_REQUEST_ERROR"
           },
@@ -944,8 +944,8 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 5225,
-            "y": 10810
+            "x": 5276,
+            "y": 10437
           }
         },
         {
@@ -969,8 +969,8 @@
             }
           ],
           "diagram": {
-            "x": 5225,
-            "y": 11032
+            "x": 5276,
+            "y": 10659
           }
         },
         {
@@ -996,8 +996,8 @@
                   },
                   "inputs": [],
                   "diagram": {
-                    "x": 5272,
-                    "y": 11344
+                    "x": 5142,
+                    "y": 10971
                   }
                 },
                 {
@@ -1017,13 +1017,13 @@
                     {
                       "id": "TOP_GET_DIRECT_REPORT_COUNTS_personId",
                       "name": "personId",
-                      "type": "integer",
+                      "type": "string",
                       "value": "{{$context.$nodes.GET_TOP_DIRECT_COUNTS.VALIDATE_REQUEST_TOP_GET_DIRECT_REPORT_COUNTS.$output.result.personId}}"
                     }
                   ],
                   "diagram": {
-                    "x": 5150,
-                    "y": 11717
+                    "x": 5020,
+                    "y": 11415
                   },
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"PersonId\": {\n            \"type\": \"string\"\n          },\n          \"AssignmentId\": {\n            \"type\": \"string\"\n          },\n          \"AssignmentNumber\": {\n            \"type\": \"string\"\n          },\n          \"AssignmentName\": {\n            \"type\": \"string\"\n          },\n          \"LegalEmployerName\": {\n            \"type\": \"string\"\n          },\n          \"StartDate\": {\n            \"type\": \"string\"\n          },\n          \"PrimaryFlag\": {\n            \"type\": \"string\"\n          },\n          \"PrimaryAssignmentFlag\": {\n            \"type\": \"string\"\n          },\n          \"WorkerType\": {\n            \"type\": \"string\"\n          },\n          \"WorkerNumber\": {\n            \"type\": \"string\"\n          },\n          \"ManagerName\": {\n            \"type\": \"string\"\n          },\n          \"BusinessUnitName\": {\n            \"type\": \"string\"\n          },\n          \"DepartmentName\": {\n            \"type\": \"string\"\n          },\n          \"JobCode\": {\n            \"type\": \"string\"\n          },\n          \"JobName\": {\n            \"type\": \"string\"\n          },\n          \"PositionCode\": {\n            \"type\": \"string\"\n          },\n          \"PositionName\": {\n            \"type\": \"string\"\n          },\n          \"LocationCode\": {\n            \"type\": \"string\"\n          },\n          \"LocationName\": {\n            \"type\": \"string\"\n          },\n          \"GradeCode\": {\n            \"type\": \"string\"\n          },\n          \"GradeName\": {\n            \"type\": \"string\"\n          },\n          \"LocationPostalCode\": {\n            \"type\": \"string\"\n          },\n          \"LocationCountry\": {\n            \"type\": \"string\"\n          },\n          \"LengthOfServiceYears\": {\n            \"type\": \"string\"\n          },\n          \"MarkedAsFavoriteFlag\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"PersonId\",\n          \"AssignmentId\",\n          \"AssignmentNumber\",\n          \"AssignmentName\",\n          \"LegalEmployerName\",\n          \"StartDate\",\n          \"PrimaryFlag\",\n          \"PrimaryAssignmentFlag\",\n          \"WorkerType\",\n          \"WorkerNumber\",\n          \"ManagerName\",\n          \"BusinessUnitName\",\n          \"DepartmentName\",\n          \"JobCode\",\n          \"JobName\",\n          \"PositionCode\",\n          \"PositionName\",\n          \"LocationCode\",\n          \"LocationName\",\n          \"GradeCode\",\n          \"GradeName\",\n          \"LocationPostalCode\",\n          \"LocationCountry\",\n          \"LengthOfServiceYears\",\n          \"MarkedAsFavoriteFlag\"\n        ],\n        \"additionalProperties\": false\n      }\n    },\n    \"count\": {\n      \"type\": \"string\"\n    },\n    \"hasMore\": {\n      \"type\": \"string\"\n    },\n    \"limit\": {\n      \"type\": \"string\"\n    },\n    \"offset\": {\n      \"type\": \"string\"\n    }\n  },\n  \"required\": [\n    \"items\",\n    \"count\",\n    \"hasMore\",\n    \"limit\",\n    \"offset\"\n  ],\n  \"additionalProperties\": false\n}"
                 },
@@ -1044,13 +1044,13 @@
                     {
                       "id": "TOP_GET_ALL_REPORT_COUNTS_personId",
                       "name": "personId",
-                      "type": "integer",
+                      "type": "string",
                       "value": "{{$context.$nodes.GET_TOP_DIRECT_COUNTS.VALIDATE_REQUEST_TOP_GET_ALL_REPORT_COUNTS.$output.result.personId}}"
                     }
                   ],
                   "diagram": {
-                    "x": 5150,
-                    "y": 12161
+                    "x": 5020,
+                    "y": 11859
                   },
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"PersonId\": {\n      \"type\": \"string\"\n    },\n    \"PersonNumber\": {\n      \"type\": \"string\"\n    },\n    \"LastName\": {\n      \"type\": \"string\"\n    },\n    \"FirstName\": {\n      \"type\": \"string\"\n    },\n    \"Title\": {\n      \"type\": \"string\"\n    },\n    \"PreNameAdjunct\": {\n      \"type\": \"string\"\n    },\n    \"Suffix\": {\n      \"type\": \"string\"\n    },\n    \"MiddleNames\": {\n      \"type\": \"string\"\n    },\n    \"Honors\": {\n      \"type\": \"string\"\n    },\n    \"KnownAs\": {\n      \"type\": \"string\"\n    },\n    \"DisplayName\": {\n      \"type\": \"string\"\n    },\n    \"ListName\": {\n      \"type\": \"string\"\n    },\n    \"OrderName\": {\n      \"type\": \"string\"\n    },\n    \"WorkEmail\": {\n      \"type\": \"string\"\n    },\n    \"Username\": {\n      \"type\": \"string\"\n    },\n    \"links\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"rel\": {\n            \"type\": \"string\"\n          },\n          \"href\": {\n            \"type\": \"string\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          },\n          \"kind\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"rel\",\n          \"href\",\n          \"name\",\n          \"kind\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  },\n  \"required\": [\n    \"PersonId\",\n    \"PersonNumber\",\n    \"LastName\",\n    \"FirstName\",\n    \"Title\",\n    \"PreNameAdjunct\",\n    \"Suffix\",\n    \"MiddleNames\",\n    \"Honors\",\n    \"KnownAs\",\n    \"DisplayName\",\n    \"ListName\",\n    \"OrderName\",\n    \"WorkEmail\",\n    \"Username\",\n    \"links\"\n  ],\n  \"additionalProperties\": false\n}"
                 },
@@ -1071,13 +1071,13 @@
                     {
                       "id": "1783332125919_personId",
                       "name": "personId",
-                      "type": "integer",
+                      "type": "string",
                       "value": "{{$context.$nodes.GET_TOP_DIRECT_COUNTS.VALIDATE_REQUEST_TOP_GET_WORK_PHONES.$output.result.personId}}"
                     }
                   ],
                   "diagram": {
-                    "x": 5150,
-                    "y": 12605
+                    "x": 5020,
+                    "y": 12303
                   },
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"phones\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"items\": {\n                \"type\": \"array\",\n                \"items\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"PhoneId\": {\n                      \"type\": \"number\"\n                    },\n                    \"PhoneType\": {\n                      \"type\": \"string\"\n                    },\n                    \"PhoneTypeMeaning\": {\n                      \"type\": \"string\"\n                    },\n                    \"LegislationCode\": {\n                      \"type\": \"string\"\n                    },\n                    \"LegislationName\": {\n                      \"type\": \"string\"\n                    },\n                    \"CountryCodeNumber\": {\n                      \"type\": \"string\"\n                    },\n                    \"AreaCode\": {\n                      \"type\": \"string\"\n                    },\n                    \"PhoneNumber\": {\n                      \"type\": \"string\"\n                    },\n                    \"Extension\": {\n                      \"type\": \"null\"\n                    },\n                    \"FromDate\": {\n                      \"type\": \"string\"\n                    },\n                    \"ToDate\": {\n                      \"type\": \"null\"\n                    },\n                    \"Validity\": {\n                      \"type\": \"null\"\n                    },\n                    \"ValidityMeaning\": {\n                      \"type\": \"null\"\n                    },\n                    \"CreatedBy\": {\n                      \"type\": \"string\"\n                    },\n                    \"CreationDate\": {\n                      \"type\": \"string\"\n                    },\n                    \"LastUpdatedBy\": {\n                      \"type\": \"string\"\n                    },\n                    \"LastUpdateDate\": {\n                      \"type\": \"string\"\n                    },\n                    \"PrimaryFlag\": {\n                      \"type\": \"boolean\"\n                    },\n                    \"@context\": {\n                      \"type\": \"object\",\n                      \"properties\": {\n                        \"key\": {\n                          \"type\": \"string\"\n                        }\n                      },\n                      \"required\": [\n                        \"key\"\n                      ],\n                      \"additionalProperties\": false\n                    }\n                  },\n                  \"required\": [\n                    \"PhoneId\",\n                    \"PhoneType\",\n                    \"PhoneTypeMeaning\",\n                    \"LegislationCode\",\n                    \"LegislationName\",\n                    \"CountryCodeNumber\",\n                    \"AreaCode\",\n                    \"PhoneNumber\",\n                    \"Extension\",\n                    \"FromDate\",\n                    \"ToDate\",\n                    \"Validity\",\n                    \"ValidityMeaning\",\n                    \"CreatedBy\",\n                    \"CreationDate\",\n                    \"LastUpdatedBy\",\n                    \"LastUpdateDate\",\n                    \"PrimaryFlag\",\n                    \"@context\"\n                  ],\n                  \"additionalProperties\": false\n                }\n              },\n              \"count\": {\n                \"type\": \"number\"\n              },\n              \"hasMore\": {\n                \"type\": \"boolean\"\n              },\n              \"limit\": {\n                \"type\": \"number\"\n              },\n              \"offset\": {\n                \"type\": \"number\"\n              },\n              \"links\": {\n                \"type\": \"array\"\n              }\n            },\n            \"required\": [\n              \"items\",\n              \"count\",\n              \"hasMore\",\n              \"limit\",\n              \"offset\",\n              \"links\"\n            ],\n            \"additionalProperties\": false\n          },\n          \"@context\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"key\": {\n                \"type\": \"string\"\n              }\n            },\n            \"required\": [\n              \"key\"\n            ],\n            \"additionalProperties\": false\n          }\n        },\n        \"required\": [\n          \"phones\",\n          \"@context\"\n        ],\n        \"additionalProperties\": false\n      }\n    },\n    \"count\": {\n      \"type\": \"number\"\n    },\n    \"hasMore\": {\n      \"type\": \"boolean\"\n    },\n    \"limit\": {\n      \"type\": \"number\"\n    },\n    \"offset\": {\n      \"type\": \"number\"\n    },\n    \"links\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"rel\": {\n            \"type\": \"string\"\n          },\n          \"href\": {\n            \"type\": \"string\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          },\n          \"kind\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"rel\",\n          \"href\",\n          \"name\",\n          \"kind\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  },\n  \"required\": [\n    \"items\",\n    \"count\",\n    \"hasMore\",\n    \"limit\",\n    \"offset\",\n    \"links\"\n  ],\n  \"additionalProperties\": false\n}"
                 },
@@ -1097,8 +1097,8 @@
                   "inputs": [],
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
                   "diagram": {
-                    "x": 5150,
-                    "y": 12827
+                    "x": 5020,
+                    "y": 12525
                   }
                 },
                 {
@@ -1109,8 +1109,8 @@
                     "name": "Validate Request Top Get Direct Report Counts",
                     "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
                     "returnType": "object",
-                    "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.GET_TOP_DIRECT_COUNTS.$currentItem.PersonId),\"personId\");\nreturn checked;",
-                    "errorNodeId": "HR_REQUEST_REJECTED"
+                    "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.GET_TOP_DIRECT_COUNTS.$currentItem.PersonId),\"personId\");\nreturn checked;",
+                    "errorNodeId": "GET_TOP_DIRECT_COUNTS_REQUEST_REJECTED"
                   },
                   "outcomes": {
                     "success": "TOP_GET_DIRECT_REPORT_COUNTS"
@@ -1118,8 +1118,8 @@
                   "inputs": [],
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
                   "diagram": {
-                    "x": 5150,
-                    "y": 11495
+                    "x": 5020,
+                    "y": 11193
                   }
                 },
                 {
@@ -1130,8 +1130,8 @@
                     "name": "Validate Request Top Get All Report Counts",
                     "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
                     "returnType": "object",
-                    "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.GET_TOP_DIRECT_COUNTS.$currentItem.PersonId),\"personId\");\nreturn checked;",
-                    "errorNodeId": "HR_REQUEST_REJECTED"
+                    "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.GET_TOP_DIRECT_COUNTS.$currentItem.PersonId),\"personId\");\nreturn checked;",
+                    "errorNodeId": "GET_TOP_DIRECT_COUNTS_REQUEST_REJECTED"
                   },
                   "outcomes": {
                     "success": "TOP_GET_ALL_REPORT_COUNTS"
@@ -1139,8 +1139,8 @@
                   "inputs": [],
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
                   "diagram": {
-                    "x": 5150,
-                    "y": 11939
+                    "x": 5020,
+                    "y": 11637
                   }
                 },
                 {
@@ -1151,8 +1151,8 @@
                     "name": "Validate Request Top Get Work Phones",
                     "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
                     "returnType": "object",
-                    "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.GET_TOP_DIRECT_COUNTS.$currentItem.PersonId),\"personId\");\nreturn checked;",
-                    "errorNodeId": "HR_REQUEST_REJECTED"
+                    "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.GET_TOP_DIRECT_COUNTS.$currentItem.PersonId),\"personId\");\nreturn checked;",
+                    "errorNodeId": "GET_TOP_DIRECT_COUNTS_REQUEST_REJECTED"
                   },
                   "outcomes": {
                     "success": "1783332125919"
@@ -1160,8 +1160,28 @@
                   "inputs": [],
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
                   "diagram": {
-                    "x": 5150,
-                    "y": 12383
+                    "x": 5020,
+                    "y": 12081
+                  }
+                },
+                {
+                  "id": "GET_TOP_DIRECT_COUNTS_REQUEST_REJECTED",
+                  "code": "GET_TOP_DIRECT_COUNTS_REQUEST_REJECTED",
+                  "type": "RETURN",
+                  "metadata": {
+                    "name": "Reject Get Top Direct Counts Sequentially request"
+                  },
+                  "inputs": [
+                    {
+                      "name": "returnValue",
+                      "type": "string",
+                      "value": "{\"error\":\"Invalid HR loop request parameter\"}"
+                    }
+                  ],
+                  "outcomes": {},
+                  "diagram": {
+                    "x": 5348,
+                    "y": 10971
                   }
                 },
                 {
@@ -1197,9 +1217,9 @@
           ],
           "diagram": {
             "x": 5000,
-            "y": 11254,
-            "width": 600,
-            "height": 2124
+            "y": 10881,
+            "width": 668,
+            "height": 1751
           }
         },
         {
@@ -1210,7 +1230,8 @@
             "name": "Store Top Direct Count Results",
             "returnType": "object",
             "sourceCode": "function collect(value, depth) {\n  if (depth > 8) throw new Error(\"Invalid Organization loop result\");\n  for (let i = 0; i < 4 && typeof value === \"string\"; i += 1) {\n    try { value = JSON.parse(value); } catch (error) { throw new Error(\"Invalid Organization loop result\"); }\n  }\n  if (Array.isArray(value)) return value.reduce(function (rows, item) { return rows.concat(collect(item, depth + 1)); }, []);\n  if (!value || typeof value !== \"object\" || value.error || value.timeout || value.isError || Number(value.statusCode || value.status || 0) >= 400) throw new Error(\"Organization enrichment request failed\");\n  if (Object.prototype.hasOwnProperty.call(value, \"PersonId\")) return [value];\n  const wrappers = [\"items\", \"result\", \"output\", \"data\"].filter(function (key) { return Object.prototype.hasOwnProperty.call(value, key); });\n  if (wrappers.length !== 1) throw new Error(\"Invalid Organization loop result\");\n  return collect(value[wrappers[0]], depth + 1);\n}\nreturn { items: collect($context.$nodes.GET_TOP_DIRECT_COUNTS.$output, 0) };",
-            "description": "Retains all enriched Organization display fields from the completed sequential loop."
+            "description": "Retains all enriched Organization display fields from the completed sequential loop.",
+            "errorNodeId": "HR_RESPONSE_REJECTED"
           },
           "outcomes": {
             "success": "ENRICH_TOP_DIRECTS"
@@ -1218,8 +1239,8 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 5150,
-            "y": 13528
+            "x": 5184,
+            "y": 12782
           }
         },
         {
@@ -1237,8 +1258,8 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5150,
-            "y": 13750
+            "x": 5184,
+            "y": 13004
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -1250,7 +1271,7 @@
             "name": "Prepare Safe Render Direct Reports List",
             "description": "Enforces the permitted data and output contract for this HR panel.",
             "returnType": "object",
-            "sourceCode": "function reject() { throw new Error(\"The response did not match the permitted HR display contract.\"); }\nfunction text(v) {\n  if (typeof v !== \"string\" && typeof v !== \"number\") return \"\";\n  return String(v).replace(/[\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f-\\u009f\\u200b-\\u200f\\u202a-\\u202e\\u2060-\\u206f\\ufeff]/g, \"\").trim()\n    .replace(/&(?!amp;|lt;|gt;|quot;|apos;|nbsp;)/g,\"&amp;\").replace(/</g,\"&lt;\").replace(/>/g,\"&gt;\");\n}\nfunction list(v) { if (!Array.isArray(v) || v.length > 1000) reject(); return v; }\nfunction image(id) { id = String(id == null ? \"\" : id); if (!id) return \"\"; if (!/^\\d{1,18}$/.test(id)) reject(); return \"/hcmUI/personImage?returnSquare=true&returnInitials=Y&removeBackground=Y&personId=\" + id + \"&maxSize=144&id=1779878994029&patternIndex=0\"; }\nfunction put(obj,key,value) { if (value !== \"\" && value != null) obj[key] = value; }\nlet displayIndex = 0;\nfunction display(pattern,properties,extra) { return {type:\"oraInfoDisplay\",key:\"xx_worker_directs-render_direct_reports_list-\"+(++displayIndex),payload:Object.assign({patternId:pattern},extra || {},{properties:properties})}; }\nfunction message(items,extra) { return display(\"messageListWidget\",{items:items},extra); }\nfunction personRows(rows,actions,kind) {\n  return list(rows).map(function(row,i) {\n    const item = {title:text(row.DisplayName) || (kind === \"direct\" ? \"\" : kind === \"representative\" ? \"Representative\" : \"Person\")};\n    if (kind === \"direct\") {\n      put(item,\"subtitle\",[row.JobName,row.DepartmentName,row.LocationName].map(text).filter(Boolean).join(\" | \"));\n      put(item,\"summary\",[row.WorkEmail,row.WorkPhone].map(text).filter(Boolean).join(\" | \"));\n      const dc = Number(row.DirectReportsCount), ac = Number(row.AllReportsCount);\n      if (Number.isFinite(dc) && Number.isFinite(ac) && (dc > 0 || ac > 0)) item.timestamp = \"Directs \" + dc + \" | Total \" + ac;\n    } else if (kind === \"representative\") {\n      put(item,\"subtitle\",text(row.ResponsibilityType));\n      put(item,\"summary\",[row.WorkEmail,row.WorkPhone].map(text).filter(Boolean).join(\" | \"));\n    } else if (kind === \"searchRepresentative\") {\n      put(item,\"subtitle\",text(row.ResponsibilityName)); put(item,\"badgeText\",text(row.ResponsibilityType));\n    } else {\n      put(item,\"subtitle\",text(row.JobName)); put(item,\"badgeText\",text(row.AssignmentNumber));\n      put(item,\"summary\",[row.DepartmentName,row.LocationName].map(text).filter(Boolean).join(\" - \"));\n    }\n    put(item,\"image\",image(row.PersonId));\n    if (row.PersonId) {\n      if (kind === \"direct\" || kind === \"representative\") {\n        const action = kind === \"direct\" ? \"selectDirect\" : \"selectRepresentative\";\n        item.action = 'ora.Invoke(' + JSON.stringify(action) + ', ' + JSON.stringify({actionId:action,personId:String(row.PersonId)}) + ')';\n      } else if (actions && actions[i]) item.action = actions[i];\n    }\n    return item;\n  });\n}\n\n\nlet blocks=[],visibleText=\"\";\nconst data=$context.$nodes.ENRICH_TOP_DIRECTS.$output.result;\nconst extra={title:Number(data.directReportsCount) === 0 ? \"\" : \"Directs: \"+Number(data.directReportsCount)+\" | Total: \"+Number(data.allReportsCount),description:text($context.$nodes.CREATE_HIERARCHY.$output.result)};\nif(!Number.isFinite(Number(data.directReportsCount)) || !Number.isFinite(Number(data.allReportsCount))) reject();\nblocks=[message(Number(data.directReportsCount)===0 ? [] : personRows(list(data.items).slice(0,5),null,\"direct\"),extra)];\n\n// Keep internal identifiers and executable commands outside the model context.\nconst references = {};\nlet referenceIndex = 0;\nfunction protect(value,key,parent) {\n  if (typeof value === \"string\" && ([\"action\",\"drillDownAction\",\"followUpCommand\",\"image\"].includes(key) || (key === \"id\" && /\\d/.test(value)) || (key === \"value\" && parent && [\"hidden\",\"system\"].includes(parent.type)))) {\n    const token = \"HR_REF_\" + (++referenceIndex);\n    references[token] = value;\n    return token;\n  }\n  if (Array.isArray(value)) return value.map(function(v) { return protect(v,\"\",null); });\n  if (value && typeof value === \"object\") {\n    const result = {};\n    Object.keys(value).forEach(function(k) { if ([\"__proto__\",\"prototype\",\"constructor\"].includes(k)) reject(); result[k] = protect(value[k],k,value); });\n    return result;\n  }\n  if (typeof value === \"string\" && /HR_REF_\\d+/.test(value)) reject();\n  return value;\n}\nconst contract = {blocks:blocks,text:visibleText};\nconst modelContract = protect(contract,\"\",null);\nconst modelJson = JSON.stringify(modelContract);\nif (modelJson.length > 1000000) reject();\nreturn {modelJson:modelJson,contract:modelContract,references:references};\n",
+            "sourceCode": "function reject() { throw new Error(\"The response did not match the permitted HR display contract.\"); }\nfunction text(v) {\n  if (typeof v !== \"string\" && typeof v !== \"number\") return \"\";\n  return String(v).replace(/[\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f-\\u009f\\u200b-\\u200f\\u202a-\\u202e\\u2060-\\u206f\\ufeff]/g, \"\").trim()\n    .replace(/&(?!amp;|lt;|gt;|quot;|apos;|nbsp;)/g,\"&amp;\").replace(/</g,\"&lt;\").replace(/>/g,\"&gt;\");\n}\nfunction list(v) { if (!Array.isArray(v) || v.length > 1000) reject(); return v; }\nfunction image(id) { id = String(id == null ? \"\" : id); if (!id) return \"\"; if (!/^[1-9][0-9]{0,29}$/.test(id)) reject(); return \"/hcmUI/personImage?returnSquare=true&returnInitials=Y&removeBackground=Y&personId=\" + id + \"&maxSize=144&id=1779878994029&patternIndex=0\"; }\nfunction put(obj,key,value) { if (value !== \"\" && value != null) obj[key] = value; }\nlet displayIndex = 0;\nfunction display(pattern,properties,extra) { return {type:\"oraInfoDisplay\",key:\"xx_worker_directs-render_direct_reports_list-\"+(++displayIndex),payload:Object.assign({patternId:pattern},extra || {},{properties:properties})}; }\nfunction message(items,extra) { return display(\"messageListWidget\",{items:items},extra); }\nfunction personRows(rows,actions,kind) {\n  return list(rows).map(function(row,i) {\n    const item = {title:text(row.DisplayName) || (kind === \"direct\" ? \"\" : kind === \"representative\" ? \"Representative\" : \"Person\")};\n    if (kind === \"direct\") {\n      put(item,\"subtitle\",[row.JobName,row.DepartmentName,row.LocationName].map(text).filter(Boolean).join(\" | \"));\n      put(item,\"summary\",[row.WorkEmail,row.WorkPhone].map(text).filter(Boolean).join(\" | \"));\n      const dc = Number(row.DirectReportsCount), ac = Number(row.AllReportsCount);\n      if (Number.isFinite(dc) && Number.isFinite(ac) && (dc > 0 || ac > 0)) item.timestamp = \"Directs \" + dc + \" | Total \" + ac;\n    } else if (kind === \"representative\") {\n      put(item,\"subtitle\",text(row.ResponsibilityType));\n      put(item,\"summary\",[row.WorkEmail,row.WorkPhone].map(text).filter(Boolean).join(\" | \"));\n    } else if (kind === \"searchRepresentative\") {\n      put(item,\"subtitle\",text(row.ResponsibilityName)); put(item,\"badgeText\",text(row.ResponsibilityType));\n    } else {\n      put(item,\"subtitle\",text(row.JobName)); put(item,\"badgeText\",text(row.AssignmentNumber));\n      put(item,\"summary\",[row.DepartmentName,row.LocationName].map(text).filter(Boolean).join(\" - \"));\n    }\n    put(item,\"image\",image(row.PersonId));\n    if (row.PersonId) {\n      if (kind === \"direct\" || kind === \"representative\") {\n        const action = kind === \"direct\" ? \"selectDirect\" : \"selectRepresentative\";\n        item.action = 'ora.Invoke(' + JSON.stringify(action) + ', ' + JSON.stringify({actionId:action,personId:String(row.PersonId)}) + ')';\n      } else if (actions && actions[i]) item.action = actions[i];\n    }\n    return item;\n  });\n}\n\n\nlet blocks=[],visibleText=\"\";\nconst data=$context.$nodes.ENRICH_TOP_DIRECTS.$output.result;\nconst extra={title:Number(data.directReportsCount) === 0 ? \"\" : \"Directs: \"+Number(data.directReportsCount)+\" | Total: \"+Number(data.allReportsCount),description:text($context.$nodes.CREATE_HIERARCHY.$output.result)};\nif(!Number.isFinite(Number(data.directReportsCount)) || !Number.isFinite(Number(data.allReportsCount))) reject();\nblocks=[message(Number(data.directReportsCount)===0 ? [] : personRows(list(data.items).slice(0,5),null,\"direct\"),extra)];\n\n// Keep internal identifiers and executable commands outside the model context.\nconst references = {};\nlet referenceIndex = 0;\nfunction protect(value,key,parent) {\n  if (typeof value === \"string\" && ([\"action\",\"drillDownAction\",\"followUpCommand\",\"image\"].includes(key) || (key === \"id\" && /\\d/.test(value)) || (key === \"value\" && parent && [\"hidden\",\"system\"].includes(parent.type)))) {\n    const token = \"HR_REF_\" + (++referenceIndex);\n    references[token] = value;\n    return token;\n  }\n  if (Array.isArray(value)) return value.map(function(v) { return protect(v,\"\",null); });\n  if (value && typeof value === \"object\") {\n    const result = {};\n    Object.keys(value).forEach(function(k) { if ([\"__proto__\",\"prototype\",\"constructor\"].includes(k)) reject(); result[k] = protect(value[k],k,value); });\n    return result;\n  }\n  if (typeof value === \"string\" && /HR_REF_\\d+/.test(value)) reject();\n  return value;\n}\nconst contract = {blocks:blocks,text:visibleText};\nconst modelContract = protect(contract,\"\",null);\nconst modelJson = JSON.stringify(modelContract);\nif (modelJson.length > 1000000) reject();\nreturn {modelJson:modelJson,contract:modelContract,references:references};\n",
             "errorNodeId": "HR_RESPONSE_REJECTED"
           },
           "outcomes": {
@@ -1258,8 +1279,8 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5150,
-            "y": 13972
+            "x": 5184,
+            "y": 13226
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -1311,8 +1332,8 @@
           ],
           "type": "LLM",
           "diagram": {
-            "x": 5150,
-            "y": 14194
+            "x": 5184,
+            "y": 13448
           }
         },
         {
@@ -1331,8 +1352,8 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 5150,
-            "y": 14416
+            "x": 5184,
+            "y": 13670
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -1352,8 +1373,8 @@
           ],
           "outcomes": {},
           "diagram": {
-            "x": 5150,
-            "y": 14638
+            "x": 5184,
+            "y": 13892
           }
         },
         {
@@ -1373,7 +1394,7 @@
             }
           ],
           "diagram": {
-            "x": 7812.5,
+            "x": 7863.5,
             "y": 6760
           }
         },
@@ -1385,7 +1406,7 @@
             "name": "Validate Request Get Primary Assignment Panel",
             "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
             "returnType": "object",
-            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"personId\");\nreturn checked;",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"personId\");\nreturn checked;",
             "errorNodeId": "HR_REQUEST_REJECTED"
           },
           "outcomes": {
@@ -1394,7 +1415,7 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 6687.5,
+            "x": 6738.5,
             "y": 5650
           }
         },
@@ -1409,7 +1430,7 @@
             "errorNodeId": "RETURN_DIRECT_REQUEST_ERROR"
           },
           "diagram": {
-            "x": 6687.5,
+            "x": 6738.5,
             "y": 5872
           },
           "outcomes": {
@@ -1421,7 +1442,7 @@
               "name": "personId",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_PRIMARY_ASSIGNMENT_PANEL.$output.result.personId}}",
               "required": false,
-              "type": "integer"
+              "type": "string"
             }
           ],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"AssignmentId\": {\n            \"type\": \"string\"\n          },\n          \"@context\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"key\": {\n                \"type\": \"string\"\n              }\n            },\n            \"required\": [\n              \"key\"\n            ],\n            \"additionalProperties\": false\n          }\n        },\n        \"required\": [\n          \"AssignmentId\",\n          \"@context\"\n        ],\n        \"additionalProperties\": false\n      }\n    },\n    \"count\": {\n      \"type\": \"number\"\n    },\n    \"hasMore\": {\n      \"type\": \"boolean\"\n    },\n    \"limit\": {\n      \"type\": \"number\"\n    },\n    \"offset\": {\n      \"type\": \"number\"\n    },\n    \"links\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"rel\": {\n            \"type\": \"string\"\n          },\n          \"href\": {\n            \"type\": \"string\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          },\n          \"kind\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"rel\",\n          \"href\",\n          \"name\",\n          \"kind\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  },\n  \"required\": [\n    \"items\",\n    \"count\",\n    \"hasMore\",\n    \"limit\",\n    \"offset\",\n    \"links\"\n  ],\n  \"additionalProperties\": false\n}"
@@ -1433,7 +1454,7 @@
           "metadata": {
             "name": "Validate Get Primary Assignment Panel",
             "description": "Normalizes a positive decimal assignment ID and checks its person association when supplied before any report request.",
-            "sourceCode": "function identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const trimmed = value.trim();\n  return /^[1-9][0-9]{0,19}$/.test(trimmed) ? trimmed : \"\";\n}\nfunction response(value) {\n  for (let i = 0; i < 4 && typeof value === \"string\"; i += 1) {\n    if (value.length > 1000000) return null;\n    try { value = JSON.parse(value); } catch (error) { return null; }\n  }\n  if (!value || typeof value !== \"object\" || Array.isArray(value) ||\n      value.error || value.timeout || value.isError || Number(value.statusCode || value.status || 0) >= 400) return null;\n  return value;\n}\nconst rejected = { valid: false, personId: \"\", assignmentId: \"\" };\nconst personId = identifier($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId);\nconst data = response($context.$nodes.GET_PRIMARY_ASSIGNMENT_PANEL.$output);\nif (!personId || !data || !Array.isArray(data.items) || data.items.length === 0) return rejected;\n// Keep the existing first-primary-assignment choice, validating the row before using it.\nconst row = data.items[0];\nif (!row || typeof row !== \"object\" || Array.isArray(row)) return rejected;\nconst assignmentId = identifier(row.AssignmentId);\nif (!assignmentId || (Object.prototype.hasOwnProperty.call(row, \"PersonId\") && identifier(row.PersonId) !== personId)) return rejected;\nreturn { valid: true, personId: personId, assignmentId: assignmentId };\n",
+            "sourceCode": "function identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const trimmed = value.trim();\n  return /^[1-9][0-9]{0,29}$/.test(trimmed) ? trimmed : \"\";\n}\nfunction response(value) {\n  for (let i = 0; i < 4 && typeof value === \"string\"; i += 1) {\n    if (value.length > 1000000) return null;\n    try { value = JSON.parse(value); } catch (error) { return null; }\n  }\n  if (!value || typeof value !== \"object\" || Array.isArray(value) ||\n      value.error || value.timeout || value.isError || Number(value.statusCode || value.status || 0) >= 400) return null;\n  return value;\n}\nconst rejected = { valid: false, personId: \"\", assignmentId: \"\" };\nconst personId = identifier($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId);\nconst data = response($context.$nodes.GET_PRIMARY_ASSIGNMENT_PANEL.$output);\nif (!personId || !data || !Array.isArray(data.items) || data.items.length === 0) return rejected;\n// Keep the existing first-primary-assignment choice, validating the row before using it.\nconst row = data.items[0];\nif (!row || typeof row !== \"object\" || Array.isArray(row)) return rejected;\nconst assignmentId = identifier(row.AssignmentId);\nif (!assignmentId || (Object.prototype.hasOwnProperty.call(row, \"PersonId\") && identifier(row.PersonId) !== personId)) return rejected;\nreturn { valid: true, personId: personId, assignmentId: assignmentId };\n",
             "returnType": "object",
             "errorNodeId": "RETURN_DIRECT_REQUEST_ERROR"
           },
@@ -1443,7 +1464,7 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 6687.5,
+            "x": 6738.5,
             "y": 6094
           }
         },
@@ -1468,7 +1489,7 @@
             }
           ],
           "diagram": {
-            "x": 6687.5,
+            "x": 6738.5,
             "y": 6316
           },
           "convergenceTargetId": "end"
@@ -1482,7 +1503,7 @@
             "name": "Switch Panel"
           },
           "diagram": {
-            "x": 6687.5,
+            "x": 6738.5,
             "y": 6538
           },
           "outcomes": {
@@ -1505,7 +1526,7 @@
             "name": "Validate Request Get All Direct Report Details",
             "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
             "returnType": "object",
-            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\nfunction page(value,name,min,max) {\n  if(typeof value!==\"number\" && typeof value!==\"string\") reject(name);\n  if(typeof value===\"string\" && !/^[0-9]{1,7}$/.test(value.trim())) reject(name);\n  const number=Number(value);if(!Number.isSafeInteger(number)||number<min||number>max) reject(name);return number;\n}\n\nconst checked={};\nchecked[\"managerPersonId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"managerPersonId\");\nchecked[\"managerAssignmentId\"]=id(($context.$nodes.VALIDATE_DIRECT_ADDITIONAL_ASSIGNMENT.$output.result.assignmentId),\"managerAssignmentId\");\nchecked[\"limit\"]=page(\"100\",\"limit\",1,500);\nchecked[\"offset\"]=page(\"5\",\"offset\",0,1000000);\nreturn checked;",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\nfunction page(value,name,min,max) {\n  if(typeof value!==\"number\" && typeof value!==\"string\") reject(name);\n  if(typeof value===\"string\" && !/^[0-9]{1,7}$/.test(value.trim())) reject(name);\n  const number=Number(value);if(!Number.isSafeInteger(number)||number<min||number>max) reject(name);return number;\n}\n\nconst checked={};\nchecked[\"managerPersonId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"managerPersonId\");\nchecked[\"managerAssignmentId\"]=id(($context.$nodes.VALIDATE_DIRECT_ADDITIONAL_ASSIGNMENT.$output.result.assignmentId),\"managerAssignmentId\");\nchecked[\"limit\"]=page(\"100\",\"limit\",1,500);\nchecked[\"offset\"]=page(\"5\",\"offset\",0,1000000);\nreturn checked;",
             "errorNodeId": "HR_REQUEST_REJECTED"
           },
           "outcomes": {
@@ -1514,7 +1535,7 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 6687.5,
+            "x": 6738.5,
             "y": 6760
           }
         },
@@ -1535,7 +1556,7 @@
             {
               "id": "GET_ALL_DIRECT_REPORT_DETAILS_assignment",
               "name": "managerAssignmentId",
-              "type": "integer",
+              "type": "string",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_ALL_DIRECT_REPORT_DETAILS.$output.result.managerAssignmentId}}",
               "required": true
             },
@@ -1556,13 +1577,13 @@
             {
               "id": "GET_ALL_DIRECT_REPORT_DETAILS_managerPersonId",
               "name": "managerPersonId",
-              "type": "integer",
+              "type": "string",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_ALL_DIRECT_REPORT_DETAILS.$output.result.managerPersonId}}"
             }
           ],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"DisplayName\": {\n            \"type\": \"string\"\n          },\n          \"PersonDisplayName\": {\n            \"type\": \"string\"\n          },\n          \"PersonId\": {\n            \"type\": \"string\"\n          },\n          \"PersonNumber\": {\n            \"type\": \"string\"\n          },\n          \"AssignmentId\": {\n            \"type\": \"string\"\n          },\n          \"AssignmentNumber\": {\n            \"type\": \"string\"\n          },\n          \"AssignmentName\": {\n            \"type\": \"string\"\n          },\n          \"DirectReportsCount\": {\n            \"type\": \"string\"\n          },\n          \"AllReportsCount\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"DisplayName\",\n          \"PersonDisplayName\",\n          \"PersonId\",\n          \"PersonNumber\",\n          \"AssignmentId\",\n          \"AssignmentNumber\",\n          \"AssignmentName\",\n          \"DirectReportsCount\",\n          \"AllReportsCount\"\n        ],\n        \"additionalProperties\": false\n      }\n    },\n    \"count\": {\n      \"type\": \"string\"\n    },\n    \"hasMore\": {\n      \"type\": \"string\"\n    },\n    \"limit\": {\n      \"type\": \"string\"\n    },\n    \"offset\": {\n      \"type\": \"string\"\n    }\n  },\n  \"required\": [\n    \"items\",\n    \"count\",\n    \"hasMore\",\n    \"limit\",\n    \"offset\"\n  ],\n  \"additionalProperties\": false\n}",
           "diagram": {
-            "x": 6687.5,
+            "x": 6738.5,
             "y": 6982
           }
         },
@@ -1573,7 +1594,7 @@
           "metadata": {
             "name": "Prepare Additional Direct Count Inputs",
             "returnType": "object",
-            "sourceCode": "function identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const trimmed = value.trim();\n  return /^[1-9][0-9]{0,19}$/.test(trimmed) ? trimmed : \"\";\n}\nfunction text(value) {\n  return value == null ? \"\" : String(value).trim();\n}\nfunction response(value) {\n  for (let i = 0; i < 4 && typeof value === \"string\"; i += 1) {\n    try { value = JSON.parse(value); }\n    catch (error) { throw new Error(\"Invalid Organization response\"); }\n  }\n  if (!value || typeof value !== \"object\" || Array.isArray(value) ||\n      value.error || value.timeout || value.isError ||\n      Number(value.statusCode || value.status || 0) >= 400) {\n    throw new Error(\"Organization data request failed\");\n  }\n  return value;\n}\nfunction rows(value, allowMore) {\n  const data = response(value);\n  if (!Array.isArray(data.items) ||\n      (!allowMore && String(data.hasMore).toLowerCase() === \"true\")) {\n    throw new Error(\"Incomplete Organization response\");\n  }\n  return data.items;\n}\nfunction count(value) {\n  const number = Number(value);\n  if (value == null || text(value) === \"\" ||\n      !Number.isSafeInteger(number) || number < 0) {\n    throw new Error(\"Invalid Organization report count\");\n  }\n  return String(number);\n}\nconst details = rows($context.$nodes.GET_ALL_DIRECT_REPORT_DETAILS.$output, true);\nconst seen = {};\nreturn {\n  items: details.map(function (row) {\n    const personId = identifier(row && row.PersonId);\n    if (!personId || seen[personId]) {\n      throw new Error(\"Invalid or duplicate direct report identity\");\n    }\n    seen[personId] = true;\n    return {\n      PersonId: personId,\n      DisplayName: text(row.DisplayName),\n      DirectReportsCount: count(row.DirectReportsCount),\n      AllReportsCount: count(row.AllReportsCount)\n    };\n  })\n};",
+            "sourceCode": "function identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const trimmed = value.trim();\n  return /^[1-9][0-9]{0,29}$/.test(trimmed) ? trimmed : \"\";\n}\nfunction text(value) {\n  return value == null ? \"\" : String(value).trim();\n}\nfunction response(value) {\n  for (let i = 0; i < 4 && typeof value === \"string\"; i += 1) {\n    try { value = JSON.parse(value); }\n    catch (error) { throw new Error(\"Invalid Organization response\"); }\n  }\n  if (!value || typeof value !== \"object\" || Array.isArray(value) ||\n      value.error || value.timeout || value.isError ||\n      Number(value.statusCode || value.status || 0) >= 400) {\n    throw new Error(\"Organization data request failed\");\n  }\n  return value;\n}\nfunction rows(value, allowMore) {\n  const data = response(value);\n  if (!Array.isArray(data.items) ||\n      (!allowMore && String(data.hasMore).toLowerCase() === \"true\")) {\n    throw new Error(\"Incomplete Organization response\");\n  }\n  return data.items;\n}\nfunction count(value) {\n  const number = Number(value);\n  if (value == null || text(value) === \"\" ||\n      !Number.isSafeInteger(number) || number < 0) {\n    throw new Error(\"Invalid Organization report count\");\n  }\n  return String(number);\n}\nconst details = rows($context.$nodes.GET_ALL_DIRECT_REPORT_DETAILS.$output, true);\nconst seen = {};\nreturn {\n  items: details.map(function (row) {\n    const personId = identifier(row && row.PersonId);\n    if (!personId || seen[personId]) {\n      throw new Error(\"Invalid or duplicate direct report identity\");\n    }\n    seen[personId] = true;\n    return {\n      PersonId: personId,\n      DisplayName: text(row.DisplayName),\n      DirectReportsCount: count(row.DirectReportsCount),\n      AllReportsCount: count(row.AllReportsCount)\n    };\n  })\n};",
             "description": "Validates ordered native REST report rows and carries their counts into enrichment.",
             "errorNodeId": "RETURN_DIRECT_REQUEST_ERROR"
           },
@@ -1583,7 +1604,7 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 6687.5,
+            "x": 6738.5,
             "y": 7204
           }
         },
@@ -1608,7 +1629,7 @@
             }
           ],
           "diagram": {
-            "x": 6687.5,
+            "x": 6738.5,
             "y": 7426
           }
         },
@@ -1635,7 +1656,7 @@
                   },
                   "inputs": [],
                   "diagram": {
-                    "x": 6734.5,
+                    "x": 6604.5,
                     "y": 7738
                   }
                 },
@@ -1656,13 +1677,13 @@
                     {
                       "id": "ALL_GET_DIRECT_REPORT_COUNTS_personId",
                       "name": "personId",
-                      "type": "integer",
+                      "type": "string",
                       "value": "{{$context.$nodes.GET_ALL_DIRECT_COUNTS.VALIDATE_REQUEST_ALL_GET_DIRECT_REPORT_COUNTS.$output.result.personId}}"
                     }
                   ],
                   "diagram": {
-                    "x": 6612.5,
-                    "y": 8111
+                    "x": 6482.5,
+                    "y": 8182
                   },
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"PersonId\": {\n            \"type\": \"string\"\n          },\n          \"AssignmentId\": {\n            \"type\": \"string\"\n          },\n          \"AssignmentNumber\": {\n            \"type\": \"string\"\n          },\n          \"AssignmentName\": {\n            \"type\": \"string\"\n          },\n          \"LegalEmployerName\": {\n            \"type\": \"string\"\n          },\n          \"StartDate\": {\n            \"type\": \"string\"\n          },\n          \"PrimaryFlag\": {\n            \"type\": \"string\"\n          },\n          \"PrimaryAssignmentFlag\": {\n            \"type\": \"string\"\n          },\n          \"WorkerType\": {\n            \"type\": \"string\"\n          },\n          \"WorkerNumber\": {\n            \"type\": \"string\"\n          },\n          \"ManagerName\": {\n            \"type\": \"string\"\n          },\n          \"BusinessUnitName\": {\n            \"type\": \"string\"\n          },\n          \"DepartmentName\": {\n            \"type\": \"string\"\n          },\n          \"JobCode\": {\n            \"type\": \"string\"\n          },\n          \"JobName\": {\n            \"type\": \"string\"\n          },\n          \"PositionCode\": {\n            \"type\": \"string\"\n          },\n          \"PositionName\": {\n            \"type\": \"string\"\n          },\n          \"LocationCode\": {\n            \"type\": \"string\"\n          },\n          \"LocationName\": {\n            \"type\": \"string\"\n          },\n          \"GradeCode\": {\n            \"type\": \"string\"\n          },\n          \"GradeName\": {\n            \"type\": \"string\"\n          },\n          \"LocationPostalCode\": {\n            \"type\": \"string\"\n          },\n          \"LocationCountry\": {\n            \"type\": \"string\"\n          },\n          \"LengthOfServiceYears\": {\n            \"type\": \"string\"\n          },\n          \"MarkedAsFavoriteFlag\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"PersonId\",\n          \"AssignmentId\",\n          \"AssignmentNumber\",\n          \"AssignmentName\",\n          \"LegalEmployerName\",\n          \"StartDate\",\n          \"PrimaryFlag\",\n          \"PrimaryAssignmentFlag\",\n          \"WorkerType\",\n          \"WorkerNumber\",\n          \"ManagerName\",\n          \"BusinessUnitName\",\n          \"DepartmentName\",\n          \"JobCode\",\n          \"JobName\",\n          \"PositionCode\",\n          \"PositionName\",\n          \"LocationCode\",\n          \"LocationName\",\n          \"GradeCode\",\n          \"GradeName\",\n          \"LocationPostalCode\",\n          \"LocationCountry\",\n          \"LengthOfServiceYears\",\n          \"MarkedAsFavoriteFlag\"\n        ],\n        \"additionalProperties\": false\n      }\n    },\n    \"count\": {\n      \"type\": \"string\"\n    },\n    \"hasMore\": {\n      \"type\": \"string\"\n    },\n    \"limit\": {\n      \"type\": \"string\"\n    },\n    \"offset\": {\n      \"type\": \"string\"\n    }\n  },\n  \"required\": [\n    \"items\",\n    \"count\",\n    \"hasMore\",\n    \"limit\",\n    \"offset\"\n  ],\n  \"additionalProperties\": false\n}"
                 },
@@ -1683,13 +1704,13 @@
                     {
                       "id": "ALL_GET_ALL_REPORT_COUNTS_personId",
                       "name": "personId",
-                      "type": "integer",
+                      "type": "string",
                       "value": "{{$context.$nodes.GET_ALL_DIRECT_COUNTS.VALIDATE_REQUEST_ALL_GET_ALL_REPORT_COUNTS.$output.result.personId}}"
                     }
                   ],
                   "diagram": {
-                    "x": 6612.5,
-                    "y": 8555
+                    "x": 6482.5,
+                    "y": 8626
                   },
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"PersonId\": {\n      \"type\": \"string\"\n    },\n    \"PersonNumber\": {\n      \"type\": \"string\"\n    },\n    \"LastName\": {\n      \"type\": \"string\"\n    },\n    \"FirstName\": {\n      \"type\": \"string\"\n    },\n    \"Title\": {\n      \"type\": \"string\"\n    },\n    \"PreNameAdjunct\": {\n      \"type\": \"string\"\n    },\n    \"Suffix\": {\n      \"type\": \"string\"\n    },\n    \"MiddleNames\": {\n      \"type\": \"string\"\n    },\n    \"Honors\": {\n      \"type\": \"string\"\n    },\n    \"KnownAs\": {\n      \"type\": \"string\"\n    },\n    \"DisplayName\": {\n      \"type\": \"string\"\n    },\n    \"ListName\": {\n      \"type\": \"string\"\n    },\n    \"OrderName\": {\n      \"type\": \"string\"\n    },\n    \"WorkEmail\": {\n      \"type\": \"string\"\n    },\n    \"Username\": {\n      \"type\": \"string\"\n    },\n    \"links\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"rel\": {\n            \"type\": \"string\"\n          },\n          \"href\": {\n            \"type\": \"string\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          },\n          \"kind\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"rel\",\n          \"href\",\n          \"name\",\n          \"kind\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  },\n  \"required\": [\n    \"PersonId\",\n    \"PersonNumber\",\n    \"LastName\",\n    \"FirstName\",\n    \"Title\",\n    \"PreNameAdjunct\",\n    \"Suffix\",\n    \"MiddleNames\",\n    \"Honors\",\n    \"KnownAs\",\n    \"DisplayName\",\n    \"ListName\",\n    \"OrderName\",\n    \"WorkEmail\",\n    \"Username\",\n    \"links\"\n  ],\n  \"additionalProperties\": false\n}"
                 },
@@ -1710,13 +1731,13 @@
                     {
                       "id": "1783332125920_personId",
                       "name": "personId",
-                      "type": "integer",
+                      "type": "string",
                       "value": "{{$context.$nodes.GET_ALL_DIRECT_COUNTS.VALIDATE_REQUEST_ALL_GET_WORK_PHONES.$output.result.personId}}"
                     }
                   ],
                   "diagram": {
-                    "x": 6612.5,
-                    "y": 8999
+                    "x": 6482.5,
+                    "y": 9070
                   },
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"phones\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"items\": {\n                \"type\": \"array\",\n                \"items\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"PhoneId\": {\n                      \"type\": \"number\"\n                    },\n                    \"PhoneType\": {\n                      \"type\": \"string\"\n                    },\n                    \"PhoneTypeMeaning\": {\n                      \"type\": \"string\"\n                    },\n                    \"LegislationCode\": {\n                      \"type\": \"string\"\n                    },\n                    \"LegislationName\": {\n                      \"type\": \"string\"\n                    },\n                    \"CountryCodeNumber\": {\n                      \"type\": \"string\"\n                    },\n                    \"AreaCode\": {\n                      \"type\": \"string\"\n                    },\n                    \"PhoneNumber\": {\n                      \"type\": \"string\"\n                    },\n                    \"Extension\": {\n                      \"type\": \"null\"\n                    },\n                    \"FromDate\": {\n                      \"type\": \"string\"\n                    },\n                    \"ToDate\": {\n                      \"type\": \"null\"\n                    },\n                    \"Validity\": {\n                      \"type\": \"null\"\n                    },\n                    \"ValidityMeaning\": {\n                      \"type\": \"null\"\n                    },\n                    \"CreatedBy\": {\n                      \"type\": \"string\"\n                    },\n                    \"CreationDate\": {\n                      \"type\": \"string\"\n                    },\n                    \"LastUpdatedBy\": {\n                      \"type\": \"string\"\n                    },\n                    \"LastUpdateDate\": {\n                      \"type\": \"string\"\n                    },\n                    \"PrimaryFlag\": {\n                      \"type\": \"boolean\"\n                    },\n                    \"@context\": {\n                      \"type\": \"object\",\n                      \"properties\": {\n                        \"key\": {\n                          \"type\": \"string\"\n                        }\n                      },\n                      \"required\": [\n                        \"key\"\n                      ],\n                      \"additionalProperties\": false\n                    }\n                  },\n                  \"required\": [\n                    \"PhoneId\",\n                    \"PhoneType\",\n                    \"PhoneTypeMeaning\",\n                    \"LegislationCode\",\n                    \"LegislationName\",\n                    \"CountryCodeNumber\",\n                    \"AreaCode\",\n                    \"PhoneNumber\",\n                    \"Extension\",\n                    \"FromDate\",\n                    \"ToDate\",\n                    \"Validity\",\n                    \"ValidityMeaning\",\n                    \"CreatedBy\",\n                    \"CreationDate\",\n                    \"LastUpdatedBy\",\n                    \"LastUpdateDate\",\n                    \"PrimaryFlag\",\n                    \"@context\"\n                  ],\n                  \"additionalProperties\": false\n                }\n              },\n              \"count\": {\n                \"type\": \"number\"\n              },\n              \"hasMore\": {\n                \"type\": \"boolean\"\n              },\n              \"limit\": {\n                \"type\": \"number\"\n              },\n              \"offset\": {\n                \"type\": \"number\"\n              },\n              \"links\": {\n                \"type\": \"array\"\n              }\n            },\n            \"required\": [\n              \"items\",\n              \"count\",\n              \"hasMore\",\n              \"limit\",\n              \"offset\",\n              \"links\"\n            ],\n            \"additionalProperties\": false\n          },\n          \"@context\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"key\": {\n                \"type\": \"string\"\n              }\n            },\n            \"required\": [\n              \"key\"\n            ],\n            \"additionalProperties\": false\n          }\n        },\n        \"required\": [\n          \"phones\",\n          \"@context\"\n        ],\n        \"additionalProperties\": false\n      }\n    },\n    \"count\": {\n      \"type\": \"number\"\n    },\n    \"hasMore\": {\n      \"type\": \"boolean\"\n    },\n    \"limit\": {\n      \"type\": \"number\"\n    },\n    \"offset\": {\n      \"type\": \"number\"\n    },\n    \"links\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"rel\": {\n            \"type\": \"string\"\n          },\n          \"href\": {\n            \"type\": \"string\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          },\n          \"kind\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"rel\",\n          \"href\",\n          \"name\",\n          \"kind\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  },\n  \"required\": [\n    \"items\",\n    \"count\",\n    \"hasMore\",\n    \"limit\",\n    \"offset\",\n    \"links\"\n  ],\n  \"additionalProperties\": false\n}"
                 },
@@ -1736,8 +1757,8 @@
                   "inputs": [],
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
                   "diagram": {
-                    "x": 6612.5,
-                    "y": 9221
+                    "x": 6482.5,
+                    "y": 9292
                   }
                 },
                 {
@@ -1748,8 +1769,8 @@
                     "name": "Validate Request All Get Direct Report Counts",
                     "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
                     "returnType": "object",
-                    "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.GET_ALL_DIRECT_COUNTS.$currentItem.PersonId),\"personId\");\nreturn checked;",
-                    "errorNodeId": "HR_REQUEST_REJECTED"
+                    "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.GET_ALL_DIRECT_COUNTS.$currentItem.PersonId),\"personId\");\nreturn checked;",
+                    "errorNodeId": "GET_ALL_DIRECT_COUNTS_REQUEST_REJECTED"
                   },
                   "outcomes": {
                     "success": "ALL_GET_DIRECT_REPORT_COUNTS"
@@ -1757,8 +1778,8 @@
                   "inputs": [],
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
                   "diagram": {
-                    "x": 6612.5,
-                    "y": 7889
+                    "x": 6482.5,
+                    "y": 7960
                   }
                 },
                 {
@@ -1769,8 +1790,8 @@
                     "name": "Validate Request All Get All Report Counts",
                     "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
                     "returnType": "object",
-                    "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.GET_ALL_DIRECT_COUNTS.$currentItem.PersonId),\"personId\");\nreturn checked;",
-                    "errorNodeId": "HR_REQUEST_REJECTED"
+                    "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.GET_ALL_DIRECT_COUNTS.$currentItem.PersonId),\"personId\");\nreturn checked;",
+                    "errorNodeId": "GET_ALL_DIRECT_COUNTS_REQUEST_REJECTED"
                   },
                   "outcomes": {
                     "success": "ALL_GET_ALL_REPORT_COUNTS"
@@ -1778,8 +1799,8 @@
                   "inputs": [],
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
                   "diagram": {
-                    "x": 6612.5,
-                    "y": 8333
+                    "x": 6482.5,
+                    "y": 8404
                   }
                 },
                 {
@@ -1790,8 +1811,8 @@
                     "name": "Validate Request All Get Work Phones",
                     "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
                     "returnType": "object",
-                    "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.GET_ALL_DIRECT_COUNTS.$currentItem.PersonId),\"personId\");\nreturn checked;",
-                    "errorNodeId": "HR_REQUEST_REJECTED"
+                    "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.GET_ALL_DIRECT_COUNTS.$currentItem.PersonId),\"personId\");\nreturn checked;",
+                    "errorNodeId": "GET_ALL_DIRECT_COUNTS_REQUEST_REJECTED"
                   },
                   "outcomes": {
                     "success": "1783332125920"
@@ -1799,8 +1820,28 @@
                   "inputs": [],
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
                   "diagram": {
-                    "x": 6612.5,
-                    "y": 8777
+                    "x": 6482.5,
+                    "y": 8848
+                  }
+                },
+                {
+                  "id": "GET_ALL_DIRECT_COUNTS_REQUEST_REJECTED",
+                  "code": "GET_ALL_DIRECT_COUNTS_REQUEST_REJECTED",
+                  "type": "RETURN",
+                  "metadata": {
+                    "name": "Reject Get Additional Direct Counts Sequentially request"
+                  },
+                  "inputs": [
+                    {
+                      "name": "returnValue",
+                      "type": "string",
+                      "value": "{\"error\":\"Invalid HR loop request parameter\"}"
+                    }
+                  ],
+                  "outcomes": {},
+                  "diagram": {
+                    "x": 6810.5,
+                    "y": 7738
                   }
                 },
                 {
@@ -1837,8 +1878,8 @@
           "diagram": {
             "x": 6462.5,
             "y": 7648,
-            "width": 600,
-            "height": 2124
+            "width": 668,
+            "height": 1751
           }
         },
         {
@@ -1849,7 +1890,8 @@
             "name": "Store Additional Direct Count Results",
             "returnType": "object",
             "sourceCode": "function collect(value, depth) {\n  if (depth > 8) throw new Error(\"Invalid Organization loop result\");\n  for (let i = 0; i < 4 && typeof value === \"string\"; i += 1) {\n    try { value = JSON.parse(value); } catch (error) { throw new Error(\"Invalid Organization loop result\"); }\n  }\n  if (Array.isArray(value)) return value.reduce(function (rows, item) { return rows.concat(collect(item, depth + 1)); }, []);\n  if (!value || typeof value !== \"object\" || value.error || value.timeout || value.isError || Number(value.statusCode || value.status || 0) >= 400) throw new Error(\"Organization enrichment request failed\");\n  if (Object.prototype.hasOwnProperty.call(value, \"PersonId\")) return [value];\n  const wrappers = [\"items\", \"result\", \"output\", \"data\"].filter(function (key) { return Object.prototype.hasOwnProperty.call(value, key); });\n  if (wrappers.length !== 1) throw new Error(\"Invalid Organization loop result\");\n  return collect(value[wrappers[0]], depth + 1);\n}\nreturn { items: collect($context.$nodes.GET_ALL_DIRECT_COUNTS.$output, 0) };",
-            "description": "Retains all enriched Organization display fields from the completed sequential loop."
+            "description": "Retains all enriched Organization display fields from the completed sequential loop.",
+            "errorNodeId": "HR_RESPONSE_REJECTED"
           },
           "outcomes": {
             "success": "ENRICH_ALL_DIRECTS"
@@ -1857,8 +1899,8 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 6612.5,
-            "y": 9922
+            "x": 6646.5,
+            "y": 9549
           }
         },
         {
@@ -1876,8 +1918,8 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 6612.5,
-            "y": 10144
+            "x": 6646.5,
+            "y": 9771
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -1889,7 +1931,7 @@
             "name": "Prepare Safe Render All Direct Reports List",
             "description": "Enforces the permitted data and output contract for this HR panel.",
             "returnType": "object",
-            "sourceCode": "function reject() { throw new Error(\"The response did not match the permitted HR display contract.\"); }\nfunction text(v) {\n  if (typeof v !== \"string\" && typeof v !== \"number\") return \"\";\n  return String(v).replace(/[\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f-\\u009f\\u200b-\\u200f\\u202a-\\u202e\\u2060-\\u206f\\ufeff]/g, \"\").trim()\n    .replace(/&(?!amp;|lt;|gt;|quot;|apos;|nbsp;)/g,\"&amp;\").replace(/</g,\"&lt;\").replace(/>/g,\"&gt;\");\n}\nfunction list(v) { if (!Array.isArray(v) || v.length > 1000) reject(); return v; }\nfunction image(id) { id = String(id == null ? \"\" : id); if (!id) return \"\"; if (!/^\\d{1,18}$/.test(id)) reject(); return \"/hcmUI/personImage?returnSquare=true&returnInitials=Y&removeBackground=Y&personId=\" + id + \"&maxSize=144&id=1779878994029&patternIndex=0\"; }\nfunction put(obj,key,value) { if (value !== \"\" && value != null) obj[key] = value; }\nlet displayIndex = 0;\nfunction display(pattern,properties,extra) { return {type:\"oraInfoDisplay\",key:\"xx_worker_directs-render_all_direct_reports_list-\"+(++displayIndex),payload:Object.assign({patternId:pattern},extra || {},{properties:properties})}; }\nfunction message(items,extra) { return display(\"messageListWidget\",{items:items},extra); }\nfunction personRows(rows,actions,kind) {\n  return list(rows).map(function(row,i) {\n    const item = {title:text(row.DisplayName) || (kind === \"direct\" ? \"\" : kind === \"representative\" ? \"Representative\" : \"Person\")};\n    if (kind === \"direct\") {\n      put(item,\"subtitle\",[row.JobName,row.DepartmentName,row.LocationName].map(text).filter(Boolean).join(\" | \"));\n      put(item,\"summary\",[row.WorkEmail,row.WorkPhone].map(text).filter(Boolean).join(\" | \"));\n      const dc = Number(row.DirectReportsCount), ac = Number(row.AllReportsCount);\n      if (Number.isFinite(dc) && Number.isFinite(ac) && (dc > 0 || ac > 0)) item.timestamp = \"Directs \" + dc + \" | Total \" + ac;\n    } else if (kind === \"representative\") {\n      put(item,\"subtitle\",text(row.ResponsibilityType));\n      put(item,\"summary\",[row.WorkEmail,row.WorkPhone].map(text).filter(Boolean).join(\" | \"));\n    } else if (kind === \"searchRepresentative\") {\n      put(item,\"subtitle\",text(row.ResponsibilityName)); put(item,\"badgeText\",text(row.ResponsibilityType));\n    } else {\n      put(item,\"subtitle\",text(row.JobName)); put(item,\"badgeText\",text(row.AssignmentNumber));\n      put(item,\"summary\",[row.DepartmentName,row.LocationName].map(text).filter(Boolean).join(\" - \"));\n    }\n    put(item,\"image\",image(row.PersonId));\n    if (row.PersonId) {\n      if (kind === \"direct\" || kind === \"representative\") {\n        const action = kind === \"direct\" ? \"selectDirect\" : \"selectRepresentative\";\n        item.action = 'ora.Invoke(' + JSON.stringify(action) + ', ' + JSON.stringify({actionId:action,personId:String(row.PersonId)}) + ')';\n      } else if (actions && actions[i]) item.action = actions[i];\n    }\n    return item;\n  });\n}\n\n\nlet blocks=[],visibleText=\"\";\nblocks=[message(personRows($context.$nodes.ENRICH_ALL_DIRECTS.$output.result.items,null,\"direct\"))];\n\n// Keep internal identifiers and executable commands outside the model context.\nconst references = {};\nlet referenceIndex = 0;\nfunction protect(value,key,parent) {\n  if (typeof value === \"string\" && ([\"action\",\"drillDownAction\",\"followUpCommand\",\"image\"].includes(key) || (key === \"id\" && /\\d/.test(value)) || (key === \"value\" && parent && [\"hidden\",\"system\"].includes(parent.type)))) {\n    const token = \"HR_REF_\" + (++referenceIndex);\n    references[token] = value;\n    return token;\n  }\n  if (Array.isArray(value)) return value.map(function(v) { return protect(v,\"\",null); });\n  if (value && typeof value === \"object\") {\n    const result = {};\n    Object.keys(value).forEach(function(k) { if ([\"__proto__\",\"prototype\",\"constructor\"].includes(k)) reject(); result[k] = protect(value[k],k,value); });\n    return result;\n  }\n  if (typeof value === \"string\" && /HR_REF_\\d+/.test(value)) reject();\n  return value;\n}\nconst contract = {blocks:blocks,text:visibleText};\nconst modelContract = protect(contract,\"\",null);\nconst modelJson = JSON.stringify(modelContract);\nif (modelJson.length > 1000000) reject();\nreturn {modelJson:modelJson,contract:modelContract,references:references};\n",
+            "sourceCode": "function reject() { throw new Error(\"The response did not match the permitted HR display contract.\"); }\nfunction text(v) {\n  if (typeof v !== \"string\" && typeof v !== \"number\") return \"\";\n  return String(v).replace(/[\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f-\\u009f\\u200b-\\u200f\\u202a-\\u202e\\u2060-\\u206f\\ufeff]/g, \"\").trim()\n    .replace(/&(?!amp;|lt;|gt;|quot;|apos;|nbsp;)/g,\"&amp;\").replace(/</g,\"&lt;\").replace(/>/g,\"&gt;\");\n}\nfunction list(v) { if (!Array.isArray(v) || v.length > 1000) reject(); return v; }\nfunction image(id) { id = String(id == null ? \"\" : id); if (!id) return \"\"; if (!/^[1-9][0-9]{0,29}$/.test(id)) reject(); return \"/hcmUI/personImage?returnSquare=true&returnInitials=Y&removeBackground=Y&personId=\" + id + \"&maxSize=144&id=1779878994029&patternIndex=0\"; }\nfunction put(obj,key,value) { if (value !== \"\" && value != null) obj[key] = value; }\nlet displayIndex = 0;\nfunction display(pattern,properties,extra) { return {type:\"oraInfoDisplay\",key:\"xx_worker_directs-render_all_direct_reports_list-\"+(++displayIndex),payload:Object.assign({patternId:pattern},extra || {},{properties:properties})}; }\nfunction message(items,extra) { return display(\"messageListWidget\",{items:items},extra); }\nfunction personRows(rows,actions,kind) {\n  return list(rows).map(function(row,i) {\n    const item = {title:text(row.DisplayName) || (kind === \"direct\" ? \"\" : kind === \"representative\" ? \"Representative\" : \"Person\")};\n    if (kind === \"direct\") {\n      put(item,\"subtitle\",[row.JobName,row.DepartmentName,row.LocationName].map(text).filter(Boolean).join(\" | \"));\n      put(item,\"summary\",[row.WorkEmail,row.WorkPhone].map(text).filter(Boolean).join(\" | \"));\n      const dc = Number(row.DirectReportsCount), ac = Number(row.AllReportsCount);\n      if (Number.isFinite(dc) && Number.isFinite(ac) && (dc > 0 || ac > 0)) item.timestamp = \"Directs \" + dc + \" | Total \" + ac;\n    } else if (kind === \"representative\") {\n      put(item,\"subtitle\",text(row.ResponsibilityType));\n      put(item,\"summary\",[row.WorkEmail,row.WorkPhone].map(text).filter(Boolean).join(\" | \"));\n    } else if (kind === \"searchRepresentative\") {\n      put(item,\"subtitle\",text(row.ResponsibilityName)); put(item,\"badgeText\",text(row.ResponsibilityType));\n    } else {\n      put(item,\"subtitle\",text(row.JobName)); put(item,\"badgeText\",text(row.AssignmentNumber));\n      put(item,\"summary\",[row.DepartmentName,row.LocationName].map(text).filter(Boolean).join(\" - \"));\n    }\n    put(item,\"image\",image(row.PersonId));\n    if (row.PersonId) {\n      if (kind === \"direct\" || kind === \"representative\") {\n        const action = kind === \"direct\" ? \"selectDirect\" : \"selectRepresentative\";\n        item.action = 'ora.Invoke(' + JSON.stringify(action) + ', ' + JSON.stringify({actionId:action,personId:String(row.PersonId)}) + ')';\n      } else if (actions && actions[i]) item.action = actions[i];\n    }\n    return item;\n  });\n}\n\n\nlet blocks=[],visibleText=\"\";\nblocks=[message(personRows($context.$nodes.ENRICH_ALL_DIRECTS.$output.result.items,null,\"direct\"))];\n\n// Keep internal identifiers and executable commands outside the model context.\nconst references = {};\nlet referenceIndex = 0;\nfunction protect(value,key,parent) {\n  if (typeof value === \"string\" && ([\"action\",\"drillDownAction\",\"followUpCommand\",\"image\"].includes(key) || (key === \"id\" && /\\d/.test(value)) || (key === \"value\" && parent && [\"hidden\",\"system\"].includes(parent.type)))) {\n    const token = \"HR_REF_\" + (++referenceIndex);\n    references[token] = value;\n    return token;\n  }\n  if (Array.isArray(value)) return value.map(function(v) { return protect(v,\"\",null); });\n  if (value && typeof value === \"object\") {\n    const result = {};\n    Object.keys(value).forEach(function(k) { if ([\"__proto__\",\"prototype\",\"constructor\"].includes(k)) reject(); result[k] = protect(value[k],k,value); });\n    return result;\n  }\n  if (typeof value === \"string\" && /HR_REF_\\d+/.test(value)) reject();\n  return value;\n}\nconst contract = {blocks:blocks,text:visibleText};\nconst modelContract = protect(contract,\"\",null);\nconst modelJson = JSON.stringify(modelContract);\nif (modelJson.length > 1000000) reject();\nreturn {modelJson:modelJson,contract:modelContract,references:references};\n",
             "errorNodeId": "HR_RESPONSE_REJECTED"
           },
           "outcomes": {
@@ -1897,8 +1939,8 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 6612.5,
-            "y": 10366
+            "x": 6646.5,
+            "y": 9993
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -1913,8 +1955,8 @@
             "description": "Renders the prepared data contract; deterministic validation is required before returning it."
           },
           "diagram": {
-            "x": 6650,
-            "y": 10588
+            "x": 6692.5,
+            "y": 10215
           },
           "outcomes": {
             "success": "CHECK_SAFE_RENDER_ALL_DIRECT_REPORTS_LIST"
@@ -1957,8 +1999,8 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 6650,
-            "y": 10810
+            "x": 6692.5,
+            "y": 10437
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -1978,8 +2020,8 @@
           ],
           "outcomes": {},
           "diagram": {
-            "x": 6650,
-            "y": 11032
+            "x": 6692.5,
+            "y": 10659
           }
         },
         {
@@ -2003,7 +2045,7 @@
             }
           ],
           "diagram": {
-            "x": 7137.5,
+            "x": 7188.5,
             "y": 5650
           },
           "convergenceTargetId": "PREPARE_SAFE_ANSWER_QUERY"
@@ -2024,7 +2066,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 7137.5,
+            "x": 7188.5,
             "y": 7426
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
@@ -2056,7 +2098,7 @@
             }
           ],
           "diagram": {
-            "x": 7212.5,
+            "x": 7280.5,
             "y": 7648
           }
         },
@@ -2076,8 +2118,8 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 7212.5,
-            "y": 9922
+            "x": 7280.5,
+            "y": 9549
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -2097,8 +2139,8 @@
           ],
           "outcomes": {},
           "diagram": {
-            "x": 7212.5,
-            "y": 10144
+            "x": 7280.5,
+            "y": 9771
           }
         },
         {
@@ -2109,7 +2151,7 @@
             "name": "Validate Request Get Primary Assignment Query",
             "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
             "returnType": "object",
-            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"personId\");\nreturn checked;",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"personId\");\nreturn checked;",
             "errorNodeId": "HR_REQUEST_REJECTED"
           },
           "outcomes": {
@@ -2118,7 +2160,7 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 7587.5,
+            "x": 7638.5,
             "y": 5872
           }
         },
@@ -2139,12 +2181,12 @@
             {
               "id": "1783332125911_personId",
               "name": "personId",
-              "type": "integer",
+              "type": "string",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_PRIMARY_ASSIGNMENT_QUERY.$output.result.personId}}"
             }
           ],
           "diagram": {
-            "x": 7587.5,
+            "x": 7638.5,
             "y": 6094
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"AssignmentId\": {\n            \"type\": \"string\"\n          },\n          \"@context\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"key\": {\n                \"type\": \"string\"\n              }\n            },\n            \"required\": [\n              \"key\"\n            ],\n            \"additionalProperties\": false\n          }\n        },\n        \"required\": [\n          \"AssignmentId\",\n          \"@context\"\n        ],\n        \"additionalProperties\": false\n      }\n    },\n    \"count\": {\n      \"type\": \"number\"\n    },\n    \"hasMore\": {\n      \"type\": \"boolean\"\n    },\n    \"limit\": {\n      \"type\": \"number\"\n    },\n    \"offset\": {\n      \"type\": \"number\"\n    },\n    \"links\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"rel\": {\n            \"type\": \"string\"\n          },\n          \"href\": {\n            \"type\": \"string\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          },\n          \"kind\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"rel\",\n          \"href\",\n          \"name\",\n          \"kind\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  },\n  \"required\": [\n    \"items\",\n    \"count\",\n    \"hasMore\",\n    \"limit\",\n    \"offset\",\n    \"links\"\n  ],\n  \"additionalProperties\": false\n}"
@@ -2156,7 +2198,7 @@
           "metadata": {
             "name": "Validate Get Primary Assignment Query",
             "description": "Normalizes a positive decimal assignment ID and checks its person association when supplied before any report request.",
-            "sourceCode": "function identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const trimmed = value.trim();\n  return /^[1-9][0-9]{0,19}$/.test(trimmed) ? trimmed : \"\";\n}\nfunction response(value) {\n  for (let i = 0; i < 4 && typeof value === \"string\"; i += 1) {\n    if (value.length > 1000000) return null;\n    try { value = JSON.parse(value); } catch (error) { return null; }\n  }\n  if (!value || typeof value !== \"object\" || Array.isArray(value) ||\n      value.error || value.timeout || value.isError || Number(value.statusCode || value.status || 0) >= 400) return null;\n  return value;\n}\nconst rejected = { valid: false, personId: \"\", assignmentId: \"\" };\nconst personId = identifier($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId);\nconst data = response($context.$nodes.GET_PRIMARY_ASSIGNMENT_QUERY.$output);\nif (!personId || !data || !Array.isArray(data.items) || data.items.length === 0) return rejected;\n// Keep the existing first-primary-assignment choice, validating the row before using it.\nconst row = data.items[0];\nif (!row || typeof row !== \"object\" || Array.isArray(row)) return rejected;\nconst assignmentId = identifier(row.AssignmentId);\nif (!assignmentId || (Object.prototype.hasOwnProperty.call(row, \"PersonId\") && identifier(row.PersonId) !== personId)) return rejected;\nreturn { valid: true, personId: personId, assignmentId: assignmentId };\n",
+            "sourceCode": "function identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const trimmed = value.trim();\n  return /^[1-9][0-9]{0,29}$/.test(trimmed) ? trimmed : \"\";\n}\nfunction response(value) {\n  for (let i = 0; i < 4 && typeof value === \"string\"; i += 1) {\n    if (value.length > 1000000) return null;\n    try { value = JSON.parse(value); } catch (error) { return null; }\n  }\n  if (!value || typeof value !== \"object\" || Array.isArray(value) ||\n      value.error || value.timeout || value.isError || Number(value.statusCode || value.status || 0) >= 400) return null;\n  return value;\n}\nconst rejected = { valid: false, personId: \"\", assignmentId: \"\" };\nconst personId = identifier($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId);\nconst data = response($context.$nodes.GET_PRIMARY_ASSIGNMENT_QUERY.$output);\nif (!personId || !data || !Array.isArray(data.items) || data.items.length === 0) return rejected;\n// Keep the existing first-primary-assignment choice, validating the row before using it.\nconst row = data.items[0];\nif (!row || typeof row !== \"object\" || Array.isArray(row)) return rejected;\nconst assignmentId = identifier(row.AssignmentId);\nif (!assignmentId || (Object.prototype.hasOwnProperty.call(row, \"PersonId\") && identifier(row.PersonId) !== personId)) return rejected;\nreturn { valid: true, personId: personId, assignmentId: assignmentId };\n",
             "returnType": "object",
             "errorNodeId": "RETURN_DIRECT_REQUEST_ERROR"
           },
@@ -2166,7 +2208,7 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 7587.5,
+            "x": 7638.5,
             "y": 6316
           }
         },
@@ -2191,7 +2233,7 @@
             }
           ],
           "diagram": {
-            "x": 7587.5,
+            "x": 7638.5,
             "y": 6538
           },
           "convergenceTargetId": "end"
@@ -2204,7 +2246,7 @@
             "name": "Validate Request Get All Directs Query",
             "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
             "returnType": "object",
-            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\nfunction page(value,name,min,max) {\n  if(typeof value!==\"number\" && typeof value!==\"string\") reject(name);\n  if(typeof value===\"string\" && !/^[0-9]{1,7}$/.test(value.trim())) reject(name);\n  const number=Number(value);if(!Number.isSafeInteger(number)||number<min||number>max) reject(name);return number;\n}\n\nconst checked={};\nchecked[\"managerPersonId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"managerPersonId\");\nchecked[\"managerAssignmentId\"]=id(($context.$nodes.VALIDATE_DIRECT_QUERY_ASSIGNMENT.$output.result.assignmentId),\"managerAssignmentId\");\nchecked[\"limit\"]=page(\"100\",\"limit\",1,500);\nchecked[\"offset\"]=page(\"0\",\"offset\",0,1000000);\nreturn checked;",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\nfunction page(value,name,min,max) {\n  if(typeof value!==\"number\" && typeof value!==\"string\") reject(name);\n  if(typeof value===\"string\" && !/^[0-9]{1,7}$/.test(value.trim())) reject(name);\n  const number=Number(value);if(!Number.isSafeInteger(number)||number<min||number>max) reject(name);return number;\n}\n\nconst checked={};\nchecked[\"managerPersonId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"managerPersonId\");\nchecked[\"managerAssignmentId\"]=id(($context.$nodes.VALIDATE_DIRECT_QUERY_ASSIGNMENT.$output.result.assignmentId),\"managerAssignmentId\");\nchecked[\"limit\"]=page(\"100\",\"limit\",1,500);\nchecked[\"offset\"]=page(\"0\",\"offset\",0,1000000);\nreturn checked;",
             "errorNodeId": "HR_REQUEST_REJECTED"
           },
           "outcomes": {
@@ -2213,7 +2255,7 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 7362.5,
+            "x": 7413.5,
             "y": 6760
           }
         },
@@ -2233,13 +2275,13 @@
             {
               "id": "1783332125913_managerPersonId",
               "name": "managerPersonId",
-              "type": "integer",
+              "type": "string",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_ALL_DIRECTS_QUERY.$output.result.managerPersonId}}"
             },
             {
               "id": "1783332125913_managerAssignmentId",
               "name": "managerAssignmentId",
-              "type": "integer",
+              "type": "string",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_ALL_DIRECTS_QUERY.$output.result.managerAssignmentId}}"
             },
             {
@@ -2256,7 +2298,7 @@
             }
           ],
           "diagram": {
-            "x": 7362.5,
+            "x": 7413.5,
             "y": 6982
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"PersonId\": {\n            \"type\": \"string\"\n          },\n          \"PersonNumber\": {\n            \"type\": \"string\"\n          },\n          \"DisplayName\": {\n            \"type\": \"string\"\n          },\n          \"AssignmentName\": {\n            \"type\": \"string\"\n          },\n          \"@context\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"key\": {\n                \"type\": \"string\"\n              }\n            },\n            \"required\": [\n              \"key\"\n            ],\n            \"additionalProperties\": false\n          }\n        },\n        \"required\": [\n          \"PersonId\",\n          \"PersonNumber\",\n          \"DisplayName\",\n          \"AssignmentName\",\n          \"@context\"\n        ],\n        \"additionalProperties\": false\n      }\n    },\n    \"count\": {\n      \"type\": \"number\"\n    },\n    \"hasMore\": {\n      \"type\": \"boolean\"\n    },\n    \"limit\": {\n      \"type\": \"number\"\n    },\n    \"offset\": {\n      \"type\": \"number\"\n    },\n    \"links\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"rel\": {\n            \"type\": \"string\"\n          },\n          \"href\": {\n            \"type\": \"string\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          },\n          \"kind\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"rel\",\n          \"href\",\n          \"name\",\n          \"kind\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  },\n  \"required\": [\n    \"items\",\n    \"count\",\n    \"hasMore\",\n    \"limit\",\n    \"offset\",\n    \"links\"\n  ],\n  \"additionalProperties\": false\n}"
@@ -2280,7 +2322,7 @@
             }
           ],
           "diagram": {
-            "x": 7362.5,
+            "x": 7413.5,
             "y": 7204
           }
         },
@@ -2300,7 +2342,7 @@
           ],
           "outcomes": {},
           "diagram": {
-            "x": 8212.5,
+            "x": 8263.5,
             "y": 5000
           }
         },
@@ -2320,7 +2362,7 @@
           ],
           "outcomes": {},
           "diagram": {
-            "x": 8612.5,
+            "x": 8663.5,
             "y": 5000
           }
         },
@@ -2342,8 +2384,8 @@
             }
           ],
           "diagram": {
-            "x": 7000,
-            "y": 5206
+            "x": 9063.5,
+            "y": 5000
           }
         },
         {
@@ -2421,42 +2463,13 @@
   "description": "Displays a worker's direct reports and reporting hierarchy, including available job, department, location, work contacts, and direct-report and total-report counts. Supports selecting a report, loading additional reports, and answering questions about the reporting information.",
   "family": "HCM",
   "product": "GLOBAL_HUMAN_RESOURCES",
-  "workflowId": "300100661827122",
-  "ownerName": null,
   "seededFlag": false,
   "hiddenFlag": false,
   "status": "DRAFT",
-  "version": 88697778,
-  "useCaseId": "NA",
   "accessModifier": "public",
   "architecture": "data_pipeline",
-  "followupPrompt": null,
-  "firstStarterQuestion": null,
-  "secondStarterQuestion": null,
-  "thirdStarterQuestion": null,
   "followupEnabledFlag": false,
-  "maxInteractions": null,
   "customFlag": false,
-  "sourceWorkflowCode": null,
-  "customizationPolicy": null,
-  "emailConfigCode": null,
-  "jobRequestId": null,
   "aiAppsCompatibleFlag": true,
-  "isTemplate": false,
-  "ownerId": null,
-  "$id": "300100661827122",
-  "$context": {
-    "etag": "23",
-    "links": {
-      "$self": {
-        "href": "https://cptcyllqy.fusionapps.ocs.oc-test.com/api/boss/data/objects/ora/commonFusionAI/agents/v1/$en/workflows/300100661827122"
-      }
-    }
-  },
-  "tags": [],
-  "roles": [],
-  "seededRoles": [],
-  "customizedSpecifications": [],
-  "initialTags": [],
-  "initialRoles": []
+  "isTemplate": false
 }

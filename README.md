@@ -9,6 +9,9 @@ For a detailed list of changes, see [Change Log Details](#change-log-details)
 
 | **Date**| **Operation** | **File/folder** | **Description**|
 |--------------|---------------|---------------|---------------|
+| 2026-11-25| Updated |`aiapps/hcm/human-resources` | Updated Workforce Strategy and Planning Workspace agentic app functionality to support updating signals status|
+| 2026-11-25| Added |`aiapps/hcm/compensation` | Added new workflows and business objects for individual compensation and stock awards in the Compensation area.|
+| 2026-11-25| Updated |`aiapps/scm/cost-management` | Updated workflows in cost management area|
 | 2026-11-20| Added |`aiapps/hcm/human-resources` | Added new business objects, workflows, apps, policy templates and policies for EPM Workforce Strategy and Planning Workspace in human resources|
 | 2026-11-13| Added |`aiapps/hcm/human-resources` | Added new business objects and workflows to the human resources area|
 | 2026-11-13| Added |`aiapps/hcm/talent-management` | Added new business objects and workflows to the talent management area|
@@ -147,6 +150,24 @@ ATLAS integrates with local development and CI/CD workflows, allowing tests to r
 You can find the online documentation for Oracle Fusion AI Agent Studio at [official documentation](https://docs.oracle.com/en/cloud/saas/fusion-ai/) and information about the project at [Oracle Fusion AI](https://www.oracle.com/in/applications/fusion-ai/).
 
 ### Change Log Details
+
+##### 25th November 2026
+-----
+
+Enhanced the Workforce Strategy and Planning Workspace agentic app in `aiapps/hcm/human-resources` to support signal status updates.
+- Agentic Application : Workforce Strategy and Planning Workspace
+- Workflows : EPM Forecast Signal Insights, EPM Forecast Signals Policy Helper Workflow
+- Business Objects: Added new function changeStatus in Forecast Signals business object
+- Fixed workflows to correctly handle worker person IDs longer than 16 digits
+
+Added new business objects and workflows in `hcm/compensation` area:
+- Workflows: Team Compensation Details By Employee Currency, Team Compensation Details In Preferred Currency, Team Compensation Distribution By Grade, Team Compensation Spend Distribution, Team Compensation Summary, Worker Bonus History, Worker Bonus History Chart, Worker Compensation History Bundle, Worker Compensation Query, Worker Salary History, Worker Salary History Increment Chart, Worker Stock History, Worker Stock History Chart
+- Business Objects: Worker Stock Details, Worker Individual Compensation Details, Compensation Currency Details  
+
+
+Updated business object references in the workflows under `aiapps/scm/cost-management`. The following workflows were updated:
+- Inventory Valuation Comparison Advisor
+- Period Validation Exceptions Advisor
 
 ##### 20th November 2026
 -----

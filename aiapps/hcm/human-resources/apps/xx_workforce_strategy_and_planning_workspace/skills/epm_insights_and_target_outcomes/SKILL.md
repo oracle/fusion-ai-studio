@@ -3,6 +3,8 @@ name: epm-insights-and-target-outcomes
 description: outcome-driven epm workforce and budget decision analysis for target outcomes across employees, role strategy, location market, budget scenarios, skills, requisitions, offers, and planning enrichment. use for epm inputs in any style, including narratives, statements, questions, commands, calculations, definitions, extractions, rewrites, and follow-ups. default every invocation to the full chat and artifact decision package; use a lightweight response only when the user explicitly requests summary-only output.
 ---
 
+<!-- Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl -->
+
 # EPM Insights And Target Outcomes
 
 ## Purpose

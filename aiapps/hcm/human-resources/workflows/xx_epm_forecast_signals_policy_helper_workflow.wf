@@ -1,0 +1,490 @@
+{
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "workflowId": "300100662905339",
+  "deploymentIdentifier": null,
+  "workflowCode": "XX_EPM_FORECAST_SIGNALS_POLICY_HELPER_WORKFLOW",
+  "name": "EPM Forecast Signals Policy Helper Workflow",
+  "description": "Provides role-strategy and location-market policy data and workforce policy scoring through three independent capabilities.",
+  "specification": {
+    "dataPipeline": {
+      "rootNode": "start",
+      "pipelineNodes": [
+        {
+          "id": "start",
+          "code": "START",
+          "type": "START",
+          "metadata": {
+            "name": "Start",
+            "description": "Capability execution begins at its selected capability entry."
+          },
+          "inputs": [],
+          "outcomes": {},
+          "diagram": {
+            "x": 5000,
+            "y": 5000
+          }
+        },
+        {
+          "id": "1794483193231_1",
+          "code": "GETROLESTRATERGYDATA",
+          "type": "CAPABILITY",
+          "metadata": {
+            "name": "getRoleStratergyData",
+            "capabilityName": "getRoleStratergyData"
+          },
+          "diagram": {
+            "x": 5278,
+            "y": 5000
+          },
+          "outcomes": {
+            "success": "1794496559266"
+          },
+          "inputs": []
+        },
+        {
+          "id": "1794496559266",
+          "code": "ROLE_STRATEGY_POLICY",
+          "type": "POLICY",
+          "metadata": {
+            "name": "Role Strategy Policy",
+            "policyCode": "XX_STRATEGIC_WORKFORCE_PLANNING_POLICY",
+            "functionCode": "ROLESTRATEGYDATA"
+          },
+          "diagram": {
+            "x": 5156,
+            "y": 5206
+          },
+          "outcomes": {
+            "success": "1794497760778"
+          },
+          "inputs": []
+        },
+        {
+          "id": "1794497760778",
+          "code": "ROLE_STRATEGY_OUTPUT",
+          "type": "RETURN",
+          "metadata": {
+            "name": "Role Strategy Output"
+          },
+          "diagram": {
+            "x": 5156,
+            "y": 5428
+          },
+          "outcomes": {},
+          "inputs": [
+            {
+              "id": "1794497760778_returnValue",
+              "name": "returnValue",
+              "type": "string",
+              "value": "{{$context.$nodes.ROLE_STRATEGY_POLICY.$output}} "
+            }
+          ]
+        },
+        {
+          "id": "1794483229761_2",
+          "code": "GETLOCATIONMARKETDATA",
+          "type": "CAPABILITY",
+          "metadata": {
+            "name": "getLocationMarketData",
+            "capabilityName": "getLocationMarketData"
+          },
+          "diagram": {
+            "x": 5678,
+            "y": 5000
+          },
+          "outcomes": {
+            "success": "1794497622474"
+          },
+          "inputs": []
+        },
+        {
+          "id": "1794497622474",
+          "code": "LOCATIONS_POLICY",
+          "type": "POLICY",
+          "metadata": {
+            "name": "Locations Policy",
+            "policyCode": "XX_STRATEGIC_WORKFORCE_PLANNING_POLICY",
+            "functionCode": "LOCATIONMARKETDATA"
+          },
+          "diagram": {
+            "x": 5556,
+            "y": 5206
+          },
+          "outcomes": {
+            "success": "1794497781385"
+          },
+          "inputs": []
+        },
+        {
+          "id": "1794497781385",
+          "code": "LOCATION_OUTPUT",
+          "type": "RETURN",
+          "metadata": {
+            "name": "Location Output"
+          },
+          "diagram": {
+            "x": 5556,
+            "y": 5428
+          },
+          "outcomes": {},
+          "inputs": [
+            {
+              "id": "1794497781385_returnValue",
+              "name": "returnValue",
+              "type": "string",
+              "value": "{{$context.$nodes.LOCATIONS_POLICY.$output}} "
+            }
+          ]
+        },
+        {
+          "id": "1794496488720_1",
+          "code": "RUNWORKFORCEPOLICYANALYSIS",
+          "type": "CAPABILITY",
+          "metadata": {
+            "name": "runWorkforcePolicyAnalysis",
+            "capabilityName": "runWorkforcePolicyAnalysis"
+          },
+          "diagram": {
+            "x": 6228,
+            "y": 5000
+          },
+          "outcomes": {
+            "success": "1794497359431"
+          },
+          "inputs": []
+        },
+        {
+          "id": "1794497359431",
+          "code": "SCORE_SET_ACTION_PAYLOAD",
+          "type": "SET_FIELDS",
+          "metadata": {
+            "name": "Score Set Action Payload"
+          },
+          "diagram": {
+            "x": 6106,
+            "y": 5206
+          },
+          "outcomes": {
+            "success": "score-employees-loop"
+          },
+          "inputs": [
+            {
+              "id": "1794497245417_score_actionPayload",
+              "name": "score_actionPayload",
+              "value": "{{$context.$triggers.CAPABILITY.$input.capabilityPayload}}",
+              "type": "string"
+            },
+            {
+              "id": "1794497359431_score_results",
+              "name": "score_results",
+              "type": "string",
+              "value": "{{[]}}"
+            }
+          ]
+        },
+        {
+          "id": "score-employees-loop",
+          "code": "SCORE_EMPLOYEES",
+          "type": "LOOP",
+          "metadata": {
+            "name": "Score Employees",
+            "loopType": "SEQUENTIAL",
+            "dataPipeline": {
+              "rootNode": "start_score-employees-loop",
+              "pipelineNodes": [
+                {
+                  "id": "start_score-employees-loop",
+                  "code": "START",
+                  "type": "START",
+                  "metadata": {
+                    "name": "Start",
+                    "description": "Start of score iteration"
+                  },
+                  "inputs": [],
+                  "outcomes": {
+                    "success": "1794497637481"
+                  },
+                  "diagram": {
+                    "x": 6228,
+                    "y": 5518
+                  }
+                },
+                {
+                  "id": "1794497637481",
+                  "code": "SCORE_POLICY",
+                  "type": "POLICY",
+                  "metadata": {
+                    "name": "Score Policy",
+                    "policyCode": "XX_RAISE_AND_REDUCTION_PRIORITY_SCORE_CALCULATION_POLICY",
+                    "functionCode": "SCORECALCULATION"
+                  },
+                  "diagram": {
+                    "x": 6106,
+                    "y": 5669
+                  },
+                  "outcomes": {
+                    "success": "score-capture-policy-result"
+                  },
+                  "inputs": [
+                    {
+                      "id": "1794497637481_Performance",
+                      "name": "Performance",
+                      "type": "string",
+                      "value": "{{$context.$nodes.SCORE_EMPLOYEES.$currentItem.Performance === null || $context.$nodes.SCORE_EMPLOYEES.$currentItem.Performance === undefined ? \"\" : $context.$nodes.SCORE_EMPLOYEES.$currentItem.Performance}}"
+                    },
+                    {
+                      "id": "1794497637481_Potential",
+                      "name": "Potential",
+                      "type": "string",
+                      "value": "{{$context.$nodes.SCORE_EMPLOYEES.$currentItem.Potential === null || $context.$nodes.SCORE_EMPLOYEES.$currentItem.Potential === undefined ? \"\" : $context.$nodes.SCORE_EMPLOYEES.$currentItem.Potential}}"
+                    },
+                    {
+                      "id": "1794497637481_Criticality",
+                      "name": "Criticality",
+                      "type": "string",
+                      "value": "{{$context.$nodes.SCORE_EMPLOYEES.$currentItem.Criticality === null || $context.$nodes.SCORE_EMPLOYEES.$currentItem.Criticality === undefined ? \"\" : $context.$nodes.SCORE_EMPLOYEES.$currentItem.Criticality}}"
+                    },
+                    {
+                      "id": "1794497637481_Retention",
+                      "name": "Retention",
+                      "type": "string",
+                      "value": "{{$context.$nodes.SCORE_EMPLOYEES.$currentItem.Retention === null || $context.$nodes.SCORE_EMPLOYEES.$currentItem.Retention === undefined ? \"\" : $context.$nodes.SCORE_EMPLOYEES.$currentItem.Retention}}"
+                    },
+                    {
+                      "id": "1794497637481_Scarcity",
+                      "name": "Scarcity",
+                      "type": "string",
+                      "value": "{{$context.$nodes.SCORE_EMPLOYEES.$currentItem.Scarcity === null || $context.$nodes.SCORE_EMPLOYEES.$currentItem.Scarcity === undefined ? \"\" : $context.$nodes.SCORE_EMPLOYEES.$currentItem.Scarcity}}"
+                    },
+                    {
+                      "id": "1794497637481_UnderMarket",
+                      "name": "UnderMarket",
+                      "type": "string",
+                      "value": "{{$context.$nodes.SCORE_EMPLOYEES.$currentItem.UnderMarket === null || $context.$nodes.SCORE_EMPLOYEES.$currentItem.UnderMarket === undefined ? \"\" : $context.$nodes.SCORE_EMPLOYEES.$currentItem.UnderMarket}}"
+                    },
+                    {
+                      "id": "1794497637481_OverMarket",
+                      "name": "OverMarket",
+                      "type": "string",
+                      "value": "{{$context.$nodes.SCORE_EMPLOYEES.$currentItem.OverMarket === null || $context.$nodes.SCORE_EMPLOYEES.$currentItem.OverMarket === undefined ? \"\" : $context.$nodes.SCORE_EMPLOYEES.$currentItem.OverMarket}}"
+                    },
+                    {
+                      "id": "1794497637481_Impact",
+                      "name": "Impact",
+                      "type": "string",
+                      "value": "{{$context.$nodes.SCORE_EMPLOYEES.$currentItem.Impact === null || $context.$nodes.SCORE_EMPLOYEES.$currentItem.Impact === undefined ? \"\" : $context.$nodes.SCORE_EMPLOYEES.$currentItem.Impact}}"
+                    },
+                    {
+                      "id": "1794497637481_Productivity",
+                      "name": "Productivity",
+                      "type": "string",
+                      "value": "{{$context.$nodes.SCORE_EMPLOYEES.$currentItem.Productivity === null || $context.$nodes.SCORE_EMPLOYEES.$currentItem.Productivity === undefined ? \"\" : $context.$nodes.SCORE_EMPLOYEES.$currentItem.Productivity}}"
+                    }
+                  ]
+                },
+                {
+                  "id": "score-capture-policy-result",
+                  "code": "CAPTURE_SCORE_RESULT",
+                  "type": "CODE",
+                  "metadata": {
+                    "name": "Capture Employee Policy Score",
+                    "returnType": "array",
+                    "sourceCode": "var record = $context.$nodes.SCORE_EMPLOYEES.$currentItem;\nvar action = $context.$variables.score_actionPayload.action;\nvar raw = $context.$nodes.SCORE_EMPLOYEES.SCORE_POLICY.$output;\nvar result = raw;\nif (typeof result === \"string\") {\n    try { result = JSON.parse(result); } catch (error) { result = null; }\n}\nif (result && result.result !== undefined) {\n    result = result.result;\n    if (typeof result === \"string\") {\n        try { result = JSON.parse(result); } catch (error) { result = null; }\n    }\n}\nvar model;\nif (action === \"getRaiseFormulaBatch\") {\n    model = \"raisePriority\";\n} else if (action === \"getReductionFormulaBatch\") {\n    model = \"reductionPriority\";\n} else {\n    throw new Error(\"Unsupported workforce policy action.\");\n}\nvar selected = result && result[model];\nvar entry = { employeeId: record.employeeId, score: null };\nif (selected && typeof selected.score === \"number\" && isFinite(selected.score)) {\n    entry.score = selected.score;\n    entry.priority = selected.priority;\n    entry.missingInputs = Array.isArray(selected.missingInputs) ? selected.missingInputs : [];\n} else {\n    entry.priority = selected ? selected.priority : null;\n    entry.missingInputs = selected && Array.isArray(selected.missingInputs) ? selected.missingInputs : [];\n    entry.error = selected ? \"The policy could not calculate the requested score because required inputs are missing or invalid.\" : \"The policy did not return a recognized scoring result.\";\n}\nvar previous = Array.isArray($context.$variables.score_results) ? $context.$variables.score_results : [];\nreturn previous.concat([entry]);"
+                  },
+                  "inputs": [],
+                  "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
+                  "outcomes": {
+                    "success": "score-store-policy-result"
+                  },
+                  "diagram": {
+                    "x": 6106,
+                    "y": 5891
+                  }
+                },
+                {
+                  "id": "score-store-policy-result",
+                  "code": "STORE_SCORE_RESULT",
+                  "type": "SET_FIELDS",
+                  "metadata": {
+                    "name": "Store Employee Policy Score"
+                  },
+                  "inputs": [
+                    {
+                      "id": "store-score-results-value",
+                      "name": "score_results",
+                      "value": "{{$context.$nodes.SCORE_EMPLOYEES.CAPTURE_SCORE_RESULT.$output.result}}"
+                    }
+                  ],
+                  "outcomes": {
+                    "success": "end_score-employees-loop"
+                  },
+                  "diagram": {
+                    "x": 6106,
+                    "y": 6113
+                  }
+                },
+                {
+                  "id": "end_score-employees-loop",
+                  "code": "END",
+                  "type": "END",
+                  "metadata": {
+                    "name": "End",
+                    "description": "End of score iteration"
+                  },
+                  "inputs": [],
+                  "outcomes": {}
+                }
+              ]
+            }
+          },
+          "outcomes": {
+            "success": "1794497781598"
+          },
+          "inputs": [
+            {
+              "id": "score-employees-loop_collection",
+              "name": "collection",
+              "type": "string",
+              "value": "{{$context.$variables.score_actionPayload.payload.records}}"
+            }
+          ],
+          "diagram": {
+            "x": 5956,
+            "y": 5428,
+            "width": 600,
+            "height": 792
+          }
+        },
+        {
+          "id": "1794497781598",
+          "code": "SCORE_OUTPUT",
+          "type": "RETURN",
+          "metadata": {
+            "name": "Score Output"
+          },
+          "diagram": {
+            "x": 6106,
+            "y": 6370
+          },
+          "outcomes": {},
+          "inputs": [
+            {
+              "id": "1794497781598_returnValue",
+              "name": "returnValue",
+              "type": "string",
+              "value": "{{$context.$variables.score_results}}"
+            }
+          ]
+        },
+        {
+          "id": "end",
+          "code": "END",
+          "type": "END",
+          "metadata": {
+            "name": "End",
+            "description": "End of data pipeline"
+          },
+          "inputs": [],
+          "outcomes": {}
+        }
+      ],
+      "variables": [
+        {
+          "id": "9039ce51-5531-4e7c-bf44-24e68aa9bd41",
+          "name": "score_actionPayload",
+          "type": "object",
+          "scope": "CONVERSATION"
+        },
+        {
+          "id": "score-results-variable",
+          "name": "score_results",
+          "type": "array",
+          "scope": "JOB"
+        }
+      ],
+      "errorHandlers": []
+    },
+    "jsonSchemaName": "Workflow.spec",
+    "jsonSchemaVersion": "1",
+    "inputs": [],
+    "outputSpecification": "",
+    "agentsValueMappings": [],
+    "modelConfiguration": {
+      "code": "ORA_MODEL_GPT_6_LUNA",
+      "modelName": "GPT-6 Luna (Balanced)",
+      "provider": "CERT_PREMIUM",
+      "model": "OCI_GPT_6_LUNA",
+      "modelProperties": {
+        "max_completion_tokens": 32000,
+        "reasoning_effort": "medium",
+        "verbosity": "medium"
+      }
+    },
+    "humanApprovalFlag": false,
+    "waitFlag": false,
+    "triggers": [
+      {
+        "type": "CAPABILITY",
+        "inputs": [
+          {
+            "name": "runWorkforcePolicyAnalysis",
+            "description": "Applies the approved workforce policy to a batch of up to 25 employee records and returns raise or reduction planning-priority scores keyed by employeeId. Use getRaiseFormulaBatch for raise, compensation-pool, market-correction, and retention-investment analysis; use getReductionFormulaBatch for reduction and over-market analysis. Accepts only canonical normalized inputs permitted for the selected action. Supports sparse records without inventing missing values or locally changing policy weights. Preserves returned scores and reports scoring failures. Does not modify employee records or make final employment decisions.",
+            "category": "Generic",
+            "readOnly": true,
+            "requiresCompute": true,
+            "typeSpecification": "{\n  \"type\": \"object\",\n  \"oneOf\": [\n    {\n      \"properties\": {\n        \"action\": {\n          \"type\": \"string\",\n          \"enum\": [\n            \"getRaiseFormulaBatch\"\n          ]\n        },\n        \"payload\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"records\": {\n              \"type\": \"array\",\n              \"minItems\": 1,\n              \"maxItems\": 25,\n              \"items\": {\n                \"$ref\": \"#/definitions/raiseRecord\"\n              }\n            }\n          },\n          \"required\": [\n            \"records\"\n          ],\n          \"additionalProperties\": false\n        }\n      },\n      \"required\": [\n        \"action\",\n        \"payload\"\n      ],\n      \"additionalProperties\": false\n    },\n    {\n      \"properties\": {\n        \"action\": {\n          \"type\": \"string\",\n          \"enum\": [\n            \"getReductionFormulaBatch\"\n          ]\n        },\n        \"payload\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"records\": {\n              \"type\": \"array\",\n              \"minItems\": 1,\n              \"maxItems\": 25,\n              \"items\": {\n                \"$ref\": \"#/definitions/reductionRecord\"\n              }\n            }\n          },\n          \"required\": [\n            \"records\"\n          ],\n          \"additionalProperties\": false\n        }\n      },\n      \"required\": [\n        \"action\",\n        \"payload\"\n      ],\n      \"additionalProperties\": false\n    }\n  ],\n  \"definitions\": {\n    \"normalizedValue\": {\n      \"type\": \"number\",\n      \"minimum\": 0,\n      \"maximum\": 1\n    },\n    \"raiseRecord\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"employeeId\": {\n          \"type\": \"string\",\n          \"minLength\": 1\n        },\n        \"Performance\": {\n          \"$ref\": \"#/definitions/normalizedValue\"\n        },\n        \"Potential\": {\n          \"$ref\": \"#/definitions/normalizedValue\"\n        },\n        \"Criticality\": {\n          \"$ref\": \"#/definitions/normalizedValue\"\n        },\n        \"Retention\": {\n          \"$ref\": \"#/definitions/normalizedValue\"\n        },\n        \"Scarcity\": {\n          \"$ref\": \"#/definitions/normalizedValue\"\n        },\n        \"UnderMarket\": {\n          \"type\": \"number\",\n          \"minimum\": 0\n        },\n        \"Impact\": {\n          \"$ref\": \"#/definitions/normalizedValue\"\n        }\n      },\n      \"required\": [\n        \"employeeId\"\n      ],\n      \"additionalProperties\": false\n    },\n    \"reductionRecord\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"employeeId\": {\n          \"type\": \"string\",\n          \"minLength\": 1\n        },\n        \"Performance\": {\n          \"$ref\": \"#/definitions/normalizedValue\"\n        },\n        \"Productivity\": {\n          \"$ref\": \"#/definitions/normalizedValue\"\n        },\n        \"Criticality\": {\n          \"$ref\": \"#/definitions/normalizedValue\"\n        },\n        \"Scarcity\": {\n          \"$ref\": \"#/definitions/normalizedValue\"\n        },\n        \"OverMarket\": {\n          \"type\": \"number\",\n          \"minimum\": 0\n        },\n        \"Impact\": {\n          \"$ref\": \"#/definitions/normalizedValue\"\n        }\n      },\n      \"required\": [\n        \"employeeId\"\n      ],\n      \"additionalProperties\": false\n    }\n  }\n}"
+          },
+          {
+            "name": "getLocationMarketData",
+            "description": "Retrieves the configured, governed location and labor-market context used for workforce and budget planning. Returns the available location identifiers, names, market indicators, and supporting policy attributes as structured JSON, preserving source values and identifying unavailable information. Provides context for analysis without inventing employee attributes, overriding workforce policy scores, or automatically protecting or excluding employees. Does not modify business records.",
+            "category": "Generic",
+            "readOnly": true,
+            "requiresCompute": true,
+            "typeSpecification": "{\n  \"type\": \"object\",\n  \"properties\": {},\n  \"additionalProperties\": false\n}"
+          },
+          {
+            "name": "getRoleStratergyData",
+            "description": "Retrieves the configured, governed role-strategy context used for workforce and compensation planning. Returns available role or role-family identifiers, names, criticality, market context, raise caps, reduction sensitivity, and supporting policy attributes as structured JSON. Preserves source values and identifies missing information. Provides analytical context without filling missing employee fields, overriding employee policy scores, or automatically protecting or excluding records. Does not modify business records.",
+            "category": "Generic",
+            "readOnly": true,
+            "requiresCompute": true,
+            "typeSpecification": "{\n  \"type\": \"object\",\n  \"properties\": {},\n  \"additionalProperties\": false\n}"
+          }
+        ]
+      }
+    ],
+    "costSavings": 0,
+    "timeSavings": 10,
+    "chatExpTPFileUploadEnabledFlag": false,
+    "chatExpThirdPartyDetails": [],
+    "policyIds": [],
+    "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI",
+    "capabilityNodeIdsMap": {
+      "getRoleStratergyData": "1794483193231_1",
+      "getLocationMarketData": "1794483229761_2",
+      "runWorkforcePolicyAnalysis": "1794496488720_1"
+    },
+    "deletedTriggerTypes": [],
+    "diagram": {
+      "orientation": "vertical",
+      "commentNodes": []
+    }
+  },
+  "status": "DRAFT",
+  "version": 1,
+  "family": "HCM",
+  "product": "GLOBAL_HUMAN_RESOURCES",
+  "ownerName": null,
+  "customFlag": false,
+  "seededFlag": false,
+  "isTemplate": false,
+  "hiddenFlag": false,
+  "useCaseId": "NA",
+  "accessModifier": "public",
+  "architecture": "data_pipeline",
+  "aiAppsCompatibleFlag": true,
+  "followupEnabledFlag": false,
+  "header": {
+    "ETag": "\"1\""
+  }
+}

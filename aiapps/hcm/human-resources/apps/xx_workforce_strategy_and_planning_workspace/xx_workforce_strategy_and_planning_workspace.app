@@ -5,7 +5,7 @@
   "code": "XX_WORKFORCE_STRATEGY_AND_PLANNING_WORKSPACE",
   "internalDescription": "Helps users review and analyze EPM Signals alongside HCM data to understand workforce trends, identify gaps, and assess their impact on business goals. It develops actionable proposals and workforce strategies, helping users evaluate options, prioritize actions, and align workforce plans with desired business outcomes.",
   "status": "DRAFT",
-  "version": 1,
+  "version": 5,
   "specification": {
     "applicationMetadata": {
       "title": "Workforce Strategy and Planning",
@@ -15,21 +15,21 @@
       "pageConfig": {
         "agentContainers": [
           {
-            "id": "container-1795156071481",
+            "id": "container-1795429658173",
             "title": "Signals",
             "agents": [
-              "agent-1795156071481"
+              "agent-1795429658173"
             ]
           }
         ],
         "layout": "1",
         "firstLane": [
-          "container-1795156071481"
+          "container-1795429658173"
         ],
         "secondLane": []
       },
       "agents": {
-        "agent-1795156071481": {
+        "agent-1795429658173": {
           "agent": "XX_EPM_FORECAST_SIGNAL_INSIGHTS",
           "name": "EPM Forecast Signal Insights",
           "description": "This workflow retrieves signals for a specified application within an EPM instance, provides detailed signal information, and supports an Explain action to help users understand each signal and initiate actions toward the desired outcome.",
@@ -45,6 +45,11 @@
           "workflowCode": "XX_EPM_FORECAST_SIGNALS_HELPER_WORKFLOW",
           "title": "EPM Forecast Signals Helper Workflow",
           "description": "Retrieves employee, job requisition, and job offer information through three independent EPM Insights capabilities."
+        },
+        {
+          "workflowCode": "XX_EPM_FORECAST_SIGNALS_POLICY_HELPER_WORKFLOW",
+          "title": "EPM Forecast Signals Policy Helper Workflow",
+          "description": "Provides role-strategy and location-market policy data and workforce policy scoring through three independent capabilities."
         }
       ],
       "skills": [
@@ -118,6 +123,34 @@
                 "params": {
                   "sendPayloadAsContext": true,
                   "doNotAutoRefresh": true
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "e1280da9-4bfb-4abe-8bef-6dbb3127e2fd",
+          "code": "changeStatus",
+          "displayName": "Change Status",
+          "description": "",
+          "events": {
+            "onInvoke": [
+              {
+                "id": "6b00ed6e-c3dd-4ec1-8f9a-c27b32e0d48d",
+                "type": "agentCommand",
+                "params": {
+                  "sendPayloadAsContext": true,
+                  "doNotAutoRefresh": true
+                }
+              },
+              {
+                "id": "69c0ce19-8445-4ddb-a8c3-478bdb5220c8",
+                "type": "refreshAgents",
+                "params": {
+                  "agentCodes": [
+                    "XX_EPM_FORECAST_SIGNAL_INSIGHTS"
+                  ],
+                  "panelTargets": []
                 }
               }
             ]

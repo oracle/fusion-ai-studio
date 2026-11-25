@@ -267,6 +267,10 @@
   "isTemplate": false,
   "ownerId": null,
   "$id": "300100665103912",
+  "$context": {
+    "etag": "16",
+    "links": {}
+  },
   "tags": [],
   "roles": [],
   "seededRoles": [],

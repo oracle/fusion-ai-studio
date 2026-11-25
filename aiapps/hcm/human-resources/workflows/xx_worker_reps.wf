@@ -24,7 +24,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 6565.75,
+            "x": 6638,
             "y": 5000
           }
         },
@@ -34,13 +34,13 @@
           "type": "CODE",
           "metadata": {
             "name": "Extract Person Context",
-            "sourceCode": "$context.$variables.contextData = null;\nconst maxContextLength = 16384;\n\nconst parseContextObject = function (value) {\n  if (value === null || value === undefined || value === \"\") return null;\n  if (typeof value === \"string\") {\n    if (value.length > maxContextLength) throw new Error(\"Invalid person context\");\n    try { value = JSON.parse(value); } catch (e) { throw new Error(\"Invalid person context\"); }\n    if (value === null) return null;\n  }\n  if (!value || typeof value !== \"object\" || Array.isArray(value)) throw new Error(\"Invalid person context\");\n  let serialized;\n  try { serialized = JSON.stringify(value); } catch (e) { throw new Error(\"Invalid person context\"); }\n  if (typeof serialized !== \"string\" || serialized.length > maxContextLength) throw new Error(\"Invalid person context\");\n  let count = 0;\n  function safeKeys(object, depth) {\n    if (++count > 1000 || depth > 12) return false;\n    if (!object || typeof object !== \"object\") return true;\n    return Object.keys(object).every(function (key) {\n      return [\"__proto__\", \"constructor\", \"prototype\"].indexOf(key) === -1 && safeKeys(object[key], depth + 1);\n    });\n  }\n  if (!safeKeys(value, 0)) throw new Error(\"Invalid person context\");\n  return value;\n};\nconst normalizePersonId = function (value) {\n  if (value === null || value === undefined || value === \"\") return null;\n  if (typeof value === \"number\") {\n    if (!Number.isSafeInteger(value) || value <= 0) throw new Error(\"Invalid person context\");\n    return value;\n  }\n  if (typeof value !== \"string\") throw new Error(\"Invalid person context\");\n  const trimmed = value.trim();\n  if (!/^[1-9][0-9]{0,19}$/.test(trimmed) || !Number.isSafeInteger(Number(trimmed))) throw new Error(\"Invalid person context\");\n  return trimmed;\n};\nconst normalizePersonName = function (value) {\n  if (typeof value !== \"string\") return null;\n  const normalized = value.replace(/[\\u0000-\\u001F\\u007F]/g, \" \").trim();\n  return normalized ? normalized.slice(0, 240) : null;\n};\n\nconst appContext = parseContextObject($context?.$app?.$OraAppContext);\nconst userContext = parseContextObject($context?.$app?.$OraUserContext);\nconst loggedInPersonId = normalizePersonId(userContext?.userId);\nconst passedPersonId = normalizePersonId($context?.$triggers?.REST?.$input?.personId);\nconst appPersonId = passedPersonId === null ? normalizePersonId(appContext?.personId) : null;\nconst currentPersonId = passedPersonId !== null ? passedPersonId : appPersonId;\n\nif (currentPersonId === null && loggedInPersonId === null) throw new Error(\"Invalid person context\");\n\nreturn {\n  loggedInPersonId: loggedInPersonId,\n  currentPersonId: currentPersonId,\n  personId: currentPersonId !== null ? currentPersonId : loggedInPersonId\n};",
+            "sourceCode": "$context.$variables.contextData = null;\nconst maxContextLength = 16384;\n\nconst parseContextObject = function (value) {\n  if (value === null || value === undefined || value === \"\") return null;\n  if (typeof value === \"string\") {\n    if (value.length > maxContextLength) throw new Error(\"Invalid person context\");\n    try { value = JSON.parse(value); } catch (e) { throw new Error(\"Invalid person context\"); }\n    if (value === null) return null;\n  }\n  if (!value || typeof value !== \"object\" || Array.isArray(value)) throw new Error(\"Invalid person context\");\n  let serialized;\n  try { serialized = JSON.stringify(value); } catch (e) { throw new Error(\"Invalid person context\"); }\n  if (typeof serialized !== \"string\" || serialized.length > maxContextLength) throw new Error(\"Invalid person context\");\n  let count = 0;\n  function safeKeys(object, depth) {\n    if (++count > 1000 || depth > 12) return false;\n    if (!object || typeof object !== \"object\") return true;\n    return Object.keys(object).every(function (key) {\n      return [\"__proto__\", \"constructor\", \"prototype\"].indexOf(key) === -1 && safeKeys(object[key], depth + 1);\n    });\n  }\n  if (!safeKeys(value, 0)) throw new Error(\"Invalid person context\");\n  return value;\n};\nconst normalizePersonId = function (value) {\n  if (value === null || value === undefined || value === \"\") return null;\n  if (typeof value === \"number\") {\n    if (!Number.isSafeInteger(value) || value <= 0) throw new Error(\"Invalid person context\");\n    return String(value);\n  }\n  if (typeof value !== \"string\") throw new Error(\"Invalid person context\");\n  const trimmed = value.trim();\n  if (!/^[1-9][0-9]{0,29}$/.test(trimmed)) throw new Error(\"Invalid person context\");\n  return trimmed;\n};\nconst normalizePersonName = function (value) {\n  if (typeof value !== \"string\") return null;\n  const normalized = value.replace(/[\\u0000-\\u001F\\u007F]/g, \" \").trim();\n  return normalized ? normalized.slice(0, 240) : null;\n};\n\nconst appContext = parseContextObject($context?.$app?.$OraAppContext);\nconst userContext = parseContextObject($context?.$app?.$OraUserContext);\nconst loggedInPersonId = normalizePersonId(userContext?.userId);\nconst appPersonId = normalizePersonId(appContext?.personId ?? appContext?.PersonId);\nconst passedPersonId = appPersonId === null ? normalizePersonId($context?.$triggers?.REST?.$input?.personId) : null;\nconst currentPersonId = appPersonId !== null ? appPersonId : passedPersonId;\n\nif (currentPersonId === null && loggedInPersonId === null) throw new Error(\"Invalid person context\");\n\nreturn {\n  loggedInPersonId: loggedInPersonId,\n  currentPersonId: currentPersonId,\n  personId: currentPersonId !== null ? currentPersonId : loggedInPersonId\n};",
             "returnType": "object",
             "errorNodeId": "RETURN_UNVERIFIED_REPRESENTATIVES"
           },
           "diagram": {
-            "x": 6443.75,
-            "y": 5650
+            "x": 6516,
+            "y": 5206
           },
           "outcomes": {
             "success": "1780051711068"
@@ -57,8 +57,8 @@
             "name": "Switch Message Hint"
           },
           "diagram": {
-            "x": 6443.75,
-            "y": 5872
+            "x": 6516,
+            "y": 5428
           },
           "outcomes": {
             "InvokeAction": "1780052761777",
@@ -71,7 +71,7 @@
               "id": "1780051711068_caseExpression",
               "name": "caseExpression",
               "type": "string",
-              "value": "{{$context.$app.$OraMessageHint}}"
+              "value": "{{$context.$app.$OraMessageHint || \"InitDisplay\"}}"
             }
           ]
         },
@@ -82,13 +82,13 @@
           "metadata": {
             "name": "Parse Payload",
             "returnType": "object",
-            "sourceCode": "const maxPayloadLength = 16384;\n\nconst parseObject = function (value) {\n  if (typeof value === \"string\") {\n    if (!value.length || value.length > maxPayloadLength) return null;\n    try { value = JSON.parse(value); } catch (e) { return null; }\n  }\n  if (!value || typeof value !== \"object\" || Array.isArray(value)) return null;\n  let serialized;\n  try { serialized = JSON.stringify(value); } catch (e) { return null; }\n  if (typeof serialized !== \"string\" || serialized.length > maxPayloadLength) return null;\n  let count = 0;\n  function safeKeys(object, depth) {\n    if (++count > 1000 || depth > 12) return false;\n    if (!object || typeof object !== \"object\") return true;\n    return Object.keys(object).every(function (key) {\n      return [\"__proto__\", \"constructor\", \"prototype\"].indexOf(key) === -1 && safeKeys(object[key], depth + 1);\n    });\n  }\n  return safeKeys(value, 0) ? value : null;\n};\nconst normalizePersonId = function (value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : null;\n  if (typeof value !== \"string\") return null;\n  const trimmed = value.trim();\n  return /^[1-9][0-9]{0,19}$/.test(trimmed) && Number.isSafeInteger(Number(trimmed)) ? trimmed : null;\n};\nconst actionContext = parseObject($context?.$app?.$OraAction);\nif (!actionContext || actionContext.actionId !== \"selectRepresentative\" ||\n    Object.keys(actionContext).some(function (key) { return [\"actionId\", \"personId\"].indexOf(key) === -1; })) {\n  throw new Error(\"Invalid representative selection.\");\n}\nconst personId = normalizePersonId(actionContext.personId);\nif (!personId) throw new Error(\"Invalid representative selection.\");\nreturn { actionId: \"selectRepresentative\", personId: personId, showMorePayload: null };\n",
+            "sourceCode": "const maxPayloadLength = 16384;\n\nconst parseObject = function (value) {\n  if (typeof value === \"string\") {\n    if (!value.length || value.length > maxPayloadLength) return null;\n    try { value = JSON.parse(value); } catch (e) { return null; }\n  }\n  if (!value || typeof value !== \"object\" || Array.isArray(value)) return null;\n  let serialized;\n  try { serialized = JSON.stringify(value); } catch (e) { return null; }\n  if (typeof serialized !== \"string\" || serialized.length > maxPayloadLength) return null;\n  let count = 0;\n  function safeKeys(object, depth) {\n    if (++count > 1000 || depth > 12) return false;\n    if (!object || typeof object !== \"object\") return true;\n    return Object.keys(object).every(function (key) {\n      return [\"__proto__\", \"constructor\", \"prototype\"].indexOf(key) === -1 && safeKeys(object[key], depth + 1);\n    });\n  }\n  return safeKeys(value, 0) ? value : null;\n};\nconst normalizePersonId = function (value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : null;\n  if (typeof value !== \"string\") return null;\n  const trimmed = value.trim();\n  return /^[1-9][0-9]{0,29}$/.test(trimmed) ? trimmed : null;\n};\nconst actionContext = parseObject($context?.$app?.$OraAction);\nif (!actionContext || actionContext.actionId !== \"selectRepresentative\" ||\n    Object.keys(actionContext).some(function (key) { return [\"actionId\", \"personId\"].indexOf(key) === -1; })) {\n  throw new Error(\"Invalid representative selection.\");\n}\nconst personId = normalizePersonId(actionContext.personId);\nif (!personId) throw new Error(\"Invalid representative selection.\");\nreturn { actionId: \"selectRepresentative\", personId: personId, showMorePayload: null };\n",
             "errorNodeId": "RETURN_UNVERIFIED_REPRESENTATIVES",
             "description": "Accepts only a selectRepresentative action with one normalized positive person ID before verifying membership."
           },
           "diagram": {
-            "x": 5768.75,
-            "y": 6094
+            "x": 5841,
+            "y": 5650
           },
           "outcomes": {
             "success": "1780324367683"
@@ -105,8 +105,8 @@
             "name": "Switch Action"
           },
           "diagram": {
-            "x": 5543.75,
-            "y": 6316
+            "x": 5616,
+            "y": 5872
           },
           "outcomes": {
             "selectRepresentative": "VALIDATE_REQUEST_GET_SELECTION_SOURCE_ASSIGNMENT"
@@ -128,7 +128,7 @@
             "name": "Validate Request Get Selection Source Assignment",
             "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
             "returnType": "object",
-            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"personId\");\nreturn checked;",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"personId\");\nreturn checked;",
             "errorNodeId": "HR_REQUEST_REJECTED"
           },
           "outcomes": {
@@ -137,8 +137,8 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 5543.75,
-            "y": 6538
+            "x": 5616,
+            "y": 6094
           }
         },
         {
@@ -153,8 +153,8 @@
             "description": "Reads the current source worker's primary assignment before a representative selection."
           },
           "diagram": {
-            "x": 5543.75,
-            "y": 6760
+            "x": 5616,
+            "y": 6316
           },
           "outcomes": {
             "success": "VALIDATE_SELECTION_SOURCE_ASSIGNMENT"
@@ -165,7 +165,7 @@
               "name": "personId",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_SELECTION_SOURCE_ASSIGNMENT.$output.result.personId}}",
               "required": false,
-              "type": "integer"
+              "type": "string"
             }
           ],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"AssignmentId\": {\n            \"type\": \"string\"\n          },\n          \"@context\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"key\": {\n                \"type\": \"string\"\n              }\n            },\n            \"required\": [\n              \"key\"\n            ],\n            \"additionalProperties\": false\n          },\n          \"PersonId\": {\n            \"type\": [\n              \"string\",\n              \"number\",\n              \"null\"\n            ]\n          }\n        },\n        \"required\": [\n          \"AssignmentId\",\n          \"@context\"\n        ],\n        \"additionalProperties\": false\n      }\n    },\n    \"count\": {\n      \"type\": \"number\"\n    },\n    \"hasMore\": {\n      \"type\": \"boolean\"\n    },\n    \"limit\": {\n      \"type\": \"number\"\n    },\n    \"offset\": {\n      \"type\": \"number\"\n    },\n    \"links\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"rel\": {\n            \"type\": \"string\"\n          },\n          \"href\": {\n            \"type\": \"string\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          },\n          \"kind\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"rel\",\n          \"href\",\n          \"name\",\n          \"kind\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  },\n  \"required\": [\n    \"items\",\n    \"count\",\n    \"hasMore\",\n    \"limit\",\n    \"offset\",\n    \"links\"\n  ],\n  \"additionalProperties\": false\n}"
@@ -178,7 +178,7 @@
             "name": "Validate Selection Source Assignment",
             "description": "Requires a valid source assignment before fetching permitted representative choices.",
             "returnType": "object",
-            "sourceCode": "function plainObject(value) {\n  return !!value && typeof value === \"object\" && !Array.isArray(value) &&\n    (Object.getPrototypeOf(value) === Object.prototype || Object.getPrototypeOf(value) === null) &&\n    !Object.keys(value).some(function (key) { return [\"__proto__\", \"constructor\", \"prototype\"].indexOf(key) !== -1; });\n}\nfunction identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const normalized = value.trim();\n  return /^[1-9][0-9]{0,19}$/.test(normalized) ? normalized : \"\";\n}\nfunction response(value) {\n  if (typeof value === \"string\") {\n    if (value.length > 1000000) throw new Error(\"Representative response is too large.\");\n    try { value = JSON.parse(value); } catch (error) { throw new Error(\"Invalid representative response.\"); }\n  }\n  if (!plainObject(value) || value.error || value.timeout || value.isError ||\n      Number(value.statusCode || value.status || 0) >= 400 || !Array.isArray(value.items)) {\n    throw new Error(\"Representative lookup failed.\");\n  }\n  if (value.hasMore !== undefined && value.hasMore !== true && value.hasMore !== false &&\n      value.hasMore !== \"true\" && value.hasMore !== \"false\") {\n    throw new Error(\"Invalid representative paging information.\");\n  }\n  return value;\n}\n\nconst sourcePersonId = identifier($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId);\nif (!sourcePersonId) throw new Error(\"Invalid source worker.\");\nconst data = response($context.$nodes.GET_SELECTION_SOURCE_ASSIGNMENT.$output);\n// Preserve the existing first-primary-assignment choice; validate it before use.\nif (!data.items.length) return { valid: false, personId: sourcePersonId, assignmentId: \"\" };\nconst row = data.items[0];\nif (!plainObject(row)) throw new Error(\"Invalid primary assignment.\");\nconst assignmentId = identifier(row.AssignmentId);\nif (!assignmentId || (row.PersonId != null && identifier(row.PersonId) !== sourcePersonId)) {\n  throw new Error(\"Primary assignment identity could not be verified.\");\n}\nreturn { valid: true, personId: sourcePersonId, assignmentId: assignmentId };\n",
+            "sourceCode": "function plainObject(value) {\n  return !!value && typeof value === \"object\" && !Array.isArray(value) &&\n    (Object.getPrototypeOf(value) === Object.prototype || Object.getPrototypeOf(value) === null) &&\n    !Object.keys(value).some(function (key) { return [\"__proto__\", \"constructor\", \"prototype\"].indexOf(key) !== -1; });\n}\nfunction identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const normalized = value.trim();\n  return /^[1-9][0-9]{0,29}$/.test(normalized) ? normalized : \"\";\n}\nfunction response(value) {\n  if (typeof value === \"string\") {\n    if (value.length > 1000000) throw new Error(\"Representative response is too large.\");\n    try { value = JSON.parse(value); } catch (error) { throw new Error(\"Invalid representative response.\"); }\n  }\n  if (!plainObject(value) || value.error || value.timeout || value.isError ||\n      Number(value.statusCode || value.status || 0) >= 400 || !Array.isArray(value.items)) {\n    throw new Error(\"Representative lookup failed.\");\n  }\n  if (value.hasMore !== undefined && value.hasMore !== true && value.hasMore !== false &&\n      value.hasMore !== \"true\" && value.hasMore !== \"false\") {\n    throw new Error(\"Invalid representative paging information.\");\n  }\n  return value;\n}\n\nconst sourcePersonId = identifier($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId);\nif (!sourcePersonId) throw new Error(\"Invalid source worker.\");\nconst data = response($context.$nodes.GET_SELECTION_SOURCE_ASSIGNMENT.$output);\n// Preserve the existing first-primary-assignment choice; validate it before use.\nif (!data.items.length) return { valid: false, personId: sourcePersonId, assignmentId: \"\" };\nconst row = data.items[0];\nif (!plainObject(row)) throw new Error(\"Invalid primary assignment.\");\nconst assignmentId = identifier(row.AssignmentId);\nif (!assignmentId || (row.PersonId != null && identifier(row.PersonId) !== sourcePersonId)) {\n  throw new Error(\"Primary assignment identity could not be verified.\");\n}\nreturn { valid: true, personId: sourcePersonId, assignmentId: assignmentId };\n",
             "errorNodeId": "RETURN_UNVERIFIED_REPRESENTATIVES"
           },
           "outcomes": {
@@ -187,8 +187,8 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 5543.75,
-            "y": 6982
+            "x": 5616,
+            "y": 6538
           }
         },
         {
@@ -199,8 +199,8 @@
             "name": "Has Selection Source Assignment"
           },
           "diagram": {
-            "x": 5431.25,
-            "y": 7204
+            "x": 5503.5,
+            "y": 6760
           },
           "outcomes": {
             "true": "VALIDATE_REQUEST_GET_SELECTION_TOP_REPRESENTATIVES",
@@ -224,7 +224,7 @@
             "name": "Validate Request Get Selection Top Representatives",
             "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
             "returnType": "object",
-            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\nfunction page(value,name,min,max) {\n  if(typeof value!==\"number\" && typeof value!==\"string\") reject(name);\n  if(typeof value===\"string\" && !/^[0-9]{1,7}$/.test(value.trim())) reject(name);\n  const number=Number(value);if(!Number.isSafeInteger(number)||number<min||number>max) reject(name);return number;\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.VALIDATE_SELECTION_SOURCE_ASSIGNMENT.$output.result.personId),\"personId\");\nchecked[\"assignmentId\"]=id(($context.$nodes.VALIDATE_SELECTION_SOURCE_ASSIGNMENT.$output.result.assignmentId),\"assignmentId\");\nchecked[\"limit\"]=page(\"2\",\"limit\",1,500);\nchecked[\"offset\"]=page(\"0\",\"offset\",0,1000000);\nreturn checked;",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\nfunction page(value,name,min,max) {\n  if(typeof value!==\"number\" && typeof value!==\"string\") reject(name);\n  if(typeof value===\"string\" && !/^[0-9]{1,7}$/.test(value.trim())) reject(name);\n  const number=Number(value);if(!Number.isSafeInteger(number)||number<min||number>max) reject(name);return number;\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.VALIDATE_SELECTION_SOURCE_ASSIGNMENT.$output.result.personId),\"personId\");\nchecked[\"assignmentId\"]=id(($context.$nodes.VALIDATE_SELECTION_SOURCE_ASSIGNMENT.$output.result.assignmentId),\"assignmentId\");\nchecked[\"limit\"]=page(\"2\",\"limit\",1,500);\nchecked[\"offset\"]=page(\"0\",\"offset\",0,1000000);\nreturn checked;",
             "errorNodeId": "HR_REQUEST_REJECTED"
           },
           "outcomes": {
@@ -233,8 +233,8 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 5093.75,
-            "y": 7426
+            "x": 5166,
+            "y": 6982
           }
         },
         {
@@ -249,8 +249,8 @@
             "description": "Fetches fresh representatives for the source worker using the existing panel pagination before a context switch."
           },
           "diagram": {
-            "x": 5093.75,
-            "y": 7648
+            "x": 5166,
+            "y": 7204
           },
           "outcomes": {
             "success": "VALIDATE_SELECTION_TOP_REPRESENTATIVE_IDS"
@@ -261,14 +261,14 @@
               "name": "personId",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_SELECTION_TOP_REPRESENTATIVES.$output.result.personId}}",
               "required": false,
-              "type": "integer"
+              "type": "string"
             },
             {
               "id": "GET_SELECTION_TOP_REPRESENTATIVES_assignmentId",
               "name": "assignmentId",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_SELECTION_TOP_REPRESENTATIVES.$output.result.assignmentId}}",
               "required": false,
-              "type": "integer"
+              "type": "string"
             },
             {
               "id": "GET_SELECTION_TOP_REPRESENTATIVES_limit",
@@ -295,7 +295,7 @@
             "name": "Validate Selection Top Representative IDs",
             "description": "Rejects malformed first-page records before continuing the fresh representative membership lookup.",
             "returnType": "object",
-            "sourceCode": "function plainObject(value) {\n  return !!value && typeof value === \"object\" && !Array.isArray(value) &&\n    (Object.getPrototypeOf(value) === Object.prototype || Object.getPrototypeOf(value) === null) &&\n    !Object.keys(value).some(function (key) { return [\"__proto__\", \"constructor\", \"prototype\"].indexOf(key) !== -1; });\n}\nfunction identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const normalized = value.trim();\n  return /^[1-9][0-9]{0,19}$/.test(normalized) ? normalized : \"\";\n}\nfunction response(value) {\n  if (typeof value === \"string\") {\n    if (value.length > 1000000) throw new Error(\"Representative response is too large.\");\n    try { value = JSON.parse(value); } catch (error) { throw new Error(\"Invalid representative response.\"); }\n  }\n  if (!plainObject(value) || value.error || value.timeout || value.isError ||\n      Number(value.statusCode || value.status || 0) >= 400 || !Array.isArray(value.items)) {\n    throw new Error(\"Representative lookup failed.\");\n  }\n  if (value.hasMore !== undefined && value.hasMore !== true && value.hasMore !== false &&\n      value.hasMore !== \"true\" && value.hasMore !== \"false\") {\n    throw new Error(\"Invalid representative paging information.\");\n  }\n  return value;\n}\nfunction records(value, maximum, expectedOffset) {\n  const data = response(value);\n  if (data.items.length > maximum) throw new Error(\"Unexpected representative page size.\");\n  if (data.offset !== undefined && (typeof data.offset !== \"number\" && typeof data.offset !== \"string\" ||\n      !/^[0-9]+$/.test(String(data.offset)) || Number(data.offset) !== expectedOffset)) {\n    throw new Error(\"Unexpected representative page offset.\");\n  }\n  return data.items.map(function (row) {\n    if (!plainObject(row)) throw new Error(\"Invalid representative row.\");\n    const personId = identifier(row.PersonId);\n    if (!personId) throw new Error(\"Invalid representative identity.\");\n    // Repeated people can hold different responsibilities; preserve every valid row.\n    return Object.assign({}, row, { PersonId: personId });\n  });\n}\n\nreturn { items: records($context.$nodes.GET_SELECTION_TOP_REPRESENTATIVES.$output, 2, 0) };\n",
+            "sourceCode": "function plainObject(value) {\n  return !!value && typeof value === \"object\" && !Array.isArray(value) &&\n    (Object.getPrototypeOf(value) === Object.prototype || Object.getPrototypeOf(value) === null) &&\n    !Object.keys(value).some(function (key) { return [\"__proto__\", \"constructor\", \"prototype\"].indexOf(key) !== -1; });\n}\nfunction identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const normalized = value.trim();\n  return /^[1-9][0-9]{0,29}$/.test(normalized) ? normalized : \"\";\n}\nfunction response(value) {\n  if (typeof value === \"string\") {\n    if (value.length > 1000000) throw new Error(\"Representative response is too large.\");\n    try { value = JSON.parse(value); } catch (error) { throw new Error(\"Invalid representative response.\"); }\n  }\n  if (!plainObject(value) || value.error || value.timeout || value.isError ||\n      Number(value.statusCode || value.status || 0) >= 400 || !Array.isArray(value.items)) {\n    throw new Error(\"Representative lookup failed.\");\n  }\n  if (value.hasMore !== undefined && value.hasMore !== true && value.hasMore !== false &&\n      value.hasMore !== \"true\" && value.hasMore !== \"false\") {\n    throw new Error(\"Invalid representative paging information.\");\n  }\n  return value;\n}\nfunction records(value, maximum, expectedOffset) {\n  const data = response(value);\n  if (data.items.length > maximum) throw new Error(\"Unexpected representative page size.\");\n  if (data.offset !== undefined && (typeof data.offset !== \"number\" && typeof data.offset !== \"string\" ||\n      !/^[0-9]+$/.test(String(data.offset)) || Number(data.offset) !== expectedOffset)) {\n    throw new Error(\"Unexpected representative page offset.\");\n  }\n  return data.items.map(function (row) {\n    if (!plainObject(row)) throw new Error(\"Invalid representative row.\");\n    const personId = identifier(row.PersonId);\n    if (!personId) throw new Error(\"Invalid representative identity.\");\n    // Repeated people can hold different responsibilities; preserve every valid row.\n    return Object.assign({}, row, { PersonId: personId });\n  });\n}\n\nreturn { items: records($context.$nodes.GET_SELECTION_TOP_REPRESENTATIVES.$output, 2, 0) };\n",
             "errorNodeId": "RETURN_UNVERIFIED_REPRESENTATIVES"
           },
           "outcomes": {
@@ -305,7 +305,7 @@
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
             "x": 5000,
-            "y": 9034
+            "y": 8661
           }
         },
         {
@@ -316,7 +316,7 @@
             "name": "Validate Request Get Selection Additional Representatives",
             "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
             "returnType": "object",
-            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\nfunction page(value,name,min,max) {\n  if(typeof value!==\"number\" && typeof value!==\"string\") reject(name);\n  if(typeof value===\"string\" && !/^[0-9]{1,7}$/.test(value.trim())) reject(name);\n  const number=Number(value);if(!Number.isSafeInteger(number)||number<min||number>max) reject(name);return number;\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.VALIDATE_SELECTION_SOURCE_ASSIGNMENT.$output.result.personId),\"personId\");\nchecked[\"assignmentId\"]=id(($context.$nodes.VALIDATE_SELECTION_SOURCE_ASSIGNMENT.$output.result.assignmentId),\"assignmentId\");\nchecked[\"limit\"]=page(\"100\",\"limit\",1,500);\nchecked[\"offset\"]=page(\"2\",\"offset\",0,1000000);\nreturn checked;",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\nfunction page(value,name,min,max) {\n  if(typeof value!==\"number\" && typeof value!==\"string\") reject(name);\n  if(typeof value===\"string\" && !/^[0-9]{1,7}$/.test(value.trim())) reject(name);\n  const number=Number(value);if(!Number.isSafeInteger(number)||number<min||number>max) reject(name);return number;\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.VALIDATE_SELECTION_SOURCE_ASSIGNMENT.$output.result.personId),\"personId\");\nchecked[\"assignmentId\"]=id(($context.$nodes.VALIDATE_SELECTION_SOURCE_ASSIGNMENT.$output.result.assignmentId),\"assignmentId\");\nchecked[\"limit\"]=page(\"100\",\"limit\",1,500);\nchecked[\"offset\"]=page(\"2\",\"offset\",0,1000000);\nreturn checked;",
             "errorNodeId": "HR_REQUEST_REJECTED"
           },
           "outcomes": {
@@ -326,7 +326,7 @@
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
             "x": 5000,
-            "y": 10420
+            "y": 10118
           }
         },
         {
@@ -342,7 +342,7 @@
           },
           "diagram": {
             "x": 5000,
-            "y": 10642
+            "y": 10340
           },
           "outcomes": {
             "success": "VALIDATE_REPRESENTATIVE_SELECTION"
@@ -353,14 +353,14 @@
               "name": "personId",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_SELECTION_ADDITIONAL_REPRESENTATIVES.$output.result.personId}}",
               "required": false,
-              "type": "integer"
+              "type": "string"
             },
             {
               "id": "GET_SELECTION_ADDITIONAL_REPRESENTATIVES_assignmentId",
               "name": "assignmentId",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_SELECTION_ADDITIONAL_REPRESENTATIVES.$output.result.assignmentId}}",
               "required": false,
-              "type": "integer"
+              "type": "string"
             },
             {
               "id": "GET_SELECTION_ADDITIONAL_REPRESENTATIVES_limit",
@@ -387,7 +387,7 @@
             "name": "Validate Representative Selection",
             "description": "Allows a context switch only to a representative in the source worker's freshly returned initial or additional page.",
             "returnType": "object",
-            "sourceCode": "function plainObject(value) {\n  return !!value && typeof value === \"object\" && !Array.isArray(value) &&\n    (Object.getPrototypeOf(value) === Object.prototype || Object.getPrototypeOf(value) === null) &&\n    !Object.keys(value).some(function (key) { return [\"__proto__\", \"constructor\", \"prototype\"].indexOf(key) !== -1; });\n}\nfunction identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const normalized = value.trim();\n  return /^[1-9][0-9]{0,19}$/.test(normalized) ? normalized : \"\";\n}\nfunction response(value) {\n  if (typeof value === \"string\") {\n    if (value.length > 1000000) throw new Error(\"Representative response is too large.\");\n    try { value = JSON.parse(value); } catch (error) { throw new Error(\"Invalid representative response.\"); }\n  }\n  if (!plainObject(value) || value.error || value.timeout || value.isError ||\n      Number(value.statusCode || value.status || 0) >= 400 || !Array.isArray(value.items)) {\n    throw new Error(\"Representative lookup failed.\");\n  }\n  if (value.hasMore !== undefined && value.hasMore !== true && value.hasMore !== false &&\n      value.hasMore !== \"true\" && value.hasMore !== \"false\") {\n    throw new Error(\"Invalid representative paging information.\");\n  }\n  return value;\n}\nfunction records(value, maximum, expectedOffset) {\n  const data = response(value);\n  if (data.items.length > maximum) throw new Error(\"Unexpected representative page size.\");\n  if (data.offset !== undefined && (typeof data.offset !== \"number\" && typeof data.offset !== \"string\" ||\n      !/^[0-9]+$/.test(String(data.offset)) || Number(data.offset) !== expectedOffset)) {\n    throw new Error(\"Unexpected representative page offset.\");\n  }\n  return data.items.map(function (row) {\n    if (!plainObject(row)) throw new Error(\"Invalid representative row.\");\n    const personId = identifier(row.PersonId);\n    if (!personId) throw new Error(\"Invalid representative identity.\");\n    // Repeated people can hold different responsibilities; preserve every valid row.\n    return Object.assign({}, row, { PersonId: personId });\n  });\n}\n\nconst action = $context.$nodes.PARSE_PAYLOAD.$output.result;\nconst selectedPersonId = identifier(action.personId);\nif (action.actionId !== \"selectRepresentative\" || !selectedPersonId) throw new Error(\"Invalid representative selection.\");\nconst first = $context.$nodes.VALIDATE_SELECTION_TOP_REPRESENTATIVE_IDS.$output.result.items;\nif (!Array.isArray(first)) throw new Error(\"Representative membership could not be verified.\");\nconst additional = records($context.$nodes.GET_SELECTION_ADDITIONAL_REPRESENTATIVES.$output, 100, 2);\nif (!first.concat(additional).some(function (row) { return row.PersonId === selectedPersonId; })) {\n  throw new Error(\"The selected worker is not a current representative.\");\n}\nreturn { personId: selectedPersonId };\n",
+            "sourceCode": "function plainObject(value) {\n  return !!value && typeof value === \"object\" && !Array.isArray(value) &&\n    (Object.getPrototypeOf(value) === Object.prototype || Object.getPrototypeOf(value) === null) &&\n    !Object.keys(value).some(function (key) { return [\"__proto__\", \"constructor\", \"prototype\"].indexOf(key) !== -1; });\n}\nfunction identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const normalized = value.trim();\n  return /^[1-9][0-9]{0,29}$/.test(normalized) ? normalized : \"\";\n}\nfunction response(value) {\n  if (typeof value === \"string\") {\n    if (value.length > 1000000) throw new Error(\"Representative response is too large.\");\n    try { value = JSON.parse(value); } catch (error) { throw new Error(\"Invalid representative response.\"); }\n  }\n  if (!plainObject(value) || value.error || value.timeout || value.isError ||\n      Number(value.statusCode || value.status || 0) >= 400 || !Array.isArray(value.items)) {\n    throw new Error(\"Representative lookup failed.\");\n  }\n  if (value.hasMore !== undefined && value.hasMore !== true && value.hasMore !== false &&\n      value.hasMore !== \"true\" && value.hasMore !== \"false\") {\n    throw new Error(\"Invalid representative paging information.\");\n  }\n  return value;\n}\nfunction records(value, maximum, expectedOffset) {\n  const data = response(value);\n  if (data.items.length > maximum) throw new Error(\"Unexpected representative page size.\");\n  if (data.offset !== undefined && (typeof data.offset !== \"number\" && typeof data.offset !== \"string\" ||\n      !/^[0-9]+$/.test(String(data.offset)) || Number(data.offset) !== expectedOffset)) {\n    throw new Error(\"Unexpected representative page offset.\");\n  }\n  return data.items.map(function (row) {\n    if (!plainObject(row)) throw new Error(\"Invalid representative row.\");\n    const personId = identifier(row.PersonId);\n    if (!personId) throw new Error(\"Invalid representative identity.\");\n    // Repeated people can hold different responsibilities; preserve every valid row.\n    return Object.assign({}, row, { PersonId: personId });\n  });\n}\n\nconst action = $context.$nodes.PARSE_PAYLOAD.$output.result;\nconst selectedPersonId = identifier(action.personId);\nif (action.actionId !== \"selectRepresentative\" || !selectedPersonId) throw new Error(\"Invalid representative selection.\");\nconst first = $context.$nodes.VALIDATE_SELECTION_TOP_REPRESENTATIVE_IDS.$output.result.items;\nif (!Array.isArray(first)) throw new Error(\"Representative membership could not be verified.\");\nconst additional = records($context.$nodes.GET_SELECTION_ADDITIONAL_REPRESENTATIVES.$output, 100, 2);\nif (!first.concat(additional).some(function (row) { return row.PersonId === selectedPersonId; })) {\n  throw new Error(\"The selected worker is not a current representative.\");\n}\nreturn { personId: selectedPersonId };\n",
             "errorNodeId": "RETURN_UNVERIFIED_REPRESENTATIVES"
           },
           "outcomes": {
@@ -397,7 +397,7 @@
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
             "x": 5000,
-            "y": 10864
+            "y": 10562
           }
         },
         {
@@ -408,7 +408,7 @@
             "name": "Prepare Safe Refresh With Context",
             "description": "Enforces the permitted data and output contract for this HR panel.",
             "returnType": "object",
-            "sourceCode": "function reject() { throw new Error(\"The response did not match the permitted HR display contract.\"); }\n\nlet blocks=[],visibleText=\"\";\nconst id = String($context.$nodes.VALIDATE_REPRESENTATIVE_SELECTION.$output.result.personId); if (!/^\\d{1,18}$/.test(id)) reject();\nblocks=[{type:\"oraImmediateInsight\",payload:{followUpCommand:'ora.Invoke(\"actionSwitchAppContext\", '+JSON.stringify({personId:id})+')'}}]; visibleText=\"The app will refresh with the selected person and reload all sections.\";\n\n// Keep internal identifiers and executable commands outside the model context.\nconst references = {};\nlet referenceIndex = 0;\nfunction protect(value,key,parent) {\n  if (typeof value === \"string\" && ([\"action\",\"drillDownAction\",\"followUpCommand\",\"image\"].includes(key) || (key === \"id\" && /\\d/.test(value)) || (key === \"value\" && parent && [\"hidden\",\"system\"].includes(parent.type)))) {\n    const token = \"HR_REF_\" + (++referenceIndex);\n    references[token] = value;\n    return token;\n  }\n  if (Array.isArray(value)) return value.map(function(v) { return protect(v,\"\",null); });\n  if (value && typeof value === \"object\") {\n    const result = {};\n    Object.keys(value).forEach(function(k) { if ([\"__proto__\",\"prototype\",\"constructor\"].includes(k)) reject(); result[k] = protect(value[k],k,value); });\n    return result;\n  }\n  if (typeof value === \"string\" && /HR_REF_\\d+/.test(value)) reject();\n  return value;\n}\nconst contract = {blocks:blocks,text:visibleText};\nconst modelContract = protect(contract,\"\",null);\nconst modelJson = JSON.stringify(modelContract);\nif (modelJson.length > 1000000) reject();\nreturn {modelJson:modelJson,contract:modelContract,references:references};\n",
+            "sourceCode": "function reject() { throw new Error(\"The response did not match the permitted HR display contract.\"); }\n\nlet blocks=[],visibleText=\"\";\nconst id = String($context.$nodes.VALIDATE_REPRESENTATIVE_SELECTION.$output.result.personId); if (!/^[1-9][0-9]{0,29}$/.test(id)) reject();\nblocks=[{type:\"oraImmediateInsight\",payload:{followUpCommand:'ora.Invoke(\"actionSwitchAppContext\", '+JSON.stringify({personId:id})+')'}}]; visibleText=\"The app will refresh with the selected person and reload all sections.\";\n\n// Keep internal identifiers and executable commands outside the model context.\nconst references = {};\nlet referenceIndex = 0;\nfunction protect(value,key,parent) {\n  if (typeof value === \"string\" && ([\"action\",\"drillDownAction\",\"followUpCommand\",\"image\"].includes(key) || (key === \"id\" && /\\d/.test(value)) || (key === \"value\" && parent && [\"hidden\",\"system\"].includes(parent.type)))) {\n    const token = \"HR_REF_\" + (++referenceIndex);\n    references[token] = value;\n    return token;\n  }\n  if (Array.isArray(value)) return value.map(function(v) { return protect(v,\"\",null); });\n  if (value && typeof value === \"object\") {\n    const result = {};\n    Object.keys(value).forEach(function(k) { if ([\"__proto__\",\"prototype\",\"constructor\"].includes(k)) reject(); result[k] = protect(value[k],k,value); });\n    return result;\n  }\n  if (typeof value === \"string\" && /HR_REF_\\d+/.test(value)) reject();\n  return value;\n}\nconst contract = {blocks:blocks,text:visibleText};\nconst modelContract = protect(contract,\"\",null);\nconst modelJson = JSON.stringify(modelContract);\nif (modelJson.length > 1000000) reject();\nreturn {modelJson:modelJson,contract:modelContract,references:references};\n",
             "errorNodeId": "HR_RESPONSE_REJECTED"
           },
           "outcomes": {
@@ -417,7 +417,7 @@
           "inputs": [],
           "diagram": {
             "x": 5000,
-            "y": 11086
+            "y": 10784
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -433,7 +433,7 @@
           },
           "diagram": {
             "x": 5000,
-            "y": 11308
+            "y": 11006
           },
           "outcomes": {
             "success": "CHECK_SAFE_REFRESH_WITH_CONTEXT"
@@ -473,7 +473,7 @@
           "inputs": [],
           "diagram": {
             "x": 5000,
-            "y": 11530
+            "y": 11228
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -494,7 +494,7 @@
           "outcomes": {},
           "diagram": {
             "x": 5000,
-            "y": 11752
+            "y": 11450
           }
         },
         {
@@ -515,8 +515,8 @@
             }
           ],
           "diagram": {
-            "x": 5543.75,
-            "y": 7426
+            "x": 5616,
+            "y": 6982
           }
         },
         {
@@ -529,8 +529,8 @@
             "description": "Fetch representative data for the current worker on every Query; never reuse a prior worker's cached context."
           },
           "diagram": {
-            "x": 6218.75,
-            "y": 6094
+            "x": 6291,
+            "y": 5650
           },
           "outcomes": {
             "false": "VALIDATE_REQUEST_GET_PRIMARY_ASSIGNMENT_PANEL_QUERY",
@@ -553,7 +553,7 @@
             "name": "Validate Request Get Primary Assignment Panel Query",
             "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
             "returnType": "object",
-            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"personId\");\nreturn checked;",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"personId\");\nreturn checked;",
             "errorNodeId": "HR_REQUEST_REJECTED"
           },
           "outcomes": {
@@ -562,8 +562,8 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 5993.75,
-            "y": 6316
+            "x": 6066,
+            "y": 5872
           }
         },
         {
@@ -577,8 +577,8 @@
             "errorNodeId": "RETURN_UNVERIFIED_REPRESENTATIVES"
           },
           "diagram": {
-            "x": 5993.75,
-            "y": 6538
+            "x": 6066,
+            "y": 6094
           },
           "outcomes": {
             "success": "VALIDATE_QUERY_REPRESENTATIVE_ASSIGNMENT"
@@ -589,7 +589,7 @@
               "name": "personId",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_PRIMARY_ASSIGNMENT_PANEL_QUERY.$output.result.personId}}",
               "required": false,
-              "type": "integer"
+              "type": "string"
             }
           ],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"AssignmentId\": {\n            \"type\": \"string\"\n          },\n          \"@context\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"key\": {\n                \"type\": \"string\"\n              }\n            },\n            \"required\": [\n              \"key\"\n            ],\n            \"additionalProperties\": false\n          },\n          \"PersonId\": {\n            \"type\": [\n              \"string\",\n              \"number\",\n              \"null\"\n            ]\n          }\n        },\n        \"required\": [\n          \"AssignmentId\",\n          \"@context\"\n        ],\n        \"additionalProperties\": false\n      }\n    },\n    \"count\": {\n      \"type\": \"number\"\n    },\n    \"hasMore\": {\n      \"type\": \"boolean\"\n    },\n    \"limit\": {\n      \"type\": \"number\"\n    },\n    \"offset\": {\n      \"type\": \"number\"\n    },\n    \"links\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"rel\": {\n            \"type\": \"string\"\n          },\n          \"href\": {\n            \"type\": \"string\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          },\n          \"kind\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"rel\",\n          \"href\",\n          \"name\",\n          \"kind\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  },\n  \"required\": [\n    \"items\",\n    \"count\",\n    \"hasMore\",\n    \"limit\",\n    \"offset\",\n    \"links\"\n  ],\n  \"additionalProperties\": false\n}"
@@ -602,7 +602,7 @@
             "name": "Validate get primary assignment panel query",
             "description": "Normalizes the assignment ID and verifies the returned worker identity, when supplied, before representative queries.",
             "returnType": "object",
-            "sourceCode": "function plainObject(value) {\n  return !!value && typeof value === \"object\" && !Array.isArray(value) &&\n    (Object.getPrototypeOf(value) === Object.prototype || Object.getPrototypeOf(value) === null) &&\n    !Object.keys(value).some(function (key) { return [\"__proto__\", \"constructor\", \"prototype\"].indexOf(key) !== -1; });\n}\nfunction identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const normalized = value.trim();\n  return /^[1-9][0-9]{0,19}$/.test(normalized) ? normalized : \"\";\n}\nfunction response(value) {\n  if (typeof value === \"string\") {\n    if (value.length > 1000000) throw new Error(\"Representative response is too large.\");\n    try { value = JSON.parse(value); } catch (error) { throw new Error(\"Invalid representative response.\"); }\n  }\n  if (!plainObject(value) || value.error || value.timeout || value.isError ||\n      Number(value.statusCode || value.status || 0) >= 400 || !Array.isArray(value.items)) {\n    throw new Error(\"Representative lookup failed.\");\n  }\n  if (value.hasMore !== undefined && value.hasMore !== true && value.hasMore !== false &&\n      value.hasMore !== \"true\" && value.hasMore !== \"false\") {\n    throw new Error(\"Invalid representative paging information.\");\n  }\n  return value;\n}\n\nconst sourcePersonId = identifier($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId);\nif (!sourcePersonId) throw new Error(\"Invalid source worker.\");\nconst data = response($context.$nodes.GET_PRIMARY_ASSIGNMENT_PANEL_QUERY.$output);\n// Preserve the existing first-primary-assignment choice; validate it before use.\nif (!data.items.length) return { valid: false, personId: sourcePersonId, assignmentId: \"\" };\nconst row = data.items[0];\nif (!plainObject(row)) throw new Error(\"Invalid primary assignment.\");\nconst assignmentId = identifier(row.AssignmentId);\nif (!assignmentId || (row.PersonId != null && identifier(row.PersonId) !== sourcePersonId)) {\n  throw new Error(\"Primary assignment identity could not be verified.\");\n}\nreturn { valid: true, personId: sourcePersonId, assignmentId: assignmentId };\n",
+            "sourceCode": "function plainObject(value) {\n  return !!value && typeof value === \"object\" && !Array.isArray(value) &&\n    (Object.getPrototypeOf(value) === Object.prototype || Object.getPrototypeOf(value) === null) &&\n    !Object.keys(value).some(function (key) { return [\"__proto__\", \"constructor\", \"prototype\"].indexOf(key) !== -1; });\n}\nfunction identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const normalized = value.trim();\n  return /^[1-9][0-9]{0,29}$/.test(normalized) ? normalized : \"\";\n}\nfunction response(value) {\n  if (typeof value === \"string\") {\n    if (value.length > 1000000) throw new Error(\"Representative response is too large.\");\n    try { value = JSON.parse(value); } catch (error) { throw new Error(\"Invalid representative response.\"); }\n  }\n  if (!plainObject(value) || value.error || value.timeout || value.isError ||\n      Number(value.statusCode || value.status || 0) >= 400 || !Array.isArray(value.items)) {\n    throw new Error(\"Representative lookup failed.\");\n  }\n  if (value.hasMore !== undefined && value.hasMore !== true && value.hasMore !== false &&\n      value.hasMore !== \"true\" && value.hasMore !== \"false\") {\n    throw new Error(\"Invalid representative paging information.\");\n  }\n  return value;\n}\n\nconst sourcePersonId = identifier($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId);\nif (!sourcePersonId) throw new Error(\"Invalid source worker.\");\nconst data = response($context.$nodes.GET_PRIMARY_ASSIGNMENT_PANEL_QUERY.$output);\n// Preserve the existing first-primary-assignment choice; validate it before use.\nif (!data.items.length) return { valid: false, personId: sourcePersonId, assignmentId: \"\" };\nconst row = data.items[0];\nif (!plainObject(row)) throw new Error(\"Invalid primary assignment.\");\nconst assignmentId = identifier(row.AssignmentId);\nif (!assignmentId || (row.PersonId != null && identifier(row.PersonId) !== sourcePersonId)) {\n  throw new Error(\"Primary assignment identity could not be verified.\");\n}\nreturn { valid: true, personId: sourcePersonId, assignmentId: assignmentId };\n",
             "errorNodeId": "RETURN_UNVERIFIED_REPRESENTATIVES"
           },
           "outcomes": {
@@ -611,8 +611,8 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 5993.75,
-            "y": 6760
+            "x": 6066,
+            "y": 6316
           }
         },
         {
@@ -624,8 +624,8 @@
             "name": "Has Primary Assignment Panel Query"
           },
           "diagram": {
-            "x": 5993.75,
-            "y": 6982
+            "x": 6066,
+            "y": 6538
           },
           "outcomes": {
             "true": "VALIDATE_REQUEST_GET_ALL_REPRESENTATIVES_QUERY",
@@ -648,7 +648,7 @@
             "name": "Validate Request Get All Representatives Query",
             "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
             "returnType": "object",
-            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\nfunction page(value,name,min,max) {\n  if(typeof value!==\"number\" && typeof value!==\"string\") reject(name);\n  if(typeof value===\"string\" && !/^[0-9]{1,7}$/.test(value.trim())) reject(name);\n  const number=Number(value);if(!Number.isSafeInteger(number)||number<min||number>max) reject(name);return number;\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.VALIDATE_QUERY_REPRESENTATIVE_ASSIGNMENT.$output.result.personId),\"personId\");\nchecked[\"assignmentId\"]=id(($context.$nodes.VALIDATE_QUERY_REPRESENTATIVE_ASSIGNMENT.$output.result.assignmentId),\"assignmentId\");\nchecked[\"limit\"]=page(\"100\",\"limit\",1,500);\nchecked[\"offset\"]=page(\"0\",\"offset\",0,1000000);\nreturn checked;",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\nfunction page(value,name,min,max) {\n  if(typeof value!==\"number\" && typeof value!==\"string\") reject(name);\n  if(typeof value===\"string\" && !/^[0-9]{1,7}$/.test(value.trim())) reject(name);\n  const number=Number(value);if(!Number.isSafeInteger(number)||number<min||number>max) reject(name);return number;\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.VALIDATE_QUERY_REPRESENTATIVE_ASSIGNMENT.$output.result.personId),\"personId\");\nchecked[\"assignmentId\"]=id(($context.$nodes.VALIDATE_QUERY_REPRESENTATIVE_ASSIGNMENT.$output.result.assignmentId),\"assignmentId\");\nchecked[\"limit\"]=page(\"100\",\"limit\",1,500);\nchecked[\"offset\"]=page(\"0\",\"offset\",0,1000000);\nreturn checked;",
             "errorNodeId": "HR_REQUEST_REJECTED"
           },
           "outcomes": {
@@ -657,8 +657,8 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 5881.25,
-            "y": 7204
+            "x": 5953.5,
+            "y": 6760
           }
         },
         {
@@ -672,8 +672,8 @@
             "errorNodeId": "RETURN_UNVERIFIED_REPRESENTATIVES"
           },
           "diagram": {
-            "x": 5993.75,
-            "y": 7426
+            "x": 6066,
+            "y": 6982
           },
           "outcomes": {
             "success": "VALIDATE_QUERY_REPRESENTATIVE_IDS"
@@ -684,14 +684,14 @@
               "name": "personId",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_ALL_REPRESENTATIVES_QUERY.$output.result.personId}}",
               "required": false,
-              "type": "integer"
+              "type": "string"
             },
             {
               "id": "1780324525411_assignmentId",
               "name": "assignmentId",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_ALL_REPRESENTATIVES_QUERY.$output.result.assignmentId}}",
               "required": false,
-              "type": "integer"
+              "type": "string"
             },
             {
               "id": "1780324525411_limit",
@@ -718,7 +718,7 @@
             "name": "Validate enrich query representative contacts",
             "description": "Validates and normalizes every representative ID before contact lookups while preserving fields and repeated responsibilities.",
             "returnType": "object",
-            "sourceCode": "function plainObject(value) {\n  return !!value && typeof value === \"object\" && !Array.isArray(value) &&\n    (Object.getPrototypeOf(value) === Object.prototype || Object.getPrototypeOf(value) === null) &&\n    !Object.keys(value).some(function (key) { return [\"__proto__\", \"constructor\", \"prototype\"].indexOf(key) !== -1; });\n}\nfunction identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const normalized = value.trim();\n  return /^[1-9][0-9]{0,19}$/.test(normalized) ? normalized : \"\";\n}\nfunction response(value) {\n  if (typeof value === \"string\") {\n    if (value.length > 1000000) throw new Error(\"Representative response is too large.\");\n    try { value = JSON.parse(value); } catch (error) { throw new Error(\"Invalid representative response.\"); }\n  }\n  if (!plainObject(value) || value.error || value.timeout || value.isError ||\n      Number(value.statusCode || value.status || 0) >= 400 || !Array.isArray(value.items)) {\n    throw new Error(\"Representative lookup failed.\");\n  }\n  if (value.hasMore !== undefined && value.hasMore !== true && value.hasMore !== false &&\n      value.hasMore !== \"true\" && value.hasMore !== \"false\") {\n    throw new Error(\"Invalid representative paging information.\");\n  }\n  return value;\n}\nfunction records(value, maximum, expectedOffset) {\n  const data = response(value);\n  if (data.items.length > maximum) throw new Error(\"Unexpected representative page size.\");\n  if (data.offset !== undefined && (typeof data.offset !== \"number\" && typeof data.offset !== \"string\" ||\n      !/^[0-9]+$/.test(String(data.offset)) || Number(data.offset) !== expectedOffset)) {\n    throw new Error(\"Unexpected representative page offset.\");\n  }\n  return data.items.map(function (row) {\n    if (!plainObject(row)) throw new Error(\"Invalid representative row.\");\n    const personId = identifier(row.PersonId);\n    if (!personId) throw new Error(\"Invalid representative identity.\");\n    // Repeated people can hold different responsibilities; preserve every valid row.\n    return Object.assign({}, row, { PersonId: personId });\n  });\n}\n\nreturn { items: records($context.$nodes.GET_ALL_REPRESENTATIVES_QUERY.$output, 100, 0) };\n",
+            "sourceCode": "function plainObject(value) {\n  return !!value && typeof value === \"object\" && !Array.isArray(value) &&\n    (Object.getPrototypeOf(value) === Object.prototype || Object.getPrototypeOf(value) === null) &&\n    !Object.keys(value).some(function (key) { return [\"__proto__\", \"constructor\", \"prototype\"].indexOf(key) !== -1; });\n}\nfunction identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const normalized = value.trim();\n  return /^[1-9][0-9]{0,29}$/.test(normalized) ? normalized : \"\";\n}\nfunction response(value) {\n  if (typeof value === \"string\") {\n    if (value.length > 1000000) throw new Error(\"Representative response is too large.\");\n    try { value = JSON.parse(value); } catch (error) { throw new Error(\"Invalid representative response.\"); }\n  }\n  if (!plainObject(value) || value.error || value.timeout || value.isError ||\n      Number(value.statusCode || value.status || 0) >= 400 || !Array.isArray(value.items)) {\n    throw new Error(\"Representative lookup failed.\");\n  }\n  if (value.hasMore !== undefined && value.hasMore !== true && value.hasMore !== false &&\n      value.hasMore !== \"true\" && value.hasMore !== \"false\") {\n    throw new Error(\"Invalid representative paging information.\");\n  }\n  return value;\n}\nfunction records(value, maximum, expectedOffset) {\n  const data = response(value);\n  if (data.items.length > maximum) throw new Error(\"Unexpected representative page size.\");\n  if (data.offset !== undefined && (typeof data.offset !== \"number\" && typeof data.offset !== \"string\" ||\n      !/^[0-9]+$/.test(String(data.offset)) || Number(data.offset) !== expectedOffset)) {\n    throw new Error(\"Unexpected representative page offset.\");\n  }\n  return data.items.map(function (row) {\n    if (!plainObject(row)) throw new Error(\"Invalid representative row.\");\n    const personId = identifier(row.PersonId);\n    if (!personId) throw new Error(\"Invalid representative identity.\");\n    // Repeated people can hold different responsibilities; preserve every valid row.\n    return Object.assign({}, row, { PersonId: personId });\n  });\n}\n\nreturn { items: records($context.$nodes.GET_ALL_REPRESENTATIVES_QUERY.$output, 100, 0) };\n",
             "errorNodeId": "RETURN_UNVERIFIED_REPRESENTATIVES"
           },
           "outcomes": {
@@ -727,8 +727,8 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 5937.5,
-            "y": 7648
+            "x": 5997,
+            "y": 7204
           }
         },
         {
@@ -754,8 +754,8 @@
                   },
                   "inputs": [],
                   "diagram": {
-                    "x": 5843.875,
-                    "y": 9124
+                    "x": 5690.5,
+                    "y": 8751
                   }
                 },
                 {
@@ -775,13 +775,13 @@
                     {
                       "id": "QUERY_GET_REPRESENTATIVE_EMAIL_personId",
                       "name": "personId",
-                      "type": "integer",
+                      "type": "string",
                       "value": "{{$context.$nodes.ENRICH_QUERY_REPRESENTATIVE_CONTACTS.VALIDATE_REQUEST_QUERY_GET_REPRESENTATIVE_EMAIL.$output.result.personId}}"
                     }
                   ],
                   "diagram": {
-                    "x": 5721.875,
-                    "y": 9497
+                    "x": 5568.5,
+                    "y": 9195
                   },
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"PersonId\": {\n      \"type\": \"string\"\n    },\n    \"PersonNumber\": {\n      \"type\": \"string\"\n    },\n    \"LastName\": {\n      \"type\": \"string\"\n    },\n    \"FirstName\": {\n      \"type\": \"string\"\n    },\n    \"Title\": {\n      \"type\": \"string\"\n    },\n    \"PreNameAdjunct\": {\n      \"type\": \"string\"\n    },\n    \"Suffix\": {\n      \"type\": \"string\"\n    },\n    \"MiddleNames\": {\n      \"type\": \"string\"\n    },\n    \"Honors\": {\n      \"type\": \"string\"\n    },\n    \"KnownAs\": {\n      \"type\": \"string\"\n    },\n    \"DisplayName\": {\n      \"type\": \"string\"\n    },\n    \"ListName\": {\n      \"type\": \"string\"\n    },\n    \"OrderName\": {\n      \"type\": \"string\"\n    },\n    \"WorkEmail\": {\n      \"type\": \"string\"\n    },\n    \"Username\": {\n      \"type\": \"string\"\n    },\n    \"links\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"rel\": {\n            \"type\": \"string\"\n          },\n          \"href\": {\n            \"type\": \"string\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          },\n          \"kind\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"rel\",\n          \"href\",\n          \"name\",\n          \"kind\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  },\n  \"required\": [\n    \"PersonId\",\n    \"PersonNumber\",\n    \"LastName\",\n    \"FirstName\",\n    \"Title\",\n    \"PreNameAdjunct\",\n    \"Suffix\",\n    \"MiddleNames\",\n    \"Honors\",\n    \"KnownAs\",\n    \"DisplayName\",\n    \"ListName\",\n    \"OrderName\",\n    \"WorkEmail\",\n    \"Username\",\n    \"links\"\n  ],\n  \"additionalProperties\": false\n}"
                 },
@@ -802,13 +802,13 @@
                     {
                       "id": "1783409974038_personId",
                       "name": "personId",
-                      "type": "integer",
+                      "type": "string",
                       "value": "{{$context.$nodes.ENRICH_QUERY_REPRESENTATIVE_CONTACTS.VALIDATE_REQUEST_QUERY_GET_REPRESENTATIVE_PHONE.$output.result.personId}}"
                     }
                   ],
                   "diagram": {
-                    "x": 5721.875,
-                    "y": 9941
+                    "x": 5568.5,
+                    "y": 9639
                   },
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"phones\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"items\": {\n                \"type\": \"array\",\n                \"items\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"PhoneId\": {\n                      \"type\": \"number\"\n                    },\n                    \"PhoneType\": {\n                      \"type\": \"string\"\n                    },\n                    \"PhoneTypeMeaning\": {\n                      \"type\": \"string\"\n                    },\n                    \"LegislationCode\": {\n                      \"type\": \"string\"\n                    },\n                    \"LegislationName\": {\n                      \"type\": \"string\"\n                    },\n                    \"CountryCodeNumber\": {\n                      \"type\": \"string\"\n                    },\n                    \"AreaCode\": {\n                      \"type\": \"string\"\n                    },\n                    \"PhoneNumber\": {\n                      \"type\": \"string\"\n                    },\n                    \"Extension\": {\n                      \"type\": \"null\"\n                    },\n                    \"FromDate\": {\n                      \"type\": \"string\"\n                    },\n                    \"ToDate\": {\n                      \"type\": \"null\"\n                    },\n                    \"Validity\": {\n                      \"type\": \"null\"\n                    },\n                    \"ValidityMeaning\": {\n                      \"type\": \"null\"\n                    },\n                    \"CreatedBy\": {\n                      \"type\": \"string\"\n                    },\n                    \"CreationDate\": {\n                      \"type\": \"string\"\n                    },\n                    \"LastUpdatedBy\": {\n                      \"type\": \"string\"\n                    },\n                    \"LastUpdateDate\": {\n                      \"type\": \"string\"\n                    },\n                    \"PrimaryFlag\": {\n                      \"type\": \"boolean\"\n                    },\n                    \"@context\": {\n                      \"type\": \"object\",\n                      \"properties\": {\n                        \"key\": {\n                          \"type\": \"string\"\n                        }\n                      },\n                      \"required\": [\n                        \"key\"\n                      ],\n                      \"additionalProperties\": false\n                    }\n                  },\n                  \"required\": [\n                    \"PhoneId\",\n                    \"PhoneType\",\n                    \"PhoneTypeMeaning\",\n                    \"LegislationCode\",\n                    \"LegislationName\",\n                    \"CountryCodeNumber\",\n                    \"AreaCode\",\n                    \"PhoneNumber\",\n                    \"Extension\",\n                    \"FromDate\",\n                    \"ToDate\",\n                    \"Validity\",\n                    \"ValidityMeaning\",\n                    \"CreatedBy\",\n                    \"CreationDate\",\n                    \"LastUpdatedBy\",\n                    \"LastUpdateDate\",\n                    \"PrimaryFlag\",\n                    \"@context\"\n                  ],\n                  \"additionalProperties\": false\n                }\n              },\n              \"count\": {\n                \"type\": \"number\"\n              },\n              \"hasMore\": {\n                \"type\": \"boolean\"\n              },\n              \"limit\": {\n                \"type\": \"number\"\n              },\n              \"offset\": {\n                \"type\": \"number\"\n              },\n              \"links\": {\n                \"type\": \"array\"\n              }\n            },\n            \"required\": [\n              \"items\",\n              \"count\",\n              \"hasMore\",\n              \"limit\",\n              \"offset\",\n              \"links\"\n            ],\n            \"additionalProperties\": false\n          },\n          \"@context\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"key\": {\n                \"type\": \"string\"\n              }\n            },\n            \"required\": [\n              \"key\"\n            ],\n            \"additionalProperties\": false\n          }\n        },\n        \"required\": [\n          \"phones\",\n          \"@context\"\n        ],\n        \"additionalProperties\": false\n      }\n    },\n    \"count\": {\n      \"type\": \"number\"\n    },\n    \"hasMore\": {\n      \"type\": \"boolean\"\n    },\n    \"limit\": {\n      \"type\": \"number\"\n    },\n    \"offset\": {\n      \"type\": \"number\"\n    },\n    \"links\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"rel\": {\n            \"type\": \"string\"\n          },\n          \"href\": {\n            \"type\": \"string\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          },\n          \"kind\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"rel\",\n          \"href\",\n          \"name\",\n          \"kind\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  },\n  \"required\": [\n    \"items\",\n    \"count\",\n    \"hasMore\",\n    \"limit\",\n    \"offset\",\n    \"links\"\n  ],\n  \"additionalProperties\": false\n}"
                 },
@@ -823,13 +823,13 @@
                     "description": "Merges matching work email and work phone into the current query-list representative row."
                   },
                   "outcomes": {
-                    "success": "enrich_query_representative_contacts_end"
+                    "success": "end_ENRICH_QUERY_REPRESENTATIVE_CONTACTS"
                   },
                   "inputs": [],
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
                   "diagram": {
-                    "x": 5721.875,
-                    "y": 10163
+                    "x": 5568.5,
+                    "y": 9861
                   }
                 },
                 {
@@ -840,8 +840,8 @@
                     "name": "Validate Request Query Get Representative Email",
                     "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
                     "returnType": "object",
-                    "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.ENRICH_QUERY_REPRESENTATIVE_CONTACTS.$currentItem.PersonId),\"personId\");\nreturn checked;",
-                    "errorNodeId": "HR_REQUEST_REJECTED"
+                    "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.ENRICH_QUERY_REPRESENTATIVE_CONTACTS.$currentItem.PersonId),\"personId\");\nreturn checked;",
+                    "errorNodeId": "ENRICH_QUERY_REPRESENTATIVE_CONTACTS_REQUEST_REJECTED"
                   },
                   "outcomes": {
                     "success": "QUERY_GET_REPRESENTATIVE_EMAIL"
@@ -849,8 +849,8 @@
                   "inputs": [],
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
                   "diagram": {
-                    "x": 5721.875,
-                    "y": 9275
+                    "x": 5568.5,
+                    "y": 8973
                   }
                 },
                 {
@@ -861,8 +861,8 @@
                     "name": "Validate Request Query Get Representative Phone",
                     "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
                     "returnType": "object",
-                    "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.ENRICH_QUERY_REPRESENTATIVE_CONTACTS.$currentItem.PersonId),\"personId\");\nreturn checked;",
-                    "errorNodeId": "HR_REQUEST_REJECTED"
+                    "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.ENRICH_QUERY_REPRESENTATIVE_CONTACTS.$currentItem.PersonId),\"personId\");\nreturn checked;",
+                    "errorNodeId": "ENRICH_QUERY_REPRESENTATIVE_CONTACTS_REQUEST_REJECTED"
                   },
                   "outcomes": {
                     "success": "1783409974038"
@@ -870,12 +870,32 @@
                   "inputs": [],
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
                   "diagram": {
-                    "x": 5721.875,
-                    "y": 9719
+                    "x": 5568.5,
+                    "y": 9417
                   }
                 },
                 {
-                  "id": "enrich_query_representative_contacts_end",
+                  "id": "ENRICH_QUERY_REPRESENTATIVE_CONTACTS_REQUEST_REJECTED",
+                  "code": "ENRICH_QUERY_REPRESENTATIVE_CONTACTS_REQUEST_REJECTED",
+                  "type": "RETURN",
+                  "metadata": {
+                    "name": "Reject Enrich Query Representative Contacts Sequentially request"
+                  },
+                  "inputs": [
+                    {
+                      "name": "returnValue",
+                      "type": "string",
+                      "value": "{\"error\":\"Invalid HR loop request parameter\"}"
+                    }
+                  ],
+                  "outcomes": {},
+                  "diagram": {
+                    "x": 5896.5,
+                    "y": 8751
+                  }
+                },
+                {
+                  "id": "end_ENRICH_QUERY_REPRESENTATIVE_CONTACTS",
                   "code": "END",
                   "type": "END",
                   "metadata": {
@@ -903,10 +923,10 @@
             }
           ],
           "diagram": {
-            "x": 5571.875,
-            "y": 9034,
-            "width": 600,
-            "height": 1236
+            "x": 5548.5,
+            "y": 8661,
+            "width": 668,
+            "height": 1307
           }
         },
         {
@@ -916,8 +936,9 @@
           "metadata": {
             "name": "Merge Query Representative Contacts Sequentially",
             "returnType": "object",
-            "sourceCode": "function parse(v){for(let i=0;i<3&&typeof v==='string';i+=1){try{v=JSON.parse(v)}catch(e){break}}return v}\nfunction text(v){return v==null?'':String(v).trim()}\nfunction collect(v,out){out=out||[];v=parse(v);if(Array.isArray(v)){v.forEach(function(x){collect(x,out)});return out}if(!v||typeof v!=='object')return out;if(text(v.PersonId||v.personId)){out.push(v);return out}['items','result','output','data'].forEach(function(k){if(v[k]!==undefined)collect(v[k],out)});return out}\nfunction byPerson(v){const index={};collect(v,[]).forEach(function(row){const id=text(row.PersonId||row.personId);if(id)index[id]=row});return index}\nconst representatives=collect($context.$nodes.GET_ALL_REPRESENTATIVES_QUERY.$output,[]);\nconst contacts=byPerson($context.$nodes.ENRICH_QUERY_REPRESENTATIVE_CONTACTS.$output);\nreturn {items:representatives.map(function(rep){const id=text(rep.PersonId||rep.personId);return Object.assign({},rep,contacts[id]||{})})};",
-            "description": "Merges the completed contact-enrichment results with the original query representative rows."
+            "sourceCode": "function parse(v){for(let i=0;i<3&&typeof v==='string';i+=1){try{v=JSON.parse(v)}catch(e){break}}return v}\nfunction text(v){return v==null?'':String(v).trim()}\nfunction collect(v,out){out=out||[];v=parse(v);if(Array.isArray(v)){v.forEach(function(x){collect(x,out)});return out}if(!v||typeof v!=='object')throw new Error('Invalid representative enrichment response');if(v.error||v.timeout||v.timedOut||v.isError)throw new Error('Representative enrichment request failed');if(text(v.PersonId||v.personId)){out.push(v);return out}['items','result','output','data'].forEach(function(k){if(v[k]!==undefined)collect(v[k],out)});return out}\nfunction byPerson(v){const index={};collect(v,[]).forEach(function(row){const id=text(row.PersonId||row.personId);if(id)index[id]=row});return index}\nconst representatives=collect($context.$nodes.GET_ALL_REPRESENTATIVES_QUERY.$output,[]);\nconst contacts=byPerson($context.$nodes.ENRICH_QUERY_REPRESENTATIVE_CONTACTS.$output);\nreturn {items:representatives.map(function(rep){const id=text(rep.PersonId||rep.personId);return Object.assign({},rep,contacts[id]||{})})};",
+            "description": "Merges the completed contact-enrichment results with the original query representative rows.",
+            "errorNodeId": "HR_RESPONSE_REJECTED"
           },
           "outcomes": {
             "success": "1783409974035"
@@ -925,8 +946,8 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 5721.875,
-            "y": 10420
+            "x": 5732.5,
+            "y": 10118
           }
         },
         {
@@ -937,8 +958,8 @@
             "name": "Set Context Data"
           },
           "diagram": {
-            "x": 5721.875,
-            "y": 10642
+            "x": 5732.5,
+            "y": 10340
           },
           "outcomes": {
             "success": "PREPARE_SAFE_ANSWER_QUERY"
@@ -968,8 +989,8 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 6120.3125,
-            "y": 10864
+            "x": 6195.75,
+            "y": 10562
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -983,8 +1004,8 @@
             "errorNodeId": "HR_RESPONSE_REJECTED"
           },
           "diagram": {
-            "x": 6120.3125,
-            "y": 11086
+            "x": 6195.75,
+            "y": 10784
           },
           "outcomes": {
             "success": "CHECK_SAFE_ANSWER_QUERY"
@@ -1021,8 +1042,8 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 6120.3125,
-            "y": 11308
+            "x": 6195.75,
+            "y": 11006
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -1042,8 +1063,8 @@
           ],
           "outcomes": {},
           "diagram": {
-            "x": 6120.3125,
-            "y": 11530
+            "x": 6195.75,
+            "y": 11228
           }
         },
         {
@@ -1062,8 +1083,8 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 6856.25,
-            "y": 7204
+            "x": 6945.5,
+            "y": 6760
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -1078,8 +1099,8 @@
             "description": "Renders the prepared data contract; deterministic validation is required before returning it."
           },
           "diagram": {
-            "x": 6931.25,
-            "y": 7426
+            "x": 7012,
+            "y": 6982
           },
           "outcomes": {
             "success": "CHECK_SAFE_RENDER_EMPTY_ALL_REPRESENTATIVES_LIST"
@@ -1113,8 +1134,8 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 6856.25,
-            "y": 7648
+            "x": 6920,
+            "y": 7204
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -1134,8 +1155,8 @@
           ],
           "outcomes": {},
           "diagram": {
-            "x": 7071.875,
-            "y": 9034
+            "x": 7184.5,
+            "y": 8661
           }
         },
         {
@@ -1146,7 +1167,7 @@
             "name": "Validate Request Get Primary Assignment",
             "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
             "returnType": "object",
-            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"personId\");\nreturn checked;",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"personId\");\nreturn checked;",
             "errorNodeId": "HR_REQUEST_REJECTED"
           },
           "outcomes": {
@@ -1155,8 +1176,8 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 7118.75,
-            "y": 6094
+            "x": 7191,
+            "y": 5650
           }
         },
         {
@@ -1170,8 +1191,8 @@
             "errorNodeId": "RETURN_UNVERIFIED_REPRESENTATIVES"
           },
           "diagram": {
-            "x": 7118.75,
-            "y": 6316
+            "x": 7191,
+            "y": 5872
           },
           "outcomes": {
             "success": "VALIDATE_REPRESENTATIVE_ASSIGNMENT"
@@ -1182,7 +1203,7 @@
               "name": "personId",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_PRIMARY_ASSIGNMENT.$output.result.personId}}",
               "required": false,
-              "type": "integer"
+              "type": "string"
             }
           ],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"AssignmentId\": {\n            \"type\": \"string\"\n          },\n          \"@context\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"key\": {\n                \"type\": \"string\"\n              }\n            },\n            \"required\": [\n              \"key\"\n            ],\n            \"additionalProperties\": false\n          },\n          \"PersonId\": {\n            \"type\": [\n              \"string\",\n              \"number\",\n              \"null\"\n            ]\n          }\n        },\n        \"required\": [\n          \"AssignmentId\",\n          \"@context\"\n        ],\n        \"additionalProperties\": false\n      }\n    },\n    \"count\": {\n      \"type\": \"number\"\n    },\n    \"hasMore\": {\n      \"type\": \"boolean\"\n    },\n    \"limit\": {\n      \"type\": \"number\"\n    },\n    \"offset\": {\n      \"type\": \"number\"\n    },\n    \"links\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"rel\": {\n            \"type\": \"string\"\n          },\n          \"href\": {\n            \"type\": \"string\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          },\n          \"kind\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"rel\",\n          \"href\",\n          \"name\",\n          \"kind\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  },\n  \"required\": [\n    \"items\",\n    \"count\",\n    \"hasMore\",\n    \"limit\",\n    \"offset\",\n    \"links\"\n  ],\n  \"additionalProperties\": false\n}"
@@ -1195,7 +1216,7 @@
             "name": "Validate get primary assignment",
             "description": "Normalizes the assignment ID and verifies the returned worker identity, when supplied, before representative queries.",
             "returnType": "object",
-            "sourceCode": "function plainObject(value) {\n  return !!value && typeof value === \"object\" && !Array.isArray(value) &&\n    (Object.getPrototypeOf(value) === Object.prototype || Object.getPrototypeOf(value) === null) &&\n    !Object.keys(value).some(function (key) { return [\"__proto__\", \"constructor\", \"prototype\"].indexOf(key) !== -1; });\n}\nfunction identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const normalized = value.trim();\n  return /^[1-9][0-9]{0,19}$/.test(normalized) ? normalized : \"\";\n}\nfunction response(value) {\n  if (typeof value === \"string\") {\n    if (value.length > 1000000) throw new Error(\"Representative response is too large.\");\n    try { value = JSON.parse(value); } catch (error) { throw new Error(\"Invalid representative response.\"); }\n  }\n  if (!plainObject(value) || value.error || value.timeout || value.isError ||\n      Number(value.statusCode || value.status || 0) >= 400 || !Array.isArray(value.items)) {\n    throw new Error(\"Representative lookup failed.\");\n  }\n  if (value.hasMore !== undefined && value.hasMore !== true && value.hasMore !== false &&\n      value.hasMore !== \"true\" && value.hasMore !== \"false\") {\n    throw new Error(\"Invalid representative paging information.\");\n  }\n  return value;\n}\n\nconst sourcePersonId = identifier($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId);\nif (!sourcePersonId) throw new Error(\"Invalid source worker.\");\nconst data = response($context.$nodes.GET_PRIMARY_ASSIGNMENT.$output);\n// Preserve the existing first-primary-assignment choice; validate it before use.\nif (!data.items.length) return { valid: false, personId: sourcePersonId, assignmentId: \"\" };\nconst row = data.items[0];\nif (!plainObject(row)) throw new Error(\"Invalid primary assignment.\");\nconst assignmentId = identifier(row.AssignmentId);\nif (!assignmentId || (row.PersonId != null && identifier(row.PersonId) !== sourcePersonId)) {\n  throw new Error(\"Primary assignment identity could not be verified.\");\n}\nreturn { valid: true, personId: sourcePersonId, assignmentId: assignmentId };\n",
+            "sourceCode": "function plainObject(value) {\n  return !!value && typeof value === \"object\" && !Array.isArray(value) &&\n    (Object.getPrototypeOf(value) === Object.prototype || Object.getPrototypeOf(value) === null) &&\n    !Object.keys(value).some(function (key) { return [\"__proto__\", \"constructor\", \"prototype\"].indexOf(key) !== -1; });\n}\nfunction identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const normalized = value.trim();\n  return /^[1-9][0-9]{0,29}$/.test(normalized) ? normalized : \"\";\n}\nfunction response(value) {\n  if (typeof value === \"string\") {\n    if (value.length > 1000000) throw new Error(\"Representative response is too large.\");\n    try { value = JSON.parse(value); } catch (error) { throw new Error(\"Invalid representative response.\"); }\n  }\n  if (!plainObject(value) || value.error || value.timeout || value.isError ||\n      Number(value.statusCode || value.status || 0) >= 400 || !Array.isArray(value.items)) {\n    throw new Error(\"Representative lookup failed.\");\n  }\n  if (value.hasMore !== undefined && value.hasMore !== true && value.hasMore !== false &&\n      value.hasMore !== \"true\" && value.hasMore !== \"false\") {\n    throw new Error(\"Invalid representative paging information.\");\n  }\n  return value;\n}\n\nconst sourcePersonId = identifier($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId);\nif (!sourcePersonId) throw new Error(\"Invalid source worker.\");\nconst data = response($context.$nodes.GET_PRIMARY_ASSIGNMENT.$output);\n// Preserve the existing first-primary-assignment choice; validate it before use.\nif (!data.items.length) return { valid: false, personId: sourcePersonId, assignmentId: \"\" };\nconst row = data.items[0];\nif (!plainObject(row)) throw new Error(\"Invalid primary assignment.\");\nconst assignmentId = identifier(row.AssignmentId);\nif (!assignmentId || (row.PersonId != null && identifier(row.PersonId) !== sourcePersonId)) {\n  throw new Error(\"Primary assignment identity could not be verified.\");\n}\nreturn { valid: true, personId: sourcePersonId, assignmentId: assignmentId };\n",
             "errorNodeId": "RETURN_UNVERIFIED_REPRESENTATIVES"
           },
           "outcomes": {
@@ -1204,8 +1225,8 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 7118.75,
-            "y": 6538
+            "x": 7191,
+            "y": 6094
           }
         },
         {
@@ -1216,8 +1237,8 @@
             "name": "Has Primary Assignment"
           },
           "diagram": {
-            "x": 7118.75,
-            "y": 6760
+            "x": 7191,
+            "y": 6316
           },
           "outcomes": {
             "true": "VALIDATE_REQUEST_GET_TOP_2_REPRESENTATIVES",
@@ -1241,7 +1262,7 @@
             "name": "Validate Request Get Top 2 Representatives",
             "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
             "returnType": "object",
-            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\nfunction page(value,name,min,max) {\n  if(typeof value!==\"number\" && typeof value!==\"string\") reject(name);\n  if(typeof value===\"string\" && !/^[0-9]{1,7}$/.test(value.trim())) reject(name);\n  const number=Number(value);if(!Number.isSafeInteger(number)||number<min||number>max) reject(name);return number;\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.VALIDATE_REPRESENTATIVE_ASSIGNMENT.$output.result.personId),\"personId\");\nchecked[\"assignmentId\"]=id(($context.$nodes.VALIDATE_REPRESENTATIVE_ASSIGNMENT.$output.result.assignmentId),\"assignmentId\");\nchecked[\"limit\"]=page(\"2\",\"limit\",1,500);\nchecked[\"offset\"]=page(\"0\",\"offset\",0,1000000);\nreturn checked;",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\nfunction page(value,name,min,max) {\n  if(typeof value!==\"number\" && typeof value!==\"string\") reject(name);\n  if(typeof value===\"string\" && !/^[0-9]{1,7}$/.test(value.trim())) reject(name);\n  const number=Number(value);if(!Number.isSafeInteger(number)||number<min||number>max) reject(name);return number;\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.VALIDATE_REPRESENTATIVE_ASSIGNMENT.$output.result.personId),\"personId\");\nchecked[\"assignmentId\"]=id(($context.$nodes.VALIDATE_REPRESENTATIVE_ASSIGNMENT.$output.result.assignmentId),\"assignmentId\");\nchecked[\"limit\"]=page(\"2\",\"limit\",1,500);\nchecked[\"offset\"]=page(\"0\",\"offset\",0,1000000);\nreturn checked;",
             "errorNodeId": "HR_REQUEST_REJECTED"
           },
           "outcomes": {
@@ -1250,8 +1271,8 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 7118.75,
-            "y": 6982
+            "x": 7191,
+            "y": 6538
           }
         },
         {
@@ -1265,8 +1286,8 @@
             "errorNodeId": "RETURN_UNVERIFIED_REPRESENTATIVES"
           },
           "diagram": {
-            "x": 7306.25,
-            "y": 7204
+            "x": 7395.5,
+            "y": 6760
           },
           "outcomes": {
             "success": "VALIDATE_TOP_REPRESENTATIVE_IDS"
@@ -1277,14 +1298,14 @@
               "name": "personId",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_TOP_2_REPRESENTATIVES.$output.result.personId}}",
               "required": false,
-              "type": "integer"
+              "type": "string"
             },
             {
               "id": "1780325351716_assignmentId",
               "name": "assignmentId",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_TOP_2_REPRESENTATIVES.$output.result.assignmentId}}",
               "required": false,
-              "type": "integer"
+              "type": "string"
             },
             {
               "id": "1780325351716_limit",
@@ -1311,7 +1332,7 @@
             "name": "Validate enrich top representative contacts",
             "description": "Validates and normalizes every representative ID before contact lookups while preserving fields and repeated responsibilities.",
             "returnType": "object",
-            "sourceCode": "function plainObject(value) {\n  return !!value && typeof value === \"object\" && !Array.isArray(value) &&\n    (Object.getPrototypeOf(value) === Object.prototype || Object.getPrototypeOf(value) === null) &&\n    !Object.keys(value).some(function (key) { return [\"__proto__\", \"constructor\", \"prototype\"].indexOf(key) !== -1; });\n}\nfunction identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const normalized = value.trim();\n  return /^[1-9][0-9]{0,19}$/.test(normalized) ? normalized : \"\";\n}\nfunction response(value) {\n  if (typeof value === \"string\") {\n    if (value.length > 1000000) throw new Error(\"Representative response is too large.\");\n    try { value = JSON.parse(value); } catch (error) { throw new Error(\"Invalid representative response.\"); }\n  }\n  if (!plainObject(value) || value.error || value.timeout || value.isError ||\n      Number(value.statusCode || value.status || 0) >= 400 || !Array.isArray(value.items)) {\n    throw new Error(\"Representative lookup failed.\");\n  }\n  if (value.hasMore !== undefined && value.hasMore !== true && value.hasMore !== false &&\n      value.hasMore !== \"true\" && value.hasMore !== \"false\") {\n    throw new Error(\"Invalid representative paging information.\");\n  }\n  return value;\n}\nfunction records(value, maximum, expectedOffset) {\n  const data = response(value);\n  if (data.items.length > maximum) throw new Error(\"Unexpected representative page size.\");\n  if (data.offset !== undefined && (typeof data.offset !== \"number\" && typeof data.offset !== \"string\" ||\n      !/^[0-9]+$/.test(String(data.offset)) || Number(data.offset) !== expectedOffset)) {\n    throw new Error(\"Unexpected representative page offset.\");\n  }\n  return data.items.map(function (row) {\n    if (!plainObject(row)) throw new Error(\"Invalid representative row.\");\n    const personId = identifier(row.PersonId);\n    if (!personId) throw new Error(\"Invalid representative identity.\");\n    // Repeated people can hold different responsibilities; preserve every valid row.\n    return Object.assign({}, row, { PersonId: personId });\n  });\n}\n\nreturn { items: records($context.$nodes.GET_TOP_2_REPRESENTATIVES.$output, 2, 0) };\n",
+            "sourceCode": "function plainObject(value) {\n  return !!value && typeof value === \"object\" && !Array.isArray(value) &&\n    (Object.getPrototypeOf(value) === Object.prototype || Object.getPrototypeOf(value) === null) &&\n    !Object.keys(value).some(function (key) { return [\"__proto__\", \"constructor\", \"prototype\"].indexOf(key) !== -1; });\n}\nfunction identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const normalized = value.trim();\n  return /^[1-9][0-9]{0,29}$/.test(normalized) ? normalized : \"\";\n}\nfunction response(value) {\n  if (typeof value === \"string\") {\n    if (value.length > 1000000) throw new Error(\"Representative response is too large.\");\n    try { value = JSON.parse(value); } catch (error) { throw new Error(\"Invalid representative response.\"); }\n  }\n  if (!plainObject(value) || value.error || value.timeout || value.isError ||\n      Number(value.statusCode || value.status || 0) >= 400 || !Array.isArray(value.items)) {\n    throw new Error(\"Representative lookup failed.\");\n  }\n  if (value.hasMore !== undefined && value.hasMore !== true && value.hasMore !== false &&\n      value.hasMore !== \"true\" && value.hasMore !== \"false\") {\n    throw new Error(\"Invalid representative paging information.\");\n  }\n  return value;\n}\nfunction records(value, maximum, expectedOffset) {\n  const data = response(value);\n  if (data.items.length > maximum) throw new Error(\"Unexpected representative page size.\");\n  if (data.offset !== undefined && (typeof data.offset !== \"number\" && typeof data.offset !== \"string\" ||\n      !/^[0-9]+$/.test(String(data.offset)) || Number(data.offset) !== expectedOffset)) {\n    throw new Error(\"Unexpected representative page offset.\");\n  }\n  return data.items.map(function (row) {\n    if (!plainObject(row)) throw new Error(\"Invalid representative row.\");\n    const personId = identifier(row.PersonId);\n    if (!personId) throw new Error(\"Invalid representative identity.\");\n    // Repeated people can hold different responsibilities; preserve every valid row.\n    return Object.assign({}, row, { PersonId: personId });\n  });\n}\n\nreturn { items: records($context.$nodes.GET_TOP_2_REPRESENTATIVES.$output, 2, 0) };\n",
             "errorNodeId": "RETURN_UNVERIFIED_REPRESENTATIVES"
           },
           "outcomes": {
@@ -1320,8 +1341,8 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 7381.25,
-            "y": 7426
+            "x": 7462,
+            "y": 6982
           }
         },
         {
@@ -1347,8 +1368,8 @@
                   },
                   "inputs": [],
                   "diagram": {
-                    "x": 7578.25,
-                    "y": 7738
+                    "x": 7512,
+                    "y": 7294
                   }
                 },
                 {
@@ -1368,13 +1389,13 @@
                     {
                       "id": "TOP_GET_REPRESENTATIVE_EMAIL_personId",
                       "name": "personId",
-                      "type": "integer",
+                      "type": "string",
                       "value": "{{$context.$nodes.ENRICH_TOP_REPRESENTATIVE_CONTACTS.VALIDATE_REQUEST_TOP_GET_REPRESENTATIVE_EMAIL.$output.result.personId}}"
                     }
                   ],
                   "diagram": {
-                    "x": 7456.25,
-                    "y": 8111
+                    "x": 7390,
+                    "y": 7738
                   },
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"PersonId\": {\n      \"type\": \"string\"\n    },\n    \"PersonNumber\": {\n      \"type\": \"string\"\n    },\n    \"LastName\": {\n      \"type\": \"string\"\n    },\n    \"FirstName\": {\n      \"type\": \"string\"\n    },\n    \"Title\": {\n      \"type\": \"string\"\n    },\n    \"PreNameAdjunct\": {\n      \"type\": \"string\"\n    },\n    \"Suffix\": {\n      \"type\": \"string\"\n    },\n    \"MiddleNames\": {\n      \"type\": \"string\"\n    },\n    \"Honors\": {\n      \"type\": \"string\"\n    },\n    \"KnownAs\": {\n      \"type\": \"string\"\n    },\n    \"DisplayName\": {\n      \"type\": \"string\"\n    },\n    \"ListName\": {\n      \"type\": \"string\"\n    },\n    \"OrderName\": {\n      \"type\": \"string\"\n    },\n    \"WorkEmail\": {\n      \"type\": \"string\"\n    },\n    \"Username\": {\n      \"type\": \"string\"\n    },\n    \"links\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"rel\": {\n            \"type\": \"string\"\n          },\n          \"href\": {\n            \"type\": \"string\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          },\n          \"kind\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"rel\",\n          \"href\",\n          \"name\",\n          \"kind\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  },\n  \"required\": [\n    \"PersonId\",\n    \"PersonNumber\",\n    \"LastName\",\n    \"FirstName\",\n    \"Title\",\n    \"PreNameAdjunct\",\n    \"Suffix\",\n    \"MiddleNames\",\n    \"Honors\",\n    \"KnownAs\",\n    \"DisplayName\",\n    \"ListName\",\n    \"OrderName\",\n    \"WorkEmail\",\n    \"Username\",\n    \"links\"\n  ],\n  \"additionalProperties\": false\n}"
                 },
@@ -1395,13 +1416,13 @@
                     {
                       "id": "1783409974036_personId",
                       "name": "personId",
-                      "type": "integer",
+                      "type": "string",
                       "value": "{{$context.$nodes.ENRICH_TOP_REPRESENTATIVE_CONTACTS.VALIDATE_REQUEST_TOP_GET_REPRESENTATIVE_PHONE.$output.result.personId}}"
                     }
                   ],
                   "diagram": {
-                    "x": 7456.25,
-                    "y": 8555
+                    "x": 7390,
+                    "y": 8182
                   },
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"phones\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"items\": {\n                \"type\": \"array\",\n                \"items\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"PhoneId\": {\n                      \"type\": \"number\"\n                    },\n                    \"PhoneType\": {\n                      \"type\": \"string\"\n                    },\n                    \"PhoneTypeMeaning\": {\n                      \"type\": \"string\"\n                    },\n                    \"LegislationCode\": {\n                      \"type\": \"string\"\n                    },\n                    \"LegislationName\": {\n                      \"type\": \"string\"\n                    },\n                    \"CountryCodeNumber\": {\n                      \"type\": \"string\"\n                    },\n                    \"AreaCode\": {\n                      \"type\": \"string\"\n                    },\n                    \"PhoneNumber\": {\n                      \"type\": \"string\"\n                    },\n                    \"Extension\": {\n                      \"type\": \"null\"\n                    },\n                    \"FromDate\": {\n                      \"type\": \"string\"\n                    },\n                    \"ToDate\": {\n                      \"type\": \"null\"\n                    },\n                    \"Validity\": {\n                      \"type\": \"null\"\n                    },\n                    \"ValidityMeaning\": {\n                      \"type\": \"null\"\n                    },\n                    \"CreatedBy\": {\n                      \"type\": \"string\"\n                    },\n                    \"CreationDate\": {\n                      \"type\": \"string\"\n                    },\n                    \"LastUpdatedBy\": {\n                      \"type\": \"string\"\n                    },\n                    \"LastUpdateDate\": {\n                      \"type\": \"string\"\n                    },\n                    \"PrimaryFlag\": {\n                      \"type\": \"boolean\"\n                    },\n                    \"@context\": {\n                      \"type\": \"object\",\n                      \"properties\": {\n                        \"key\": {\n                          \"type\": \"string\"\n                        }\n                      },\n                      \"required\": [\n                        \"key\"\n                      ],\n                      \"additionalProperties\": false\n                    }\n                  },\n                  \"required\": [\n                    \"PhoneId\",\n                    \"PhoneType\",\n                    \"PhoneTypeMeaning\",\n                    \"LegislationCode\",\n                    \"LegislationName\",\n                    \"CountryCodeNumber\",\n                    \"AreaCode\",\n                    \"PhoneNumber\",\n                    \"Extension\",\n                    \"FromDate\",\n                    \"ToDate\",\n                    \"Validity\",\n                    \"ValidityMeaning\",\n                    \"CreatedBy\",\n                    \"CreationDate\",\n                    \"LastUpdatedBy\",\n                    \"LastUpdateDate\",\n                    \"PrimaryFlag\",\n                    \"@context\"\n                  ],\n                  \"additionalProperties\": false\n                }\n              },\n              \"count\": {\n                \"type\": \"number\"\n              },\n              \"hasMore\": {\n                \"type\": \"boolean\"\n              },\n              \"limit\": {\n                \"type\": \"number\"\n              },\n              \"offset\": {\n                \"type\": \"number\"\n              },\n              \"links\": {\n                \"type\": \"array\"\n              }\n            },\n            \"required\": [\n              \"items\",\n              \"count\",\n              \"hasMore\",\n              \"limit\",\n              \"offset\",\n              \"links\"\n            ],\n            \"additionalProperties\": false\n          },\n          \"@context\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"key\": {\n                \"type\": \"string\"\n              }\n            },\n            \"required\": [\n              \"key\"\n            ],\n            \"additionalProperties\": false\n          }\n        },\n        \"required\": [\n          \"phones\",\n          \"@context\"\n        ],\n        \"additionalProperties\": false\n      }\n    },\n    \"count\": {\n      \"type\": \"number\"\n    },\n    \"hasMore\": {\n      \"type\": \"boolean\"\n    },\n    \"limit\": {\n      \"type\": \"number\"\n    },\n    \"offset\": {\n      \"type\": \"number\"\n    },\n    \"links\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"rel\": {\n            \"type\": \"string\"\n          },\n          \"href\": {\n            \"type\": \"string\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          },\n          \"kind\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"rel\",\n          \"href\",\n          \"name\",\n          \"kind\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  },\n  \"required\": [\n    \"items\",\n    \"count\",\n    \"hasMore\",\n    \"limit\",\n    \"offset\",\n    \"links\"\n  ],\n  \"additionalProperties\": false\n}"
                 },
@@ -1416,13 +1437,13 @@
                     "description": "Merges matching work email and work phone into the current initial-list representative row."
                   },
                   "outcomes": {
-                    "success": "enrich_top_representative_contacts_end"
+                    "success": "end_ENRICH_TOP_REPRESENTATIVE_CONTACTS"
                   },
                   "inputs": [],
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
                   "diagram": {
-                    "x": 7456.25,
-                    "y": 8777
+                    "x": 7390,
+                    "y": 8404
                   }
                 },
                 {
@@ -1433,8 +1454,8 @@
                     "name": "Validate Request Top Get Representative Email",
                     "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
                     "returnType": "object",
-                    "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.ENRICH_TOP_REPRESENTATIVE_CONTACTS.$currentItem.PersonId),\"personId\");\nreturn checked;",
-                    "errorNodeId": "HR_REQUEST_REJECTED"
+                    "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.ENRICH_TOP_REPRESENTATIVE_CONTACTS.$currentItem.PersonId),\"personId\");\nreturn checked;",
+                    "errorNodeId": "ENRICH_TOP_REPRESENTATIVE_CONTACTS_REQUEST_REJECTED"
                   },
                   "outcomes": {
                     "success": "TOP_GET_REPRESENTATIVE_EMAIL"
@@ -1442,8 +1463,8 @@
                   "inputs": [],
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
                   "diagram": {
-                    "x": 7456.25,
-                    "y": 7889
+                    "x": 7390,
+                    "y": 7516
                   }
                 },
                 {
@@ -1454,8 +1475,8 @@
                     "name": "Validate Request Top Get Representative Phone",
                     "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
                     "returnType": "object",
-                    "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.ENRICH_TOP_REPRESENTATIVE_CONTACTS.$currentItem.PersonId),\"personId\");\nreturn checked;",
-                    "errorNodeId": "HR_REQUEST_REJECTED"
+                    "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.ENRICH_TOP_REPRESENTATIVE_CONTACTS.$currentItem.PersonId),\"personId\");\nreturn checked;",
+                    "errorNodeId": "ENRICH_TOP_REPRESENTATIVE_CONTACTS_REQUEST_REJECTED"
                   },
                   "outcomes": {
                     "success": "1783409974036"
@@ -1463,12 +1484,32 @@
                   "inputs": [],
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
                   "diagram": {
-                    "x": 7456.25,
-                    "y": 8333
+                    "x": 7390,
+                    "y": 7960
                   }
                 },
                 {
-                  "id": "enrich_top_representative_contacts_end",
+                  "id": "ENRICH_TOP_REPRESENTATIVE_CONTACTS_REQUEST_REJECTED",
+                  "code": "ENRICH_TOP_REPRESENTATIVE_CONTACTS_REQUEST_REJECTED",
+                  "type": "RETURN",
+                  "metadata": {
+                    "name": "Reject Enrich Top Representative Contacts Sequentially request"
+                  },
+                  "inputs": [
+                    {
+                      "name": "returnValue",
+                      "type": "string",
+                      "value": "{\"error\":\"Invalid HR loop request parameter\"}"
+                    }
+                  ],
+                  "outcomes": {},
+                  "diagram": {
+                    "x": 7718,
+                    "y": 7294
+                  }
+                },
+                {
+                  "id": "end_ENRICH_TOP_REPRESENTATIVE_CONTACTS",
                   "code": "END",
                   "type": "END",
                   "metadata": {
@@ -1500,10 +1541,10 @@
             }
           ],
           "diagram": {
-            "x": 7306.25,
-            "y": 7648,
-            "width": 600,
-            "height": 1236
+            "x": 7370,
+            "y": 7204,
+            "width": 668,
+            "height": 1307
           }
         },
         {
@@ -1513,8 +1554,9 @@
           "metadata": {
             "name": "Merge Enrich Top Representative Contacts Sequentially",
             "returnType": "object",
-            "sourceCode": "function parse(v){for(let i=0;i<3&&typeof v==='string';i+=1){try{v=JSON.parse(v)}catch(e){break}}return v}\nfunction text(v){return v==null?'':String(v).trim()}\nfunction collect(v,out){out=out||[];v=parse(v);if(Array.isArray(v)){v.forEach(function(x){collect(x,out)});return out}if(!v||typeof v!=='object')return out;if(text(v.PersonId||v.personId)){out.push(v);return out}['items','result','output','data'].forEach(function(k){if(v[k]!==undefined)collect(v[k],out)});return out}\nfunction byPerson(v){const index={};collect(v,[]).forEach(function(row){const id=text(row.PersonId||row.personId);if(id)index[id]=row});return index}\nconst representatives=collect($context.$nodes.GET_TOP_2_REPRESENTATIVES.$output,[]);\nconst contacts=byPerson($context.$nodes.ENRICH_TOP_REPRESENTATIVE_CONTACTS.$output);\nreturn {items:representatives.map(function(rep){const id=text(rep.PersonId||rep.personId);return Object.assign({},rep,contacts[id]||{})})};",
-            "description": "Merges the completed contact-enrichment results with the original initial representative rows."
+            "sourceCode": "function parse(v){for(let i=0;i<3&&typeof v==='string';i+=1){try{v=JSON.parse(v)}catch(e){break}}return v}\nfunction text(v){return v==null?'':String(v).trim()}\nfunction collect(v,out){out=out||[];v=parse(v);if(Array.isArray(v)){v.forEach(function(x){collect(x,out)});return out}if(!v||typeof v!=='object')throw new Error('Invalid representative enrichment response');if(v.error||v.timeout||v.timedOut||v.isError)throw new Error('Representative enrichment request failed');if(text(v.PersonId||v.personId)){out.push(v);return out}['items','result','output','data'].forEach(function(k){if(v[k]!==undefined)collect(v[k],out)});return out}\nfunction byPerson(v){const index={};collect(v,[]).forEach(function(row){const id=text(row.PersonId||row.personId);if(id)index[id]=row});return index}\nconst representatives=collect($context.$nodes.GET_TOP_2_REPRESENTATIVES.$output,[]);\nconst contacts=byPerson($context.$nodes.ENRICH_TOP_REPRESENTATIVE_CONTACTS.$output);\nreturn {items:representatives.map(function(rep){const id=text(rep.PersonId||rep.personId);return Object.assign({},rep,contacts[id]||{})})};",
+            "description": "Merges the completed contact-enrichment results with the original initial representative rows.",
+            "errorNodeId": "HR_RESPONSE_REJECTED"
           },
           "outcomes": {
             "success": "PREPARE_SAFE_RENDER_WORKER_REPRESENTATIVES_LIST"
@@ -1522,8 +1564,8 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 7596.875,
-            "y": 9034
+            "x": 7726.5,
+            "y": 8661
           }
         },
         {
@@ -1534,7 +1576,7 @@
             "name": "Prepare Safe Render Worker Representatives List",
             "description": "Enforces the permitted data and output contract for this HR panel.",
             "returnType": "object",
-            "sourceCode": "function reject() { throw new Error(\"The response did not match the permitted HR display contract.\"); }\nfunction text(v) {\n  if (typeof v !== \"string\" && typeof v !== \"number\") return \"\";\n  return String(v).replace(/[\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f-\\u009f\\u200b-\\u200f\\u202a-\\u202e\\u2060-\\u206f\\ufeff]/g, \"\").trim()\n    .replace(/&(?!amp;|lt;|gt;|quot;|apos;|nbsp;)/g,\"&amp;\").replace(/</g,\"&lt;\").replace(/>/g,\"&gt;\");\n}\nfunction list(v) { if (!Array.isArray(v) || v.length > 1000) reject(); return v; }\nfunction image(id) { id = String(id == null ? \"\" : id); if (!id) return \"\"; if (!/^\\d{1,18}$/.test(id)) reject(); return \"/hcmUI/personImage?returnSquare=true&returnInitials=Y&removeBackground=Y&personId=\" + id + \"&maxSize=144&id=1779878994029&patternIndex=0\"; }\nfunction put(obj,key,value) { if (value !== \"\" && value != null) obj[key] = value; }\nlet displayIndex = 0;\nfunction display(pattern,properties,extra) { return {type:\"oraInfoDisplay\",key:\"xx_worker_reps-render_worker_representatives_list-\"+(++displayIndex),payload:Object.assign({patternId:pattern},extra || {},{properties:properties})}; }\nfunction message(items,extra) { return display(\"messageListWidget\",{items:items},extra); }\nfunction personRows(rows,actions,kind) {\n  return list(rows).map(function(row,i) {\n    const item = {title:text(row.DisplayName) || (kind === \"direct\" ? \"\" : kind === \"representative\" ? \"Representative\" : \"Person\")};\n    if (kind === \"direct\") {\n      put(item,\"subtitle\",[row.JobName,row.DepartmentName,row.LocationName].map(text).filter(Boolean).join(\" | \"));\n      put(item,\"summary\",[row.WorkEmail,row.WorkPhone].map(text).filter(Boolean).join(\" | \"));\n      const dc = Number(row.DirectReportsCount), ac = Number(row.AllReportsCount);\n      if (Number.isFinite(dc) && Number.isFinite(ac) && (dc > 0 || ac > 0)) item.timestamp = \"Directs \" + dc + \" | Total \" + ac;\n    } else if (kind === \"representative\") {\n      put(item,\"subtitle\",text(row.ResponsibilityType));\n      put(item,\"summary\",[row.WorkEmail,row.WorkPhone].map(text).filter(Boolean).join(\" | \"));\n    } else if (kind === \"searchRepresentative\") {\n      put(item,\"subtitle\",text(row.ResponsibilityName)); put(item,\"badgeText\",text(row.ResponsibilityType));\n    } else {\n      put(item,\"subtitle\",text(row.JobName)); put(item,\"badgeText\",text(row.AssignmentNumber));\n      put(item,\"summary\",[row.DepartmentName,row.LocationName].map(text).filter(Boolean).join(\" - \"));\n    }\n    put(item,\"image\",image(row.PersonId));\n    if (row.PersonId) {\n      if (kind === \"direct\" || kind === \"representative\") {\n        const action = kind === \"direct\" ? \"selectDirect\" : \"selectRepresentative\";\n        item.action = 'ora.Invoke(' + JSON.stringify(action) + ', ' + JSON.stringify({actionId:action,personId:String(row.PersonId)}) + ')';\n      } else if (actions && actions[i]) item.action = actions[i];\n    }\n    return item;\n  });\n}\n\n\nlet blocks=[],visibleText=\"\";\nblocks=[message(personRows($context.$nodes.MERGE_TOP_REPRESENTATIVE_CONTACTS.$output.result.items,null,\"representative\"))];\n\n// Keep internal identifiers and executable commands outside the model context.\nconst references = {};\nlet referenceIndex = 0;\nfunction protect(value,key,parent) {\n  if (typeof value === \"string\" && ([\"action\",\"drillDownAction\",\"followUpCommand\",\"image\"].includes(key) || (key === \"id\" && /\\d/.test(value)) || (key === \"value\" && parent && [\"hidden\",\"system\"].includes(parent.type)))) {\n    const token = \"HR_REF_\" + (++referenceIndex);\n    references[token] = value;\n    return token;\n  }\n  if (Array.isArray(value)) return value.map(function(v) { return protect(v,\"\",null); });\n  if (value && typeof value === \"object\") {\n    const result = {};\n    Object.keys(value).forEach(function(k) { if ([\"__proto__\",\"prototype\",\"constructor\"].includes(k)) reject(); result[k] = protect(value[k],k,value); });\n    return result;\n  }\n  if (typeof value === \"string\" && /HR_REF_\\d+/.test(value)) reject();\n  return value;\n}\nconst contract = {blocks:blocks,text:visibleText};\nconst modelContract = protect(contract,\"\",null);\nconst modelJson = JSON.stringify(modelContract);\nif (modelJson.length > 1000000) reject();\nreturn {modelJson:modelJson,contract:modelContract,references:references};\n",
+            "sourceCode": "function reject() { throw new Error(\"The response did not match the permitted HR display contract.\"); }\nfunction text(v) {\n  if (typeof v !== \"string\" && typeof v !== \"number\") return \"\";\n  return String(v).replace(/[\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f-\\u009f\\u200b-\\u200f\\u202a-\\u202e\\u2060-\\u206f\\ufeff]/g, \"\").trim()\n    .replace(/&(?!amp;|lt;|gt;|quot;|apos;|nbsp;)/g,\"&amp;\").replace(/</g,\"&lt;\").replace(/>/g,\"&gt;\");\n}\nfunction list(v) { if (!Array.isArray(v) || v.length > 1000) reject(); return v; }\nfunction image(id) { id = String(id == null ? \"\" : id); if (!id) return \"\"; if (!/^[1-9][0-9]{0,29}$/.test(id)) reject(); return \"/hcmUI/personImage?returnSquare=true&returnInitials=Y&removeBackground=Y&personId=\" + id + \"&maxSize=144&id=1779878994029&patternIndex=0\"; }\nfunction put(obj,key,value) { if (value !== \"\" && value != null) obj[key] = value; }\nlet displayIndex = 0;\nfunction display(pattern,properties,extra) { return {type:\"oraInfoDisplay\",key:\"xx_worker_reps-render_worker_representatives_list-\"+(++displayIndex),payload:Object.assign({patternId:pattern},extra || {},{properties:properties})}; }\nfunction message(items,extra) { return display(\"messageListWidget\",{items:items},extra); }\nfunction personRows(rows,actions,kind) {\n  return list(rows).map(function(row,i) {\n    const item = {title:text(row.DisplayName) || (kind === \"direct\" ? \"\" : kind === \"representative\" ? \"Representative\" : \"Person\")};\n    if (kind === \"direct\") {\n      put(item,\"subtitle\",[row.JobName,row.DepartmentName,row.LocationName].map(text).filter(Boolean).join(\" | \"));\n      put(item,\"summary\",[row.WorkEmail,row.WorkPhone].map(text).filter(Boolean).join(\" | \"));\n      const dc = Number(row.DirectReportsCount), ac = Number(row.AllReportsCount);\n      if (Number.isFinite(dc) && Number.isFinite(ac) && (dc > 0 || ac > 0)) item.timestamp = \"Directs \" + dc + \" | Total \" + ac;\n    } else if (kind === \"representative\") {\n      put(item,\"subtitle\",text(row.ResponsibilityType));\n      put(item,\"summary\",[row.WorkEmail,row.WorkPhone].map(text).filter(Boolean).join(\" | \"));\n    } else if (kind === \"searchRepresentative\") {\n      put(item,\"subtitle\",text(row.ResponsibilityName)); put(item,\"badgeText\",text(row.ResponsibilityType));\n    } else {\n      put(item,\"subtitle\",text(row.JobName)); put(item,\"badgeText\",text(row.AssignmentNumber));\n      put(item,\"summary\",[row.DepartmentName,row.LocationName].map(text).filter(Boolean).join(\" - \"));\n    }\n    put(item,\"image\",image(row.PersonId));\n    if (row.PersonId) {\n      if (kind === \"direct\" || kind === \"representative\") {\n        const action = kind === \"direct\" ? \"selectDirect\" : \"selectRepresentative\";\n        item.action = 'ora.Invoke(' + JSON.stringify(action) + ', ' + JSON.stringify({actionId:action,personId:String(row.PersonId)}) + ')';\n      } else if (actions && actions[i]) item.action = actions[i];\n    }\n    return item;\n  });\n}\n\n\nlet blocks=[],visibleText=\"\";\nblocks=[message(personRows($context.$nodes.MERGE_TOP_REPRESENTATIVE_CONTACTS.$output.result.items,null,\"representative\"))];\n\n// Keep internal identifiers and executable commands outside the model context.\nconst references = {};\nlet referenceIndex = 0;\nfunction protect(value,key,parent) {\n  if (typeof value === \"string\" && ([\"action\",\"drillDownAction\",\"followUpCommand\",\"image\"].includes(key) || (key === \"id\" && /\\d/.test(value)) || (key === \"value\" && parent && [\"hidden\",\"system\"].includes(parent.type)))) {\n    const token = \"HR_REF_\" + (++referenceIndex);\n    references[token] = value;\n    return token;\n  }\n  if (Array.isArray(value)) return value.map(function(v) { return protect(v,\"\",null); });\n  if (value && typeof value === \"object\") {\n    const result = {};\n    Object.keys(value).forEach(function(k) { if ([\"__proto__\",\"prototype\",\"constructor\"].includes(k)) reject(); result[k] = protect(value[k],k,value); });\n    return result;\n  }\n  if (typeof value === \"string\" && /HR_REF_\\d+/.test(value)) reject();\n  return value;\n}\nconst contract = {blocks:blocks,text:visibleText};\nconst modelContract = protect(contract,\"\",null);\nconst modelJson = JSON.stringify(modelContract);\nif (modelJson.length > 1000000) reject();\nreturn {modelJson:modelJson,contract:modelContract,references:references};\n",
             "errorNodeId": "HR_RESPONSE_REJECTED"
           },
           "outcomes": {
@@ -1542,8 +1584,8 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 7596.875,
-            "y": 10420
+            "x": 7726.5,
+            "y": 10118
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -1569,8 +1611,8 @@
             "description": "Renders the prepared data contract; deterministic validation is required before returning it."
           },
           "diagram": {
-            "x": 7596.875,
-            "y": 10642
+            "x": 7726.5,
+            "y": 10340
           },
           "outcomes": {
             "success": "CHECK_SAFE_RENDER_WORKER_REPRESENTATIVES_LIST"
@@ -1612,8 +1654,8 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 7596.875,
-            "y": 10864
+            "x": 7726.5,
+            "y": 10562
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -1633,8 +1675,8 @@
           ],
           "outcomes": {},
           "diagram": {
-            "x": 7596.875,
-            "y": 11086
+            "x": 7726.5,
+            "y": 10784
           }
         },
         {
@@ -1645,7 +1687,7 @@
             "name": "Validate Request Get Primary Assignment Panel",
             "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
             "returnType": "object",
-            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"personId\");\nreturn checked;",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"personId\");\nreturn checked;",
             "errorNodeId": "HR_REQUEST_REJECTED"
           },
           "outcomes": {
@@ -1654,8 +1696,8 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 6668.75,
-            "y": 6094
+            "x": 6741,
+            "y": 5650
           }
         },
         {
@@ -1669,8 +1711,8 @@
             "errorNodeId": "RETURN_UNVERIFIED_REPRESENTATIVES"
           },
           "diagram": {
-            "x": 6668.75,
-            "y": 6316
+            "x": 6741,
+            "y": 5872
           },
           "outcomes": {
             "success": "VALIDATE_ADDITIONAL_REPRESENTATIVE_ASSIGNMENT"
@@ -1681,7 +1723,7 @@
               "name": "personId",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_PRIMARY_ASSIGNMENT_PANEL.$output.result.personId}}",
               "required": false,
-              "type": "integer"
+              "type": "string"
             }
           ],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"AssignmentId\": {\n            \"type\": \"string\"\n          },\n          \"@context\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"key\": {\n                \"type\": \"string\"\n              }\n            },\n            \"required\": [\n              \"key\"\n            ],\n            \"additionalProperties\": false\n          },\n          \"PersonId\": {\n            \"type\": [\n              \"string\",\n              \"number\",\n              \"null\"\n            ]\n          }\n        },\n        \"required\": [\n          \"AssignmentId\",\n          \"@context\"\n        ],\n        \"additionalProperties\": false\n      }\n    },\n    \"count\": {\n      \"type\": \"number\"\n    },\n    \"hasMore\": {\n      \"type\": \"boolean\"\n    },\n    \"limit\": {\n      \"type\": \"number\"\n    },\n    \"offset\": {\n      \"type\": \"number\"\n    },\n    \"links\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"rel\": {\n            \"type\": \"string\"\n          },\n          \"href\": {\n            \"type\": \"string\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          },\n          \"kind\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"rel\",\n          \"href\",\n          \"name\",\n          \"kind\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  },\n  \"required\": [\n    \"items\",\n    \"count\",\n    \"hasMore\",\n    \"limit\",\n    \"offset\",\n    \"links\"\n  ],\n  \"additionalProperties\": false\n}"
@@ -1694,7 +1736,7 @@
             "name": "Validate get primary assignment panel",
             "description": "Normalizes the assignment ID and verifies the returned worker identity, when supplied, before representative queries.",
             "returnType": "object",
-            "sourceCode": "function plainObject(value) {\n  return !!value && typeof value === \"object\" && !Array.isArray(value) &&\n    (Object.getPrototypeOf(value) === Object.prototype || Object.getPrototypeOf(value) === null) &&\n    !Object.keys(value).some(function (key) { return [\"__proto__\", \"constructor\", \"prototype\"].indexOf(key) !== -1; });\n}\nfunction identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const normalized = value.trim();\n  return /^[1-9][0-9]{0,19}$/.test(normalized) ? normalized : \"\";\n}\nfunction response(value) {\n  if (typeof value === \"string\") {\n    if (value.length > 1000000) throw new Error(\"Representative response is too large.\");\n    try { value = JSON.parse(value); } catch (error) { throw new Error(\"Invalid representative response.\"); }\n  }\n  if (!plainObject(value) || value.error || value.timeout || value.isError ||\n      Number(value.statusCode || value.status || 0) >= 400 || !Array.isArray(value.items)) {\n    throw new Error(\"Representative lookup failed.\");\n  }\n  if (value.hasMore !== undefined && value.hasMore !== true && value.hasMore !== false &&\n      value.hasMore !== \"true\" && value.hasMore !== \"false\") {\n    throw new Error(\"Invalid representative paging information.\");\n  }\n  return value;\n}\n\nconst sourcePersonId = identifier($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId);\nif (!sourcePersonId) throw new Error(\"Invalid source worker.\");\nconst data = response($context.$nodes.GET_PRIMARY_ASSIGNMENT_PANEL.$output);\n// Preserve the existing first-primary-assignment choice; validate it before use.\nif (!data.items.length) return { valid: false, personId: sourcePersonId, assignmentId: \"\" };\nconst row = data.items[0];\nif (!plainObject(row)) throw new Error(\"Invalid primary assignment.\");\nconst assignmentId = identifier(row.AssignmentId);\nif (!assignmentId || (row.PersonId != null && identifier(row.PersonId) !== sourcePersonId)) {\n  throw new Error(\"Primary assignment identity could not be verified.\");\n}\nreturn { valid: true, personId: sourcePersonId, assignmentId: assignmentId };\n",
+            "sourceCode": "function plainObject(value) {\n  return !!value && typeof value === \"object\" && !Array.isArray(value) &&\n    (Object.getPrototypeOf(value) === Object.prototype || Object.getPrototypeOf(value) === null) &&\n    !Object.keys(value).some(function (key) { return [\"__proto__\", \"constructor\", \"prototype\"].indexOf(key) !== -1; });\n}\nfunction identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const normalized = value.trim();\n  return /^[1-9][0-9]{0,29}$/.test(normalized) ? normalized : \"\";\n}\nfunction response(value) {\n  if (typeof value === \"string\") {\n    if (value.length > 1000000) throw new Error(\"Representative response is too large.\");\n    try { value = JSON.parse(value); } catch (error) { throw new Error(\"Invalid representative response.\"); }\n  }\n  if (!plainObject(value) || value.error || value.timeout || value.isError ||\n      Number(value.statusCode || value.status || 0) >= 400 || !Array.isArray(value.items)) {\n    throw new Error(\"Representative lookup failed.\");\n  }\n  if (value.hasMore !== undefined && value.hasMore !== true && value.hasMore !== false &&\n      value.hasMore !== \"true\" && value.hasMore !== \"false\") {\n    throw new Error(\"Invalid representative paging information.\");\n  }\n  return value;\n}\n\nconst sourcePersonId = identifier($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId);\nif (!sourcePersonId) throw new Error(\"Invalid source worker.\");\nconst data = response($context.$nodes.GET_PRIMARY_ASSIGNMENT_PANEL.$output);\n// Preserve the existing first-primary-assignment choice; validate it before use.\nif (!data.items.length) return { valid: false, personId: sourcePersonId, assignmentId: \"\" };\nconst row = data.items[0];\nif (!plainObject(row)) throw new Error(\"Invalid primary assignment.\");\nconst assignmentId = identifier(row.AssignmentId);\nif (!assignmentId || (row.PersonId != null && identifier(row.PersonId) !== sourcePersonId)) {\n  throw new Error(\"Primary assignment identity could not be verified.\");\n}\nreturn { valid: true, personId: sourcePersonId, assignmentId: assignmentId };\n",
             "errorNodeId": "RETURN_UNVERIFIED_REPRESENTATIVES"
           },
           "outcomes": {
@@ -1703,8 +1745,8 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 6668.75,
-            "y": 6538
+            "x": 6741,
+            "y": 6094
           }
         },
         {
@@ -1716,8 +1758,8 @@
             "name": "Switch Panel"
           },
           "diagram": {
-            "x": 6668.75,
-            "y": 6760
+            "x": 6741,
+            "y": 6316
           },
           "outcomes": {
             "allRepresentatives": "1780325181795"
@@ -1739,8 +1781,8 @@
             "name": "Has Primary Assignment Panel"
           },
           "diagram": {
-            "x": 6668.75,
-            "y": 6982
+            "x": 6741,
+            "y": 6538
           },
           "outcomes": {
             "true": "VALIDATE_REQUEST_GET_ALL_REPRESENTATIVES",
@@ -1764,7 +1806,7 @@
             "name": "Validate Request Get All Representatives",
             "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
             "returnType": "object",
-            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\nfunction page(value,name,min,max) {\n  if(typeof value!==\"number\" && typeof value!==\"string\") reject(name);\n  if(typeof value===\"string\" && !/^[0-9]{1,7}$/.test(value.trim())) reject(name);\n  const number=Number(value);if(!Number.isSafeInteger(number)||number<min||number>max) reject(name);return number;\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.VALIDATE_ADDITIONAL_REPRESENTATIVE_ASSIGNMENT.$output.result.personId),\"personId\");\nchecked[\"assignmentId\"]=id(($context.$nodes.VALIDATE_ADDITIONAL_REPRESENTATIVE_ASSIGNMENT.$output.result.assignmentId),\"assignmentId\");\nchecked[\"limit\"]=page(\"100\",\"limit\",1,500);\nchecked[\"offset\"]=page(\"2\",\"offset\",0,1000000);\nreturn checked;",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\nfunction page(value,name,min,max) {\n  if(typeof value!==\"number\" && typeof value!==\"string\") reject(name);\n  if(typeof value===\"string\" && !/^[0-9]{1,7}$/.test(value.trim())) reject(name);\n  const number=Number(value);if(!Number.isSafeInteger(number)||number<min||number>max) reject(name);return number;\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.VALIDATE_ADDITIONAL_REPRESENTATIVE_ASSIGNMENT.$output.result.personId),\"personId\");\nchecked[\"assignmentId\"]=id(($context.$nodes.VALIDATE_ADDITIONAL_REPRESENTATIVE_ASSIGNMENT.$output.result.assignmentId),\"assignmentId\");\nchecked[\"limit\"]=page(\"100\",\"limit\",1,500);\nchecked[\"offset\"]=page(\"2\",\"offset\",0,1000000);\nreturn checked;",
             "errorNodeId": "HR_REQUEST_REJECTED"
           },
           "outcomes": {
@@ -1773,8 +1815,8 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 6331.25,
-            "y": 7204
+            "x": 6403.5,
+            "y": 6760
           }
         },
         {
@@ -1788,8 +1830,8 @@
             "errorNodeId": "RETURN_UNVERIFIED_REPRESENTATIVES"
           },
           "diagram": {
-            "x": 6443.75,
-            "y": 7426
+            "x": 6516,
+            "y": 6982
           },
           "outcomes": {
             "success": "VALIDATE_ADDITIONAL_REPRESENTATIVE_IDS"
@@ -1800,14 +1842,14 @@
               "name": "personId",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_ALL_REPRESENTATIVES.$output.result.personId}}",
               "required": false,
-              "type": "integer"
+              "type": "string"
             },
             {
               "id": "1780324525411_assignmentId",
               "name": "assignmentId",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_ALL_REPRESENTATIVES.$output.result.assignmentId}}",
               "required": false,
-              "type": "integer"
+              "type": "string"
             },
             {
               "id": "1780324525411_limit",
@@ -1834,7 +1876,7 @@
             "name": "Validate enrich all representative contacts",
             "description": "Validates and normalizes every representative ID before contact lookups while preserving fields and repeated responsibilities.",
             "returnType": "object",
-            "sourceCode": "function plainObject(value) {\n  return !!value && typeof value === \"object\" && !Array.isArray(value) &&\n    (Object.getPrototypeOf(value) === Object.prototype || Object.getPrototypeOf(value) === null) &&\n    !Object.keys(value).some(function (key) { return [\"__proto__\", \"constructor\", \"prototype\"].indexOf(key) !== -1; });\n}\nfunction identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const normalized = value.trim();\n  return /^[1-9][0-9]{0,19}$/.test(normalized) ? normalized : \"\";\n}\nfunction response(value) {\n  if (typeof value === \"string\") {\n    if (value.length > 1000000) throw new Error(\"Representative response is too large.\");\n    try { value = JSON.parse(value); } catch (error) { throw new Error(\"Invalid representative response.\"); }\n  }\n  if (!plainObject(value) || value.error || value.timeout || value.isError ||\n      Number(value.statusCode || value.status || 0) >= 400 || !Array.isArray(value.items)) {\n    throw new Error(\"Representative lookup failed.\");\n  }\n  if (value.hasMore !== undefined && value.hasMore !== true && value.hasMore !== false &&\n      value.hasMore !== \"true\" && value.hasMore !== \"false\") {\n    throw new Error(\"Invalid representative paging information.\");\n  }\n  return value;\n}\nfunction records(value, maximum, expectedOffset) {\n  const data = response(value);\n  if (data.items.length > maximum) throw new Error(\"Unexpected representative page size.\");\n  if (data.offset !== undefined && (typeof data.offset !== \"number\" && typeof data.offset !== \"string\" ||\n      !/^[0-9]+$/.test(String(data.offset)) || Number(data.offset) !== expectedOffset)) {\n    throw new Error(\"Unexpected representative page offset.\");\n  }\n  return data.items.map(function (row) {\n    if (!plainObject(row)) throw new Error(\"Invalid representative row.\");\n    const personId = identifier(row.PersonId);\n    if (!personId) throw new Error(\"Invalid representative identity.\");\n    // Repeated people can hold different responsibilities; preserve every valid row.\n    return Object.assign({}, row, { PersonId: personId });\n  });\n}\n\nreturn { items: records($context.$nodes.GET_ALL_REPRESENTATIVES.$output, 100, 2) };\n",
+            "sourceCode": "function plainObject(value) {\n  return !!value && typeof value === \"object\" && !Array.isArray(value) &&\n    (Object.getPrototypeOf(value) === Object.prototype || Object.getPrototypeOf(value) === null) &&\n    !Object.keys(value).some(function (key) { return [\"__proto__\", \"constructor\", \"prototype\"].indexOf(key) !== -1; });\n}\nfunction identifier(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  if (typeof value !== \"string\") return \"\";\n  const normalized = value.trim();\n  return /^[1-9][0-9]{0,29}$/.test(normalized) ? normalized : \"\";\n}\nfunction response(value) {\n  if (typeof value === \"string\") {\n    if (value.length > 1000000) throw new Error(\"Representative response is too large.\");\n    try { value = JSON.parse(value); } catch (error) { throw new Error(\"Invalid representative response.\"); }\n  }\n  if (!plainObject(value) || value.error || value.timeout || value.isError ||\n      Number(value.statusCode || value.status || 0) >= 400 || !Array.isArray(value.items)) {\n    throw new Error(\"Representative lookup failed.\");\n  }\n  if (value.hasMore !== undefined && value.hasMore !== true && value.hasMore !== false &&\n      value.hasMore !== \"true\" && value.hasMore !== \"false\") {\n    throw new Error(\"Invalid representative paging information.\");\n  }\n  return value;\n}\nfunction records(value, maximum, expectedOffset) {\n  const data = response(value);\n  if (data.items.length > maximum) throw new Error(\"Unexpected representative page size.\");\n  if (data.offset !== undefined && (typeof data.offset !== \"number\" && typeof data.offset !== \"string\" ||\n      !/^[0-9]+$/.test(String(data.offset)) || Number(data.offset) !== expectedOffset)) {\n    throw new Error(\"Unexpected representative page offset.\");\n  }\n  return data.items.map(function (row) {\n    if (!plainObject(row)) throw new Error(\"Invalid representative row.\");\n    const personId = identifier(row.PersonId);\n    if (!personId) throw new Error(\"Invalid representative identity.\");\n    // Repeated people can hold different responsibilities; preserve every valid row.\n    return Object.assign({}, row, { PersonId: personId });\n  });\n}\n\nreturn { items: records($context.$nodes.GET_ALL_REPRESENTATIVES.$output, 100, 2) };\n",
             "errorNodeId": "RETURN_UNVERIFIED_REPRESENTATIVES"
           },
           "outcomes": {
@@ -1843,8 +1885,8 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 6387.5,
-            "y": 7648
+            "x": 6447,
+            "y": 7204
           }
         },
         {
@@ -1870,8 +1912,8 @@
                   },
                   "inputs": [],
                   "diagram": {
-                    "x": 6593.875,
-                    "y": 9124
+                    "x": 6508.5,
+                    "y": 8751
                   }
                 },
                 {
@@ -1891,13 +1933,13 @@
                     {
                       "id": "ALL_GET_REPRESENTATIVE_EMAIL_personId",
                       "name": "personId",
-                      "type": "integer",
+                      "type": "string",
                       "value": "{{$context.$nodes.ENRICH_ALL_REPRESENTATIVE_CONTACTS.VALIDATE_REQUEST_ALL_GET_REPRESENTATIVE_EMAIL.$output.result.personId}}"
                     }
                   ],
                   "diagram": {
-                    "x": 6471.875,
-                    "y": 9497
+                    "x": 6386.5,
+                    "y": 9195
                   },
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"PersonId\": {\n      \"type\": \"string\"\n    },\n    \"PersonNumber\": {\n      \"type\": \"string\"\n    },\n    \"LastName\": {\n      \"type\": \"string\"\n    },\n    \"FirstName\": {\n      \"type\": \"string\"\n    },\n    \"Title\": {\n      \"type\": \"string\"\n    },\n    \"PreNameAdjunct\": {\n      \"type\": \"string\"\n    },\n    \"Suffix\": {\n      \"type\": \"string\"\n    },\n    \"MiddleNames\": {\n      \"type\": \"string\"\n    },\n    \"Honors\": {\n      \"type\": \"string\"\n    },\n    \"KnownAs\": {\n      \"type\": \"string\"\n    },\n    \"DisplayName\": {\n      \"type\": \"string\"\n    },\n    \"ListName\": {\n      \"type\": \"string\"\n    },\n    \"OrderName\": {\n      \"type\": \"string\"\n    },\n    \"WorkEmail\": {\n      \"type\": \"string\"\n    },\n    \"Username\": {\n      \"type\": \"string\"\n    },\n    \"links\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"rel\": {\n            \"type\": \"string\"\n          },\n          \"href\": {\n            \"type\": \"string\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          },\n          \"kind\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"rel\",\n          \"href\",\n          \"name\",\n          \"kind\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  },\n  \"required\": [\n    \"PersonId\",\n    \"PersonNumber\",\n    \"LastName\",\n    \"FirstName\",\n    \"Title\",\n    \"PreNameAdjunct\",\n    \"Suffix\",\n    \"MiddleNames\",\n    \"Honors\",\n    \"KnownAs\",\n    \"DisplayName\",\n    \"ListName\",\n    \"OrderName\",\n    \"WorkEmail\",\n    \"Username\",\n    \"links\"\n  ],\n  \"additionalProperties\": false\n}"
                 },
@@ -1918,13 +1960,13 @@
                     {
                       "id": "1783409974037_personId",
                       "name": "personId",
-                      "type": "integer",
+                      "type": "string",
                       "value": "{{$context.$nodes.ENRICH_ALL_REPRESENTATIVE_CONTACTS.VALIDATE_REQUEST_ALL_GET_REPRESENTATIVE_PHONE.$output.result.personId}}"
                     }
                   ],
                   "diagram": {
-                    "x": 6471.875,
-                    "y": 9941
+                    "x": 6386.5,
+                    "y": 9639
                   },
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"phones\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"items\": {\n                \"type\": \"array\",\n                \"items\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"PhoneId\": {\n                      \"type\": \"number\"\n                    },\n                    \"PhoneType\": {\n                      \"type\": \"string\"\n                    },\n                    \"PhoneTypeMeaning\": {\n                      \"type\": \"string\"\n                    },\n                    \"LegislationCode\": {\n                      \"type\": \"string\"\n                    },\n                    \"LegislationName\": {\n                      \"type\": \"string\"\n                    },\n                    \"CountryCodeNumber\": {\n                      \"type\": \"string\"\n                    },\n                    \"AreaCode\": {\n                      \"type\": \"string\"\n                    },\n                    \"PhoneNumber\": {\n                      \"type\": \"string\"\n                    },\n                    \"Extension\": {\n                      \"type\": \"null\"\n                    },\n                    \"FromDate\": {\n                      \"type\": \"string\"\n                    },\n                    \"ToDate\": {\n                      \"type\": \"null\"\n                    },\n                    \"Validity\": {\n                      \"type\": \"null\"\n                    },\n                    \"ValidityMeaning\": {\n                      \"type\": \"null\"\n                    },\n                    \"CreatedBy\": {\n                      \"type\": \"string\"\n                    },\n                    \"CreationDate\": {\n                      \"type\": \"string\"\n                    },\n                    \"LastUpdatedBy\": {\n                      \"type\": \"string\"\n                    },\n                    \"LastUpdateDate\": {\n                      \"type\": \"string\"\n                    },\n                    \"PrimaryFlag\": {\n                      \"type\": \"boolean\"\n                    },\n                    \"@context\": {\n                      \"type\": \"object\",\n                      \"properties\": {\n                        \"key\": {\n                          \"type\": \"string\"\n                        }\n                      },\n                      \"required\": [\n                        \"key\"\n                      ],\n                      \"additionalProperties\": false\n                    }\n                  },\n                  \"required\": [\n                    \"PhoneId\",\n                    \"PhoneType\",\n                    \"PhoneTypeMeaning\",\n                    \"LegislationCode\",\n                    \"LegislationName\",\n                    \"CountryCodeNumber\",\n                    \"AreaCode\",\n                    \"PhoneNumber\",\n                    \"Extension\",\n                    \"FromDate\",\n                    \"ToDate\",\n                    \"Validity\",\n                    \"ValidityMeaning\",\n                    \"CreatedBy\",\n                    \"CreationDate\",\n                    \"LastUpdatedBy\",\n                    \"LastUpdateDate\",\n                    \"PrimaryFlag\",\n                    \"@context\"\n                  ],\n                  \"additionalProperties\": false\n                }\n              },\n              \"count\": {\n                \"type\": \"number\"\n              },\n              \"hasMore\": {\n                \"type\": \"boolean\"\n              },\n              \"limit\": {\n                \"type\": \"number\"\n              },\n              \"offset\": {\n                \"type\": \"number\"\n              },\n              \"links\": {\n                \"type\": \"array\"\n              }\n            },\n            \"required\": [\n              \"items\",\n              \"count\",\n              \"hasMore\",\n              \"limit\",\n              \"offset\",\n              \"links\"\n            ],\n            \"additionalProperties\": false\n          },\n          \"@context\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"key\": {\n                \"type\": \"string\"\n              }\n            },\n            \"required\": [\n              \"key\"\n            ],\n            \"additionalProperties\": false\n          }\n        },\n        \"required\": [\n          \"phones\",\n          \"@context\"\n        ],\n        \"additionalProperties\": false\n      }\n    },\n    \"count\": {\n      \"type\": \"number\"\n    },\n    \"hasMore\": {\n      \"type\": \"boolean\"\n    },\n    \"limit\": {\n      \"type\": \"number\"\n    },\n    \"offset\": {\n      \"type\": \"number\"\n    },\n    \"links\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"rel\": {\n            \"type\": \"string\"\n          },\n          \"href\": {\n            \"type\": \"string\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          },\n          \"kind\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"rel\",\n          \"href\",\n          \"name\",\n          \"kind\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  },\n  \"required\": [\n    \"items\",\n    \"count\",\n    \"hasMore\",\n    \"limit\",\n    \"offset\",\n    \"links\"\n  ],\n  \"additionalProperties\": false\n}"
                 },
@@ -1939,13 +1981,13 @@
                     "description": "Merges matching work email and work phone into the current additional-list representative row."
                   },
                   "outcomes": {
-                    "success": "enrich_all_representative_contacts_end"
+                    "success": "end_ENRICH_ALL_REPRESENTATIVE_CONTACTS"
                   },
                   "inputs": [],
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
                   "diagram": {
-                    "x": 6471.875,
-                    "y": 10163
+                    "x": 6386.5,
+                    "y": 9861
                   }
                 },
                 {
@@ -1956,8 +1998,8 @@
                     "name": "Validate Request All Get Representative Email",
                     "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
                     "returnType": "object",
-                    "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.ENRICH_ALL_REPRESENTATIVE_CONTACTS.$currentItem.PersonId),\"personId\");\nreturn checked;",
-                    "errorNodeId": "HR_REQUEST_REJECTED"
+                    "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.ENRICH_ALL_REPRESENTATIVE_CONTACTS.$currentItem.PersonId),\"personId\");\nreturn checked;",
+                    "errorNodeId": "ENRICH_ALL_REPRESENTATIVE_CONTACTS_REQUEST_REJECTED"
                   },
                   "outcomes": {
                     "success": "ALL_GET_REPRESENTATIVE_EMAIL"
@@ -1965,8 +2007,8 @@
                   "inputs": [],
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
                   "diagram": {
-                    "x": 6471.875,
-                    "y": 9275
+                    "x": 6386.5,
+                    "y": 8973
                   }
                 },
                 {
@@ -1977,8 +2019,8 @@
                     "name": "Validate Request All Get Representative Phone",
                     "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
                     "returnType": "object",
-                    "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.ENRICH_ALL_REPRESENTATIVE_CONTACTS.$currentItem.PersonId),\"personId\");\nreturn checked;",
-                    "errorNodeId": "HR_REQUEST_REJECTED"
+                    "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.ENRICH_ALL_REPRESENTATIVE_CONTACTS.$currentItem.PersonId),\"personId\");\nreturn checked;",
+                    "errorNodeId": "ENRICH_ALL_REPRESENTATIVE_CONTACTS_REQUEST_REJECTED"
                   },
                   "outcomes": {
                     "success": "1783409974037"
@@ -1986,12 +2028,32 @@
                   "inputs": [],
                   "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
                   "diagram": {
-                    "x": 6471.875,
-                    "y": 9719
+                    "x": 6386.5,
+                    "y": 9417
                   }
                 },
                 {
-                  "id": "enrich_all_representative_contacts_end",
+                  "id": "ENRICH_ALL_REPRESENTATIVE_CONTACTS_REQUEST_REJECTED",
+                  "code": "ENRICH_ALL_REPRESENTATIVE_CONTACTS_REQUEST_REJECTED",
+                  "type": "RETURN",
+                  "metadata": {
+                    "name": "Reject Enrich Additional Representative Contacts Sequentially request"
+                  },
+                  "inputs": [
+                    {
+                      "name": "returnValue",
+                      "type": "string",
+                      "value": "{\"error\":\"Invalid HR loop request parameter\"}"
+                    }
+                  ],
+                  "outcomes": {},
+                  "diagram": {
+                    "x": 6714.5,
+                    "y": 8751
+                  }
+                },
+                {
+                  "id": "end_ENRICH_ALL_REPRESENTATIVE_CONTACTS",
                   "code": "END",
                   "type": "END",
                   "metadata": {
@@ -2023,10 +2085,10 @@
             }
           ],
           "diagram": {
-            "x": 6321.875,
-            "y": 9034,
-            "width": 600,
-            "height": 1236
+            "x": 6366.5,
+            "y": 8661,
+            "width": 668,
+            "height": 1307
           }
         },
         {
@@ -2036,8 +2098,9 @@
           "metadata": {
             "name": "Merge Enrich Additional Representative Contacts Sequentially",
             "returnType": "object",
-            "sourceCode": "function parse(v){for(let i=0;i<3&&typeof v==='string';i+=1){try{v=JSON.parse(v)}catch(e){break}}return v}\nfunction text(v){return v==null?'':String(v).trim()}\nfunction collect(v,out){out=out||[];v=parse(v);if(Array.isArray(v)){v.forEach(function(x){collect(x,out)});return out}if(!v||typeof v!=='object')return out;if(text(v.PersonId||v.personId)){out.push(v);return out}['items','result','output','data'].forEach(function(k){if(v[k]!==undefined)collect(v[k],out)});return out}\nfunction byPerson(v){const index={};collect(v,[]).forEach(function(row){const id=text(row.PersonId||row.personId);if(id)index[id]=row});return index}\nconst representatives=collect($context.$nodes.GET_ALL_REPRESENTATIVES.$output,[]);\nconst contacts=byPerson($context.$nodes.ENRICH_ALL_REPRESENTATIVE_CONTACTS.$output);\nreturn {items:representatives.map(function(rep){const id=text(rep.PersonId||rep.personId);return Object.assign({},rep,contacts[id]||{})})};",
-            "description": "Merges the completed contact-enrichment results with the original additional representative rows."
+            "sourceCode": "function parse(v){for(let i=0;i<3&&typeof v==='string';i+=1){try{v=JSON.parse(v)}catch(e){break}}return v}\nfunction text(v){return v==null?'':String(v).trim()}\nfunction collect(v,out){out=out||[];v=parse(v);if(Array.isArray(v)){v.forEach(function(x){collect(x,out)});return out}if(!v||typeof v!=='object')throw new Error('Invalid representative enrichment response');if(v.error||v.timeout||v.timedOut||v.isError)throw new Error('Representative enrichment request failed');if(text(v.PersonId||v.personId)){out.push(v);return out}['items','result','output','data'].forEach(function(k){if(v[k]!==undefined)collect(v[k],out)});return out}\nfunction byPerson(v){const index={};collect(v,[]).forEach(function(row){const id=text(row.PersonId||row.personId);if(id)index[id]=row});return index}\nconst representatives=collect($context.$nodes.GET_ALL_REPRESENTATIVES.$output,[]);\nconst contacts=byPerson($context.$nodes.ENRICH_ALL_REPRESENTATIVE_CONTACTS.$output);\nreturn {items:representatives.map(function(rep){const id=text(rep.PersonId||rep.personId);return Object.assign({},rep,contacts[id]||{})})};",
+            "description": "Merges the completed contact-enrichment results with the original additional representative rows.",
+            "errorNodeId": "HR_RESPONSE_REJECTED"
           },
           "outcomes": {
             "success": "PREPARE_SAFE_RENDER_ALL_REPRESENTATIVES_LIST"
@@ -2045,8 +2108,8 @@
           "inputs": [],
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
-            "x": 6471.875,
-            "y": 10420
+            "x": 6550.5,
+            "y": 10118
           }
         },
         {
@@ -2057,7 +2120,7 @@
             "name": "Prepare Safe Render All Representatives List",
             "description": "Enforces the permitted data and output contract for this HR panel.",
             "returnType": "object",
-            "sourceCode": "function reject() { throw new Error(\"The response did not match the permitted HR display contract.\"); }\nfunction text(v) {\n  if (typeof v !== \"string\" && typeof v !== \"number\") return \"\";\n  return String(v).replace(/[\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f-\\u009f\\u200b-\\u200f\\u202a-\\u202e\\u2060-\\u206f\\ufeff]/g, \"\").trim()\n    .replace(/&(?!amp;|lt;|gt;|quot;|apos;|nbsp;)/g,\"&amp;\").replace(/</g,\"&lt;\").replace(/>/g,\"&gt;\");\n}\nfunction list(v) { if (!Array.isArray(v) || v.length > 1000) reject(); return v; }\nfunction image(id) { id = String(id == null ? \"\" : id); if (!id) return \"\"; if (!/^\\d{1,18}$/.test(id)) reject(); return \"/hcmUI/personImage?returnSquare=true&returnInitials=Y&removeBackground=Y&personId=\" + id + \"&maxSize=144&id=1779878994029&patternIndex=0\"; }\nfunction put(obj,key,value) { if (value !== \"\" && value != null) obj[key] = value; }\nlet displayIndex = 0;\nfunction display(pattern,properties,extra) { return {type:\"oraInfoDisplay\",key:\"xx_worker_reps-render_all_representatives_list-\"+(++displayIndex),payload:Object.assign({patternId:pattern},extra || {},{properties:properties})}; }\nfunction message(items,extra) { return display(\"messageListWidget\",{items:items},extra); }\nfunction personRows(rows,actions,kind) {\n  return list(rows).map(function(row,i) {\n    const item = {title:text(row.DisplayName) || (kind === \"direct\" ? \"\" : kind === \"representative\" ? \"Representative\" : \"Person\")};\n    if (kind === \"direct\") {\n      put(item,\"subtitle\",[row.JobName,row.DepartmentName,row.LocationName].map(text).filter(Boolean).join(\" | \"));\n      put(item,\"summary\",[row.WorkEmail,row.WorkPhone].map(text).filter(Boolean).join(\" | \"));\n      const dc = Number(row.DirectReportsCount), ac = Number(row.AllReportsCount);\n      if (Number.isFinite(dc) && Number.isFinite(ac) && (dc > 0 || ac > 0)) item.timestamp = \"Directs \" + dc + \" | Total \" + ac;\n    } else if (kind === \"representative\") {\n      put(item,\"subtitle\",text(row.ResponsibilityType));\n      put(item,\"summary\",[row.WorkEmail,row.WorkPhone].map(text).filter(Boolean).join(\" | \"));\n    } else if (kind === \"searchRepresentative\") {\n      put(item,\"subtitle\",text(row.ResponsibilityName)); put(item,\"badgeText\",text(row.ResponsibilityType));\n    } else {\n      put(item,\"subtitle\",text(row.JobName)); put(item,\"badgeText\",text(row.AssignmentNumber));\n      put(item,\"summary\",[row.DepartmentName,row.LocationName].map(text).filter(Boolean).join(\" - \"));\n    }\n    put(item,\"image\",image(row.PersonId));\n    if (row.PersonId) {\n      if (kind === \"direct\" || kind === \"representative\") {\n        const action = kind === \"direct\" ? \"selectDirect\" : \"selectRepresentative\";\n        item.action = 'ora.Invoke(' + JSON.stringify(action) + ', ' + JSON.stringify({actionId:action,personId:String(row.PersonId)}) + ')';\n      } else if (actions && actions[i]) item.action = actions[i];\n    }\n    return item;\n  });\n}\n\n\nlet blocks=[],visibleText=\"\";\nblocks=[message(personRows($context.$nodes.MERGE_ALL_REPRESENTATIVE_CONTACTS.$output.result.items,null,\"representative\"))];\n\n// Keep internal identifiers and executable commands outside the model context.\nconst references = {};\nlet referenceIndex = 0;\nfunction protect(value,key,parent) {\n  if (typeof value === \"string\" && ([\"action\",\"drillDownAction\",\"followUpCommand\",\"image\"].includes(key) || (key === \"id\" && /\\d/.test(value)) || (key === \"value\" && parent && [\"hidden\",\"system\"].includes(parent.type)))) {\n    const token = \"HR_REF_\" + (++referenceIndex);\n    references[token] = value;\n    return token;\n  }\n  if (Array.isArray(value)) return value.map(function(v) { return protect(v,\"\",null); });\n  if (value && typeof value === \"object\") {\n    const result = {};\n    Object.keys(value).forEach(function(k) { if ([\"__proto__\",\"prototype\",\"constructor\"].includes(k)) reject(); result[k] = protect(value[k],k,value); });\n    return result;\n  }\n  if (typeof value === \"string\" && /HR_REF_\\d+/.test(value)) reject();\n  return value;\n}\nconst contract = {blocks:blocks,text:visibleText};\nconst modelContract = protect(contract,\"\",null);\nconst modelJson = JSON.stringify(modelContract);\nif (modelJson.length > 1000000) reject();\nreturn {modelJson:modelJson,contract:modelContract,references:references};\n",
+            "sourceCode": "function reject() { throw new Error(\"The response did not match the permitted HR display contract.\"); }\nfunction text(v) {\n  if (typeof v !== \"string\" && typeof v !== \"number\") return \"\";\n  return String(v).replace(/[\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f-\\u009f\\u200b-\\u200f\\u202a-\\u202e\\u2060-\\u206f\\ufeff]/g, \"\").trim()\n    .replace(/&(?!amp;|lt;|gt;|quot;|apos;|nbsp;)/g,\"&amp;\").replace(/</g,\"&lt;\").replace(/>/g,\"&gt;\");\n}\nfunction list(v) { if (!Array.isArray(v) || v.length > 1000) reject(); return v; }\nfunction image(id) { id = String(id == null ? \"\" : id); if (!id) return \"\"; if (!/^[1-9][0-9]{0,29}$/.test(id)) reject(); return \"/hcmUI/personImage?returnSquare=true&returnInitials=Y&removeBackground=Y&personId=\" + id + \"&maxSize=144&id=1779878994029&patternIndex=0\"; }\nfunction put(obj,key,value) { if (value !== \"\" && value != null) obj[key] = value; }\nlet displayIndex = 0;\nfunction display(pattern,properties,extra) { return {type:\"oraInfoDisplay\",key:\"xx_worker_reps-render_all_representatives_list-\"+(++displayIndex),payload:Object.assign({patternId:pattern},extra || {},{properties:properties})}; }\nfunction message(items,extra) { return display(\"messageListWidget\",{items:items},extra); }\nfunction personRows(rows,actions,kind) {\n  return list(rows).map(function(row,i) {\n    const item = {title:text(row.DisplayName) || (kind === \"direct\" ? \"\" : kind === \"representative\" ? \"Representative\" : \"Person\")};\n    if (kind === \"direct\") {\n      put(item,\"subtitle\",[row.JobName,row.DepartmentName,row.LocationName].map(text).filter(Boolean).join(\" | \"));\n      put(item,\"summary\",[row.WorkEmail,row.WorkPhone].map(text).filter(Boolean).join(\" | \"));\n      const dc = Number(row.DirectReportsCount), ac = Number(row.AllReportsCount);\n      if (Number.isFinite(dc) && Number.isFinite(ac) && (dc > 0 || ac > 0)) item.timestamp = \"Directs \" + dc + \" | Total \" + ac;\n    } else if (kind === \"representative\") {\n      put(item,\"subtitle\",text(row.ResponsibilityType));\n      put(item,\"summary\",[row.WorkEmail,row.WorkPhone].map(text).filter(Boolean).join(\" | \"));\n    } else if (kind === \"searchRepresentative\") {\n      put(item,\"subtitle\",text(row.ResponsibilityName)); put(item,\"badgeText\",text(row.ResponsibilityType));\n    } else {\n      put(item,\"subtitle\",text(row.JobName)); put(item,\"badgeText\",text(row.AssignmentNumber));\n      put(item,\"summary\",[row.DepartmentName,row.LocationName].map(text).filter(Boolean).join(\" - \"));\n    }\n    put(item,\"image\",image(row.PersonId));\n    if (row.PersonId) {\n      if (kind === \"direct\" || kind === \"representative\") {\n        const action = kind === \"direct\" ? \"selectDirect\" : \"selectRepresentative\";\n        item.action = 'ora.Invoke(' + JSON.stringify(action) + ', ' + JSON.stringify({actionId:action,personId:String(row.PersonId)}) + ')';\n      } else if (actions && actions[i]) item.action = actions[i];\n    }\n    return item;\n  });\n}\n\n\nlet blocks=[],visibleText=\"\";\nblocks=[message(personRows($context.$nodes.MERGE_ALL_REPRESENTATIVE_CONTACTS.$output.result.items,null,\"representative\"))];\n\n// Keep internal identifiers and executable commands outside the model context.\nconst references = {};\nlet referenceIndex = 0;\nfunction protect(value,key,parent) {\n  if (typeof value === \"string\" && ([\"action\",\"drillDownAction\",\"followUpCommand\",\"image\"].includes(key) || (key === \"id\" && /\\d/.test(value)) || (key === \"value\" && parent && [\"hidden\",\"system\"].includes(parent.type)))) {\n    const token = \"HR_REF_\" + (++referenceIndex);\n    references[token] = value;\n    return token;\n  }\n  if (Array.isArray(value)) return value.map(function(v) { return protect(v,\"\",null); });\n  if (value && typeof value === \"object\") {\n    const result = {};\n    Object.keys(value).forEach(function(k) { if ([\"__proto__\",\"prototype\",\"constructor\"].includes(k)) reject(); result[k] = protect(value[k],k,value); });\n    return result;\n  }\n  if (typeof value === \"string\" && /HR_REF_\\d+/.test(value)) reject();\n  return value;\n}\nconst contract = {blocks:blocks,text:visibleText};\nconst modelContract = protect(contract,\"\",null);\nconst modelJson = JSON.stringify(modelContract);\nif (modelJson.length > 1000000) reject();\nreturn {modelJson:modelJson,contract:modelContract,references:references};\n",
             "errorNodeId": "HR_RESPONSE_REJECTED"
           },
           "outcomes": {
@@ -2065,8 +2128,8 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 6471.875,
-            "y": 10642
+            "x": 6550.5,
+            "y": 10340
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -2081,8 +2144,8 @@
             "errorNodeId": "HR_RESPONSE_REJECTED"
           },
           "diagram": {
-            "x": 6570.3125,
-            "y": 10864
+            "x": 6645.75,
+            "y": 10562
           },
           "outcomes": {
             "success": "CHECK_SAFE_RENDER_ALL_REPRESENTATIVES_LIST"
@@ -2124,8 +2187,8 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 6570.3125,
-            "y": 11086
+            "x": 6645.75,
+            "y": 10784
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -2145,8 +2208,8 @@
           ],
           "outcomes": {},
           "diagram": {
-            "x": 6570.3125,
-            "y": 11308
+            "x": 6645.75,
+            "y": 11006
           }
         },
         {
@@ -2165,7 +2228,7 @@
           ],
           "outcomes": {},
           "diagram": {
-            "x": 8006.25,
+            "x": 8138,
             "y": 5000
           }
         },
@@ -2185,7 +2248,7 @@
           ],
           "outcomes": {},
           "diagram": {
-            "x": 8406.25,
+            "x": 8538,
             "y": 5000
           }
         },
@@ -2254,17 +2317,14 @@
     }
   },
   "status": "DRAFT",
-  "version": 6,
   "family": "HCM",
   "product": "GLOBAL_HUMAN_RESOURCES",
   "customFlag": false,
   "seededFlag": false,
   "isTemplate": false,
   "hiddenFlag": false,
-  "useCaseId": "NA",
   "accessModifier": "public",
   "architecture": "data_pipeline",
   "aiAppsCompatibleFlag": true,
-  "followupEnabledFlag": false,
-  "header": {}
+  "followupEnabledFlag": false
 }

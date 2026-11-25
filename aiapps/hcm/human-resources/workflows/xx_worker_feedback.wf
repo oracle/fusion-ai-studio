@@ -44,7 +44,7 @@
           "inputs": [],
           "diagram": {
             "x": 7025,
-            "y": 5650
+            "y": 5206
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -70,7 +70,7 @@
           ],
           "diagram": {
             "x": 7025,
-            "y": 5872
+            "y": 5428
           },
           "convergenceTargetId": "end"
         },
@@ -92,7 +92,7 @@
           ],
           "diagram": {
             "x": 7250,
-            "y": 6094
+            "y": 5650
           }
         },
         {
@@ -117,7 +117,7 @@
           ],
           "diagram": {
             "x": 6800,
-            "y": 6094
+            "y": 5650
           },
           "convergenceTargetId": "9"
         },
@@ -143,7 +143,7 @@
           ],
           "diagram": {
             "x": 6125,
-            "y": 6316
+            "y": 5872
           },
           "convergenceTargetId": "9"
         },
@@ -171,7 +171,7 @@
           ],
           "diagram": {
             "x": 6800,
-            "y": 7648
+            "y": 7204
           },
           "convergenceTargetId": "end"
         },
@@ -197,7 +197,7 @@
           ],
           "diagram": {
             "x": 5450,
-            "y": 7870
+            "y": 7426
           },
           "convergenceTargetId": "end"
         },
@@ -240,7 +240,7 @@
           ],
           "diagram": {
             "x": 5225,
-            "y": 8092
+            "y": 7648
           },
           "aiAppOutputSpecification": {
             "dataDisplay": {
@@ -269,7 +269,7 @@
           "inputs": [],
           "diagram": {
             "x": 5225,
-            "y": 8314
+            "y": 7870
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -291,7 +291,7 @@
           ],
           "diagram": {
             "x": 5225,
-            "y": 8536
+            "y": 8092
           }
         },
         {
@@ -333,7 +333,7 @@
           ],
           "diagram": {
             "x": 5675,
-            "y": 8092
+            "y": 7648
           },
           "aiAppOutputSpecification": {
             "dataDisplay": {
@@ -362,7 +362,7 @@
           "inputs": [],
           "diagram": {
             "x": 5675,
-            "y": 8314
+            "y": 7870
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -384,7 +384,7 @@
           ],
           "diagram": {
             "x": 5675,
-            "y": 8536
+            "y": 8092
           }
         },
         {
@@ -398,7 +398,7 @@
           },
           "diagram": {
             "x": 7700,
-            "y": 7870
+            "y": 7426
           },
           "outcomes": {
             "false": "1788771667870",
@@ -435,7 +435,7 @@
           },
           "diagram": {
             "x": 7475,
-            "y": 8092
+            "y": 7648
           },
           "outcomes": {
             "success": "VALIDATE_RENDER_NO_FEEDBACK_INITIAL_DISPLAY_1"
@@ -482,7 +482,7 @@
           "inputs": [],
           "diagram": {
             "x": 7475,
-            "y": 8314
+            "y": 7870
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -504,7 +504,7 @@
           ],
           "diagram": {
             "x": 7475,
-            "y": 8536
+            "y": 8092
           }
         },
         {
@@ -518,7 +518,7 @@
           },
           "diagram": {
             "x": 7925,
-            "y": 8092
+            "y": 7648
           },
           "outcomes": {
             "success": "VALIDATE_RENDER_ADDITIONAL_FEEDBACK"
@@ -556,7 +556,7 @@
           "inputs": [],
           "diagram": {
             "x": 7925,
-            "y": 8314
+            "y": 7870
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -578,7 +578,7 @@
           ],
           "diagram": {
             "x": 7925,
-            "y": 8536
+            "y": 8092
           }
         },
         {
@@ -609,7 +609,7 @@
           ],
           "diagram": {
             "x": 8375,
-            "y": 7870
+            "y": 7426
           }
         },
         {
@@ -629,7 +629,7 @@
           "inputs": [],
           "diagram": {
             "x": 8375,
-            "y": 8092
+            "y": 7648
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -651,7 +651,7 @@
           ],
           "diagram": {
             "x": 8375,
-            "y": 8314
+            "y": 7870
           }
         },
         {
@@ -662,7 +662,7 @@
             "name": "Parse Add Feedback Payload",
             "returnType": "object",
             "description": "Accepts only the Add Feedback action or an exact bounded two-field form submission; rejects duplicate, unknown and canceled submissions before writes.",
-            "sourceCode": "let actionContext = $context?.$app?.$OraAction;\nif (typeof actionContext === \"string\" && actionContext.length > 32768) return { valid: false };\n\nif (typeof actionContext === \"string\") {\n  const actionText = actionContext.trim();\n\n  try {\n    actionContext = JSON.parse(actionText);\n  } catch (e) {\n    const formSubmitMatch = actionText.match(/^<oraFormSubmit\\s+id=\"([^\"]+)\">([\\s\\S]*)<\\/oraFormSubmit>$/);\n\n    if (formSubmitMatch && formSubmitMatch[1] === \"add_feedback_form\") {\n      try {\n        const submittedFields = JSON.parse(formSubmitMatch[2]);\n\n        if (Array.isArray(submittedFields)) {\n          const fieldValues = {};\n\n          if (submittedFields.length !== 2) return { valid: false };\n          for (const field of submittedFields) {\n            if (!field || typeof field.value !== \"string\" ||\n                ![\"feedback\", \"visibility\"].includes(field.id) ||\n                Object.keys(field).some(function (key) { return ![\"id\", \"value\"].includes(key); }) ||\n                Object.prototype.hasOwnProperty.call(fieldValues, field.id)) return { valid: false };\n            fieldValues[field.id] = field.value;\n          }\n\n          const feedback = typeof fieldValues.feedback === \"string\" ? fieldValues.feedback.trim() : \"\";\n          const visibility = typeof fieldValues.visibility === \"string\" ? fieldValues.visibility.trim() : \"\";\n          const context = $context?.$nodes?.EXTRACT_PERSON_CONTEXT?.$output?.result || {};\n          const authorId = String(context.loggedInPersonId || \"\");\n          const workerId = String(context.personId || \"\");\n          const allowedVisibility = [\"ALL\", \"MANAGERS\", \"MANAGERS_AND_SUBJECT\", \"PRIVATE\", \"SUBJECT\", \"MANAGERS_SUBJECT_PEERS\"];\n          return {\n            valid: feedback.length > 0 && feedback.length <= 4000 && allowedVisibility.indexOf(visibility) !== -1 && /^[1-9][0-9]{0,19}$/.test(authorId) && /^[1-9][0-9]{0,19}$/.test(workerId),\n            actionId: \"submitFeedback\",\n            feedback: feedback,\n            visibility: visibility\n          };\n        }\n      } catch (formError) {\n        actionContext = null;\n      }\n    }\n\n    actionContext = null;\n  }\n}\n\nconst actionId = actionContext?.actionId === \"addFeedback\" ? \"addFeedback\" : \"\";\n\nreturn {\n  valid: Boolean(actionId),\n  actionId: actionId,\n  feedback: \"\",\n  visibility: \"\"\n};"
+            "sourceCode": "let actionContext = $context?.$app?.$OraAction;\nif (typeof actionContext === \"string\" && actionContext.length > 32768) return { valid: false };\n\nif (typeof actionContext === \"string\") {\n  const actionText = actionContext.trim();\n\n  try {\n    actionContext = JSON.parse(actionText);\n  } catch (e) {\n    const formSubmitMatch = actionText.match(/^<oraFormSubmit\\s+id=\"([^\"]+)\">([\\s\\S]*)<\\/oraFormSubmit>$/);\n\n    if (formSubmitMatch && formSubmitMatch[1] === \"add_feedback_form\") {\n      try {\n        const submittedFields = JSON.parse(formSubmitMatch[2]);\n\n        if (Array.isArray(submittedFields)) {\n          const fieldValues = {};\n\n          if (submittedFields.length !== 2) return { valid: false };\n          for (const field of submittedFields) {\n            if (!field || typeof field.value !== \"string\" ||\n                ![\"feedback\", \"visibility\"].includes(field.id) ||\n                Object.keys(field).some(function (key) { return ![\"id\", \"value\"].includes(key); }) ||\n                Object.prototype.hasOwnProperty.call(fieldValues, field.id)) return { valid: false };\n            fieldValues[field.id] = field.value;\n          }\n\n          const feedback = typeof fieldValues.feedback === \"string\" ? fieldValues.feedback.trim() : \"\";\n          const visibility = typeof fieldValues.visibility === \"string\" ? fieldValues.visibility.trim() : \"\";\n          const context = $context?.$nodes?.EXTRACT_PERSON_CONTEXT?.$output?.result || {};\n          const authorId = String(context.loggedInPersonId || \"\");\n          const workerId = String(context.personId || \"\");\n          const allowedVisibility = [\"ALL\", \"MANAGERS\", \"MANAGERS_AND_SUBJECT\", \"PRIVATE\", \"SUBJECT\", \"MANAGERS_SUBJECT_PEERS\"];\n          return {\n            valid: feedback.length > 0 && feedback.length <= 4000 && allowedVisibility.indexOf(visibility) !== -1 && /^[1-9][0-9]{0,29}$/.test(authorId) && /^[1-9][0-9]{0,29}$/.test(workerId),\n            actionId: \"submitFeedback\",\n            feedback: feedback,\n            visibility: visibility\n          };\n        }\n      } catch (formError) {\n        actionContext = null;\n      }\n    }\n\n    actionContext = null;\n  }\n}\n\nconst actionId = actionContext?.actionId === \"addFeedback\" ? \"addFeedback\" : \"\";\n\nreturn {\n  valid: Boolean(actionId),\n  actionId: actionId,\n  feedback: \"\",\n  visibility: \"\"\n};"
           },
           "outcomes": {
             "success": "1787651228303"
@@ -670,7 +670,7 @@
           "inputs": [],
           "diagram": {
             "x": 6575,
-            "y": 7870
+            "y": 7426
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -697,7 +697,7 @@
           ],
           "diagram": {
             "x": 6575,
-            "y": 8092
+            "y": 7648
           }
         },
         {
@@ -711,7 +711,7 @@
           },
           "diagram": {
             "x": 6350,
-            "y": 8314
+            "y": 7870
           },
           "outcomes": {
             "addFeedback": "1787651228307",
@@ -742,7 +742,7 @@
           "inputs": [],
           "diagram": {
             "x": 6575,
-            "y": 8536
+            "y": 8092
           },
           "outputSpecification": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"VisibilityMeaning\": {\n            \"type\": \"string\"\n          },\n          \"VisibilityCode\": {\n            \"type\": \"string\"\n          },\n          \"DefaultNoteVisibilityFlag\": {\n            \"type\": \"boolean\"\n          },\n          \"@context\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"key\": {\n                \"type\": \"string\"\n              }\n            },\n            \"additionalProperties\": true\n          }\n        },\n        \"additionalProperties\": true\n      }\n    },\n    \"count\": {\n      \"type\": \"integer\"\n    },\n    \"hasMore\": {\n      \"type\": \"boolean\"\n    },\n    \"limit\": {\n      \"type\": \"integer\"\n    },\n    \"offset\": {\n      \"type\": \"integer\"\n    },\n    \"links\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"rel\": {\n            \"type\": \"string\"\n          },\n          \"href\": {\n            \"type\": \"string\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          },\n          \"kind\": {\n            \"type\": \"string\"\n          }\n        },\n        \"additionalProperties\": true\n      }\n    }\n  },\n  \"additionalProperties\": true,\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\"\n}\n"
         },
@@ -762,7 +762,7 @@
           "inputs": [],
           "diagram": {
             "x": 6575,
-            "y": 8758
+            "y": 8314
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -805,7 +805,7 @@
           ],
           "diagram": {
             "x": 6575,
-            "y": 8980
+            "y": 8536
           },
           "aiAppOutputSpecification": {
             "dataDisplay": {
@@ -833,7 +833,7 @@
           "inputs": [],
           "diagram": {
             "x": 6575,
-            "y": 9202
+            "y": 8758
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -855,7 +855,7 @@
           ],
           "diagram": {
             "x": 6575,
-            "y": 9424
+            "y": 8980
           }
         },
         {
@@ -874,7 +874,7 @@
           "inputs": [],
           "diagram": {
             "x": 6125,
-            "y": 8536
+            "y": 8092
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"PersonNumber\": {\n            \"type\": [\n              \"string\",\n              \"number\"\n            ]\n          }\n        },\n        \"additionalProperties\": true\n      }\n    }\n  },\n  \"additionalProperties\": true\n}"
         },
@@ -895,7 +895,7 @@
           "inputs": [],
           "diagram": {
             "x": 6125,
-            "y": 8758
+            "y": 8314
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -920,7 +920,7 @@
           ],
           "diagram": {
             "x": 6125,
-            "y": 8980
+            "y": 8536
           },
           "convergenceTargetId": "1787651228309"
         },
@@ -942,7 +942,7 @@
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
             "x": 5675,
-            "y": 9202
+            "y": 8758
           }
         },
         {
@@ -969,7 +969,7 @@
           ],
           "diagram": {
             "x": 5675,
-            "y": 9424
+            "y": 8980
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"PersonNumber\": {\n            \"type\": [\n              \"string\",\n              \"number\"\n            ]\n          },\n          \"PersonId\": {\n            \"type\": [\n              \"string\",\n              \"number\"\n            ]\n          }\n        },\n        \"additionalProperties\": true\n      }\n    },\n    \"hasMore\": {\n      \"type\": \"boolean\"\n    }\n  },\n  \"additionalProperties\": true\n}"
         },
@@ -981,7 +981,7 @@
             "name": "Validate Feedback Author",
             "description": "Requires one matching session worker and rejects a conflicting app viewer identity. This does not grant feedback-write access to the selected subject.",
             "returnType": "object",
-            "sourceCode": "function normalizePersonId(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  return typeof value === \"string\" && /^[1-9][0-9]{0,19}$/.test(value.trim()) ? value.trim() : \"\";\n}\n\nconst rejected = { valid: false, authorId: \"\", workerId: \"\" };\nconst session = $context.$nodes.VALIDATE_FEEDBACK_USER_SESSION.$output.result;\nconst response = $context.$nodes.GET_FEEDBACK_AUTHOR.$output;\nconst context = $context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result;\nif (!session || session.valid !== true || !response || typeof response !== \"object\" || Array.isArray(response) ||\n    response.error || response.timeout || response.isError || Number(response.statusCode || 0) >= 400 ||\n    !Array.isArray(response.items) || response.items.length !== 1 ||\n    (response.hasMore !== undefined && response.hasMore !== false)) return rejected;\nconst author = response.items[0];\nif (!author || typeof author !== \"object\" || Array.isArray(author) ||\n    (typeof author.PersonNumber !== \"string\" &&\n     !(typeof author.PersonNumber === \"number\" && Number.isSafeInteger(author.PersonNumber) && author.PersonNumber > 0)) ||\n    String(author.PersonNumber).trim() !== session.personNumber) return rejected;\nconst authorId = normalizePersonId(author.PersonId);\nconst viewerId = normalizePersonId(context && context.loggedInPersonId);\nconst workerId = normalizePersonId(context && context.personId);\n// The session-resolved worker is the author. A caller-selected subject is not proof of write authorization.\nif (!authorId || !viewerId || authorId !== viewerId || !workerId) return rejected;\nreturn { valid: true, authorId: authorId, workerId: workerId };",
+            "sourceCode": "function normalizePersonId(value) {\n  if (typeof value === \"number\") return Number.isSafeInteger(value) && value > 0 ? String(value) : \"\";\n  return typeof value === \"string\" && /^[1-9][0-9]{0,29}$/.test(value.trim()) ? value.trim() : \"\";\n}\n\nconst rejected = { valid: false, authorId: \"\", workerId: \"\" };\nconst session = $context.$nodes.VALIDATE_FEEDBACK_USER_SESSION.$output.result;\nconst response = $context.$nodes.GET_FEEDBACK_AUTHOR.$output;\nconst context = $context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result;\nif (!session || session.valid !== true || !response || typeof response !== \"object\" || Array.isArray(response) ||\n    response.error || response.timeout || response.isError || Number(response.statusCode || 0) >= 400 ||\n    !Array.isArray(response.items) || response.items.length !== 1 ||\n    (response.hasMore !== undefined && response.hasMore !== false)) return rejected;\nconst author = response.items[0];\nif (!author || typeof author !== \"object\" || Array.isArray(author) ||\n    (typeof author.PersonNumber !== \"string\" &&\n     !(typeof author.PersonNumber === \"number\" && Number.isSafeInteger(author.PersonNumber) && author.PersonNumber > 0)) ||\n    String(author.PersonNumber).trim() !== session.personNumber) return rejected;\nconst authorId = normalizePersonId(author.PersonId);\nconst viewerId = normalizePersonId(context && context.loggedInPersonId);\nconst workerId = normalizePersonId(context && context.personId);\n// The session-resolved worker is the author. A caller-selected subject is not proof of write authorization.\nif (!authorId || !viewerId || authorId !== viewerId || !workerId) return rejected;\nreturn { valid: true, authorId: authorId, workerId: workerId };",
             "errorNodeId": "1787651228309"
           },
           "outcomes": {
@@ -990,7 +990,7 @@
           "inputs": [],
           "diagram": {
             "x": 5675,
-            "y": 9646
+            "y": 9202
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -1015,7 +1015,7 @@
           ],
           "diagram": {
             "x": 5675,
-            "y": 9868
+            "y": 9424
           },
           "convergenceTargetId": "1787651228309"
         },
@@ -1036,7 +1036,7 @@
           "inputs": [],
           "diagram": {
             "x": 5225,
-            "y": 10090
+            "y": 9646
           },
           "outputSpecification": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"VisibilityMeaning\": {\n            \"type\": \"string\"\n          },\n          \"VisibilityCode\": {\n            \"type\": \"string\"\n          },\n          \"DefaultNoteVisibilityFlag\": {\n            \"type\": \"boolean\"\n          },\n          \"@context\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"key\": {\n                \"type\": \"string\"\n              }\n            },\n            \"additionalProperties\": true\n          }\n        },\n        \"additionalProperties\": true\n      }\n    },\n    \"count\": {\n      \"type\": \"integer\"\n    },\n    \"hasMore\": {\n      \"type\": \"boolean\"\n    },\n    \"limit\": {\n      \"type\": \"integer\"\n    },\n    \"offset\": {\n      \"type\": \"integer\"\n    },\n    \"links\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"rel\": {\n            \"type\": \"string\"\n          },\n          \"href\": {\n            \"type\": \"string\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          },\n          \"kind\": {\n            \"type\": \"string\"\n          }\n        },\n        \"additionalProperties\": true\n      }\n    }\n  },\n  \"additionalProperties\": true,\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\"\n}\n"
         },
@@ -1057,7 +1057,7 @@
           "inputs": [],
           "diagram": {
             "x": 5225,
-            "y": 10312
+            "y": 9868
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -1082,7 +1082,7 @@
           ],
           "diagram": {
             "x": 5225,
-            "y": 10534
+            "y": 10090
           },
           "convergenceTargetId": "end"
         },
@@ -1152,9 +1152,9 @@
           ],
           "diagram": {
             "x": 5000,
-            "y": 10756
+            "y": 10312
           },
-          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"@context\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"key\": {\n          \"type\": \"string\"\n        },\n        \"headers\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"ETag\": {\n              \"type\": \"string\"\n            }\n          },\n          \"additionalProperties\": false\n        },\n        \"links\": {\n          \"type\": \"array\",\n          \"items\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"href\": {\n                \"type\": \"string\"\n              },\n              \"rel\": {\n                \"type\": \"string\",\n                \"enum\": [\n                  \"self\",\n                  \"lov\",\n                  \"parent\",\n                  \"canonical\",\n                  \"child\",\n                  \"enclosure\",\n                  \"action\",\n                  \"custom\"\n                ]\n              },\n              \"name\": {\n                \"type\": \"string\"\n              },\n              \"kind\": {\n                \"type\": \"string\",\n                \"enum\": [\n                  \"collection\",\n                  \"item\",\n                  \"describe\",\n                  \"other\"\n                ]\n              }\n            },\n            \"additionalProperties\": false\n          }\n        }\n      },\n      \"additionalProperties\": false\n    },\n    \"CreatedBy\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"LastUpdateDate\": {\n      \"type\": \"string\",\n      \"format\": \"date-time\"\n    },\n    \"LastUpdatedBy\": {\n      \"type\": \"string\"\n    },\n    \"CreationDate\": {\n      \"type\": \"string\",\n      \"format\": \"date-time\"\n    },\n    \"AuthorName\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"WorkerName\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"AuthorKnownAs\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"WorkerKnownAs\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"ContextName\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"ContextName2\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"NoteTypeCodeMeaning\": {\n      \"type\": \"string\"\n    },\n    \"ContextTypeMeaning\": {\n      \"type\": \"string\"\n    },\n    \"FilteredNoteText\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"NoteId\": {\n      \"type\": \"string\",\n      \"format\": \"BigInt\"\n    },\n    \"AuthorId\": {\n      \"type\": \"string\",\n      \"format\": \"BigInt\"\n    },\n    \"AuthorNumber\": {\n      \"type\": \"string\"\n    },\n    \"WorkerId\": {\n      \"type\": \"string\",\n      \"format\": \"BigInt\"\n    },\n    \"WorkerNumber\": {\n      \"type\": \"string\"\n    },\n    \"ContextType\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"ContextId\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\",\n          \"format\": \"BigInt\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"ContextType2\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"ContextId2\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\",\n          \"format\": \"BigInt\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"NoteCode\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"NoteText\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\",\n          \"format\": \"long-text\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"NoteVisibilityCode\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"ContextNameVo\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"ContextNameVo2\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"HiddenFlag\": {\n      \"anyOf\": [\n        {\n          \"type\": \"boolean\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"HideShowNonRecipientFlag\": {\n      \"anyOf\": [\n        {\n          \"type\": \"boolean\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"DeleteNonAuthorFlag\": {\n      \"anyOf\": [\n        {\n          \"type\": \"boolean\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"ThankYouFlag\": {\n      \"anyOf\": [\n        {\n          \"type\": \"boolean\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"ForeignKeyReferenceFlag\": {\n      \"anyOf\": [\n        {\n          \"type\": \"boolean\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"NoteVisibilityMeaning\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"CardTitle\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"ImageReferenceURL\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"HideShowFlag\": {\n      \"anyOf\": [\n        {\n          \"type\": \"boolean\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"TagList\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"NoteTypeCode\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"AnonymousFlag\": {\n      \"anyOf\": [\n        {\n          \"type\": \"boolean\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"attachments\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"totalResults\": {\n          \"type\": \"integer\"\n        },\n        \"count\": {\n          \"type\": \"integer\"\n        },\n        \"hasMore\": {\n          \"type\": \"boolean\"\n        },\n        \"limit\": {\n          \"type\": \"integer\"\n        },\n        \"offset\": {\n          \"type\": \"integer\"\n        },\n        \"links\": {\n          \"type\": \"array\",\n          \"items\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"href\": {\n                \"type\": \"string\"\n              },\n              \"rel\": {\n                \"type\": \"string\",\n                \"enum\": [\n                  \"self\",\n                  \"lov\",\n                  \"parent\",\n                  \"canonical\",\n                  \"child\",\n                  \"enclosure\",\n                  \"action\",\n                  \"custom\"\n                ]\n              },\n              \"name\": {\n                \"type\": \"string\"\n              },\n              \"kind\": {\n                \"type\": \"string\",\n                \"enum\": [\n                  \"collection\",\n                  \"item\",\n                  \"describe\",\n                  \"other\"\n                ]\n              }\n            },\n            \"additionalProperties\": false\n          }\n        },\n        \"items\": {\n          \"type\": \"array\",\n          \"items\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"@context\": {\n                \"type\": \"object\",\n                \"properties\": {\n                  \"key\": {\n                    \"type\": \"string\"\n                  },\n                  \"headers\": {\n                    \"type\": \"object\",\n                    \"properties\": {\n                      \"ETag\": {\n                        \"type\": \"string\"\n                      }\n                    },\n                    \"additionalProperties\": false\n                  },\n                  \"links\": {\n                    \"type\": \"array\",\n                    \"items\": {\n                      \"type\": \"object\",\n                      \"properties\": {\n                        \"href\": {\n                          \"type\": \"string\"\n                        },\n                        \"rel\": {\n                          \"type\": \"string\",\n                          \"enum\": [\n                            \"self\",\n                            \"lov\",\n                            \"parent\",\n                            \"canonical\",\n                            \"child\",\n                            \"enclosure\",\n                            \"action\",\n                            \"custom\"\n                          ]\n                        },\n                        \"name\": {\n                          \"type\": \"string\"\n                        },\n                        \"kind\": {\n                          \"type\": \"string\",\n                          \"enum\": [\n                            \"collection\",\n                            \"item\",\n                            \"describe\",\n                            \"other\"\n                          ]\n                        }\n                      },\n                      \"additionalProperties\": false\n                    }\n                  }\n                },\n                \"additionalProperties\": false\n              },\n              \"LastUpdateDate\": {\n                \"type\": \"string\",\n                \"format\": \"date-time\"\n              },\n              \"LastUpdatedBy\": {\n                \"type\": \"string\"\n              },\n              \"UserName\": {\n                \"type\": \"string\"\n              },\n              \"CreatedBy\": {\n                \"type\": \"string\"\n              },\n              \"CreationDate\": {\n                \"type\": \"string\",\n                \"format\": \"date-time\"\n              },\n              \"LastUpdatedByUserName\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"CreatedByUserName\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"FileWebImage\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\",\n                    \"format\": \"byte\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"AttachedDocumentId\": {\n                \"type\": \"string\",\n                \"format\": \"BigInt\"\n              },\n              \"AsyncTrackerId\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"DatatypeCode\": {\n                \"type\": \"string\"\n              },\n              \"FileName\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"DmFolderPath\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"DmDocumentId\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"DmVersionNumber\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"Url\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"CategoryName\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"Uri\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"FileUrl\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"UploadedText\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"UploadedFileContentType\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"UploadedFileLength\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\",\n                    \"format\": \"BigInt\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"UploadedFileName\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"ContentRepositoryFileShared\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"boolean\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"Title\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"Description\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"ErrorStatusCode\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"ErrorStatusMessage\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"FileContents\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\",\n                    \"format\": \"byte\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"ExpirationDate\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\",\n                    \"format\": \"date-time\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"DownloadInfo\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"PostProcessingAction\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              }\n            },\n            \"additionalProperties\": false\n          }\n        }\n      },\n      \"additionalProperties\": false,\n      \"required\": [\n        \"count\",\n        \"hasMore\",\n        \"limit\",\n        \"offset\",\n        \"links\"\n      ]\n    }\n  },\n  \"additionalProperties\": false\n}"
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"@context\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"key\": {\n          \"type\": \"string\"\n        },\n        \"headers\": {\n          \"type\": \"object\",\n          \"properties\": {},\n          \"additionalProperties\": true\n        },\n        \"links\": {\n          \"type\": \"array\",\n          \"items\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"href\": {\n                \"type\": \"string\"\n              },\n              \"rel\": {\n                \"type\": \"string\",\n                \"enum\": [\n                  \"self\",\n                  \"lov\",\n                  \"parent\",\n                  \"canonical\",\n                  \"child\",\n                  \"enclosure\",\n                  \"action\",\n                  \"custom\"\n                ]\n              },\n              \"name\": {\n                \"type\": \"string\"\n              },\n              \"kind\": {\n                \"type\": \"string\",\n                \"enum\": [\n                  \"collection\",\n                  \"item\",\n                  \"describe\",\n                  \"other\"\n                ]\n              }\n            },\n            \"additionalProperties\": false\n          }\n        }\n      },\n      \"additionalProperties\": false\n    },\n    \"CreatedBy\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"LastUpdateDate\": {\n      \"type\": \"string\",\n      \"format\": \"date-time\"\n    },\n    \"LastUpdatedBy\": {\n      \"type\": \"string\"\n    },\n    \"CreationDate\": {\n      \"type\": \"string\",\n      \"format\": \"date-time\"\n    },\n    \"AuthorName\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"WorkerName\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"AuthorKnownAs\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"WorkerKnownAs\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"ContextName\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"ContextName2\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"NoteTypeCodeMeaning\": {\n      \"type\": \"string\"\n    },\n    \"ContextTypeMeaning\": {\n      \"type\": \"string\"\n    },\n    \"FilteredNoteText\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"NoteId\": {\n      \"type\": \"string\",\n      \"format\": \"BigInt\"\n    },\n    \"AuthorId\": {\n      \"type\": \"string\",\n      \"format\": \"BigInt\"\n    },\n    \"AuthorNumber\": {\n      \"type\": \"string\"\n    },\n    \"WorkerId\": {\n      \"type\": \"string\",\n      \"format\": \"BigInt\"\n    },\n    \"WorkerNumber\": {\n      \"type\": \"string\"\n    },\n    \"ContextType\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"ContextId\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\",\n          \"format\": \"BigInt\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"ContextType2\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"ContextId2\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\",\n          \"format\": \"BigInt\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"NoteCode\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"NoteText\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\",\n          \"format\": \"long-text\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"NoteVisibilityCode\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"ContextNameVo\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"ContextNameVo2\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"HiddenFlag\": {\n      \"anyOf\": [\n        {\n          \"type\": \"boolean\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"HideShowNonRecipientFlag\": {\n      \"anyOf\": [\n        {\n          \"type\": \"boolean\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"DeleteNonAuthorFlag\": {\n      \"anyOf\": [\n        {\n          \"type\": \"boolean\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"ThankYouFlag\": {\n      \"anyOf\": [\n        {\n          \"type\": \"boolean\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"ForeignKeyReferenceFlag\": {\n      \"anyOf\": [\n        {\n          \"type\": \"boolean\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"NoteVisibilityMeaning\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"CardTitle\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"ImageReferenceURL\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"HideShowFlag\": {\n      \"anyOf\": [\n        {\n          \"type\": \"boolean\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"TagList\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"NoteTypeCode\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"AnonymousFlag\": {\n      \"anyOf\": [\n        {\n          \"type\": \"boolean\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ]\n    },\n    \"attachments\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"totalResults\": {\n          \"type\": \"integer\"\n        },\n        \"count\": {\n          \"type\": \"integer\"\n        },\n        \"hasMore\": {\n          \"type\": \"boolean\"\n        },\n        \"limit\": {\n          \"type\": \"integer\"\n        },\n        \"offset\": {\n          \"type\": \"integer\"\n        },\n        \"links\": {\n          \"type\": \"array\",\n          \"items\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"href\": {\n                \"type\": \"string\"\n              },\n              \"rel\": {\n                \"type\": \"string\",\n                \"enum\": [\n                  \"self\",\n                  \"lov\",\n                  \"parent\",\n                  \"canonical\",\n                  \"child\",\n                  \"enclosure\",\n                  \"action\",\n                  \"custom\"\n                ]\n              },\n              \"name\": {\n                \"type\": \"string\"\n              },\n              \"kind\": {\n                \"type\": \"string\",\n                \"enum\": [\n                  \"collection\",\n                  \"item\",\n                  \"describe\",\n                  \"other\"\n                ]\n              }\n            },\n            \"additionalProperties\": false\n          }\n        },\n        \"items\": {\n          \"type\": \"array\",\n          \"items\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"@context\": {\n                \"type\": \"object\",\n                \"properties\": {\n                  \"key\": {\n                    \"type\": \"string\"\n                  },\n                  \"headers\": {\n                    \"type\": \"object\",\n                    \"properties\": {},\n                    \"additionalProperties\": true\n                  },\n                  \"links\": {\n                    \"type\": \"array\",\n                    \"items\": {\n                      \"type\": \"object\",\n                      \"properties\": {\n                        \"href\": {\n                          \"type\": \"string\"\n                        },\n                        \"rel\": {\n                          \"type\": \"string\",\n                          \"enum\": [\n                            \"self\",\n                            \"lov\",\n                            \"parent\",\n                            \"canonical\",\n                            \"child\",\n                            \"enclosure\",\n                            \"action\",\n                            \"custom\"\n                          ]\n                        },\n                        \"name\": {\n                          \"type\": \"string\"\n                        },\n                        \"kind\": {\n                          \"type\": \"string\",\n                          \"enum\": [\n                            \"collection\",\n                            \"item\",\n                            \"describe\",\n                            \"other\"\n                          ]\n                        }\n                      },\n                      \"additionalProperties\": false\n                    }\n                  }\n                },\n                \"additionalProperties\": false\n              },\n              \"LastUpdateDate\": {\n                \"type\": \"string\",\n                \"format\": \"date-time\"\n              },\n              \"LastUpdatedBy\": {\n                \"type\": \"string\"\n              },\n              \"UserName\": {\n                \"type\": \"string\"\n              },\n              \"CreatedBy\": {\n                \"type\": \"string\"\n              },\n              \"CreationDate\": {\n                \"type\": \"string\",\n                \"format\": \"date-time\"\n              },\n              \"LastUpdatedByUserName\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"CreatedByUserName\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"FileWebImage\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\",\n                    \"format\": \"byte\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"AttachedDocumentId\": {\n                \"type\": \"string\",\n                \"format\": \"BigInt\"\n              },\n              \"AsyncTrackerId\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"DatatypeCode\": {\n                \"type\": \"string\"\n              },\n              \"FileName\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"DmFolderPath\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"DmDocumentId\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"DmVersionNumber\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"Url\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"CategoryName\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"Uri\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"FileUrl\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"UploadedText\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"UploadedFileContentType\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"UploadedFileLength\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\",\n                    \"format\": \"BigInt\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"UploadedFileName\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"ContentRepositoryFileShared\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"boolean\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"Title\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"Description\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"ErrorStatusCode\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"ErrorStatusMessage\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"FileContents\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\",\n                    \"format\": \"byte\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"ExpirationDate\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\",\n                    \"format\": \"date-time\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"DownloadInfo\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              },\n              \"PostProcessingAction\": {\n                \"anyOf\": [\n                  {\n                    \"type\": \"string\"\n                  },\n                  {\n                    \"type\": \"null\"\n                  }\n                ]\n              }\n            },\n            \"additionalProperties\": false\n          }\n        }\n      },\n      \"additionalProperties\": false,\n      \"required\": [\n        \"count\",\n        \"hasMore\",\n        \"limit\",\n        \"offset\",\n        \"links\"\n      ]\n    }\n  },\n  \"additionalProperties\": false\n}"
         },
         {
           "id": "1787651228310",
@@ -1175,7 +1175,7 @@
           ],
           "diagram": {
             "x": 5000,
-            "y": 10978
+            "y": 10534
           }
         },
         {
@@ -1197,7 +1197,7 @@
           ],
           "diagram": {
             "x": 5450,
-            "y": 10756
+            "y": 10312
           }
         },
         {
@@ -1219,7 +1219,7 @@
           ],
           "diagram": {
             "x": 7025,
-            "y": 8314
+            "y": 7870
           }
         },
         {
@@ -1230,7 +1230,7 @@
             "name": "Validate Request Get Person Notes",
             "description": "Rejects malformed identifiers, query/finder delimiters and unsupported request-body fields before the BO request. This is input validation; native Fusion authorization remains mandatory.",
             "returnType": "object",
-            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return value;}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,15}$/.test(value.trim()) || !Number.isSafeInteger(Number(value.trim()))) reject(name);\n  return Number(value.trim());\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"personId\");\nreturn checked;",
+            "sourceCode": "function reject(name) { throw new Error(\"Invalid HR request parameter: \" + name); }\nfunction id(value,name) {\n  if(typeof value === \"number\") {if(!Number.isSafeInteger(value)||value<=0) reject(name);return String(value);}\n  if(typeof value!==\"string\" || !/^[1-9][0-9]{0,29}$/.test(value.trim())) reject(name);\n  return value.trim();\n}\n\nconst checked={};\nchecked[\"personId\"]=id(($context.$nodes.EXTRACT_PERSON_CONTEXT.$output.result.personId),\"personId\");\nreturn checked;",
             "errorNodeId": "HR_REQUEST_REJECTED"
           },
           "outcomes": {
@@ -1240,7 +1240,7 @@
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "diagram": {
             "x": 6800,
-            "y": 6538
+            "y": 6094
           }
         },
         {
@@ -1261,15 +1261,15 @@
             {
               "id": "6_personId",
               "name": "personId",
-              "type": "integer",
+              "type": "string",
               "value": "{{$context.$nodes.VALIDATE_REQUEST_GET_PERSON_NOTES.$output.result.personId}}"
             }
           ],
           "diagram": {
             "x": 6800,
-            "y": 6760
+            "y": 6316
           },
-          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"contextType\": {\n            \"type\": \"string\"\n          },\n          \"text\": {\n            \"type\": \"string\"\n          },\n          \"timeCreated\": {\n            \"type\": \"string\"\n          },\n          \"timeUpdated\": {\n            \"type\": \"string\"\n          },\n          \"hiddenFlag\": {\n            \"type\": \"boolean\"\n          },\n          \"visibilityCode\": {\n            \"type\": \"string\"\n          },\n          \"$id\": {\n            \"type\": \"string\"\n          },\n          \"$context\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"etag\": {\n                \"type\": \"string\"\n              },\n              \"links\": {\n                \"type\": \"object\",\n                \"properties\": {\n                  \"$self\": {\n                    \"type\": \"object\",\n                    \"properties\": {\n                      \"href\": {\n                        \"type\": \"string\"\n                      }\n                    },\n                    \"required\": [\n                      \"href\"\n                    ],\n                    \"additionalProperties\": false\n                  }\n                },\n                \"required\": [\n                  \"$self\"\n                ],\n                \"additionalProperties\": false\n              }\n            },\n            \"required\": [\n              \"etag\",\n              \"links\"\n            ],\n            \"additionalProperties\": false\n          },\n          \"author\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"id\": {\n                \"type\": \"string\"\n              },\n              \"$id\": {\n                \"type\": \"string\"\n              },\n              \"$context\": {\n                \"type\": \"object\",\n                \"properties\": {\n                  \"etag\": {\n                    \"type\": \"string\"\n                  },\n                  \"links\": {\n                    \"type\": \"object\",\n                    \"properties\": {\n                      \"$self\": {\n                        \"type\": \"object\",\n                        \"properties\": {\n                          \"href\": {\n                            \"type\": \"string\"\n                          }\n                        },\n                        \"required\": [\n                          \"href\"\n                        ],\n                        \"additionalProperties\": false\n                      }\n                    },\n                    \"required\": [\n                      \"$self\"\n                    ],\n                    \"additionalProperties\": false\n                  }\n                },\n                \"required\": [\n                  \"etag\",\n                  \"links\"\n                ],\n                \"additionalProperties\": false\n              },\n              \"names\": {\n                \"type\": \"object\",\n                \"properties\": {\n                  \"items\": {\n                    \"type\": \"array\",\n                    \"items\": {\n                      \"type\": \"object\",\n                      \"properties\": {\n                        \"displayName\": {\n                          \"type\": \"string\"\n                        },\n                        \"$id\": {\n                          \"type\": \"string\"\n                        },\n                        \"$context\": {\n                          \"type\": \"object\",\n                          \"properties\": {\n                            \"etag\": {\n                              \"type\": \"string\"\n                            },\n                            \"links\": {\n                              \"type\": \"object\",\n                              \"properties\": {\n                                \"$self\": {\n                                  \"type\": \"object\",\n                                  \"properties\": {\n                                    \"href\": {\n                                      \"type\": \"string\"\n                                    }\n                                  },\n                                  \"required\": [\n                                    \"href\"\n                                  ],\n                                  \"additionalProperties\": false\n                                }\n                              },\n                              \"required\": [\n                                \"$self\"\n                              ],\n                              \"additionalProperties\": false\n                            }\n                          },\n                          \"required\": [\n                            \"etag\",\n                            \"links\"\n                          ],\n                          \"additionalProperties\": false\n                        }\n                      },\n                      \"required\": [\n                        \"displayName\",\n                        \"$id\",\n                        \"$context\"\n                      ],\n                      \"additionalProperties\": false\n                    }\n                  },\n                  \"hasMore\": {\n                    \"type\": \"boolean\"\n                  }\n                },\n                \"required\": [\n                  \"items\",\n                  \"hasMore\"\n                ],\n                \"additionalProperties\": false\n              }\n            },\n            \"required\": [\n              \"id\",\n              \"$id\",\n              \"$context\",\n              \"names\"\n            ],\n            \"additionalProperties\": false\n          },\n          \"worker\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"id\": {\n                \"type\": \"string\"\n              },\n              \"$id\": {\n                \"type\": \"string\"\n              },\n              \"$context\": {\n                \"type\": \"object\",\n                \"properties\": {\n                  \"etag\": {\n                    \"type\": \"string\"\n                  },\n                  \"links\": {\n                    \"type\": \"object\",\n                    \"properties\": {\n                      \"$self\": {\n                        \"type\": \"object\",\n                        \"properties\": {\n                          \"href\": {\n                            \"type\": \"string\"\n                          }\n                        },\n                        \"required\": [\n                          \"href\"\n                        ],\n                        \"additionalProperties\": false\n                      }\n                    },\n                    \"required\": [\n                      \"$self\"\n                    ],\n                    \"additionalProperties\": false\n                  }\n                },\n                \"required\": [\n                  \"etag\",\n                  \"links\"\n                ],\n                \"additionalProperties\": false\n              }\n            },\n            \"required\": [\n              \"id\",\n              \"$id\",\n              \"$context\"\n            ],\n            \"additionalProperties\": false\n          }\n        },\n        \"required\": [\n          \"contextType\",\n          \"text\",\n          \"timeCreated\",\n          \"timeUpdated\",\n          \"hiddenFlag\",\n          \"visibilityCode\",\n          \"$id\",\n          \"$context\",\n          \"author\",\n          \"worker\"\n        ],\n        \"additionalProperties\": false\n      }\n    },\n    \"hasMore\": {\n      \"type\": \"boolean\"\n    }\n  },\n  \"required\": [\n    \"items\",\n    \"hasMore\"\n  ],\n  \"additionalProperties\": false\n}"
+          "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"contextType\": {\n            \"type\": \"string\"\n          },\n          \"text\": {\n            \"type\": \"string\"\n          },\n          \"timeCreated\": {\n            \"type\": \"string\"\n          },\n          \"timeUpdated\": {\n            \"type\": \"string\"\n          },\n          \"hiddenFlag\": {\n            \"type\": \"boolean\"\n          },\n          \"visibilityCode\": {\n            \"type\": \"string\"\n          },\n          \"$id\": {\n            \"type\": \"string\"\n          },\n          \"$context\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"links\": {\n                \"type\": \"object\",\n                \"properties\": {\n                  \"$self\": {\n                    \"type\": \"object\",\n                    \"properties\": {\n                      \"href\": {\n                        \"type\": \"string\"\n                      }\n                    },\n                    \"required\": [\n                      \"href\"\n                    ],\n                    \"additionalProperties\": false\n                  }\n                },\n                \"required\": [\n                  \"$self\"\n                ],\n                \"additionalProperties\": false\n              }\n            },\n            \"required\": [\n              \"links\"\n            ],\n            \"additionalProperties\": true\n          },\n          \"author\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"id\": {\n                \"type\": \"string\"\n              },\n              \"$id\": {\n                \"type\": \"string\"\n              },\n              \"$context\": {\n                \"type\": \"object\",\n                \"properties\": {\n                  \"links\": {\n                    \"type\": \"object\",\n                    \"properties\": {\n                      \"$self\": {\n                        \"type\": \"object\",\n                        \"properties\": {\n                          \"href\": {\n                            \"type\": \"string\"\n                          }\n                        },\n                        \"required\": [\n                          \"href\"\n                        ],\n                        \"additionalProperties\": false\n                      }\n                    },\n                    \"required\": [\n                      \"$self\"\n                    ],\n                    \"additionalProperties\": false\n                  }\n                },\n                \"required\": [\n                  \"links\"\n                ],\n                \"additionalProperties\": true\n              },\n              \"names\": {\n                \"type\": \"object\",\n                \"properties\": {\n                  \"items\": {\n                    \"type\": \"array\",\n                    \"items\": {\n                      \"type\": \"object\",\n                      \"properties\": {\n                        \"displayName\": {\n                          \"type\": \"string\"\n                        },\n                        \"$id\": {\n                          \"type\": \"string\"\n                        },\n                        \"$context\": {\n                          \"type\": \"object\",\n                          \"properties\": {\n                            \"links\": {\n                              \"type\": \"object\",\n                              \"properties\": {\n                                \"$self\": {\n                                  \"type\": \"object\",\n                                  \"properties\": {\n                                    \"href\": {\n                                      \"type\": \"string\"\n                                    }\n                                  },\n                                  \"required\": [\n                                    \"href\"\n                                  ],\n                                  \"additionalProperties\": false\n                                }\n                              },\n                              \"required\": [\n                                \"$self\"\n                              ],\n                              \"additionalProperties\": false\n                            }\n                          },\n                          \"required\": [\n                            \"links\"\n                          ],\n                          \"additionalProperties\": true\n                        }\n                      },\n                      \"required\": [\n                        \"displayName\",\n                        \"$id\",\n                        \"$context\"\n                      ],\n                      \"additionalProperties\": false\n                    }\n                  },\n                  \"hasMore\": {\n                    \"type\": \"boolean\"\n                  }\n                },\n                \"required\": [\n                  \"items\",\n                  \"hasMore\"\n                ],\n                \"additionalProperties\": false\n              }\n            },\n            \"required\": [\n              \"id\",\n              \"$id\",\n              \"$context\",\n              \"names\"\n            ],\n            \"additionalProperties\": false\n          },\n          \"worker\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"id\": {\n                \"type\": \"string\"\n              },\n              \"$id\": {\n                \"type\": \"string\"\n              },\n              \"$context\": {\n                \"type\": \"object\",\n                \"properties\": {\n                  \"links\": {\n                    \"type\": \"object\",\n                    \"properties\": {\n                      \"$self\": {\n                        \"type\": \"object\",\n                        \"properties\": {\n                          \"href\": {\n                            \"type\": \"string\"\n                          }\n                        },\n                        \"required\": [\n                          \"href\"\n                        ],\n                        \"additionalProperties\": false\n                      }\n                    },\n                    \"required\": [\n                      \"$self\"\n                    ],\n                    \"additionalProperties\": false\n                  }\n                },\n                \"required\": [\n                  \"links\"\n                ],\n                \"additionalProperties\": true\n              }\n            },\n            \"required\": [\n              \"id\",\n              \"$id\",\n              \"$context\"\n            ],\n            \"additionalProperties\": false\n          }\n        },\n        \"required\": [\n          \"contextType\",\n          \"text\",\n          \"timeCreated\",\n          \"timeUpdated\",\n          \"hiddenFlag\",\n          \"visibilityCode\",\n          \"$id\",\n          \"$context\",\n          \"author\",\n          \"worker\"\n        ],\n        \"additionalProperties\": false\n      }\n    },\n    \"hasMore\": {\n      \"type\": \"boolean\"\n    }\n  },\n  \"required\": [\n    \"items\",\n    \"hasMore\"\n  ],\n  \"additionalProperties\": false\n}"
         },
         {
           "id": "7",
@@ -1287,7 +1287,7 @@
           "inputs": [],
           "diagram": {
             "x": 6800,
-            "y": 6982
+            "y": 6538
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
         },
@@ -1313,7 +1313,7 @@
           ],
           "diagram": {
             "x": 6800,
-            "y": 7204
+            "y": 6760
           },
           "convergenceTargetId": "end"
         },
@@ -1338,7 +1338,7 @@
           ],
           "diagram": {
             "x": 6575,
-            "y": 7426
+            "y": 6982
           }
         },
         {
@@ -1360,7 +1360,7 @@
           ],
           "diagram": {
             "x": 7025,
-            "y": 7426
+            "y": 6982
           }
         },
         {
@@ -1447,17 +1447,14 @@
     "defaultModelConfiguration": "ORA_MODEL_CONFIG_PREMIUM_OPEN_AI_GPT_4_1_MINI"
   },
   "status": "DRAFT",
-  "version": 17,
   "family": "HCM",
   "product": "GLOBAL_HUMAN_RESOURCES",
   "customFlag": false,
   "seededFlag": false,
   "isTemplate": false,
   "hiddenFlag": false,
-  "useCaseId": "NA",
   "accessModifier": "public",
   "architecture": "data_pipeline",
   "aiAppsCompatibleFlag": true,
-  "followupEnabledFlag": false,
-  "header": {}
+  "followupEnabledFlag": false
 }

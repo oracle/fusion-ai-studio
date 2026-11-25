@@ -1,0 +1,79 @@
+{
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "supportedObjectId": "300100674230458",
+  "$context": {
+    "etag": "6"
+  },
+  "name": "Worker Stock Details",
+  "description": "Retrieves a worker’s stock grant history, including stock grants, vesting information, and stock prices.",
+  "objectCode": "ORA_HCM_COMP_XX_WORKERSTOCKDETAILS",
+  "family": "HCM",
+  "product": "COMPENSATION",
+  "objectSource": "ADF_BC",
+  "restResourcePath": "/hcmRestApi",
+  "restResourceIdentifier": "-1",
+  "seededFlag": false,
+  "mandatoryFlag": false,
+  "objectProperties": {
+    "jsonSchemaName": "supportedObjectProperties",
+    "jsonSchemaVersion": 1,
+    "tools": [
+      {
+        "name": "GetPersonStockHistory",
+        "description": "Returns global stock-grant history for the supplied worker person Id and assignment Id.",
+        "operationType": "GET",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05:9/personStocks?finder=findByAssignmentIdPersonIdGlobalHistory;AssignmentId={assignmentId},PersonId={personId},GetGlobalHistory=undefined&fields=TradingSymbol,GrantName,ExpirationDate,ExercisableShares,GrantTypeMeaning,OriginalGrantDate,OriginalGrantPrice,OriginalSharesGranted,TotalShares,UnvestedShares,VestedShares,VestDate,StockPriceCurrencyCode,EstimatedStockPrice&onlyData=true",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "assignmentId",
+            "dataType": "string",
+            "description": "Worker assignment Id used in the stock-history finder.",
+            "id": 2,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "personId",
+            "dataType": "string",
+            "description": "Worker person Id used in the stock-history finder.",
+            "id": 3,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Sample worker stock history response.",
+            "query": [
+              {
+                "TradingSymbol": "<trading symbol>",
+                "GrantName": "<grant name>",
+                "ExpirationDate": "<expiration date>",
+                "ExercisableShares": "<exercisable shares>",
+                "GrantTypeMeaning": "<grant type meaning>",
+                "OriginalGrantDate": "<original grant date>",
+                "OriginalGrantPrice": "<original grant price>",
+                "OriginalSharesGranted": "<original shares granted>",
+                "TotalShares": "<total shares>",
+                "UnvestedShares": "<unvested shares>",
+                "VestedShares": "<vested shares>",
+                "VestDate": "<vest date>",
+                "StockPriceCurrencyCode": "<stock price currency code>",
+                "EstimatedStockPrice": "<estimated stock price>"
+              }
+            ],
+            "sampleType": "response"
+          }
+        ]
+      }
+    ]
+  }
+}

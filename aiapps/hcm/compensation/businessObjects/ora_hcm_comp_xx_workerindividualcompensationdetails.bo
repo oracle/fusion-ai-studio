@@ -1,0 +1,149 @@
+{
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "supportedObjectId": "300100674231995",
+  "$context": {
+    "etag": "7"
+  },
+  "name": "Worker Individual Compensation Details",
+  "description": "Retrieves a worker’s current and prior individual compensation details.",
+  "objectCode": "ORA_HCM_COMP_XX_WORKERINDIVIDUALCOMPENSATIONDETAILS",
+  "family": "HCM",
+  "product": "COMPENSATION",
+  "objectSource": "ADF_BC",
+  "restResourcePath": "/hcmRestApi",
+  "restResourceIdentifier": "-1",
+  "seededFlag": false,
+  "mandatoryFlag": false,
+  "objectProperties": {
+    "jsonSchemaName": "supportedObjectProperties",
+    "jsonSchemaVersion": 1,
+    "tools": [
+      {
+        "name": "GetCurrentIndividualCompensation",
+        "description": "Returns the employee's current individual compensation records, including future records, as of the supplied system effective date.",
+        "operationType": "GET",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05:9/individualCompensationDetails?finder=findGlobalCurrentCompByAssignmentIdandDate;AssignmentId={assignmentId},PersonId={personId},SysEffectiveDate={sysEffectiveDate},Intent=CompensationInfo,ActionTypeCode=CMP_INDIVIDUAL_COMPENSATION,ActionCode=MNG_INDIV_CMP,ShowFutureRecords=Y&onlyData=true&limit=25&offset=0",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "assignmentId",
+            "dataType": "string",
+            "description": "Employee assignment Id used to retrieve individual compensation details",
+            "id": 2,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "personId",
+            "dataType": "string",
+            "description": "Employee person Id used to retrieve individual compensation details",
+            "id": 3,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "sysEffectiveDate",
+            "dataType": "string",
+            "description": "System effective date in YYYY-MM-DD format.",
+            "id": 4,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Sample current individual compensation response.",
+            "query": {
+              "items": [
+                {
+                  "PlanName": "<plan name>",
+                  "ComponentName": "<component name>",
+                  "EffectiveStartDate": "<effective start date>",
+                  "EffectiveEndDate": "<effective end date>",
+                  "ScreenEntryValue": "<screen entry value>",
+                  "Unit": "<unit>",
+                  "DisplayCurrency": "<display currency>",
+                  "ValueString": "<value string>",
+                  "Status": "<status>"
+                }
+              ]
+            },
+            "sampleType": "response"
+          }
+        ]
+      },
+      {
+        "name": "GetPriorIndividualCompensation",
+        "description": "Returns the employee's prior individual compensation records as of the supplied system effective date.",
+        "operationType": "GET",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05:9/individualCompensationDetails?finder=findGlobalPriorCompByAssignmentIdandDate;AssignmentId={assignmentId},PersonId={personId},SysEffectiveDate={sysEffectiveDate},Intent=CompensationInfo,ActionTypeCode=CMP_INDIVIDUAL_COMPENSATION,ActionCode=MNG_INDIV_CMP&onlyData=true&limit=25&offset=0",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "assignmentId",
+            "dataType": "string",
+            "description": "Employee assignment Id used to retrieve individual compensation details",
+            "id": 7,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "personId",
+            "dataType": "string",
+            "description": "Employee person Id used to retrieve individual compensation details",
+            "id": 8,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "sysEffectiveDate",
+            "dataType": "string",
+            "description": "System effective date in YYYY-MM-DD format.",
+            "id": 9,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "Sample prior individual compensation response.",
+            "query": {
+              "items": [
+                {
+                  "PlanName": "<plan name>",
+                  "ComponentName": "<component name>",
+                  "EffectiveStartDate": "<effective start date>",
+                  "EffectiveEndDate": "<effective end date>",
+                  "ScreenEntryValue": "<screen entry value>",
+                  "Unit": "<unit>",
+                  "DisplayCurrency": "<display currency>",
+                  "ValueString": "<value string>",
+                  "Status": "<status>"
+                }
+              ]
+            },
+            "sampleType": "response"
+          }
+        ]
+      }
+    ]
+  }
+}
