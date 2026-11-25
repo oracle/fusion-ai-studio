@@ -22,8 +22,8 @@
           "inputs": [],
           "type": "START",
           "diagram": {
-            "x": 6746.623341890355,
-            "y": 5626.7098131468
+            "x": 6880.5,
+            "y": 5000
           }
         },
         {
@@ -37,8 +37,8 @@
             "errorNodeId": "1782381843533"
           },
           "diagram": {
-            "x": 6595,
-            "y": 5872
+            "x": 6725.5,
+            "y": 5206
           },
           "outcomes": {
             "false": "1782373386584",
@@ -63,8 +63,8 @@
             "errorNodeId": "1782381843533"
           },
           "diagram": {
-            "x": 7559.462600805189,
-            "y": 6192.907827324676
+            "x": 8442,
+            "y": 5428
           },
           "outcomes": {
             "success": "end"
@@ -84,14 +84,14 @@
           "type": "CODE",
           "metadata": {
             "name": "Process Organization Context",
-            "description": "Parses the provided app context so the next node can set the valuation period, cost book, and cost organization variables.",
-            "sourceCode": "const context = $context.$app.$OraAppContext;\nconst values = context.trim().split(\":\");\n\nconst months = [\n  \"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\",\n  \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\"\n];\n\nconst numericIdPattern = /^\\d+$/;\nconst periodPattern = /^([A-Za-z]{3})-(\\d{2})$/;\n\nconst periodMatch = periodPattern.exec(values[2] || \"\");\nconst monthIndex = periodMatch ? months.indexOf(periodMatch[1]) : -1;\n\nlet priorPeriodName = \"\";\nlet previousPeriodName = \"\";\n\nif (monthIndex !== -1) {\n  const year = 2000 + Number(periodMatch[2]);\n\n  priorPeriodName = `${months[monthIndex]}-${String(year - 1).slice(-2)}`;\n\n  const previousMonthIndex = monthIndex === 0 ? 11 : monthIndex - 1;\n  const previousMonthYear = monthIndex === 0 ? year - 1 : year;\n\n  previousPeriodName =\n    `${months[previousMonthIndex]}-${String(previousMonthYear).slice(-2)}`;\n}\n\nconst isValid =\n  values.length >= 3 &&\n  numericIdPattern.test(values[0]) &&\n  numericIdPattern.test(values[1]) &&\n  monthIndex !== -1;\n\nvalues[3] = priorPeriodName;\nvalues[4] = previousPeriodName;\nvalues[5] = isValid ? \"1\" : \"0\";\n\nreturn values;",
+            "description": "Parses the JSON application context, validates the cost organization, cost book, and accounting period, then derives comparison periods for inventory valuation.",
+            "sourceCode": "const appContext = String($context.$app.$OraAppContext || \"\");\nconst months = [\n  \"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\",\n  \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\"\n];\nlet contextData;\n\ntry {\n  contextData = JSON.parse(appContext);\n} catch (error) {\n  return [\"\", \"\", \"\", \"\", \"\", \"0\"];\n}\n\nif (!contextData || Array.isArray(contextData)) {\n  return [\"\", \"\", \"\", \"\", \"\", \"0\"];\n}\n\nconst costOrganizationId = contextData.CostOrganizationId;\nconst costBookId = contextData.CostBookId;\nconst periodName = contextData.PeriodName;\nconst isValidCostOrganizationId = typeof costOrganizationId === \"string\"\n  && /^[1-9]\\d*$/.test(costOrganizationId);\nconst isValidCostBookId = typeof costBookId === \"string\"\n  && /^[1-9]\\d*$/.test(costBookId);\nconst periodMatch = typeof periodName === \"string\"\n  ? /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-(\\d{2})$/.exec(periodName)\n  : null;\n\nif (!periodMatch) {\n  return [\"\", \"\", \"\", \"\", \"\", \"0\"];\n}\n\nconst monthIndex = months.indexOf(periodMatch[1]);\nconst year = 2000 + Number(periodMatch[2]);\nconst priorPeriodName = months[monthIndex] + \"-\" + String(year - 1).slice(-2);\nconst previousMonthIndex = monthIndex === 0 ? 11 : monthIndex - 1;\nconst previousMonthYear = monthIndex === 0 ? year - 1 : year;\nconst previousPeriodName = months[previousMonthIndex] + \"-\"\n  + String(previousMonthYear).slice(-2);\nconst isValidContext = isValidCostOrganizationId && isValidCostBookId;\n\nreturn [\n  isValidContext ? costOrganizationId : \"\",\n  isValidContext ? costBookId : \"\",\n  isValidContext ? periodName : \"\",\n  priorPeriodName,\n  previousPeriodName,\n  isValidContext ? \"1\" : \"0\"\n];",
             "returnType": "array",
             "errorNodeId": "1782381843533"
           },
           "diagram": {
-            "x": 6370,
-            "y": 6094
+            "x": 6490,
+            "y": 5428
           },
           "outcomes": {
             "success": "1783057828445"
@@ -110,8 +110,8 @@
             "errorNodeId": "1782381843533"
           },
           "diagram": {
-            "x": 6370,
-            "y": 6316
+            "x": 6458.5,
+            "y": 5650
           },
           "outcomes": {
             "true": "1782375747436",
@@ -134,12 +134,12 @@
             "name": "Fetch Cost Book Code",
             "description": "Retrieves the cost book code for the selected cost book identifier.",
             "errorNodeId": "1782381843533",
-            "businessObjectCode": "ORA_SCM_COSTMANAGE_INVENTORYVALUATIONCOMPARISONADVISOR",
+            "businessObjectCode": "ORA_SCM_COSTMANAGE_XX_INVENTORYVALUATIONCOMPARISONADVISOR",
             "functionName": "getCostBookCode"
           },
           "diagram": {
-            "x": 6145,
-            "y": 6538
+            "x": 6242.5,
+            "y": 5872
           },
           "outcomes": {
             "success": "1782331356930"
@@ -164,8 +164,8 @@
             "errorNodeId": "1782381843533"
           },
           "diagram": {
-            "x": 6145,
-            "y": 6760
+            "x": 6178,
+            "y": 6094
           },
           "outcomes": {
             "success": "1782331709297"
@@ -208,8 +208,8 @@
           },
           "diagram": {
             "x": 5000,
-            "y": 6982,
-            "width": 2665,
+            "y": 6316,
+            "width": 2785,
             "height": 348
           },
           "outcomes": {
@@ -235,8 +235,8 @@
             "errorNodeId": "1782381843533"
           },
           "diagram": {
-            "x": 6145,
-            "y": 7480
+            "x": 6218.5,
+            "y": 6814
           },
           "outcomes": {
             "success": "1785999534306"
@@ -255,8 +255,8 @@
             "errorNodeId": "1782381843533"
           },
           "diagram": {
-            "x": 6145,
-            "y": 7702
+            "x": 6227.5,
+            "y": 7036
           },
           "outcomes": {
             "true": "1782333541763",
@@ -281,8 +281,8 @@
             "errorNodeId": "1782381843533"
           },
           "diagram": {
-            "x": 5920,
-            "y": 7924
+            "x": 5902,
+            "y": 7258
           },
           "outcomes": {
             "success": "end"
@@ -313,8 +313,8 @@
             "errorNodeId": "1782381843533"
           },
           "diagram": {
-            "x": 6459.796565244509,
-            "y": 7924
+            "x": 6508,
+            "y": 7258
           },
           "outcomes": {
             "success": "end"
@@ -338,8 +338,8 @@
             "errorNodeId": "1782381843533"
           },
           "diagram": {
-            "x": 7740,
-            "y": 6538
+            "x": 7935,
+            "y": 5872
           },
           "outcomes": {
             "success": "end"
@@ -361,12 +361,12 @@
             "description": "Retrieves asset inventory value for the current period, cost book, and cost organization.",
             "name": "Get Asset Inventory Value",
             "errorNodeId": "1782381843533",
-            "businessObjectCode": "ORA_SCM_COSTMANAGE_INVENTORYVALUATIONCOMPARISONADVISOR",
+            "businessObjectCode": "ORA_SCM_COSTMANAGE_XX_INVENTORYVALUATIONCOMPARISONADVISOR",
             "functionName": "getAssetInventoryValue"
           },
           "diagram": {
             "x": 5020,
-            "y": 7223
+            "y": 6557
           },
           "outcomes": {
             "success": "1782331854047"
@@ -400,12 +400,12 @@
             "description": "Retrieves expense inventory value for the current period, cost book, and cost organization.",
             "name": "Get Expense Inventory Value",
             "errorNodeId": "1782381843533",
-            "businessObjectCode": "ORA_SCM_COSTMANAGE_INVENTORYVALUATIONCOMPARISONADVISOR",
+            "businessObjectCode": "ORA_SCM_COSTMANAGE_XX_INVENTORYVALUATIONCOMPARISONADVISOR",
             "functionName": "getExpenseInventoryValue"
           },
           "diagram": {
             "x": 5470,
-            "y": 7223
+            "y": 6557
           },
           "outcomes": {
             "success": "1782331854047"
@@ -439,12 +439,12 @@
             "description": "Retrieves consigned inventory value for the current period, cost book, and cost organization.",
             "name": "Get Consigned Inventory Value",
             "errorNodeId": "1782381843533",
-            "businessObjectCode": "ORA_SCM_COSTMANAGE_INVENTORYVALUATIONCOMPARISONADVISOR",
+            "businessObjectCode": "ORA_SCM_COSTMANAGE_XX_INVENTORYVALUATIONCOMPARISONADVISOR",
             "functionName": "getConsignedInventoryValue"
           },
           "diagram": {
-            "x": 5920,
-            "y": 7223
+            "x": 5923,
+            "y": 6557
           },
           "outcomes": {
             "success": "1782331854047"
@@ -478,12 +478,12 @@
             "description": "Retrieves asset inventory value for the prior period, cost book, and cost organization.",
             "name": "Get Prior Asset Inventory Value",
             "errorNodeId": "1782381843533",
-            "businessObjectCode": "ORA_SCM_COSTMANAGE_INVENTORYVALUATIONCOMPARISONADVISOR",
+            "businessObjectCode": "ORA_SCM_COSTMANAGE_XX_INVENTORYVALUATIONCOMPARISONADVISOR",
             "functionName": "getPriorAssetInventoryValue"
           },
           "diagram": {
-            "x": 6370,
-            "y": 7223
+            "x": 6394,
+            "y": 6557
           },
           "outcomes": {
             "success": "1782331854047"
@@ -517,12 +517,12 @@
             "description": "Retrieves expense inventory value for the prior period, cost book, and cost organization.",
             "name": "Get Prior Expense Inventory Value",
             "errorNodeId": "1782381843533",
-            "businessObjectCode": "ORA_SCM_COSTMANAGE_INVENTORYVALUATIONCOMPARISONADVISOR",
+            "businessObjectCode": "ORA_SCM_COSTMANAGE_XX_INVENTORYVALUATIONCOMPARISONADVISOR",
             "functionName": "getPriorExpenseInventoryValue"
           },
           "diagram": {
-            "x": 6820,
-            "y": 7223
+            "x": 6883,
+            "y": 6557
           },
           "outcomes": {
             "success": "1782331854047"
@@ -556,12 +556,12 @@
             "description": "Retrieves consigned inventory value for the prior period, cost book, and cost organization.",
             "name": "Get Prior Consigned Inventory Value",
             "errorNodeId": "1782381843533",
-            "businessObjectCode": "ORA_SCM_COSTMANAGE_INVENTORYVALUATIONCOMPARISONADVISOR",
+            "businessObjectCode": "ORA_SCM_COSTMANAGE_XX_INVENTORYVALUATIONCOMPARISONADVISOR",
             "functionName": "getPriorConsignedInventoryValue"
           },
           "diagram": {
-            "x": 7270,
-            "y": 7223
+            "x": 7390,
+            "y": 6557
           },
           "outcomes": {
             "success": "1782331854047"
@@ -596,8 +596,8 @@
             "name": "Display Inventory Valuation Retrieval Error"
           },
           "diagram": {
-            "x": 7474.1960729934935,
-            "y": 5893.261315525982
+            "x": 8917,
+            "y": 5000
           },
           "outcomes": {
             "success": "end"
@@ -687,18 +687,7 @@
     "modelConfiguration": null,
     "humanApprovalFlag": false,
     "waitFlag": false,
-    "triggers": [
-      {
-        "type": "REST",
-        "inputs": [
-          {
-            "id": "1785490255576",
-            "name": "s",
-            "type": "string"
-          }
-        ]
-      }
-    ],
+    "triggers": [],
     "deletedTriggerTypes": [],
     "costSavings": 0,
     "timeSavings": 10,
@@ -718,12 +707,12 @@
   "description": "Compares inventory values across reporting periods, highlighting changes in asset, expense, and consigned inventory.",
   "family": "SCM",
   "product": "COST_MANAGEMENT",
-  "workflowId": "300100666179432",
+  "workflowId": "300100665394668",
   "ownerName": null,
   "seededFlag": false,
   "hiddenFlag": false,
   "status": "DRAFT",
-  "version": 82365727,
+  "version": 83136204,
   "useCaseId": "NA",
   "accessModifier": "public",
   "architecture": "data_pipeline",
@@ -741,7 +730,7 @@
   "aiAppsCompatibleFlag": true,
   "isTemplate": false,
   "ownerId": null,
-  "$id": "300100666179432",
+  "$id": "300100665394668",
   "tags": [],
   "roles": [],
   "seededRoles": [],

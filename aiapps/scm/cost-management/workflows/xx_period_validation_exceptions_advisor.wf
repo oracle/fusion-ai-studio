@@ -23,7 +23,7 @@
           "inputs": [],
           "type": "START",
           "diagram": {
-            "x": 5675,
+            "x": 5987.5,
             "y": 5000
           }
         },
@@ -50,7 +50,7 @@
           ],
           "type": "CONDITION",
           "diagram": {
-            "x": 5675,
+            "x": 5832.5,
             "y": 5206
           }
         },
@@ -75,17 +75,17 @@
           ],
           "type": "LLM",
           "diagram": {
-            "x": 6125,
+            "x": 6371,
             "y": 5428
           }
         },
         {
           "metadata": {
-            "description": "Parses the provided app context so the next node can set the valuation period, cost book, and cost organization variables.",
+            "description": "Parses the JSON application context and validates the cost organization, cost book, and accounting period used to retrieve period validation exceptions.",
             "errorNodeId": "1782382468028",
             "name": "Process Organization Context",
             "returnType": "array",
-            "sourceCode": "let context =  $context.$app.$OraAppContext;\nconst values = context.trim().split(':');\n\nconst numericIdPattern = /^\\d+$/;\nconst periodIdPattern = /^[A-Za-z]{3}-\\d{2}$/;\n\nconst isValid = \n  values.length >= 3 &&\n  numericIdPattern.test(values[0]) &&\n  numericIdPattern.test(values[1]) &&\n  periodIdPattern.test(values[2])\n\n\nvalues[3] = isValid ? \"1\" : \"0\";\nreturn values;"
+            "sourceCode": "const appContext = String($context.$app.$OraAppContext || \"\");\nlet contextData;\n\ntry {\n  contextData = JSON.parse(appContext);\n} catch (error) {\n  return [\"\", \"\", \"\", \"0\"];\n}\n\nif (!contextData || Array.isArray(contextData)) {\n  return [\"\", \"\", \"\", \"0\"];\n}\n\nconst costOrganizationId = contextData.CostOrganizationId;\nconst costBookId = contextData.CostBookId;\nconst periodName = contextData.PeriodName;\nconst isValidCostOrganizationId = typeof costOrganizationId === \"string\"\n  && /^[1-9]\\d*$/.test(costOrganizationId);\nconst isValidCostBookId = typeof costBookId === \"string\"\n  && /^[1-9]\\d*$/.test(costBookId);\nconst isValidPeriodName = typeof periodName === \"string\"\n  && /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-\\d{2}$/.test(periodName);\nconst isValidContext = isValidCostOrganizationId\n  && isValidCostBookId\n  && isValidPeriodName;\n\nreturn [\n  isValidContext ? costOrganizationId : \"\",\n  isValidContext ? costBookId : \"\",\n  isValidContext ? periodName : \"\",\n  isValidContext ? \"1\" : \"0\"\n];"
           },
           "outcomes": {
             "success": "1783057128281"
@@ -96,7 +96,7 @@
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
           "type": "CODE",
           "diagram": {
-            "x": 5450,
+            "x": 5597,
             "y": 5428
           }
         },
@@ -111,7 +111,7 @@
             "errorNodeId": "1782382468028"
           },
           "diagram": {
-            "x": 5450,
+            "x": 5565.5,
             "y": 5650
           },
           "outcomes": {
@@ -129,7 +129,7 @@
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_SCM_XX_COSTMANAGE_VALIDATIONEXCEPTIONSADVISOR",
+            "businessObjectCode": "ORA_SCM_COSTMANAGE_XX_VALIDATIONEXCEPTIONSADVISOR",
             "description": "Retrieves cost accounting period context for the selected cost organization and cost book, including the validation run date used to indicate when validation exceptions were last evaluated.",
             "errorNodeId": "1782382468028",
             "functionName": "getLastRunDate",
@@ -156,7 +156,7 @@
           ],
           "type": "BO_FUNCTION",
           "diagram": {
-            "x": 5225,
+            "x": 5349.5,
             "y": 5872
           }
         },
@@ -195,13 +195,13 @@
           ],
           "type": "SET_FIELDS",
           "diagram": {
-            "x": 5225,
+            "x": 5285,
             "y": 6094
           }
         },
         {
           "metadata": {
-            "businessObjectCode": "ORA_SCM_XX_COSTMANAGE_VALIDATIONEXCEPTIONSADVISOR",
+            "businessObjectCode": "ORA_SCM_COSTMANAGE_XX_VALIDATIONEXCEPTIONSADVISOR",
             "description": "Retrieves validation exception counts for the selected cost book, cost organization, and accounting period.",
             "errorNodeId": "1782382468028",
             "functionName": "getValidationExceptions",
@@ -231,7 +231,7 @@
           ],
           "type": "BO_FUNCTION",
           "diagram": {
-            "x": 5225,
+            "x": 5334.5,
             "y": 6316
           }
         },
@@ -245,7 +245,7 @@
             "errorNodeId": "1782382468028"
           },
           "diagram": {
-            "x": 5225,
+            "x": 5330,
             "y": 6538
           },
           "outcomes": {
@@ -310,8 +310,8 @@
             "errorNodeId": "1782382468028"
           },
           "diagram": {
-            "x": 5568.141020591583,
-            "y": 6758.336041963499
+            "x": 5615,
+            "y": 6760
           },
           "outcomes": {
             "success": "end"
@@ -335,7 +335,7 @@
             "errorNodeId": "1782382468028"
           },
           "diagram": {
-            "x": 5900,
+            "x": 6149,
             "y": 5872
           },
           "outcomes": {
@@ -370,7 +370,7 @@
           ],
           "type": "LLM",
           "diagram": {
-            "x": 6525,
+            "x": 6846,
             "y": 5000
           }
         },
@@ -444,12 +444,7 @@
     "modelConfiguration": null,
     "humanApprovalFlag": false,
     "waitFlag": false,
-    "triggers": [
-      {
-        "type": "REST",
-        "inputs": []
-      }
-    ],
+    "triggers": [],
     "costSavings": 0,
     "timeSavings": 10,
     "chatExpTPFileUploadEnabledFlag": false,
@@ -470,12 +465,12 @@
   "description": "Shows validation exceptions for the selected accounting period, helping identify cost accounting issues that require attention.",
   "family": "SCM",
   "product": "COST_MANAGEMENT",
-  "workflowId": "300100666179431",
+  "workflowId": "300100665421847",
   "ownerName": null,
   "seededFlag": false,
   "hiddenFlag": false,
   "status": "DRAFT",
-  "version": 82369491,
+  "version": 83136123,
   "useCaseId": "NA",
   "accessModifier": "public",
   "architecture": "data_pipeline",

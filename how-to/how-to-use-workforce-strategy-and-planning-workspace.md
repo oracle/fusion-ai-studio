@@ -138,7 +138,7 @@ This template `XX_STRATEGIC_WORKFORCE_PLANNING_POLICY_TEMPLATE` identifies two k
 
 Its general instructions use semantic meaning rather than fixed document layouts. They require source-supported values, preservation of relevant client-specific fields, exclusion of legends and illustrative examples, and no invented missing information. Records may be combined only when they unambiguously refer to the same role or location and planning context. You can review the policy template for detailed functions and their purpose.
 
-A policy need to be created for this policy template and has to be linked in the workflow - XX_EPM_FORECAST_SIGNALS_HELPER_WORKFLOW under capabilities - getRoleStratergyData, getLocationMarketData. The current policy implementations return fixed arrays and can be seen in the policy - `XX_STRATEGIC_WORKFORCE_PLANNING_POLICY`
+A policy need to be created for this policy template and has to be linked in the workflow - `XX_EPM_FORECAST_SIGNALS_POLICY_HELPER_WORKFLOW` under capabilities - getRoleStratergyData, getLocationMarketData. The current policy implementations return fixed arrays and can be seen in the policy - `XX_STRATEGIC_WORKFORCE_PLANNING_POLICY`
 
 A sample policy document should contain below data: 
 

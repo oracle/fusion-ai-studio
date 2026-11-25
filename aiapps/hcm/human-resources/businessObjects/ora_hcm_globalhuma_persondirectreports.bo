@@ -27,7 +27,7 @@
         "parameterDefinitions": [
           {
             "name": "managerPersonId",
-            "dataType": "integer",
+            "dataType": "string",
             "description": "Manager person identifier used to retrieve direct report records.",
             "id": 2,
             "isToken": true,
@@ -37,7 +37,7 @@
           },
           {
             "name": "managerAssignmentId",
-            "dataType": "integer",
+            "dataType": "string",
             "description": "Manager assignment identifier used to retrieve direct report records.",
             "id": 3,
             "isToken": true,
@@ -172,7 +172,7 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "integer",
+            "dataType": "string",
             "description": "Worker person identifier used in the direct-reports resource path.",
             "id": 13,
             "isToken": true,
@@ -182,7 +182,7 @@
           },
           {
             "name": "assignmentId",
-            "dataType": "integer",
+            "dataType": "string",
             "description": "Worker assignment identifier used in the direct-reports resource path.",
             "id": 14,
             "isToken": true,
@@ -217,7 +217,7 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "integer",
+            "dataType": "string",
             "description": "Worker person identifier used in the all-reports resource path.",
             "id": 17,
             "isToken": true,
@@ -227,7 +227,7 @@
           },
           {
             "name": "assignmentId",
-            "dataType": "integer",
+            "dataType": "string",
             "description": "Worker assignment identifier used in the all-reports resource path.",
             "id": 18,
             "isToken": true,

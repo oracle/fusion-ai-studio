@@ -16,7 +16,7 @@
           "inputs": [],
           "outcomes": {},
           "diagram": {
-            "x": 5572,
+            "x": 5000,
             "y": 5000
           }
         },
@@ -33,7 +33,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 6872,
+            "x": 5728,
             "y": 5000
           }
         },
@@ -45,7 +45,7 @@
             "name": "Employees - Set Action Payload"
           },
           "diagram": {
-            "x": 6750,
+            "x": 5606,
             "y": 5206
           },
           "outcomes": {
@@ -92,7 +92,7 @@
             "success": "emp_1782380780590"
           },
           "diagram": {
-            "x": 6750,
+            "x": 5606,
             "y": 5428
           },
           "code": "EMP_SET_GUIDELINES",
@@ -175,7 +175,7 @@
             "name": "Employees -  Check QueryId"
           },
           "diagram": {
-            "x": 6750,
+            "x": 5606,
             "y": 5650
           },
           "outcomes": {
@@ -205,7 +205,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 6750,
+            "x": 5606,
             "y": 7978
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
@@ -228,7 +228,7 @@
                     "name": "Start"
                   },
                   "diagram": {
-                    "x": 6872,
+                    "x": 5728,
                     "y": 8290
                   },
                   "outcomes": {
@@ -246,7 +246,7 @@
                     "functionName": "fetch_next"
                   },
                   "diagram": {
-                    "x": 6525,
+                    "x": 5381,
                     "y": 8663
                   },
                   "outcomes": {
@@ -277,7 +277,7 @@
                     "name": "Employees - Set Run Flags"
                   },
                   "diagram": {
-                    "x": 6525,
+                    "x": 5381,
                     "y": 9107
                   },
                   "outcomes": {
@@ -307,7 +307,7 @@
                     "returnType": "boolean"
                   },
                   "diagram": {
-                    "x": 6525,
+                    "x": 5381,
                     "y": 8885
                   },
                   "outcomes": {
@@ -326,7 +326,7 @@
                     "returnType": "object"
                   },
                   "diagram": {
-                    "x": 6525,
+                    "x": 5381,
                     "y": 9329
                   },
                   "outcomes": {
@@ -343,7 +343,7 @@
                     "name": "Employees - Set Variables"
                   },
                   "diagram": {
-                    "x": 6525,
+                    "x": 5381,
                     "y": 9551
                   },
                   "outcomes": {
@@ -374,7 +374,7 @@
                     "sourceCode": "let rows = $context.$nodes.EMP_FETCH_DATA.EMP_RUN_QUERY.$output.Rows || [];\nlet columnMap = $context.$variables.emp_columnMap || {};\nlet existingItems = $context.$variables.emp_sqlData || [];\n\nlet mappedItems = rows.map(function (row) {\n  let item = {};\n\n  // Add all mapped columns; missing columns get null\n  Object.keys(columnMap).forEach(function (columnKey) {\n    let columnName = columnMap[columnKey];\n\n    item[columnName] =\n      Object.prototype.hasOwnProperty.call(row, columnKey)\n        ? row[columnKey]\n        : null;\n  });\n\n  // Preserve columns not present in columnMap\n  Object.keys(row).forEach(function (key) {\n    if (!Object.prototype.hasOwnProperty.call(columnMap, key)) {\n      item[key] = row[key];\n    }\n  });\n\n  return item;\n});\n\n// concat creates a new array instead of modifying rows\nreturn existingItems.concat(mappedItems);"
                   },
                   "diagram": {
-                    "x": 6525,
+                    "x": 5381,
                     "y": 9773
                   },
                   "outcomes": {
@@ -391,7 +391,7 @@
                     "name": "Employees - Set Data"
                   },
                   "diagram": {
-                    "x": 6525,
+                    "x": 5381,
                     "y": 9995
                   },
                   "outcomes": {
@@ -423,7 +423,7 @@
                     "success": "end_emp_1782387106148"
                   },
                   "diagram": {
-                    "x": 6975,
+                    "x": 5831,
                     "y": 8663
                   }
                 },
@@ -447,7 +447,7 @@
                   },
                   "convergenceTargetId": "end",
                   "diagram": {
-                    "x": 6750,
+                    "x": 5606,
                     "y": 8441
                   }
                 },
@@ -466,7 +466,7 @@
             }
           },
           "diagram": {
-            "x": 6505,
+            "x": 5361,
             "y": 8200,
             "width": 790,
             "height": 1902
@@ -503,7 +503,7 @@
             }
           ],
           "diagram": {
-            "x": 6750,
+            "x": 5606,
             "y": 10252
           },
           "convergenceTargetId": "end"
@@ -522,7 +522,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 6300,
+            "x": 5156,
             "y": 10474
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
@@ -544,7 +544,7 @@
             }
           ],
           "diagram": {
-            "x": 6300,
+            "x": 5156,
             "y": 10696
           }
         },
@@ -558,7 +558,7 @@
             "name": "Employees - Check if data exist"
           },
           "diagram": {
-            "x": 6975,
+            "x": 5831,
             "y": 10474
           },
           "outcomes": {
@@ -584,7 +584,7 @@
             "sourceCode": "let data = $context.$variables.emp_sqlData;\n\nconst personNumbers = data.map(function (person) {\n    const number = String(person[\"Person Number\"]).replace(/'/g, \"''\");\n    return \"'\" + number + \"'\";\n  })\n\nlet sqlQuery = \"SET VARIABLE PREFERRED_CURRENCY='User Preferred Currency 1';SELECT 0 s_0, \\\"Workforce Profiles - Person Profile Real Time\\\".\\\"- All Profile Content\\\".\\\"Content Type\\\" s_1, \\\"Workforce Profiles - Person Profile Real Time\\\".\\\"- All Profile Content\\\".\\\"Rating Level 1\\\" s_2, \\\"Workforce Profiles - Person Profile Real Time\\\".\\\"- All Profile Content\\\".\\\"Rating Level 2\\\" s_3, \\\"Workforce Profiles - Person Profile Real Time\\\".\\\"Worker\\\".\\\"Person Number\\\" s_4 FROM \\\"Workforce Profiles - Person Profile Real Time\\\" WHERE (\\\"- All Profile Content\\\".\\\"Content Type Id\\\" IN (113, 115, 125) ) AND (\\\"Worker\\\".\\\"Person Number\\\" IN  \";\n\nsqlQuery += \"(\" + personNumbers + \"))\";\nlet payload = {}\n\npayload.sqlQuery = sqlQuery;\npayload.outputFormat = \"CollectionDataFormat\";\npayload.executionOptions = {\n      \"async\": false,\n      \"refresh\": true,\n      \"presentationInfo\": true,\n      \"maxRowsPerPage\": 25\n    };\npayload.sessionId = $context.$variables.emp_sessionId;\n\nreturn payload;"
           },
           "diagram": {
-            "x": 6750,
+            "x": 5606,
             "y": 10696
           },
           "outcomes": {
@@ -603,7 +603,7 @@
             "functionName": "request_query_execution"
           },
           "diagram": {
-            "x": 6750,
+            "x": 5606,
             "y": 10918
           },
           "outcomes": {
@@ -649,7 +649,7 @@
             "name": "Employees - Check Profiles Data"
           },
           "diagram": {
-            "x": 6750,
+            "x": 5606,
             "y": 11140
           },
           "outcomes": {
@@ -675,7 +675,7 @@
             "sourceCode": "const riskItemsRaw =\n  $context.$nodes.EMP_RUN_PERSON_PROFILES_QUERY?.$output?.Rows ??\n  $context.$nodes.EMP_RUN_PERSON_PROFILES_QUERY_FALLBACK?.$output?.Rows;\n\nconst existingItemsRaw = $context.$variables.emp_sqlData;\n\n// Always work with arrays.\nconst riskItems = Array.isArray(riskItemsRaw) ? riskItemsRaw : [];\nconst existingItems = Array.isArray(existingItemsRaw) ? existingItemsRaw : [];\n\n// If there is no existing person data, return an empty result.\nif (existingItems.length === 0) {\n  return [];\n}\n\nconst defaultRatings = {\n  \"Risk of Loss\": null,\n  \"Impact of Loss\": null,\n  \"Performance Rating\": null,\n  \"Career Potential\": null\n};\n\nconst personMap = new Map();\n\n// Create exactly one row per person from the existing list.\nexistingItems.forEach(item => {\n  if (!item || typeof item !== \"object\") {\n    return;\n  }\n\n  const personNumber = item[\"Person Number\"];\n\n  if (personNumber == null) {\n    return;\n  }\n\n  personMap.set(personNumber, {\n    ...defaultRatings,\n    ...(personMap.get(personNumber) ?? {}),\n    ...item\n  });\n});\n\n// Merge rating records into their corresponding person.\nriskItems.forEach(item => {\n  if (!item || typeof item !== \"object\") {\n    return;\n  }\n\n  const personNumber = item[\"Person Number\"];\n  const contentType = item[\"Content Type\"];\n\n  // Only update people found in the existing list.\n  if (personNumber == null || !personMap.has(personNumber)) {\n    return;\n  }\n\n  const person = personMap.get(personNumber);\n\n  if (contentType === \"Risk of Loss\") {\n    // Rating Level 1 represents Risk of Loss.\n    if (item[\"Rating Level 1\"] != null) {\n      person[\"Risk of Loss\"] = item[\"Rating Level 1\"];\n    }\n\n    // Rating Level 2 represents Impact of Loss.\n    if (item[\"Rating Level 2\"] != null) {\n      person[\"Impact of Loss\"] = item[\"Rating Level 2\"];\n    }\n  } else if (contentType === \"Performance Rating\") {\n    if (item[\"Rating Level 1\"] != null) {\n      person[\"Performance Rating\"] = item[\"Rating Level 1\"];\n    }\n  } else if (contentType === \"Career Potential\") {\n    if (item[\"Rating Level 1\"] != null) {\n      person[\"Career Potential\"] = item[\"Rating Level 1\"];\n    }\n  }\n});\n\nreturn Array.from(personMap.values());"
           },
           "diagram": {
-            "x": 6750,
+            "x": 5606,
             "y": 11584
           },
           "outcomes": {
@@ -694,7 +694,7 @@
             "returnType": "object"
           },
           "diagram": {
-            "x": 6750,
+            "x": 5606,
             "y": 11806
           },
           "outcomes": {
@@ -711,7 +711,7 @@
             "name": "Employees - Return Data"
           },
           "diagram": {
-            "x": 6750,
+            "x": 5606,
             "y": 12028
           },
           "outcomes": {},
@@ -734,7 +734,7 @@
             "functionName": "request_query_execution"
           },
           "diagram": {
-            "x": 7200,
+            "x": 6056,
             "y": 11362
           },
           "outcomes": {
@@ -780,7 +780,7 @@
             "name": "Employees - Return No Data"
           },
           "diagram": {
-            "x": 7200,
+            "x": 6056,
             "y": 10696
           },
           "outcomes": {},
@@ -806,8 +806,8 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 7056.560430572689,
-            "y": 5415.3840373230605,
+            "x": 6056,
+            "y": 5872,
             "width": 1090,
             "height": 1068
           },
@@ -833,7 +833,7 @@
             }
           ],
           "diagram": {
-            "x": 7595,
+            "x": 6451,
             "y": 7090
           },
           "convergenceTargetId": "end"
@@ -852,7 +852,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 7820,
+            "x": 6676,
             "y": 7312
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
@@ -874,7 +874,7 @@
             }
           ],
           "diagram": {
-            "x": 7820,
+            "x": 6676,
             "y": 7534
           }
         },
@@ -888,7 +888,7 @@
             "success": "1794843948588"
           },
           "diagram": {
-            "x": 7370,
+            "x": 6226,
             "y": 7312
           },
           "code": "EMP_GET_QUERY_IDENTIFIER",
@@ -939,7 +939,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 7370,
+            "x": 6226,
             "y": 7534
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
@@ -952,7 +952,7 @@
             "name": "Employees - Set Flags"
           },
           "diagram": {
-            "x": 7370,
+            "x": 6226,
             "y": 7756
           },
           "outcomes": {
@@ -1000,8 +1000,8 @@
             "success": "1794843948604"
           },
           "diagram": {
-            "x": 7826.560430572689,
-            "y": 5656.3840373230605
+            "x": 6826,
+            "y": 6113
           },
           "code": "EMP_CREATE_OTBI_QUERY",
           "id": "emp_1775549051498",
@@ -1047,8 +1047,8 @@
             }
           ],
           "diagram": {
-            "x": 7226.560430572689,
-            "y": 5656.3840373230605
+            "x": 6226,
+            "y": 6113
           }
         },
         {
@@ -1072,8 +1072,8 @@
                     "success": "emp_1775548976800"
                   },
                   "diagram": {
-                    "x": 7348.560430572689,
-                    "y": 5968.3840373230605
+                    "x": 6348,
+                    "y": 6425
                   }
                 },
                 {
@@ -1086,8 +1086,8 @@
                     "success": "emp_record_logon_attempt"
                   },
                   "diagram": {
-                    "x": 7226.560430572689,
-                    "y": 6119.3840373230605
+                    "x": 6226,
+                    "y": 6576
                   },
                   "code": "EMP_LOGON",
                   "id": "emp_1775548976800",
@@ -1118,8 +1118,8 @@
                     "success": "end_emp_logon_retry_loop"
                   },
                   "diagram": {
-                    "x": 7226.560430572689,
-                    "y": 6341.3840373230605
+                    "x": 6226,
+                    "y": 6798
                   }
                 },
                 {
@@ -1147,8 +1147,8 @@
             }
           ],
           "diagram": {
-            "x": 7076.560430572689,
-            "y": 5878.3840373230605,
+            "x": 6076,
+            "y": 6335,
             "width": 600,
             "height": 570
           }
@@ -1162,7 +1162,7 @@
             "capabilityName": "getRequisitionsData"
           },
           "diagram": {
-            "x": 8757,
+            "x": 7613,
             "y": 5000
           },
           "outcomes": {
@@ -1178,7 +1178,7 @@
             "name": "Requisitions - Set Action Payload"
           },
           "diagram": {
-            "x": 8635,
+            "x": 7491,
             "y": 5206
           },
           "outcomes": {
@@ -1213,7 +1213,7 @@
             "success": "req_1782380780590"
           },
           "diagram": {
-            "x": 8635,
+            "x": 7491,
             "y": 5428
           },
           "code": "REQ_SET_GUIDELINES",
@@ -1297,7 +1297,7 @@
             "name": "Requisitions -  Check QueryId"
           },
           "diagram": {
-            "x": 8635,
+            "x": 7491,
             "y": 5650
           },
           "outcomes": {
@@ -1327,7 +1327,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 8635,
+            "x": 7491,
             "y": 7978
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
@@ -1350,7 +1350,7 @@
                     "name": "Start"
                   },
                   "diagram": {
-                    "x": 8757,
+                    "x": 7613,
                     "y": 8290
                   },
                   "outcomes": {
@@ -1368,7 +1368,7 @@
                     "functionName": "fetch_next"
                   },
                   "diagram": {
-                    "x": 8410,
+                    "x": 7266,
                     "y": 8663
                   },
                   "outcomes": {
@@ -1399,7 +1399,7 @@
                     "name": "Requisitions - Set runQuery"
                   },
                   "diagram": {
-                    "x": 8410,
+                    "x": 7266,
                     "y": 9107
                   },
                   "outcomes": {
@@ -1429,7 +1429,7 @@
                     "returnType": "boolean"
                   },
                   "diagram": {
-                    "x": 8410,
+                    "x": 7266,
                     "y": 8885
                   },
                   "outcomes": {
@@ -1448,7 +1448,7 @@
                     "returnType": "object"
                   },
                   "diagram": {
-                    "x": 8410,
+                    "x": 7266,
                     "y": 9329
                   },
                   "outcomes": {
@@ -1465,7 +1465,7 @@
                     "name": "Requisitions - Set Variables"
                   },
                   "diagram": {
-                    "x": 8410,
+                    "x": 7266,
                     "y": 9551
                   },
                   "outcomes": {
@@ -1496,7 +1496,7 @@
                     "sourceCode": "let rows = $context.$nodes.REQ_FETCH_DATA.REQ_RUN_QUERY.$output.Rows || [];\n\nlet columnMap = $context.$variables.req_columnMap || {};\n\nlet items = $context.$variables.req_sqlData || [];\n\nfor(let i=0;i<rows.length;i++){\n  \n  let item = {};\n  \n  let row = rows[i];\n  \n  Object.entries(row).forEach(([key, value]) => {\n    let newKey = columnMap[key] || key;\n    item[newKey] = value;\n  });\n\n  items.push(item);\n\n}\n\n  \n\nreturn items;"
                   },
                   "diagram": {
-                    "x": 8410,
+                    "x": 7266,
                     "y": 9773
                   },
                   "outcomes": {
@@ -1513,7 +1513,7 @@
                     "name": "Requisitions - Set Data"
                   },
                   "diagram": {
-                    "x": 8410,
+                    "x": 7266,
                     "y": 9995
                   },
                   "outcomes": {
@@ -1548,7 +1548,7 @@
                   },
                   "convergenceTargetId": "end",
                   "diagram": {
-                    "x": 8635,
+                    "x": 7491,
                     "y": 8441
                   }
                 },
@@ -1569,7 +1569,7 @@
                     "success": "end_req_1782387106148"
                   },
                   "diagram": {
-                    "x": 8860,
+                    "x": 7716,
                     "y": 8663
                   }
                 },
@@ -1588,7 +1588,7 @@
             }
           },
           "diagram": {
-            "x": 8390,
+            "x": 7246,
             "y": 8200,
             "width": 790,
             "height": 1902
@@ -1625,7 +1625,7 @@
             }
           ],
           "diagram": {
-            "x": 8635,
+            "x": 7491,
             "y": 10252
           },
           "convergenceTargetId": "end"
@@ -1644,7 +1644,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 8410,
+            "x": 7266,
             "y": 10474
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
@@ -1666,7 +1666,7 @@
             }
           ],
           "diagram": {
-            "x": 8410,
+            "x": 7266,
             "y": 10696
           }
         },
@@ -1680,7 +1680,7 @@
             "returnType": "object"
           },
           "diagram": {
-            "x": 8860,
+            "x": 7716,
             "y": 10474
           },
           "outcomes": {
@@ -1697,7 +1697,7 @@
             "name": "Requisitions - Return Data"
           },
           "diagram": {
-            "x": 8860,
+            "x": 7716,
             "y": 10696
           },
           "outcomes": {},
@@ -1723,7 +1723,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 9085,
+            "x": 7941,
             "y": 5872,
             "width": 1090,
             "height": 1068
@@ -1750,7 +1750,7 @@
             }
           ],
           "diagram": {
-            "x": 9480,
+            "x": 8336,
             "y": 7090
           },
           "convergenceTargetId": "end"
@@ -1765,7 +1765,7 @@
             "success": "1794843948589"
           },
           "diagram": {
-            "x": 9255,
+            "x": 8111,
             "y": 7312
           },
           "code": "REQ_GET_QUERY_IDENTIFIER",
@@ -1816,7 +1816,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 9255,
+            "x": 8111,
             "y": 7534
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
@@ -1829,7 +1829,7 @@
             "name": "Requisitions - Set Flags"
           },
           "diagram": {
-            "x": 9255,
+            "x": 8111,
             "y": 7756
           },
           "outcomes": {
@@ -1887,7 +1887,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 9705,
+            "x": 8561,
             "y": 7312
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
@@ -1909,7 +1909,7 @@
             }
           ],
           "diagram": {
-            "x": 9705,
+            "x": 8561,
             "y": 7534
           }
         },
@@ -1921,7 +1921,7 @@
             "success": "1794843948608"
           },
           "diagram": {
-            "x": 9855,
+            "x": 8711,
             "y": 6113
           },
           "code": "REQ_CREATE_OTBI_QUERY",
@@ -1962,7 +1962,7 @@
             }
           ],
           "diagram": {
-            "x": 9255,
+            "x": 8111,
             "y": 6113
           }
         },
@@ -1987,7 +1987,7 @@
                     "success": "req_1775548976800"
                   },
                   "diagram": {
-                    "x": 9377,
+                    "x": 8233,
                     "y": 6425
                   }
                 },
@@ -2001,7 +2001,7 @@
                     "success": "req_record_logon_attempt"
                   },
                   "diagram": {
-                    "x": 9255,
+                    "x": 8111,
                     "y": 6576
                   },
                   "code": "REQ_LOGON",
@@ -2031,7 +2031,7 @@
                     "success": "end_req_logon_retry_loop"
                   },
                   "diagram": {
-                    "x": 9255,
+                    "x": 8111,
                     "y": 6798
                   }
                 },
@@ -2060,7 +2060,7 @@
             }
           ],
           "diagram": {
-            "x": 9105,
+            "x": 7961,
             "y": 6335,
             "width": 600,
             "height": 570
@@ -2075,7 +2075,7 @@
             "capabilityName": "getOffersData"
           },
           "diagram": {
-            "x": 10642,
+            "x": 9498,
             "y": 5000
           },
           "outcomes": {
@@ -2091,7 +2091,7 @@
             "name": "Offers - Set Action Payload"
           },
           "diagram": {
-            "x": 10520,
+            "x": 9376,
             "y": 5206
           },
           "outcomes": {
@@ -2126,7 +2126,7 @@
             "success": "off_1782380780590"
           },
           "diagram": {
-            "x": 10520,
+            "x": 9376,
             "y": 5428
           },
           "code": "OFF_SET_GUIDELINES",
@@ -2210,7 +2210,7 @@
             "name": "Offers -  Check QueryId"
           },
           "diagram": {
-            "x": 10520,
+            "x": 9376,
             "y": 5650
           },
           "outcomes": {
@@ -2240,7 +2240,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 10520,
+            "x": 9376,
             "y": 7978
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
@@ -2263,7 +2263,7 @@
                     "name": "Start"
                   },
                   "diagram": {
-                    "x": 10642,
+                    "x": 9498,
                     "y": 8290
                   },
                   "outcomes": {
@@ -2277,11 +2277,11 @@
                   "type": "BO_FUNCTION",
                   "metadata": {
                     "name": "Offers - Run Query",
-                    "businessObjectCode": "ORA_HCM_COMP_WORKFORCEOPTIMISATIONRUNREPORT",
-                    "functionName": "fetch_next_for_query"
+                    "businessObjectCode": "ORA_HCM_GLOBALHUMA_XX_OTBI_REPORT_HELPER",
+                    "functionName": "fetch_next"
                   },
                   "diagram": {
-                    "x": 10295,
+                    "x": 9151,
                     "y": 8663
                   },
                   "outcomes": {
@@ -2310,7 +2310,7 @@
                     "name": "Offers - Set runQuery"
                   },
                   "diagram": {
-                    "x": 10295,
+                    "x": 9151,
                     "y": 9107
                   },
                   "outcomes": {
@@ -2340,7 +2340,7 @@
                     "returnType": "boolean"
                   },
                   "diagram": {
-                    "x": 10295,
+                    "x": 9151,
                     "y": 8885
                   },
                   "outcomes": {
@@ -2359,7 +2359,7 @@
                     "returnType": "object"
                   },
                   "diagram": {
-                    "x": 10295,
+                    "x": 9151,
                     "y": 9329
                   },
                   "outcomes": {
@@ -2376,7 +2376,7 @@
                     "name": "Offers - Set Variables"
                   },
                   "diagram": {
-                    "x": 10295,
+                    "x": 9151,
                     "y": 9551
                   },
                   "outcomes": {
@@ -2407,7 +2407,7 @@
                     "sourceCode": "let rows = $context.$nodes.OFF_FETCH_DATA.OFF_RUN_QUERY.$output.Rows || [];\n\nlet columnMap = $context.$variables.off_columnMap || {};\n\nlet items = $context.$variables.off_sqlData || [];\n\nfor(let i=0;i<rows.length;i++){\n  \n  let item = {};\n  \n  let row = rows[i];\n  \n  Object.entries(row).forEach(([key, value]) => {\n    let newKey = columnMap[key] || key;\n    item[newKey] = value;\n  });\n\n  items.push(item);\n\n}\n\n  \n\nreturn items;"
                   },
                   "diagram": {
-                    "x": 10295,
+                    "x": 9151,
                     "y": 9773
                   },
                   "outcomes": {
@@ -2424,7 +2424,7 @@
                     "name": "Offers - Set Data"
                   },
                   "diagram": {
-                    "x": 10295,
+                    "x": 9151,
                     "y": 9995
                   },
                   "outcomes": {
@@ -2459,7 +2459,7 @@
                   },
                   "convergenceTargetId": "end",
                   "diagram": {
-                    "x": 10520,
+                    "x": 9376,
                     "y": 8441
                   }
                 },
@@ -2480,7 +2480,7 @@
                     "success": "end_off_1782387106148"
                   },
                   "diagram": {
-                    "x": 10745,
+                    "x": 9601,
                     "y": 8663
                   }
                 },
@@ -2499,7 +2499,7 @@
             }
           },
           "diagram": {
-            "x": 10275,
+            "x": 9131,
             "y": 8200,
             "width": 790,
             "height": 1902
@@ -2536,7 +2536,7 @@
             }
           ],
           "diagram": {
-            "x": 10520,
+            "x": 9376,
             "y": 10252
           },
           "convergenceTargetId": "end"
@@ -2555,7 +2555,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 10295,
+            "x": 9151,
             "y": 10474
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
@@ -2577,7 +2577,7 @@
             }
           ],
           "diagram": {
-            "x": 10295,
+            "x": 9151,
             "y": 10696
           }
         },
@@ -2591,7 +2591,7 @@
             "returnType": "object"
           },
           "diagram": {
-            "x": 10745,
+            "x": 9601,
             "y": 10474
           },
           "outcomes": {
@@ -2608,7 +2608,7 @@
             "name": "Offers - Return Data"
           },
           "diagram": {
-            "x": 10745,
+            "x": 9601,
             "y": 10696
           },
           "outcomes": {},
@@ -2634,7 +2634,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 10970,
+            "x": 9826,
             "y": 5872,
             "width": 1090,
             "height": 1068
@@ -2661,7 +2661,7 @@
             }
           ],
           "diagram": {
-            "x": 11365,
+            "x": 10221,
             "y": 7090
           },
           "convergenceTargetId": "end"
@@ -2676,7 +2676,7 @@
             "success": "1794843948590"
           },
           "diagram": {
-            "x": 11140,
+            "x": 9996,
             "y": 7312
           },
           "code": "OFF_GET_QUERY_IDENTIFIER",
@@ -2727,7 +2727,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 11140,
+            "x": 9996,
             "y": 7534
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
@@ -2740,7 +2740,7 @@
             "name": "Offers - Set Flags"
           },
           "diagram": {
-            "x": 11140,
+            "x": 9996,
             "y": 7756
           },
           "outcomes": {
@@ -2798,7 +2798,7 @@
           },
           "inputs": [],
           "diagram": {
-            "x": 11590,
+            "x": 10446,
             "y": 7312
           },
           "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}"
@@ -2820,7 +2820,7 @@
             }
           ],
           "diagram": {
-            "x": 11590,
+            "x": 10446,
             "y": 7534
           }
         },
@@ -2832,7 +2832,7 @@
             "success": "1794843948612"
           },
           "diagram": {
-            "x": 11740,
+            "x": 10596,
             "y": 6113
           },
           "code": "OFF_CREATE_OTBI_QUERY",
@@ -2873,7 +2873,7 @@
             }
           ],
           "diagram": {
-            "x": 11140,
+            "x": 9996,
             "y": 6113
           }
         },
@@ -2898,7 +2898,7 @@
                     "success": "off_1775548976800"
                   },
                   "diagram": {
-                    "x": 11262,
+                    "x": 10118,
                     "y": 6425
                   }
                 },
@@ -2912,7 +2912,7 @@
                     "success": "off_record_logon_attempt"
                   },
                   "diagram": {
-                    "x": 11140,
+                    "x": 9996,
                     "y": 6576
                   },
                   "code": "OFF_LOGON",
@@ -2942,7 +2942,7 @@
                     "success": "end_off_logon_retry_loop"
                   },
                   "diagram": {
-                    "x": 11140,
+                    "x": 9996,
                     "y": 6798
                   }
                 },
@@ -2971,363 +2971,11 @@
             }
           ],
           "diagram": {
-            "x": 10990,
+            "x": 9846,
             "y": 6335,
             "width": 600,
             "height": 570
           }
-        },
-        {
-          "id": "1794483193231_1",
-          "code": "GETROLESTRATERGYDATA",
-          "type": "CAPABILITY",
-          "metadata": {
-            "name": "getRoleStratergyData",
-            "capabilityName": "getRoleStratergyData"
-          },
-          "diagram": {
-            "x": 12282,
-            "y": 5000
-          },
-          "outcomes": {
-            "success": "1794496559266"
-          },
-          "inputs": []
-        },
-        {
-          "id": "1794496559266",
-          "code": "ROLE_STRATEGY_POLICY",
-          "type": "POLICY",
-          "metadata": {
-            "name": "Role Strategy Policy",
-            "policyCode": "XX_STRATEGIC_WORKFORCE_PLANNING_POLICY",
-            "functionCode": "ROLESTRATEGYDATA"
-          },
-          "diagram": {
-            "x": 12160,
-            "y": 5206
-          },
-          "outcomes": {
-            "success": "1794497760778"
-          },
-          "inputs": []
-        },
-        {
-          "id": "1794497760778",
-          "code": "ROLE_STRATEGY_OUTPUT",
-          "type": "RETURN",
-          "metadata": {
-            "name": "Role Strategy Output"
-          },
-          "diagram": {
-            "x": 12160,
-            "y": 5428
-          },
-          "outcomes": {},
-          "inputs": [
-            {
-              "id": "1794497760778_returnValue",
-              "name": "returnValue",
-              "type": "string",
-              "value": "{{$context.$nodes.ROLE_STRATEGY_POLICY.$output}} "
-            }
-          ]
-        },
-        {
-          "id": "1794483229761_2",
-          "code": "GETLOCATIONMARKETDATA",
-          "type": "CAPABILITY",
-          "metadata": {
-            "name": "getLocationMarketData",
-            "capabilityName": "getLocationMarketData"
-          },
-          "diagram": {
-            "x": 12682,
-            "y": 5000
-          },
-          "outcomes": {
-            "success": "1794497622474"
-          },
-          "inputs": []
-        },
-        {
-          "id": "1794497622474",
-          "code": "LOCATIONS_POLICY",
-          "type": "POLICY",
-          "metadata": {
-            "name": "Locations Policy",
-            "policyCode": "XX_STRATEGIC_WORKFORCE_PLANNING_POLICY",
-            "functionCode": "LOCATIONMARKETDATA"
-          },
-          "diagram": {
-            "x": 12560,
-            "y": 5206
-          },
-          "outcomes": {
-            "success": "1794497781385"
-          },
-          "inputs": []
-        },
-        {
-          "id": "1794497781385",
-          "code": "LOCATION_OUTPUT",
-          "type": "RETURN",
-          "metadata": {
-            "name": "Location Output"
-          },
-          "diagram": {
-            "x": 12560,
-            "y": 5428
-          },
-          "outcomes": {},
-          "inputs": [
-            {
-              "id": "1794497781385_returnValue",
-              "name": "returnValue",
-              "type": "string",
-              "value": "{{$context.$nodes.LOCATIONS_POLICY.$output}} "
-            }
-          ]
-        },
-        {
-          "id": "1794496488720_1",
-          "code": "RUNWORKFORCEPOLICYANALYSIS",
-          "type": "CAPABILITY",
-          "metadata": {
-            "name": "runWorkforcePolicyAnalysis",
-            "capabilityName": "runWorkforcePolicyAnalysis"
-          },
-          "diagram": {
-            "x": 13232,
-            "y": 5000
-          },
-          "outcomes": {
-            "success": "1794497359431"
-          },
-          "inputs": []
-        },
-        {
-          "id": "1794497359431",
-          "code": "SCORE_SET_ACTION_PAYLOAD",
-          "type": "SET_FIELDS",
-          "metadata": {
-            "name": "Score Set Action Payload"
-          },
-          "diagram": {
-            "x": 13110,
-            "y": 5206
-          },
-          "outcomes": {
-            "success": "score-employees-loop"
-          },
-          "inputs": [
-            {
-              "id": "1794497245417_score_actionPayload",
-              "name": "score_actionPayload",
-              "value": "{{$context.$triggers.CAPABILITY.$input.capabilityPayload}}",
-              "type": "string"
-            },
-            {
-              "id": "1794497359431_score_results",
-              "name": "score_results",
-              "type": "string",
-              "value": "{{[]}}"
-            }
-          ]
-        },
-        {
-          "id": "score-employees-loop",
-          "code": "SCORE_EMPLOYEES",
-          "type": "LOOP",
-          "metadata": {
-            "name": "Score Employees",
-            "loopType": "SEQUENTIAL",
-            "dataPipeline": {
-              "rootNode": "start_score-employees-loop",
-              "pipelineNodes": [
-                {
-                  "id": "start_score-employees-loop",
-                  "code": "START",
-                  "type": "START",
-                  "metadata": {
-                    "name": "Start",
-                    "description": "Start of score iteration"
-                  },
-                  "inputs": [],
-                  "outcomes": {
-                    "success": "1794497637481"
-                  },
-                  "diagram": {
-                    "x": 13232,
-                    "y": 5518
-                  }
-                },
-                {
-                  "id": "1794497637481",
-                  "code": "SCORE_POLICY",
-                  "type": "POLICY",
-                  "metadata": {
-                    "name": "Score Policy",
-                    "policyCode": "XX_RAISE_AND_REDUCTION_PRIORITY_SCORE_CALCULATION_POLICY",
-                    "functionCode": "SCORECALCULATION"
-                  },
-                  "diagram": {
-                    "x": 13110,
-                    "y": 5669
-                  },
-                  "outcomes": {
-                    "success": "score-capture-policy-result"
-                  },
-                  "inputs": [
-                    {
-                      "id": "1794497637481_Performance",
-                      "name": "Performance",
-                      "type": "string",
-                      "value": "{{$context.$nodes.SCORE_EMPLOYEES.$currentItem.Performance === null || $context.$nodes.SCORE_EMPLOYEES.$currentItem.Performance === undefined ? \"\" : $context.$nodes.SCORE_EMPLOYEES.$currentItem.Performance}}"
-                    },
-                    {
-                      "id": "1794497637481_Potential",
-                      "name": "Potential",
-                      "type": "string",
-                      "value": "{{$context.$nodes.SCORE_EMPLOYEES.$currentItem.Potential === null || $context.$nodes.SCORE_EMPLOYEES.$currentItem.Potential === undefined ? \"\" : $context.$nodes.SCORE_EMPLOYEES.$currentItem.Potential}}"
-                    },
-                    {
-                      "id": "1794497637481_Criticality",
-                      "name": "Criticality",
-                      "type": "string",
-                      "value": "{{$context.$nodes.SCORE_EMPLOYEES.$currentItem.Criticality === null || $context.$nodes.SCORE_EMPLOYEES.$currentItem.Criticality === undefined ? \"\" : $context.$nodes.SCORE_EMPLOYEES.$currentItem.Criticality}}"
-                    },
-                    {
-                      "id": "1794497637481_Retention",
-                      "name": "Retention",
-                      "type": "string",
-                      "value": "{{$context.$nodes.SCORE_EMPLOYEES.$currentItem.Retention === null || $context.$nodes.SCORE_EMPLOYEES.$currentItem.Retention === undefined ? \"\" : $context.$nodes.SCORE_EMPLOYEES.$currentItem.Retention}}"
-                    },
-                    {
-                      "id": "1794497637481_Scarcity",
-                      "name": "Scarcity",
-                      "type": "string",
-                      "value": "{{$context.$nodes.SCORE_EMPLOYEES.$currentItem.Scarcity === null || $context.$nodes.SCORE_EMPLOYEES.$currentItem.Scarcity === undefined ? \"\" : $context.$nodes.SCORE_EMPLOYEES.$currentItem.Scarcity}}"
-                    },
-                    {
-                      "id": "1794497637481_UnderMarket",
-                      "name": "UnderMarket",
-                      "type": "string",
-                      "value": "{{$context.$nodes.SCORE_EMPLOYEES.$currentItem.UnderMarket === null || $context.$nodes.SCORE_EMPLOYEES.$currentItem.UnderMarket === undefined ? \"\" : $context.$nodes.SCORE_EMPLOYEES.$currentItem.UnderMarket}}"
-                    },
-                    {
-                      "id": "1794497637481_OverMarket",
-                      "name": "OverMarket",
-                      "type": "string",
-                      "value": "{{$context.$nodes.SCORE_EMPLOYEES.$currentItem.OverMarket === null || $context.$nodes.SCORE_EMPLOYEES.$currentItem.OverMarket === undefined ? \"\" : $context.$nodes.SCORE_EMPLOYEES.$currentItem.OverMarket}}"
-                    },
-                    {
-                      "id": "1794497637481_Impact",
-                      "name": "Impact",
-                      "type": "string",
-                      "value": "{{$context.$nodes.SCORE_EMPLOYEES.$currentItem.Impact === null || $context.$nodes.SCORE_EMPLOYEES.$currentItem.Impact === undefined ? \"\" : $context.$nodes.SCORE_EMPLOYEES.$currentItem.Impact}}"
-                    },
-                    {
-                      "id": "1794497637481_Productivity",
-                      "name": "Productivity",
-                      "type": "string",
-                      "value": "{{$context.$nodes.SCORE_EMPLOYEES.$currentItem.Productivity === null || $context.$nodes.SCORE_EMPLOYEES.$currentItem.Productivity === undefined ? \"\" : $context.$nodes.SCORE_EMPLOYEES.$currentItem.Productivity}}"
-                    }
-                  ]
-                },
-                {
-                  "id": "score-capture-policy-result",
-                  "code": "CAPTURE_SCORE_RESULT",
-                  "type": "CODE",
-                  "metadata": {
-                    "name": "Capture Employee Policy Score",
-                    "returnType": "array",
-                    "sourceCode": "var record = $context.$nodes.SCORE_EMPLOYEES.$currentItem;\nvar action = $context.$variables.score_actionPayload.action;\nvar raw = $context.$nodes.SCORE_EMPLOYEES.SCORE_POLICY.$output;\nvar result = raw;\nif (typeof result === \"string\") {\n    try { result = JSON.parse(result); } catch (error) { result = null; }\n}\nif (result && result.result !== undefined) {\n    result = result.result;\n    if (typeof result === \"string\") {\n        try { result = JSON.parse(result); } catch (error) { result = null; }\n    }\n}\nvar model;\nif (action === \"getRaiseFormulaBatch\") {\n    model = \"raisePriority\";\n} else if (action === \"getReductionFormulaBatch\") {\n    model = \"reductionPriority\";\n} else {\n    throw new Error(\"Unsupported workforce policy action.\");\n}\nvar selected = result && result[model];\nvar entry = { employeeId: record.employeeId, score: null };\nif (selected && typeof selected.score === \"number\" && isFinite(selected.score)) {\n    entry.score = selected.score;\n    entry.priority = selected.priority;\n    entry.missingInputs = Array.isArray(selected.missingInputs) ? selected.missingInputs : [];\n} else {\n    entry.priority = selected ? selected.priority : null;\n    entry.missingInputs = selected && Array.isArray(selected.missingInputs) ? selected.missingInputs : [];\n    entry.error = selected ? \"The policy could not calculate the requested score because required inputs are missing or invalid.\" : \"The policy did not return a recognized scoring result.\";\n}\nvar previous = Array.isArray($context.$variables.score_results) ? $context.$variables.score_results : [];\nreturn previous.concat([entry]);"
-                  },
-                  "inputs": [],
-                  "outputSpecification": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\"\n    },\n    \"timeout\": {\n      \"type\": \"boolean\"\n    },\n    \"error\": {\n      \"type\": \"string\"\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"result\",\n    \"timeout\",\n    \"error\"\n  ]\n}",
-                  "outcomes": {
-                    "success": "score-store-policy-result"
-                  },
-                  "diagram": {
-                    "x": 13110,
-                    "y": 5891
-                  }
-                },
-                {
-                  "id": "score-store-policy-result",
-                  "code": "STORE_SCORE_RESULT",
-                  "type": "SET_FIELDS",
-                  "metadata": {
-                    "name": "Store Employee Policy Score"
-                  },
-                  "inputs": [
-                    {
-                      "id": "store-score-results-value",
-                      "name": "score_results",
-                      "value": "{{$context.$nodes.SCORE_EMPLOYEES.CAPTURE_SCORE_RESULT.$output.result}}"
-                    }
-                  ],
-                  "outcomes": {
-                    "success": "end_score-employees-loop"
-                  },
-                  "diagram": {
-                    "x": 13110,
-                    "y": 6113
-                  }
-                },
-                {
-                  "id": "end_score-employees-loop",
-                  "code": "END",
-                  "type": "END",
-                  "metadata": {
-                    "name": "End",
-                    "description": "End of score iteration"
-                  },
-                  "inputs": [],
-                  "outcomes": {}
-                }
-              ]
-            }
-          },
-          "outcomes": {
-            "success": "1794497781598"
-          },
-          "inputs": [
-            {
-              "id": "score-employees-loop_collection",
-              "name": "collection",
-              "type": "string",
-              "value": "{{$context.$variables.score_actionPayload.payload.records}}"
-            }
-          ],
-          "diagram": {
-            "x": 12960,
-            "y": 5428,
-            "width": 600,
-            "height": 792
-          }
-        },
-        {
-          "id": "1794497781598",
-          "code": "SCORE_OUTPUT",
-          "type": "RETURN",
-          "metadata": {
-            "name": "Score Output"
-          },
-          "diagram": {
-            "x": 13110,
-            "y": 6370
-          },
-          "outcomes": {},
-          "inputs": [
-            {
-              "id": "1794497781598_returnValue",
-              "name": "returnValue",
-              "type": "string",
-              "value": "{{$context.$variables.score_results}}"
-            }
-          ]
         },
         {
           "id": "end",
@@ -3342,12 +2990,6 @@
         }
       ],
       "variables": [
-        {
-          "id": "9039ce51-5531-4e7c-bf44-24e68aa9bd41",
-          "name": "score_actionPayload",
-          "type": "object",
-          "scope": "CONVERSATION"
-        },
         {
           "id": "emp_7efc5c10-2c3e-4f84-b19f-bc1b0af436b9",
           "name": "emp_actionPayload",
@@ -3631,12 +3273,6 @@
           "type": "string"
         },
         {
-          "id": "score-results-variable",
-          "name": "score_results",
-          "type": "array",
-          "scope": "JOB"
-        },
-        {
           "id": "emp_fetch_timed_out",
           "name": "emp_fetchTimedOut",
           "type": "boolean",
@@ -3675,59 +3311,6 @@
       ],
       "errorHandlers": []
     },
-    "dtRunProfiles": {
-      "activeProfileId": "e19ce2c1-9d36-4749-b75d-a8396ac8e9c4",
-      "profiles": [
-        {
-          "id": "024b41ed-c8a1-4371-8840-d1a42fe1983b",
-          "name": "get employees",
-          "type": "capability",
-          "agenticAppMode": "invokeAction",
-          "invokeCapabilityName": "getEmployeeData",
-          "invokeCapabilityPayload": "{\n  \"inputMessage\": \"Get all employees\",\n  \"sessionId\": null,\n  \"queryId\": null,\n  \"batchSize\": 100,\n  \"columnMap\": {}\n}"
-        },
-        {
-          "id": "af96860c-a035-4ed0-816a-944858229b8a",
-          "name": "Get requisitions",
-          "type": "capability",
-          "agenticAppMode": "query",
-          "invokeCapabilityName": "getRequisitionsData",
-          "invokeCapabilityPayload": "{\n  \"inputMessage\": \"Get all requisitions\",\n  \"sessionId\": null,\n  \"queryId\": null,\n  \"batchSize\": 100,\n  \"columnMap\": {}\n}"
-        },
-        {
-          "id": "e19ce2c1-9d36-4749-b75d-a8396ac8e9c4",
-          "name": "Get offers",
-          "type": "capability",
-          "agenticAppMode": "query",
-          "invokeCapabilityName": "getOffersData",
-          "invokeCapabilityPayload": "{\n  \"inputMessage\": \"get all offers\",\n  \"sessionId\": null,\n  \"queryId\": null,\n  \"batchSize\": 100,\n  \"columnMap\": {}\n}"
-        },
-        {
-          "id": "12b09a4e-7031-4dfa-a086-8ff86408af05",
-          "name": "locationsMarket",
-          "type": "capability",
-          "agenticAppMode": "query",
-          "invokeCapabilityName": "getLocationMarketData",
-          "invokeCapabilityPayload": "{}"
-        },
-        {
-          "id": "604d88d3-673a-4660-bac2-8adb8a98e49a",
-          "name": "roleStrategy",
-          "type": "capability",
-          "agenticAppMode": "query",
-          "invokeCapabilityName": "getRoleStratergyData",
-          "invokeCapabilityPayload": "{}"
-        },
-        {
-          "id": "30f594a3-bed8-4ca8-92fb-3749bc72bfcc",
-          "name": "score",
-          "type": "capability",
-          "agenticAppMode": "query",
-          "invokeCapabilityName": "runWorkforcePolicyAnalysis",
-          "invokeCapabilityPayload": "{\n  \"action\": \"getReductionFormulaBatch\",\n  \"payload\": {\n    \"records\": [\n      {\n        \"employeeId\": \"1\",\n        \"Performance\": 0.48,\n        \"Productivity\": 0.55,\n        \"Criticality\": 0.48,\n        \"Scarcity\": 0.48,\n        \"OverMarket\": 0,\n        \"Impact\": 0.28\n      },\n      {\n        \"employeeId\": \"10\",\n        \"Performance\": 0.47,\n        \"Productivity\": 0.39,\n        \"Criticality\": 0.53,\n        \"Scarcity\": 0.6,\n        \"OverMarket\": 0,\n        \"Impact\": 0.52\n      },\n      {\n        \"employeeId\": \"100\",\n        \"Performance\": 0.54,\n        \"Productivity\": 0.45,\n        \"Criticality\": 0.51,\n        \"Scarcity\": 0.58,\n        \"OverMarket\": 0.07,\n        \"Impact\": 0.28\n      },\n      {\n        \"employeeId\": \"100000012092216\",\n        \"Performance\": 0.63,\n        \"Productivity\": 0.59,\n        \"Criticality\": 0.56,\n        \"Scarcity\": 0.62,\n        \"OverMarket\": 0,\n        \"Impact\": 0.33\n      },\n      {\n        \"employeeId\": \"100000012304001\",\n        \"Performance\": 0.11,\n        \"Productivity\": 0.63,\n        \"Criticality\": 0.36,\n        \"Scarcity\": 0.6,\n        \"OverMarket\": 0,\n        \"Impact\": 0.32\n      },\n      {\n        \"employeeId\": \"100000012304115\",\n        \"Performance\": 0.49,\n        \"Productivity\": 0.6,\n        \"Criticality\": 0.52,\n        \"Scarcity\": 0.6,\n        \"OverMarket\": 0.07,\n        \"Impact\": 0.55\n      },\n      {\n        \"employeeId\": \"100000012304617\",\n        \"Performance\": 0.41,\n        \"Productivity\": 0.38,\n        \"Criticality\": 0.43,\n        \"Scarcity\": 0.46,\n        \"OverMarket\": 0,\n        \"Impact\": 0.85\n      },\n      {\n        \"employeeId\": \"100000012304668\",\n        \"Performance\": 0.62,\n        \"Productivity\": 0.29,\n        \"Criticality\": 0.58,\n        \"Scarcity\": 0.71,\n        \"OverMarket\": 0,\n        \"Impact\": 0.49\n      },\n      {\n        \"employeeId\": \"100000012401142\",\n        \"Performance\": 0.64,\n        \"Productivity\": 0.59,\n        \"Criticality\": 0.51,\n        \"Scarcity\": 0.45,\n        \"OverMarket\": 0.35,\n        \"Impact\": 0.61\n      },\n      {\n        \"employeeId\": \"100000012556816\",\n        \"Performance\": 0.59,\n        \"Productivity\": 0.49,\n        \"Criticality\": 0.42,\n        \"Scarcity\": 0.64,\n        \"OverMarket\": 0.11,\n        \"Impact\": 0.41\n      },\n      {\n        \"employeeId\": \"100000012565003\",\n        \"Performance\": 0.39,\n        \"Productivity\": 0.68,\n        \"Criticality\": 0.22,\n        \"Scarcity\": 0.41,\n        \"OverMarket\": 0,\n        \"Impact\": 0.56\n      },\n      {\n        \"employeeId\": \"100000012565272\",\n        \"Performance\": 0.54,\n        \"Productivity\": 0.64,\n        \"Criticality\": 0.66,\n        \"Scarcity\": 0.54,\n        \"OverMarket\": 0.06,\n        \"Impact\": 0.35\n      },\n      {\n        \"employeeId\": \"100000012600709\",\n        \"Performance\": 0.68,\n        \"Productivity\": 0.42,\n        \"Criticality\": 0.79,\n        \"Scarcity\": 0.74,\n        \"OverMarket\": 0,\n        \"Impact\": 0.52\n      },\n      {\n        \"employeeId\": \"100000012603009\",\n        \"Performance\": 0.48,\n        \"Productivity\": 0.58,\n        \"Criticality\": 0.62,\n        \"Scarcity\": 0.14,\n        \"OverMarket\": 0,\n        \"Impact\": 0.61\n      },\n      {\n        \"employeeId\": \"100000012603182\",\n        \"Performance\": 0.41,\n        \"Productivity\": 0.43,\n        \"Criticality\": 0.76,\n        \"Scarcity\": 0.44,\n        \"OverMarket\": 0,\n        \"Impact\": 0.7\n      },\n      {\n        \"employeeId\": \"100000012622125\",\n        \"Performance\": 0.51,\n        \"Productivity\": 0.84,\n        \"Criticality\": 0.53,\n        \"Scarcity\": 0.63,\n        \"OverMarket\": 0.04,\n        \"Impact\": 0.5\n      },\n      {\n        \"employeeId\": \"100000012622128\",\n        \"Performance\": 0.7,\n        \"Productivity\": 0.65,\n        \"Criticality\": 0.48,\n        \"Scarcity\": 0.76,\n        \"OverMarket\": 0.09,\n        \"Impact\": 0.25\n      },\n      {\n        \"employeeId\": \"100000012622437\",\n        \"Performance\": 0.73,\n        \"Productivity\": 0.47,\n        \"Criticality\": 0.51,\n        \"Scarcity\": 0.31,\n        \"OverMarket\": 0.3,\n        \"Impact\": 0.53\n      },\n      {\n        \"employeeId\": \"100000012624160\",\n        \"Performance\": 0.41,\n        \"Productivity\": 0.72,\n        \"Criticality\": 0.26,\n        \"Scarcity\": 0.54,\n        \"OverMarket\": 0,\n        \"Impact\": 0.62\n      },\n      {\n        \"employeeId\": \"100000012627267\",\n        \"Performance\": 0.33,\n        \"Productivity\": 0.51,\n        \"Criticality\": 0.58,\n        \"Scarcity\": 0.39,\n        \"OverMarket\": 0.1,\n        \"Impact\": 0.67\n      },\n      {\n        \"employeeId\": \"100000012639001\",\n        \"Performance\": 0.69,\n        \"Productivity\": 0.52,\n        \"Criticality\": 0.54,\n        \"Scarcity\": 0.54,\n        \"OverMarket\": 0.22,\n        \"Impact\": 0.46\n      },\n      {\n        \"employeeId\": \"100000012671823\",\n        \"Performance\": 0.52,\n        \"Productivity\": 0.53,\n        \"Criticality\": 0.68,\n        \"Scarcity\": 0.24,\n        \"OverMarket\": 0,\n        \"Impact\": 0.54\n      }\n    ]\n  }\n}"
-        }
-      ]
-    },
     "jsonSchemaName": "Workflow.spec",
     "jsonSchemaVersion": "1",
     "inputs": [],
@@ -3750,30 +3333,6 @@
       {
         "type": "CAPABILITY",
         "inputs": [
-          {
-            "name": "runWorkforcePolicyAnalysis",
-            "description": "Applies the approved workforce policy to a batch of up to 25 employee records and returns raise or reduction planning-priority scores keyed by employeeId. Use getRaiseFormulaBatch for raise, compensation-pool, market-correction, and retention-investment analysis; use getReductionFormulaBatch for reduction and over-market analysis. Accepts only canonical normalized inputs permitted for the selected action. Supports sparse records without inventing missing values or locally changing policy weights. Preserves returned scores and reports scoring failures. Does not modify employee records or make final employment decisions.",
-            "category": "Generic",
-            "readOnly": true,
-            "requiresCompute": true,
-            "typeSpecification": "{\n  \"type\": \"object\",\n  \"oneOf\": [\n    {\n      \"properties\": {\n        \"action\": {\n          \"type\": \"string\",\n          \"enum\": [\n            \"getRaiseFormulaBatch\"\n          ]\n        },\n        \"payload\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"records\": {\n              \"type\": \"array\",\n              \"minItems\": 1,\n              \"maxItems\": 25,\n              \"items\": {\n                \"$ref\": \"#/definitions/raiseRecord\"\n              }\n            }\n          },\n          \"required\": [\n            \"records\"\n          ],\n          \"additionalProperties\": false\n        }\n      },\n      \"required\": [\n        \"action\",\n        \"payload\"\n      ],\n      \"additionalProperties\": false\n    },\n    {\n      \"properties\": {\n        \"action\": {\n          \"type\": \"string\",\n          \"enum\": [\n            \"getReductionFormulaBatch\"\n          ]\n        },\n        \"payload\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"records\": {\n              \"type\": \"array\",\n              \"minItems\": 1,\n              \"maxItems\": 25,\n              \"items\": {\n                \"$ref\": \"#/definitions/reductionRecord\"\n              }\n            }\n          },\n          \"required\": [\n            \"records\"\n          ],\n          \"additionalProperties\": false\n        }\n      },\n      \"required\": [\n        \"action\",\n        \"payload\"\n      ],\n      \"additionalProperties\": false\n    }\n  ],\n  \"definitions\": {\n    \"normalizedValue\": {\n      \"type\": \"number\",\n      \"minimum\": 0,\n      \"maximum\": 1\n    },\n    \"raiseRecord\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"employeeId\": {\n          \"type\": \"string\",\n          \"minLength\": 1\n        },\n        \"Performance\": {\n          \"$ref\": \"#/definitions/normalizedValue\"\n        },\n        \"Potential\": {\n          \"$ref\": \"#/definitions/normalizedValue\"\n        },\n        \"Criticality\": {\n          \"$ref\": \"#/definitions/normalizedValue\"\n        },\n        \"Retention\": {\n          \"$ref\": \"#/definitions/normalizedValue\"\n        },\n        \"Scarcity\": {\n          \"$ref\": \"#/definitions/normalizedValue\"\n        },\n        \"UnderMarket\": {\n          \"type\": \"number\",\n          \"minimum\": 0\n        },\n        \"Impact\": {\n          \"$ref\": \"#/definitions/normalizedValue\"\n        }\n      },\n      \"required\": [\n        \"employeeId\"\n      ],\n      \"additionalProperties\": false\n    },\n    \"reductionRecord\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"employeeId\": {\n          \"type\": \"string\",\n          \"minLength\": 1\n        },\n        \"Performance\": {\n          \"$ref\": \"#/definitions/normalizedValue\"\n        },\n        \"Productivity\": {\n          \"$ref\": \"#/definitions/normalizedValue\"\n        },\n        \"Criticality\": {\n          \"$ref\": \"#/definitions/normalizedValue\"\n        },\n        \"Scarcity\": {\n          \"$ref\": \"#/definitions/normalizedValue\"\n        },\n        \"OverMarket\": {\n          \"type\": \"number\",\n          \"minimum\": 0\n        },\n        \"Impact\": {\n          \"$ref\": \"#/definitions/normalizedValue\"\n        }\n      },\n      \"required\": [\n        \"employeeId\"\n      ],\n      \"additionalProperties\": false\n    }\n  }\n}"
-          },
-          {
-            "name": "getLocationMarketData",
-            "description": "Retrieves the configured, governed location and labor-market context used for workforce and budget planning. Returns the available location identifiers, names, market indicators, and supporting policy attributes as structured JSON, preserving source values and identifying unavailable information. Provides context for analysis without inventing employee attributes, overriding workforce policy scores, or automatically protecting or excluding employees. Does not modify business records.",
-            "category": "Generic",
-            "readOnly": true,
-            "requiresCompute": true,
-            "typeSpecification": "{\n  \"type\": \"object\",\n  \"properties\": {},\n  \"additionalProperties\": false\n}"
-          },
-          {
-            "name": "getRoleStratergyData",
-            "description": "Retrieves the configured, governed role-strategy context used for workforce and compensation planning. Returns available role or role-family identifiers, names, criticality, market context, raise caps, reduction sensitivity, and supporting policy attributes as structured JSON. Preserves source values and identifies missing information. Provides analytical context without filling missing employee fields, overriding employee policy scores, or automatically protecting or excluding records. Does not modify business records.",
-            "category": "Generic",
-            "readOnly": true,
-            "requiresCompute": true,
-            "typeSpecification": "{\n  \"type\": \"object\",\n  \"properties\": {},\n  \"additionalProperties\": false\n}"
-          },
           {
             "name": "getEmployeeData",
             "description": "Retrieves employee assignment, compensation and profile information matching the requested employee filters using OTBI queries. Returns employee records with sessionId, queryId, columnMap and finished for paginated retrieval; does not modify employee records.",
@@ -3810,10 +3369,7 @@
     "capabilityNodeIdsMap": {
       "getEmployeeData": "emp_1783509476808",
       "getRequisitionsData": "req_1794463118287_1",
-      "getOffersData": "off_1794463152579_2",
-      "getRoleStratergyData": "1794483193231_1",
-      "getLocationMarketData": "1794483229761_2",
-      "runWorkforcePolicyAnalysis": "1794496488720_1"
+      "getOffersData": "off_1794463152579_2"
     },
     "deletedTriggerTypes": [],
     "diagram": {
@@ -3830,7 +3386,7 @@
   "seededFlag": false,
   "hiddenFlag": false,
   "status": "DRAFT",
-  "version": 91104110,
+  "version": 91374454,
   "useCaseId": "NA",
   "accessModifier": "public",
   "architecture": "data_pipeline",
@@ -3849,14 +3405,18 @@
   "isTemplate": false,
   "ownerId": null,
   "$id": "300100662850438",
-  "$context": {},
+  "$context": {
+    "etag": "27",
+    "links": {
+      "$self": {
+        "href": "https://cptcwyfqy.fusionapps.ocs.oc-test.com/api/boss/data/objects/ora/commonFusionAI/agents/v1/$en/workflows/300100662850438"
+      }
+    }
+  },
   "tags": [],
   "roles": [],
   "seededRoles": [],
   "customizedSpecifications": [],
   "initialTags": [],
-  "initialRoles": [],
-  "header": {
-    "ETag": "\"19\""
-  }
+  "initialRoles": []
 }

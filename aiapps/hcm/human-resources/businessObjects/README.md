@@ -139,7 +139,7 @@ Description: Retrieves representatives marked WorkContactsFlag=true for a worker
 
 ### Function : GetTalentPersonProfiles
 
-Description: Retrieves eligible talent profile sections by personId, including ProfileId, Summary, career ambassador information, expertise, interests, favorite links, tags, and skills.
+Description: Retrieves eligible talent profile sections by personId, including ProfileId, Summary, career ambassador information, expertise, interests, favorite links, and tags.
 
 | Parameter Name | Description |
 |---------------|---------------|
@@ -1096,13 +1096,13 @@ Creates a new person note by submitting data to the personNotesV2 resource using
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `AuthorId` | integer | Person identifier of the author of the note. |
-| `WorkerId` | integer | Person identifier of the worker who's the subject of the note. |
+| `AuthorId` | string | Person identifier of the author of the note. |
+| `WorkerId` | string | Person identifier of the worker who's the subject of the note. |
 | `NoteVisibilityCode` | string | Visibility of the note. Valid options are: ALL, MANAGERS, MANAGERS_AND_SUBJECT, PRIVATE, SUBJECT, MANAGERS_SUBJECT_PEERS. Administrators can remove any of the options via configuration for the specified context type. |
 | `ContextType` | string | Context type of the note. Supply value is ORA_NO_CONTEXT. |
-| `ContextId` | integer | Context identifier of the note. |
+| `ContextId` | string | Context identifier of the note, passed as a numeric string. Preserve the workflow-defined context sentinel when applicable. |
 | `ContextType2` | string | Additional context type of the note. |
-| `ContextId2` | integer | Additional context identifier of the note. |
+| `ContextId2` | string | Additional context identifier of the note, passed as a numeric string. Preserve the workflow-defined context sentinel when applicable. |
 | `NoteText` | string | Text of the note. |
 
 ## Business Object : Job Profile Requirements
@@ -1180,6 +1180,8 @@ Description : Lists forecast signals for the specified Planning application, ret
 |---------------|---------------|
 | `application` | The code identifying the Planning application whose forecast signals you want to list. Provide it as a required path value when requesting signals. |
 | `status` | Filters forecast signals by status. Provide this required value in the request body when listing signals for a Planning application. |
+| `offset` | Zero-based starting offset for the signals page. |
+| `limit` | Maximum number of signals to return per page. |
 
 #### Function : getSignalDetails
 
@@ -1195,6 +1197,16 @@ Description : Retrieves details for an individual forecast signal in the specifi
 Description : Retrieves a collection of applications, including their names, types, storage details, and server URLs.
 
 No input parameters required.
+
+#### Function : changeStatus
+
+Description : Updates the status of a forecast signal in an application using its application name and signal ID.
+
+| **Parameter Name** | **Description** |
+|---------------|---------------|
+| `application` | The code identifying the Planning application whose forecast signals you want to list. Provide it as a required path value when requesting signals. |
+| `signalID` | The unique ID of the forecast signal whose status you want to update. Provide this required value as a path parameter. |
+| `status` | Provide the status to assign to the forecast signal, such as completed, in review, or dimiss. This required body input is used with the application name and signal ID to update the signal. |
 
 ## Business Object : OTBI Report Helper
 

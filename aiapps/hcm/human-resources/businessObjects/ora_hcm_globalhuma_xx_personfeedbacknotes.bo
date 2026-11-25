@@ -28,7 +28,7 @@
         "parameterDefinitions": [
           {
             "name": "personId",
-            "dataType": "integer",
+            "dataType": "string",
             "description": "Person ID of the worker whose notes are retrieved.",
             "id": 2,
             "isToken": true,
@@ -51,7 +51,6 @@
                   "visibilityCode": "<visibilityCode>",
                   "$id": "<id>",
                   "$context": {
-                    "etag": "<etag>",
                     "links": {
                       "$self": {
                         "href": "<href>"
@@ -62,7 +61,6 @@
                     "id": "<id>",
                     "$id": "<id>",
                     "$context": {
-                      "etag": "<etag>",
                       "links": {
                         "$self": {
                           "href": "<href>"
@@ -75,7 +73,6 @@
                           "displayName": "<displayName>",
                           "$id": "<id>",
                           "$context": {
-                            "etag": "<etag>",
                             "links": {
                               "$self": {
                                 "href": "<href>"
@@ -91,7 +88,6 @@
                     "id": "<id>",
                     "$id": "<id>",
                     "$context": {
-                      "etag": "<etag>",
                       "links": {
                         "$self": {
                           "href": "<href>"

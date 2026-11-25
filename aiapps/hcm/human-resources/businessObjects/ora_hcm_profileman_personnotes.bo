@@ -128,7 +128,7 @@
         "parameterDefinitions": [
           {
             "name": "AuthorId",
-            "dataType": "integer",
+            "dataType": "string",
             "description": "Person identifier of the author of the note.",
             "id": 12,
             "isToken": true,
@@ -138,7 +138,7 @@
           },
           {
             "name": "WorkerId",
-            "dataType": "integer",
+            "dataType": "string",
             "description": "Person identifier of the worker who's the subject of the note.",
             "id": 13,
             "isToken": true,
@@ -168,7 +168,7 @@
           },
           {
             "name": "ContextId",
-            "dataType": "integer",
+            "dataType": "string",
             "description": "Context identifier of the note.",
             "id": 16,
             "isToken": true,
@@ -188,7 +188,7 @@
           },
           {
             "name": "ContextId2",
-            "dataType": "integer",
+            "dataType": "string",
             "description": "Additional context identifier of the note.",
             "id": 18,
             "isToken": true,

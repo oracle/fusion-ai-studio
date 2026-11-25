@@ -3136,9 +3136,9 @@
       },
       {
         "name": "GetTalentPersonProfiles",
-        "description": "Retrieves eligible talent profile sections by personId, including ProfileId, Summary, career ambassador information, expertise, interests, favorite links, tags, and skills.",
+        "description": "Retrieves eligible talent profile About Me sections by personId: profile summary, career ambassador information, expertise, interests, favorite links and tags.",
         "operationType": "GET",
-        "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentPersonProfiles?finder=findEligibleSections;PersonId={personId}&limit=50&onlyData=true&fields=ProfileId,Summary,CareerAmbassadorFlag,CareerAmbassadorSummary;areasOfExpertise:ExpertiseId,Expertise;areasOfInterest:InterestId,Interest;favoriteLinks:BookmarkId,URL,Description;tags:TagId,Tag,ContentItemId;skillSections:SectionName,SectionId,SectionContext,ProfileSectionId;skillSections.skillItems:Skill,SkillId",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/talentPersonProfiles?finder=findEligibleSections;PersonId={personId}&limit=50&onlyData=true&fields=ProfileId,Summary,CareerAmbassadorFlag,CareerAmbassadorSummary;areasOfExpertise:ExpertiseId,Expertise;areasOfInterest:InterestId,Interest;favoriteLinks:BookmarkId,URL,Description;tags:TagId,Tag,ContentItemId",
         "resourceType": "ADF_BC_FIXED_QUERY",
         "useNativeAuthentication": true,
         "type": "BUS_OBJECT",
@@ -3270,9 +3270,7 @@
                   "ContextTypeMeaning": "<context type meaning>",
                   "@context": {
                     "key": "<key>",
-                    "headers": {
-                      "ETag": "<etag>"
-                    },
+                    "headers": {},
                     "links": []
                   }
                 },
@@ -3316,9 +3314,7 @@
                   "ContextTypeMeaning": "<context type meaning>",
                   "@context": {
                     "key": "<key>",
-                    "headers": {
-                      "ETag": "<etag>"
-                    },
+                    "headers": {},
                     "links": []
                   }
                 },
@@ -3362,9 +3358,7 @@
                   "ContextTypeMeaning": "<context type meaning>",
                   "@context": {
                     "key": "<key>",
-                    "headers": {
-                      "ETag": "<etag>"
-                    },
+                    "headers": {},
                     "links": []
                   }
                 },
@@ -3408,9 +3402,7 @@
                   "ContextTypeMeaning": "<context type meaning>",
                   "@context": {
                     "key": "<key>",
-                    "headers": {
-                      "ETag": "<etag>"
-                    },
+                    "headers": {},
                     "links": []
                   }
                 },
@@ -3454,9 +3446,7 @@
                   "ContextTypeMeaning": "<context type meaning>",
                   "@context": {
                     "key": "<key>",
-                    "headers": {
-                      "ETag": "<etag>"
-                    },
+                    "headers": {},
                     "links": []
                   }
                 }

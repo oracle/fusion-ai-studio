@@ -1,0 +1,122 @@
+{
+  "_comment": "Copyright © 2026, Oracle and/or its affiliates. ** Licensed under the Universal Permissive License (UPL), Version 1.0  as shown at oss.oracle.com/licenses/upl",
+  "supportedObjectId": "300100674232014",
+  "name": "Compensation Currency Details",
+  "description": "Provides currency display options and exchange rates to support viewing compensation amounts in worker local, corporate, or preferred currency.",
+  "objectCode": "ORA_HCM_COMP_XX_COMPENSATIONCURRENCYDETAILS",
+  "family": "HCM",
+  "product": "COMPENSATION",
+  "objectSource": "ADF_BC",
+  "restResourcePath": "/hcmRestApi/resources/11.13.18.05",
+  "restResourceIdentifier": "-1",
+  "seededFlag": false,
+  "mandatoryFlag": false,
+  "objectProperties": {
+    "jsonSchemaName": "supportedObjectProperties",
+    "jsonSchemaVersion": 1,
+    "tools": [
+      {
+        "name": "getExchangeRates",
+        "description": "Retrieves exchange rates between source and target currencies to support viewing compensation amounts in the selected currency.",
+        "operationType": "POST",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/compensationCurrencyTypes/action/getExchangeRates",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "bodyTemplate": "{\n    \"currencyMap\": [\n        {\n            \"fromCurrency\": \"{fromCurrency}\",\n            \"toCurrency\": \"{toCurrency}\",\n            \"conversionDate\": \"{conversionDate}\"\n        }\n    ]\n}",
+        "useNativeAuthentication": true,
+        "customAuthenticationHeader": "",
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "fromCurrency",
+            "dataType": "string",
+            "description": "Source currency code associated with the returned rate.",
+            "id": 2,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "toCurrency",
+            "dataType": "string",
+            "description": "Target currency code associated with the returned rate.",
+            "id": 3,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "conversionDate",
+            "dataType": "date",
+            "description": "Conversion date associated with the returned rate.",
+            "id": 4,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "headers": {
+          "Content-Type": "application/vnd.oracle.adf.action+json"
+        },
+        "sampleQueries": [
+          {
+            "description": "Sample compensation exchange rates response.",
+            "query": {
+              "result": [
+                {
+                  "conversionDate": "<conversion date>",
+                  "toCurrency": "<to currency>",
+                  "exchangeRate": "<exchange rate>",
+                  "fromCurrency": "<from currency>"
+                }
+              ]
+            },
+            "sampleType": "response"
+          }
+        ]
+      },
+      {
+        "name": "getPreferredCompensationCurrency",
+        "description": "Retrieves currency display options for viewing compensation, including worker local, corporate, and preferred currency.",
+        "operationType": "GET",
+        "resourcePath": "/hcmRestApi/resources/11.13.18.05/compensationCurrencyTypes/PREFERRED?onlyData=true",
+        "resourceType": "ADF_BC_FIXED_QUERY",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [],
+        "sampleQueries": [
+          {
+            "description": "Sample preferred compensation currency options response.",
+            "query": {
+              "items": [
+                {
+                  "CurrencyType": "<currency type>",
+                  "CurrencyTypeDescription": "<currency type description>",
+                  "Meaning": "<meaning>",
+                  "@context": {
+                    "key": "<key>"
+                  }
+                }
+              ],
+              "count": "<count>",
+              "hasMore": "<has more>",
+              "limit": "<limit>",
+              "offset": "<offset>",
+              "links": [
+                {
+                  "rel": "<rel>",
+                  "href": "<href>",
+                  "name": "<name>",
+                  "kind": "<kind>"
+                }
+              ]
+            },
+            "sampleType": "response"
+          }
+        ]
+      }
+    ]
+  }
+}

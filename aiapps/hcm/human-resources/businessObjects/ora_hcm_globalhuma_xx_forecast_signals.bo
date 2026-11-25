@@ -29,9 +29,9 @@
         "name": "listSignals",
         "description": "Lists forecast signals for the specified Planning application, returning the available signals and paging information.",
         "operationType": "POST",
-        "resourcePath": "/HyperionPlanning/rest/v3/applications/{application}/signals?offset=0&limit=5",
+        "resourcePath": "/HyperionPlanning/rest/v3/applications/{application}/signals?offset={offset}&limit={limit}",
         "resourceType": "NonFusionOracleSource",
-        "bodyTemplate": "{\n    \"status\": {status}\n}",
+        "bodyTemplate": "{\n  \"signalType\": \"Workforce Optimization Signal\",  \n  \"status\": {status}\n}",
         "useNativeAuthentication": true,
         "type": "BUS_OBJECT",
         "parameterDefinitions": [
@@ -46,10 +46,30 @@
             "defaultValue": "EPBCS"
           },
           {
+            "name": "offset",
+            "dataType": "integer",
+            "description": "Zero-based starting offset for the signals page.",
+            "id": 3,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": "0"
+          },
+          {
+            "name": "limit",
+            "dataType": "integer",
+            "description": "Maximum number of signals to return per page.",
+            "id": 4,
+            "isToken": true,
+            "location": "query",
+            "source": "placeholder",
+            "defaultValue": "5"
+          },
+          {
             "name": "status",
             "dataType": "string",
             "description": "Filters forecast signals by status. Provide this required value in the request body when listing signals for a Planning application.",
-            "id": 3,
+            "id": 5,
             "isToken": true,
             "location": "body",
             "source": "placeholder",
@@ -133,7 +153,7 @@
             "name": "application",
             "dataType": "string",
             "description": "The application code identifies the EPBCS application containing the signal. Provide it as a required path input when retrieving signal details.",
-            "id": 7,
+            "id": 9,
             "isToken": true,
             "location": "path",
             "source": "placeholder",
@@ -143,7 +163,7 @@
             "name": "signalID",
             "dataType": "string",
             "description": "The ID of the forecast signal whose details you want to retrieve. Provide it as a required path input when calling the signal details operation.",
-            "id": 8,
+            "id": 10,
             "isToken": true,
             "location": "path",
             "source": "placeholder",
@@ -221,6 +241,57 @@
               "type": "< type >"
             },
             "sampleType": "response"
+          }
+        ]
+      },
+      {
+        "name": "changeStatus",
+        "description": "Updates the status of a forecast signal in an application using its application name and signal ID.",
+        "operationType": "POST",
+        "resourcePath": "/HyperionPlanning/rest/v3/applications/{application}/signals/{signalID}/action/updatestatus",
+        "resourceType": "NonFusionOracleSource",
+        "bodyTemplate": "{\n  \"status\": {status}\n}",
+        "useNativeAuthentication": true,
+        "type": "BUS_OBJECT",
+        "parameterDefinitions": [
+          {
+            "name": "application",
+            "dataType": "string",
+            "description": "Provide the application name or code containing the forecast signal. This required path parameter identifies the application whose signal status will be updated.",
+            "id": 16,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "signalID",
+            "dataType": "string",
+            "description": "The unique ID of the forecast signal whose status you want to update. Provide this required value as a path parameter.",
+            "id": 17,
+            "isToken": true,
+            "location": "path",
+            "source": "placeholder",
+            "defaultValue": ""
+          },
+          {
+            "name": "status",
+            "dataType": "string",
+            "description": "Provide the status to assign to the forecast signal, such as completed, in review, or dimiss. This required body input is used with the application name and signal ID to update the signal.",
+            "id": 18,
+            "isToken": true,
+            "location": "body",
+            "source": "placeholder",
+            "defaultValue": ""
+          }
+        ],
+        "sampleQueries": [
+          {
+            "description": "This request body updates a forecast signal’s status to COMPLETED/IN_REVIEW/DIMISSED/OPEN. The application and signalID path parameters identify the signal being updated.",
+            "query": {
+              "status": "COMPLETED"
+            },
+            "sampleType": "request"
           }
         ]
       }
