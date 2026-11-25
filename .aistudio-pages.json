@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "siteUrl": "https://oracle.github.io/fusion-ai-studio/",
+  "sourceCommit": "8f0d7c1795e1f7ea2999188ef30f3b613861ad33",
+  "archiveSha256": "907fde521e4f3371ceaae948bbaceff53a4907ac08228af57b172332fcc0a7ff",
+  "workflowRunId": 45672051273,
+  "releaseTag": "aistudio-docs-8f0d7c1795e1-907fde521e4f",
+  "workflowBlobSha": "30af726baac34412438910d167a9cd639672c4b7"
+}
