@@ -1,0 +1,119 @@
+# Managed AI Studio documentation deployment, schema 1.
+# Only generated website assets are downloaded. Internal Markdown and build hooks stay in ALM.
+name: AI Studio documentation
+run-name: AI Studio docs ${{ inputs.publication_id }}
+on:
+  workflow_dispatch:
+    inputs:
+      asset_id:
+        required: true
+        type: string
+      sha256:
+        required: true
+        type: string
+      source_commit:
+        required: true
+        type: string
+      publication_id:
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: aistudio-documentation-pages
+  cancel-in-progress: false
+jobs:
+  package:
+    if: github.ref == 'refs/heads/aistudio-catalog' && github.event.repository.private == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      SITE_SHA256: ${{ inputs.sha256 }}
+      SOURCE_COMMIT: ${{ inputs.source_commit }}
+      SITE_ASSET_ID: ${{ inputs.asset_id }}
+      PUBLICATION_ID: ${{ inputs.publication_id }}
+    steps:
+      - name: Validate publication inputs
+        run: |
+          [[ "$SITE_SHA256" =~ ^[a-f0-9]{64}$ ]]
+          [[ "$SOURCE_COMMIT" =~ ^[a-f0-9]{40}$ ]]
+          [[ "$SITE_ASSET_ID" =~ ^[0-9]+$ ]]
+          [[ "$PUBLICATION_ID" =~ ^[a-f0-9]{32}$ ]]
+      - name: Download the reviewed website package
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api "repos/$GITHUB_REPOSITORY/releases/assets/$SITE_ASSET_ID" \
+            -H 'Accept: application/octet-stream' > "$RUNNER_TEMP/site.zip"
+      - name: Validate and unpack the generated website
+        run: |
+          python3 - <<'PY'
+          # Copyright (c) 2026, Oracle and/or its affiliates.
+          # Licensed under the Universal Permissive License (UPL), Version 1.0.
+          """Validate a generated website ZIP before creating a Pages artifact."""
+          
+          import hashlib
+          import json
+          import os
+          from pathlib import Path, PurePosixPath
+          import re
+          import stat
+          import zipfile
+          
+          
+          def extract_site(archive, output, expected):
+              if not re.fullmatch(r"[a-f0-9]{64}", expected):
+                  raise ValueError("Invalid expected website checksum")
+              if hashlib.sha256(archive.read_bytes()).hexdigest() != expected:
+                  raise ValueError("Website ZIP checksum differs")
+              with zipfile.ZipFile(archive) as source:
+                  entries = source.infolist()
+                  if not entries or len(entries) > 10000 or sum(item.file_size for item in entries) > 100 * 1024 * 1024:
+                      raise ValueError("Website archive exceeds limits")
+                  names = set()
+                  for item in entries:
+                      path = PurePosixPath(item.filename)
+                      if item.filename in names or item.filename != path.as_posix() or path.is_absolute() or "\\" in item.filename or any(part in {"..", ".git", ".github"} for part in path.parts):
+                          raise ValueError("Unsafe or duplicate archive path")
+                      if item.is_dir() or stat.S_ISLNK(item.external_attr >> 16):
+                          raise ValueError("Only ordinary generated website files are allowed")
+                      if path.suffix.lower() in {".md", ".py", ".pyc", ".yaml", ".yml"}:
+                          raise ValueError("Authoring sources must not be uploaded")
+                      names.add(item.filename)
+                  if "index.html" not in names:
+                      raise ValueError("The website has no home page")
+                  output.mkdir(parents=True, exist_ok=False)
+                  for item in entries:
+                      target = output / item.filename
+                      target.parent.mkdir(parents=True, exist_ok=True)
+                      target.write_bytes(source.read(item))
+          
+          
+          if __name__ == "__main__":
+              temporary = Path(os.environ["RUNNER_TEMP"])
+              extract_site(temporary / "site.zip", temporary / "site", os.environ["SITE_SHA256"])
+              marker = {"schemaVersion": 1, "archiveSha256": os.environ["SITE_SHA256"],
+                        "sourceCommit": os.environ["SOURCE_COMMIT"], "workflowRunId": os.environ["GITHUB_RUN_ID"]}
+              (temporary / "site" / "docs-deployment.json").write_text(json.dumps(marker, indent=2) + "\n")
+              print("Validated website extracted to temporary storage; no checkout is used")
+          PY
+      - name: Upload the Pages artifact
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
+        with:
+          path: ${{ runner.temp }}/site
+          retention-days: 3
+  deploy:
+    needs: package
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy the validated website
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
